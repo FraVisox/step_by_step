@@ -1,2 +1,2 @@
-# activity_tracker
+# Activity Tracker
 Repository progetto Programmazione di sistemi embedded Unipd
