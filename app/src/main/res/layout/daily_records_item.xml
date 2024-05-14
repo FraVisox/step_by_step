@@ -1,0 +1,65 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/DateOfRecords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Prima Card -->
+        <include
+            android:id="@+id/CaloriesCard"
+            layout="@layout/record_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/DateOfRecords"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/StepsCard"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <!-- Seconda Card -->
+        <include
+            android:id="@+id/StepsCard"
+            layout="@layout/record_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/DateOfRecords"
+            app:layout_constraintStart_toEndOf="@id/CaloriesCard"
+            app:layout_constraintEnd_toStartOf="@id/DistanceCard"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <!-- Terza Card -->
+        <include
+            android:id="@+id/DistanceCard"
+            layout="@layout/record_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/DateOfRecords"
+            app:layout_constraintStart_toEndOf="@id/StepsCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.33" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

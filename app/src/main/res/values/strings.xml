@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Room</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_word">Word…</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="add_word">Add word</string>
+    <!-- nav_menu -->
+    <string name="maps">Attività</string>
+    <string name="passi">Passi</string>
+    <string name="allenamenti">Allenamenti</string>
+    <!-- nav_graph tabs/ non servono piu -->
+    <string name="Giorno">Giorno</string>
+    <string name="Settimana">Settimana</string>
+    <string name="Mese">Mese</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
