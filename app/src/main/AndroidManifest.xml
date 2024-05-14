@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions to ask for the position, needed by the Maps SDK -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".ActivityApplication"
         android:allowBackup="true"
@@ -13,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Room"
         tools:targetApi="31">
+
+        <!-- Maps SDK API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAWXBAlnvR_B7yIFTB5_xOV0XXDonQTARU" />
+
         <activity
             android:name=".NewWordActivity"
             android:exported="false" />
@@ -25,6 +35,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Recommended for Android 9 (API level 28) and lower. -->
+        <!-- Required for Android 10 (API level 29) and higher. TODO: a che serve?-->
+        <service
+            android:name=".fragments.maps.MyNavigationService"
+            android:foregroundServiceType="location"  />
     </application>
 
 </manifest>
