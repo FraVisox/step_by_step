@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import com.example.room.MainActivity
 import com.example.room.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.CurrentLocationRequest
@@ -37,20 +36,46 @@ import com.google.android.gms.tasks.Task
 
 class MapsFragment : Fragment() {
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var mCurrentLocation : Location? = null
-    private lateinit var locationCallback: LocationCallback
+    //Activity that contains this fragment
+    private lateinit var context : Activity
 
+    //Tools used for creating requests
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
     private val callback : CallBack = CallBack(this)
 
+    //Current location and if the permissions are granted
+    private var mCurrentLocation : Location? = null
     private var permissionGranted = false
+
+    //Permissions to ask
+    private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                // Precise location access granted.
+                permissionGranted = true
+            }
+
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+                permissionGranted = true
+            }
+
+            else -> {
+                // No location access granted.
+                permissionGranted = false
+            }
+        }
+    }
 
     //Create the fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
 
+        context = this.activity as Activity
+
         //Initialize the fused location provider
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.activity as Activity)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
         //Create a location callback that only changes mCurrentLocation and updates the map
         locationCallback = object : LocationCallback() {
@@ -100,31 +125,9 @@ class MapsFragment : Fragment() {
             val loc = fragment.mCurrentLocation
             if (loc != null) {
                 pos = LatLng(loc.latitude, loc.longitude)
+                map.addMarker(MarkerOptions().position(pos).title("Your position"))
             }
-            map.addMarker(MarkerOptions().position(pos).title("Your position"))
             map.moveCamera(CameraUpdateFactory.newLatLng(pos))
-        }
-    }
-
-    private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // Precise location access granted.
-                permissionGranted = true
-                Log.d("AAAAA", "Permission fine granted")
-            }
-
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // Only approximate location access granted.
-                permissionGranted = true
-                Log.d("AAAAA", "Permission coarse granted")
-            }
-
-            else -> {
-                // No location access granted.
-                permissionGranted = false
-                Log.d("AAAAA", "No permission granted")
-            }
         }
     }
 
@@ -132,12 +135,11 @@ class MapsFragment : Fragment() {
         // Before you perform the actual permission request, check whether your app
         // already has the permissions, and whether your app needs to show a permission
         // rationale dialog. For more details, see Request permissions.
-        if (permissionGranted)
-            return
-        permissions.launch(arrayOf(
+        if (!permissionGranted)
+            permissions.launch(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
-        ))
+            ))
     }
 
     private fun getLocationRequest() {
@@ -151,7 +153,7 @@ class MapsFragment : Fragment() {
         //Get the current location settings
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(rr)
-        val client: SettingsClient = LocationServices.getSettingsClient(this.activity as Activity)
+        val client: SettingsClient = LocationServices.getSettingsClient(context)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
 
         //When the task completes, we can check the settings by looking at the status of the LocSetResponse
@@ -168,7 +170,7 @@ class MapsFragment : Fragment() {
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    exception.startResolutionForResult(this.activity as Activity,
+                    exception.startResolutionForResult(context,
                         1) //TODO: il request code può essere qualsiasi cosa
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -178,14 +180,12 @@ class MapsFragment : Fragment() {
     }
 
     private fun startLocationUpdates(rr : LocationRequest) {
-        if (ActivityCompat.checkSelfPermission(this.activity as Activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.activity as Activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getPermissions()
         }
 
         //Get the last known location https://developers.google.com/android/reference/com/google/android/gms/location/CurrentLocationRequest.Builder
         fusedLocationClient.getCurrentLocation(CurrentLocationRequest.Builder().setPriority(Priority.PRIORITY_HIGH_ACCURACY).setMaxUpdateAgeMillis(Long.MAX_VALUE).build(), null).addOnSuccessListener { location : Location? ->
-            Log.d("AAAAA", "Success")
-            Log.d("AAAAA", location.toString())
             // Got last known location. In some rare situations this can be null.
             if (location != null) {
                 mCurrentLocation = location
