@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp">
+        <!-- Titolo -->
+        <TextView
+            android:id="@+id/objectiveTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/obiettiviTitle"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <!-- Immagine -->
+
+        <ImageView
+            android:id="@+id/objectiveImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/goals_24"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/objectiveDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/ObjectiveDescription"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp"/>
+
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/objectiveCardSteps"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:cardBackgroundColor="@color/progressBar"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- Immagine -->
+            <ImageView
+                android:id="@+id/stepsObjectiveImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/allenamenti"
+                android:src="@drawable/baseline_directions_run_24" />
+
+            <!-- Testo -->
+            <TextView
+                android:id="@+id/stepsOjectiveCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:textColor="@color/white"
+                android:text="600"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <include layout="@layout/add_and_sub_buttons" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/objectiveCardCalories"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:cardBackgroundColor="@color/progressBar"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- Immagine -->
+            <ImageView
+                android:id="@+id/caloriesObjectiveImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/allenamenti"
+                android:src="@drawable/calories" />
+
+            <!-- Testo -->
+            <TextView
+                android:id="@+id/caloriesOjectiveCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:textColor="@color/white"
+                android:text="600"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <include layout="@layout/add_and_sub_buttons" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/objectiveCardDistance"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    app:cardBackgroundColor="@color/progressBar"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Immagine -->
+        <ImageView
+            android:id="@+id/distanceObjectiveImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/allenamenti"
+            android:src="@drawable/distance" />
+
+        <!-- Testo -->
+        <TextView
+            android:id="@+id/distanceOjectiveCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:textColor="@color/white"
+            android:text="600"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <include layout="@layout/add_and_sub_buttons" />
+</com.google.android.material.card.MaterialCardView>
+
+
+
+</LinearLayout>

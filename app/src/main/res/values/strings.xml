@@ -22,4 +22,6 @@
     <string name="Fri">V</string>
     <string name="Sat">S</string>
     <string name="Sun">D</string>
+    <string name="ObjectiveDescription">Imposta i tuoi obiettivi giornalieri</string>
+    <string name="obiettiviTitle">Obiettivi</string>
 </resources>

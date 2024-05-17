@@ -5,17 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.room.ActivityApplication
 import com.example.room.R
 import com.example.room.database.ActivityViewModel
-import com.example.room.database.ActivityViewModelFactory
-import com.example.room.database.ui.DailyRecordsAdapter
-import androidx.lifecycle.Observer
+
 class MonthlyStepsFragment : Fragment() {
 
     class TodayStepsFragment : Fragment() {
@@ -27,7 +19,7 @@ class MonthlyStepsFragment : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             // Inflate the layout for this fragment
-            val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+            val view = inflater.inflate(R.layout.fragment_show_weekly_steps, container, false)
 
         /*
         <?xml version="1.0" encoding="utf-8"?>

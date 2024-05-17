@@ -42,6 +42,19 @@
             android:textSize="28sp"
             android:textStyle="bold"/>
 
+        <!-- Obiettivi -->
+        <TextView
+            android:id="@+id/goalsStepsToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/countStepsToday"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="1000"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+
     </RelativeLayout>
 
     <LinearLayout
@@ -80,10 +93,22 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
+            <!-- Obiettivi -->
+            <TextView
+                android:id="@+id/goalsCaloriesToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/countCaloriesToday"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+
+
         </RelativeLayout>
 
 
@@ -118,10 +143,20 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
+            <!-- Obiettivi -->
+            <TextView
+                android:id="@+id/goalsDistanceToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/countDistanceToday"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
     </LinearLayout>

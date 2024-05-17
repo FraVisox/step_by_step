@@ -18,6 +18,7 @@ import com.example.room.database.ActivityViewModelFactory
 import com.example.room.database.ui.DailyRecordsAdapter
 import androidx.lifecycle.Observer
 import com.example.room.NewWordActivity
+import com.example.room.SetNewGoalsActivity
 
 class TodayStepsFragment : Fragment() {
 
@@ -89,6 +90,13 @@ class TodayStepsFragment : Fragment() {
 
         progressBarDistance.setProgress(90)
         countDistance.setText("5")
+
+        val goals : TextView = view.findViewById(R.id.goalsStepsToday)
+        goals.setOnClickListener {
+            val intent = Intent(view.context,SetNewGoalsActivity::class.java)
+            view.context.startActivity(intent)
+        }
+
 
 
         return view

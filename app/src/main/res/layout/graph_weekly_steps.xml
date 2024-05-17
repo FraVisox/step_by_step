@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:rotation="270" />
     </RelativeLayout>
 
@@ -33,7 +33,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>
@@ -49,7 +49,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>
@@ -65,7 +65,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>
@@ -81,7 +81,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>
@@ -97,7 +97,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>
@@ -113,7 +113,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:progressDrawable="@drawable/custom_progress_bg"
+            android:progressDrawable="@drawable/rectangle_progress_bar"
             android:layout_centerInParent="true"
             android:rotation="270"/>
     </RelativeLayout>

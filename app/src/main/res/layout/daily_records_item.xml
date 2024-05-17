@@ -5,11 +5,12 @@
     android:layout_marginHorizontal="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
+    android:color="@color/card_dark_gray"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="8dp">
 
         <TextView

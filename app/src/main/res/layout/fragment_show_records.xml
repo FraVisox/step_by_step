@@ -1,124 +1,148 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <RelativeLayout
-        android:id="@+id/steps_layout"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="center"
-        android:layout_margin="16dp">
-
-        <ProgressBar
-            android:id="@+id/progressbarSteps"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circle_shape"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
-            android:textAlignment="center" />
-
-        <ImageView
-            android:id="@+id/imageSteps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/countSteps"
-            android:src="@drawable/baseline_directions_run_24" />
-
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardBackgroundColor="#F0F8FF"
+    app:cardUseCompatPadding="true">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
         <TextView
-            android:id="@+id/countSteps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/calories_layout"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintLeft_toRigthOf="@id/steps_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="center"
-        android:layout_margin="16dp">
-
-        <ProgressBar
-            android:id="@+id/progressbarCalories"
-            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/DateOfRecords"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circle_shape"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
-            android:textAlignment="center" />
-
-        <ImageView
-            android:id="@+id/imageCalories"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countCalories"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/calories" />
-
-        <TextView
-            android:id="@+id/countCalories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="0"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/calories_layout"/>
 
-    <RelativeLayout
-        android:id="@+id/distance_layout"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintLeft_toRigthOf="@id/calories_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="center"
-        android:layout_margin="16dp">
+        <RelativeLayout
+            android:id="@+id/steps_layout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp">
 
-        <ProgressBar
-            android:id="@+id/progressbarDistance"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circle_shape"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
-            android:textAlignment="center" />
+            <ProgressBar
+                android:id="@+id/progressbarSteps"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_shape"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circle_progressbar"
+                android:textAlignment="center" />
 
-        <ImageView
-            android:id="@+id/imageDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/countDistance"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/distance" />
+            <ImageView
+                android:id="@+id/imageSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/countSteps"
+                android:src="@drawable/baseline_directions_run_24" />
 
-        <TextView
-            android:id="@+id/countDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/countSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/calories_layout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintLeft_toRightOf="@id/steps_layout"
+            app:layout_constraintRight_toLeftOf="@id/distance_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp">
+
+            <ProgressBar
+                android:id="@+id/progressbarCaloriesToday"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_shape"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circle_progressbar"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/countCalories"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/calories" />
+
+            <TextView
+                android:id="@+id/countCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/distance_layout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="8dp">
+
+            <ProgressBar
+                android:id="@+id/progressbarDistance"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_shape"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circle_progressbar"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageDistanceToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/countDistance"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/distance" />
+
+            <TextView
+                android:id="@+id/countDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
