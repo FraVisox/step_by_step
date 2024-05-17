@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,33 +20,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.room.R
 import com.google.android.gms.maps.SupportMapFragment
 
-//TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
 class MapsFragment : Fragment() {
 
     //The tracker of the position: used to display the map and the current position
-    private lateinit var tracker: PositionTracker
+    lateinit var tracker: PositionTracker
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted.
-                tracker.permissionGranted = true
-                tracker.accurate = true
-                tracker.startLocationTrack()
+                tracker.startLocationTrack(true)
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
-                tracker.permissionGranted = true
-                tracker.accurate = true
-                tracker.startLocationTrack()
+                tracker.startLocationTrack(false)
             }
 
             else -> {
                 // No location access granted. TODO: manage this case
-                tracker.permissionGranted = false
-                tracker.accurate = false
                 val toast = Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
                 toast.show()
             }
@@ -56,22 +50,20 @@ class MapsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
 
-        tracker = PositionTracker(this.activity as Activity)
-
+        tracker = PositionTracker(this)
         askPermissions()
+
         return view
     }
 
     private fun askPermissions() {
-        if (!tracker.permissionGranted) {
-            //Launch the requests of permissions
-            permissions.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
+        //Launch the requests of permissions
+        permissions.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
-        }
+        )
     }
 
     //When it's created, put the map inside of it

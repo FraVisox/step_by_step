@@ -24,6 +24,7 @@ class FinishActivityFragment : Fragment() {
 
         val start = view.findViewById<Button>(R.id.finish_button)
         start.setOnClickListener {
+            (requireParentFragment().parentFragment as MapsFragment).tracker.endLine()
             view.findNavController()
                 .navigate(R.id.action_finishToStart)
         }
