@@ -1,17 +1,11 @@
 package com.example.room.fragments.maps
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.icu.text.Transliterator.Position
 import android.location.Location
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.CurrentLocationRequest
@@ -24,95 +18,24 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.Circle
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.maps.model.RoundCap
 import com.google.android.gms.tasks.Task
-import kotlin.math.pow
 
-class PositionTracker(val context: Activity) : OnMapReadyCallback {
+class PositionTracker(private val manager: MapsManager) {
 
     //Client to ask location to
-    private var fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+    private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(manager.context)
 
     //Current location
     private var mCurrentLocation : Location? = null
 
-    //Map
-    private lateinit var map: GoogleMap
 
-    private var track : Boolean = false
-
-    fun startLine() {
-        val loc = mCurrentLocation
-        if (loc != null) {
-            val pos = LatLng(loc.latitude, loc.longitude)
-            polylines.add(map.addPolyline(positions.add(pos)))
-        }
-        track = true
-    }
-
-    fun endLine() {
-        track = false
-        val loc = mCurrentLocation
-        if (loc != null) {
-            val pos = LatLng(loc.latitude, loc.longitude)
-            val polyline = map.addPolyline(positions.add(pos))
-
-
-
-            //TODO: store the polyline
-
-
-
-            positions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap())
-            polyline.remove()
-            polylines.forEach {
-                it.remove()
-            }
-            polylines.clear()
-        }
-    }
-
-    private var positions: PolylineOptions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap())
-
-    private var polylines : MutableList<Polyline> = mutableListOf()
-
-
-    //The callback that updates the position: it updates the position and draw the polyline, if needed
-    private var locationCallback: LocationCallback = object : LocationCallback() {
+    //The callback that updates the position every second
+    private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations){
-                if (location != null) {
-                    mCurrentLocation = location
-                    updatePolyline(location)
-                }
+                mCurrentLocation = location
+                manager.updatePosition(location)
             }
-        }
-    }
-
-    //When the map is ready
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-        map.isMyLocationEnabled = true
-        startMap()
-    }
-
-    //Start the map
-    private fun startMap() {
-        val loc = mCurrentLocation
-        if (loc != null) {
-            val pos = LatLng(loc.latitude, loc.longitude)
-            map.moveCamera(CameraUpdateFactory.zoomTo(17F))
-            map.animateCamera(CameraUpdateFactory.newLatLng(pos))
         }
     }
 
@@ -124,7 +47,7 @@ class PositionTracker(val context: Activity) : OnMapReadyCallback {
             .build()
 
         //Take the current location settings
-        val client: SettingsClient = LocationServices.getSettingsClient(context)
+        val client: SettingsClient = LocationServices.getSettingsClient(manager.context)
         //Add the request to the location settings
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(LocationSettingsRequest.Builder().addLocationRequest(rr).build())
 
@@ -140,7 +63,7 @@ class PositionTracker(val context: Activity) : OnMapReadyCallback {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
                     //context.showLocationDialog()
-                    exception.startResolutionForResult(context, 1)
+                    exception.startResolutionForResult(manager.context, 1)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }
@@ -150,7 +73,14 @@ class PositionTracker(val context: Activity) : OnMapReadyCallback {
 
     private fun startLocationUpdates(rr : LocationRequest) {
         //Check if permissions are granted: if not, return
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                manager.context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                manager.context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
 
@@ -159,17 +89,20 @@ class PositionTracker(val context: Activity) : OnMapReadyCallback {
         result.addOnCompleteListener {
             if (it.isSuccessful && it.result != null) {
                 mCurrentLocation = it.result
-                startMap()
+                manager.focusPosition(it.result)
             } else {
                 //If it's not successful, get current location with the priority of the request
-                fusedLocationClient.getCurrentLocation(CurrentLocationRequest.Builder().setPriority(rr.priority).build(), null).addOnCompleteListener { task ->
-                    if (task.isSuccessful && task.result != null) {
+                fusedLocationClient.getCurrentLocation(
+                    CurrentLocationRequest.Builder().setPriority(rr.priority).build(), null
+                ).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         //If it's successful, update the position
                         mCurrentLocation = task.result
-                        startMap()
+                        manager.focusPosition(task.result)
                     } else {
                         //Else, show the user a toast
-                        val toast = Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT)
+                        val toast =
+                            Toast.makeText(manager.context, "Position not found", Toast.LENGTH_SHORT)
                         toast.show()
                     }
                 }
@@ -177,17 +110,14 @@ class PositionTracker(val context: Activity) : OnMapReadyCallback {
         }
 
         //Create a series of requests
-        fusedLocationClient.requestLocationUpdates(rr,
+        fusedLocationClient.requestLocationUpdates(
+            rr,
             locationCallback,
-            Looper.getMainLooper())
+            Looper.getMainLooper()
+        )
     }
 
-    fun updatePolyline(current : Location) {
-        if (!track) {
-            return
-        }
-        val pos = LatLng(current.latitude, current.longitude)
-        polylines.add(map.addPolyline(positions.add(pos)))
+    fun getCurrent() : Location? {
+        return mCurrentLocation
     }
-
 }

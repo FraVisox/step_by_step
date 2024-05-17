@@ -23,19 +23,19 @@ import com.google.android.gms.maps.SupportMapFragment
 class MapsFragment : Fragment() {
 
     //The tracker of the position: used to display the map and the current position
-    lateinit var tracker: PositionTracker
+    lateinit var manager: MapsManager
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted.
-                tracker.startLocationTrack(true)
+                manager.startLocationTrack(true)
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
-                tracker.startLocationTrack(false)
+                manager.startLocationTrack(false)
             }
 
             else -> {
@@ -50,8 +50,10 @@ class MapsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
 
-        tracker = PositionTracker(this)
+        manager = MapsManager(this.activity as Activity)
         askPermissions()
+
+        Log.d("AAA", "createview")
 
         return view
     }
@@ -70,7 +72,8 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(tracker)
+        mapFragment?.getMapAsync(manager)
+        Log.d("AAA", "viewcreated")
     }
 
 }

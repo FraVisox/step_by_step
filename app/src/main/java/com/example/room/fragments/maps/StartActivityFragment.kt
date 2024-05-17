@@ -25,7 +25,7 @@ class StartActivityFragment : Fragment() {
 
         val start = view.findViewById<Button>(R.id.start_button)
         start.setOnClickListener {
-            (requireParentFragment().parentFragment as MapsFragment).tracker.startLine()
+            (requireParentFragment().parentFragment as MapsFragment).manager.startActivity()
             view.findNavController()
                 .navigate(R.id.action_startToFinish)
         }
