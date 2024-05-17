@@ -15,4 +15,11 @@
     <string name="Mese">Mese</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Mon">L</string>
+    <string name="Tue">M</string>
+    <string name="Wed">M</string>
+    <string name="Thur">G</string>
+    <string name="Fri">V</string>
+    <string name="Sat">S</string>
+    <string name="Sun">D</string>
 </resources>

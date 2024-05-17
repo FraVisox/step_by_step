@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +29,30 @@ class MonthlyStepsFragment : Fragment() {
             // Inflate the layout for this fragment
             val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
 
+        /*
+        <?xml version="1.0" encoding="utf-8"?>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".fragments.steps.TodayStepsFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/big_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/daily_records_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
             // Initialize the RecyclerView
             val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
             val adapter = DailyRecordsAdapter()
@@ -42,6 +68,7 @@ class MonthlyStepsFragment : Fragment() {
             activityViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
                 records?.let { adapter.submitList(it) }
             })
+            */
 
             return view
         }
