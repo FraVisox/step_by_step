@@ -5,7 +5,7 @@
     android:layout_marginHorizontal="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
-    app:cardBackgroundColor="#F0F8FF"
+    app:cardBackgroundColor="@color/navigation_bar"
     app:cardUseCompatPadding="true">
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

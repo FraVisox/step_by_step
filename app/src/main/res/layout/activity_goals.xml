@@ -15,7 +15,7 @@
         android:layout_marginBottom="8dp">
         <!-- Titolo -->
         <TextView
-            android:id="@+id/objectiveTitle"
+            android:id="@+id/GoalTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/obiettiviTitle"
@@ -24,7 +24,7 @@
         <!-- Immagine -->
 
         <ImageView
-            android:id="@+id/objectiveImage"
+            android:id="@+id/GoalImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/goals_24"
@@ -34,7 +34,7 @@
 
 
     <TextView
-        android:id="@+id/objectiveDescription"
+        android:id="@+id/GoalDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -49,7 +49,7 @@
     <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/objectiveCardSteps"
+        android:id="@+id/GoalCardSteps"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         app:cardBackgroundColor="@color/progressBar"
@@ -65,7 +65,7 @@
 
             <!-- Immagine -->
             <ImageView
-                android:id="@+id/stepsObjectiveImage"
+                android:id="@+id/stepsGoalImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="@string/allenamenti"
@@ -73,7 +73,7 @@
 
             <!-- Testo -->
             <TextView
-                android:id="@+id/stepsOjectiveCount"
+                android:id="@+id/stepsGoalCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
@@ -84,13 +84,39 @@
 
         </LinearLayout>
 
-        <include layout="@layout/add_and_sub_buttons" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/subStepsButton"
+                android:layout_marginStart="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/subtraction" />
+
+            <ImageButton
+                android:id="@+id/addStepsButton"
+                android:layout_marginEnd="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/baseline_add_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/objectiveCardCalories"
+        android:id="@+id/GoalCardCalories"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         app:cardBackgroundColor="@color/progressBar"
@@ -106,7 +132,7 @@
 
             <!-- Immagine -->
             <ImageView
-                android:id="@+id/caloriesObjectiveImage"
+                android:id="@+id/caloriesGoalImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="@string/allenamenti"
@@ -114,7 +140,7 @@
 
             <!-- Testo -->
             <TextView
-                android:id="@+id/caloriesOjectiveCount"
+                android:id="@+id/caloriesGoalCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
@@ -125,13 +151,39 @@
 
         </LinearLayout>
 
-        <include layout="@layout/add_and_sub_buttons" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/subCaloriesButton"
+                android:layout_marginStart="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/subtraction" />
+
+            <ImageButton
+                android:id="@+id/addCaloriesButton"
+                android:layout_marginEnd="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/baseline_add_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/objectiveCardDistance"
+    android:id="@+id/GoalCardDistance"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     app:cardBackgroundColor="@color/progressBar"
@@ -147,7 +199,7 @@
 
         <!-- Immagine -->
         <ImageView
-            android:id="@+id/distanceObjectiveImage"
+            android:id="@+id/distanceGoalImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:contentDescription="@string/allenamenti"
@@ -155,7 +207,7 @@
 
         <!-- Testo -->
         <TextView
-            android:id="@+id/distanceOjectiveCount"
+            android:id="@+id/distanceGoalCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
@@ -166,7 +218,33 @@
 
     </LinearLayout>
 
-    <include layout="@layout/add_and_sub_buttons" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/subDistanceButton"
+                android:layout_marginStart="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/subtraction" />
+
+            <ImageButton
+                android:id="@+id/addDistanceButton"
+                android:layout_marginEnd="10dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/baseline_add_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
 
 
