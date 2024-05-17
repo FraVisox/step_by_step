@@ -3,12 +3,16 @@
 <!-- This fragment manages the lifecycle of the map-->
 <!-- To configure the options of the map, you can simply add in the code with map:..-->
 <!-- Elenco delle cose da mettere: https://developers.google.com/maps/documentation/android-sdk/configure-map#runtime-settings -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-     >
-    <androidx.fragment.app.FragmentContainerView xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <!-- Initially it's centered in Rome -->
+    <androidx.fragment.app.FragmentContainerView
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -17,15 +21,24 @@
         android:layout_weight="4"
         tools:context=".fragments.maps.MapsFragment"
         map:uiZoomControls="true"
+        map:uiCompass="true"
+        map:uiScrollGestures="true"
+        map:uiZoomGestures="true"
         map:uiRotateGestures="true"
-        map:mapType="satellite"
-        map:cameraZoom="17"
+        map:uiTiltGestures="false"
+        map:mapType="normal"
+        map:cameraTargetLat="41.9"
+        map:cameraTargetLng="12.5"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/start_activity" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/bottom_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph_maps"
+        app:defaultNavHost="true"
+        />
 </LinearLayout>

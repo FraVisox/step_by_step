@@ -6,6 +6,10 @@
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="add_word">Add word</string>
     <string name="start_activity">Start</string>
+    <string name="ask_permissions">Update permissions</string>
+    <string name="initial_time">Time</string>
+    <string name="initial_km">Km</string>
+    <string name="finish_activity">Finish</string>
     <!-- nav_menu -->
     <string name="maps">Attività</string>
     <string name="passi">Passi</string>
