@@ -4,15 +4,23 @@ package com.example.room
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
+import com.example.room.database.RecordsRoomDatabase
 import com.example.room.databinding.ActivityMainBinding
 import com.example.room.fragments.maps.MapsFragment
 import com.example.room.fragments.steps.StepsFragment
 import com.example.room.fragments.workouts.WorkoutsFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+    private lateinit var database: RecordsRoomDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -36,8 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-
+       populateDatabaseAndPrintContents()
     }
 
     private fun replaceFragment(fragment : Fragment){
@@ -48,8 +55,80 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commitAllowingStateLoss()
     }
 
-}
 
+    private fun populateDatabaseAndPrintContents() {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                withContext(Dispatchers.IO) {
+                    val database = RecordsRoomDatabase.getDatabase(applicationContext, this)
+                    val allUser = database.userDao().getAllUsers()
+                    // Stampa il contenuto del database nel logcat
+                    allUser.collect { user ->
+                        Log.d("Banana", "user: ${user}")
+                    }
+                    val allSteps = database.stepsDao().getAllStepsOrderedByDate()
+                    // Stampa il contenuto del database nel logcat
+                    allSteps.collect { step ->
+                        Log.d("Banana", "Step: ${step}")
+                    }
+                    val allDistance = database.distanceDao().getAllDistancesOrderedByDate()
+                    // Stampa il contenuto del database nel logcat
+                    allDistance.collect { distance ->
+                        Log.d("Banana", "distance: ${distance}")
+                    }
+                    val allCalories = database.caloriesDao().getAllCaloriesOrderedByDate()
+                    // Stampa il contenuto del database nel logcat
+                    allCalories.collect { calories ->
+                        Log.d("Banana", "calorie: ${calories}")
+                    }
+                }
+            } catch (e: Exception) {
+                // Gestisci eventuali eccezioni
+                e.printStackTrace()
+            }
+        }
+    }
+}
+/*
+    private fun initializeDatabase() {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                withContext(Dispatchers.IO) {
+                    val database = RecordsRoomDatabase.getDatabase(applicationContext, this)
+                    Log.d("MainActivity0", "Database initialized")
+                    logDatabaseContents(database)
+                }
+            } catch (e: Exception) {
+                // Gestisci eventuali eccezioni
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private suspend fun logDatabaseContents(database: RecordsRoomDatabase) {
+        val userDao = database.userDao()
+        val stepsDao = database.stepsDao()
+        val caloriesDao = database.caloriesDao()
+        val distanceDao = database.distanceDao()
+
+        // Raccogli i dati dai Flows dei DAO e stampali nel logcat
+        userDao.getAllUsers().collect { users ->
+            Log.d("MainActivity1", "Users: $users")
+        }
+
+        stepsDao.getAllStepsOrderedByDate().collect { steps ->
+            Log.d("MainActivity2", "Steps: $steps")
+        }
+
+        caloriesDao.getAllCaloriesOrderedByDate().collect { calories ->
+            Log.d("MainActivity3", "Calories: $calories")
+        }
+
+        distanceDao.getAllDistancesOrderedByDate().collect { distances ->
+            Log.d("MainActivity4", "Distances: $distances")
+        }
+    }
+ */
 
 
 

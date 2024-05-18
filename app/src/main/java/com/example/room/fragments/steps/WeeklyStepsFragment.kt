@@ -6,13 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.room.R
-import com.example.room.database.ActivityViewModel
+import com.example.room.RecordsApplication
+import com.example.room.database.RecordsViewModel
+import com.example.room.database.RecordsViewModelFactory
 
 class WeeklyStepsFragment : Fragment() {
 
-    private lateinit var activityViewModel: ActivityViewModel
-
+    private val recordsViewModel: RecordsViewModel by viewModels {
+        RecordsViewModelFactory((requireActivity().application as RecordsApplication).repository)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -20,74 +26,71 @@ class WeeklyStepsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_show_weekly_steps, container, false)
 
-        /*
-        in caso da mettere se ripristini
-        <?xml version="1.0" encoding="utf-8"?>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.steps.TodayStepsFragment">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="@dimen/big_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/daily_records_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        // Initialize the RecyclerView
-        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
-        val adapter = DailyRecordsAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-
-        // Initialize ViewModel
-        activityViewModel = ViewModelProvider(this, ActivityViewModelFactory((activity?.application as ActivityApplication).repository)).get(
-            ActivityViewModel::class.java)
-
-        // Observe LiveData from ViewModel
-        activityViewModel.weeklyUserActivities.observe(viewLifecycleOwner, Observer { records ->
-            records?.let { adapter.submitList(it) }
-        })
-         */
-
         val progressBarStepsMon = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekMon)
-        progressBarStepsMon.setProgress(20)
-
         val progressBarStepsTues = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekTues)
-        progressBarStepsTues.setProgress(50)
-
         val progressBarStepsWed = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekWed)
-        progressBarStepsWed.setProgress(100)
-
         val progressBarStepsThur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekThurs)
-        progressBarStepsThur.setProgress(10)
-
         val progressBarStepsFri = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekFri)
-        progressBarStepsFri.setProgress(80)
-
-
         val progressBarStepsSatur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSatur)
-        progressBarStepsSatur.setProgress(80)
-
         val progressBarStepsSun = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSun)
-        progressBarStepsSun.setProgress(90)
 
+        val countStepsMon = view.findViewById<TextView>(R.id.dayMon)
+        val countStepsTues = view.findViewById<TextView>(R.id.dayTues)
+        val countStepsWed = view.findViewById<TextView>(R.id.dayWed)
+        val countStepsThur = view.findViewById<TextView>(R.id.dayThur)
+        val countStepsFri = view.findViewById<TextView>(R.id.dayFri)
+        val countStepsSatur = view.findViewById<TextView>(R.id.daySat)
+        val countStepsSun = view.findViewById<TextView>(R.id.daySun)
 
+        recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
+            records?.let {
+                // In realtà qui è solo uno
+                records.forEach { record ->
+                    val countS = record.steps.count.toString()
+                    val countD = record.distance.count.toString()
+                    val countC = record.calories.count.toString()
 
+                    // Bisogna mettere quelli selezionati dal bro
+                    val stepsGoal = 8004
+                    val distanceGoal = 1204
+                    val caloriesGoal = 1204
 
+                    // Determina il giorno della settimana
+                    val dayOfWeek =  Helpers.getDayOfWeek(record.steps.date)
+
+                    when (dayOfWeek) {
+                        "Monday" -> {
+                            countStepsMon.text = countS
+                            progressBarStepsMon.progress = Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Tuesday" -> {
+                            countStepsTues.text = countS
+                            progressBarStepsTues.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Wednesday" -> {
+                            countStepsWed.text = countS
+                            progressBarStepsWed.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Thursday" -> {
+                            countStepsThur.text = countS
+                            progressBarStepsThur.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Friday" -> {
+                            countStepsFri.text = countS
+                            progressBarStepsFri.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Saturday" -> {
+                            countStepsSatur.text = countS
+                            progressBarStepsSatur.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                        "Sunday" -> {
+                            countStepsSun.text = countS
+                            progressBarStepsSun.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                        }
+                    }
+                }
+            }
+        })
 
 
         return view

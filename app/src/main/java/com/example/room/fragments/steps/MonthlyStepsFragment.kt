@@ -1,18 +1,37 @@
 package com.example.room.fragments.steps
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.room.RecordsApplication
 import com.example.room.R
-import com.example.room.database.ActivityViewModel
+import com.example.room.database.RecordsRoomDatabase
+import com.example.room.database.RecordsViewModel
+import com.example.room.database.RecordsViewModelFactory
+import com.example.room.database.ui.RecordsAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class MonthlyStepsFragment : Fragment() {
 
     class TodayStepsFragment : Fragment() {
 
-        private lateinit var activityViewModel: ActivityViewModel
+        //private lateinit var activityViewModel: RecordsViewModel
+
+        // Inizializza il ViewModel usando WordViewModelFactory per iniettare il repository necessario.
+        private val recordsViewModel: RecordsViewModel by viewModels {
+            RecordsViewModelFactory((requireActivity().application as RecordsApplication).repository)
+        }
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -21,50 +40,27 @@ class MonthlyStepsFragment : Fragment() {
             // Inflate the layout for this fragment
             val view = inflater.inflate(R.layout.fragment_show_weekly_steps, container, false)
 
-        /*
-        <?xml version="1.0" encoding="utf-8"?>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.steps.TodayStepsFragment">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="@dimen/big_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/daily_records_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
             // Initialize the RecyclerView
             val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
-            val adapter = DailyRecordsAdapter()
+            val adapter = RecordsAdapter()
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
 
 
-            // Initialize ViewModel
-            activityViewModel = ViewModelProvider(this, ActivityViewModelFactory((activity?.application as ActivityApplication).repository)).get(
-                ActivityViewModel::class.java)
-
             // Observe LiveData from ViewModel
-            activityViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
+            recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
                 records?.let { adapter.submitList(it) }
             })
-            */
 
             return view
         }
 
     }
 
+    // Funzione per popolare il database e stampare il suo contenuto nel logcat
+
+
 }
+
+// Initialize ViewModel
+//activityViewModel = ViewModelProvider(this, RecordsViewModelFactory((activity?.application as RecordsApplication).repository)).get( RecordsViewModel::class.java)

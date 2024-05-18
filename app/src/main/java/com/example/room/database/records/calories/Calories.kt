@@ -1,15 +1,15 @@
-package com.example.room.database.distance
+package com.example.room.database.records.calories
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
 
-@Entity(tableName = "distance_table")
-data class Distance(
+@Entity(tableName = "calories_table")
+data class Calories(
     @PrimaryKey
-    val distanceId: Int,
+    val calorieId: Int,
     val userId: Int, // Chiave esterna che collega a User
-    val count: Double,
+    val count: Int,
     val date: Date
 )

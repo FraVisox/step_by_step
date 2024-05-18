@@ -1,4 +1,4 @@
-package com.example.room.database.steps
+package com.example.room.database.records.steps
 
 
 import androidx.room.Entity

@@ -4,30 +4,25 @@ package com.example.room.database.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.R
-import com.example.room.database.UserActivityRecord
-import com.example.room.database.distance.Distance
+import com.example.room.database.UserRecords
 
-// cosi è per farla come il laboratorio di room Sotto è presente una classe Adapter normale come la abbiamo vista in classe
-class DailyRecordsAdapter : ListAdapter<UserActivityRecord, DailyRecordsAdapter.DailyRecordsViewHolder>(DIFF_CALLBACK) {
+class RecordsAdapter : ListAdapter<UserRecords, RecordsAdapter.RecordsViewHolder>(DIFF_CALLBACK) {
 
-    // Devo farlo da ciò che ho capito per usare ListAdapter
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserActivityRecord>() {
-            override fun areItemsTheSame(oldItem: UserActivityRecord, newItem: UserActivityRecord): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserRecords>() {
+            override fun areItemsTheSame(oldItem: UserRecords, newItem: UserRecords): Boolean {
 
                 // Logica per determinare se due elementi rappresentano lo stesso oggetto
                 return oldItem.steps.stepId == newItem.steps.stepId
             }
 
-            override fun areContentsTheSame(oldItem: UserActivityRecord, newItem: UserActivityRecord): Boolean {
+            override fun areContentsTheSame(oldItem: UserRecords, newItem: UserRecords): Boolean {
                 // Confronta se il contenuto di due oggetti è lo stesso
                 // Potresti confrontare ogni campo o fare un confronto basato su una versione hash
                 return oldItem.steps.date == newItem.steps.date
@@ -35,17 +30,17 @@ class DailyRecordsAdapter : ListAdapter<UserActivityRecord, DailyRecordsAdapter.
         }
     }
 
-    // Returns a new ViewHolder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyRecordsViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_show_records, parent, false)
 
-        return DailyRecordsViewHolder(view)
+        return RecordsViewHolder(view)
     }
 
 
-    // Displays data at a certain position
-    override fun onBindViewHolder(holder: DailyRecordsViewHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
         val dailyRecord = getItem(position)
 
         val dateOfRecords= dailyRecord.steps.date.toString()
@@ -55,8 +50,8 @@ class DailyRecordsAdapter : ListAdapter<UserActivityRecord, DailyRecordsAdapter.
         holder.bind(dateOfRecords, countSteps, countCalories, countDistance)
 
     }
-    // Describes an item view and its place within the RecyclerView
-    class DailyRecordsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    class RecordsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val dateOfRecords: TextView = itemView.findViewById(R.id.DateOfRecords)
 
