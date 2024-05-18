@@ -1,7 +1,6 @@
 package com.example.room.fragments.steps
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.RecordsApplication
 import com.example.room.R
-import com.example.room.database.RecordsRoomDatabase
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.RecordsViewModelFactory
-import com.example.room.database.ui.RecordsAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MonthlyStepsFragment : Fragment() {
