@@ -58,7 +58,8 @@ class MapsFragment : Fragment() {
         return view
     }
 
-    private fun askPermissions() {
+    fun askPermissions() {
+        //TODO: metti un bool che controlla quali permessi sono stati dati
         //Launch the requests of permissions
         permissions.launch(
             arrayOf(

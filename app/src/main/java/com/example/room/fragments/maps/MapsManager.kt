@@ -36,7 +36,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     private val activityTracker = ActivityTracker(this)
 
     //Polylines drawn
-    private var polylines : MutableList<Polyline> = mutableListOf()
+    var polyline : Polyline? = null //TODO: una o molte polyline?
 
     //Options of the line to draw
     private var positions: PolylineOptions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
@@ -100,15 +100,14 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     //Adds a point to the line that is drawn
     fun addPointToLine(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
-        polylines.add(map.addPolyline(positions.add(pos)))
+        val old = polyline
+        polyline = map.addPolyline(positions.add(pos))
+        old?.remove()
     }
 
     //Deletes the line drawn
     fun clearLine() {
         positions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
-        polylines.forEach {
-            it.remove()
-        }
-        polylines.clear()
+        polyline?.remove()
     }
 }
