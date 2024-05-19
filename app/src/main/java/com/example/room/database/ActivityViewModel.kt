@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.room.database.activities.Workout
+import com.example.room.database.activities.WorkoutTrackPoint
 import com.example.room.database.calories.Calories
 import com.example.room.database.distance.Distance
 import com.example.room.database.steps.Steps
@@ -23,6 +24,7 @@ class ActivityViewModel(private val repository: ActivityRepository) : ViewModel(
     val monthlyUserActivities: LiveData<List<UserActivityRecord>> =
         repository.monthlyActivityRecords.asLiveData()
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
+    val allPoints: LiveData<List<WorkoutTrackPoint>> = repository.allPoints.asLiveData()
 
     fun insertUser(user: User) = viewModelScope.launch {
         repository.insertUser(user)
@@ -50,14 +52,11 @@ class ActivityViewModel(private val repository: ActivityRepository) : ViewModel(
             repository.insertWorkout(workout, points)
         }
 
-    /*
-    fun getActivityPoints(activity: Activity): List<Track> {
-        viewModelScope.launch {
-            return repository.get(activity, points)
-        }
+
+    fun getActivityPoints(workout: Workout): LiveData<List<WorkoutTrackPoint>> {
+        return repository.getWorkoutPoints(workout).asLiveData()
     }
 
-     */
 }
 
 class ActivityViewModelFactory(private val repository: ActivityRepository) : ViewModelProvider.Factory {

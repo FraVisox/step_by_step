@@ -27,7 +27,7 @@ class WorkoutsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_allenamenti, container, false)
         // Initialize the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)
-        val adapter = WorkoutsAdapter()
+        val adapter = WorkoutsAdapter(activity as MainActivity)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
@@ -35,6 +35,12 @@ class WorkoutsFragment : Fragment() {
         (activity as MainActivity).activityViewModel.allWorkouts.observe(activity as MainActivity, Observer { records ->
             records?.let {
                 adapter.submitList(it)
+            }
+        })
+
+        (activity as MainActivity).activityViewModel.allPoints.observe(activity as MainActivity, Observer { records ->
+            records?.let {
+                adapter.updatePoints(it)
             }
         })
 

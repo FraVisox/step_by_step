@@ -33,26 +33,23 @@ class ActivityRepository(
     val allCalories: Flow<List<Calories>> = caloriesDao.getAllCaloriesOrderedByDate()
     val allDistances: Flow<List<Distance>> = distanceDao.getAllDistancesOrderedByDate()
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllActivitiesOrderedByDate()
-    //val allTracks: Flow<List<Track>> = activityDao.getAllPoints()
+    val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
 
     // Records giornalieri
     val dailySteps: Flow<List<Steps>> = stepsDao.getTodaySteps()
     val dailyCalories: Flow<List<Calories>> = caloriesDao.getTodayCalories()
     val dailyDistances: Flow<List<Distance>> = distanceDao.getTodayDistance()
-    //val dailyActivities: Flow<List<Activity>> = activityDao.getTodayActivities()
 
     // Records settimanali
     val weeklySteps: Flow<List<Steps>> = stepsDao.getWeeklySteps()
     val weeklyCalories: Flow<List<Calories>> = caloriesDao.getWeeklyCalories()
     val weeklyDistances: Flow<List<Distance>> = distanceDao.getWeeklyDistances()
-    //val weeklyActivities: Flow<List<Activity>> = activityDao.getWeeklyActivities()
 
 
     // Records mensili
     val monthlySteps: Flow<List<Steps>> = stepsDao.getMonthlySteps()
     val monthlyCalories: Flow<List<Calories>> = caloriesDao.getMonthlyCalories()
     val monthlyDistances: Flow<List<Distance>> = distanceDao.getMonthlyDistances()
-    //val monthlyActivities: Flow<List<Activity>> = activityDao.getMonthlyActivities()
 
     val todayActivityRecords: Flow<List<UserActivityRecord>> = getUserTodayActivityRecords()
     val weeklyActivityRecords: Flow<List<UserActivityRecord>> = getUserWeeklyActivityRecords()
@@ -99,27 +96,15 @@ class ActivityRepository(
     @WorkerThread
     suspend fun insertWorkout(workout: Workout, points: List<LatLng>) {
         workoutDao.insert(workout)
-        /*points.forEach {
-            activityDao.insert(WorkoutTrackPoint(points.indexOf(it), activity.activityId, it.latitude, it.longitude))
+        points.forEach {
+            workoutDao.insert(WorkoutTrackPoint(points.indexOf(it), workout.workoutId, it.latitude, it.longitude))
         }
-
-         */
     }
 
-    // Prendi i punti di una attività //todo: forse ha più senso fare in modo di prendere tutti i punti, e poi andare a prendere noi solo quelli che ci interessano filtrandoli poi nel repository o nella UI cose del genere
-    /*@WorkerThread
-    suspend fun getActivityPoints(activity: Activity) : Flow<List<Track>> {
-        val list = activityDao.getPointsOfActivity(activity.activityId)
-        val ret : MutableList<LatLng> = mutableListOf()
-        list.collect {li ->
-            li.forEach {
-                ret.add(LatLng(it.lat, it.lng))
-            }
-        }
-        return ret.toList()
+    @WorkerThread
+    fun getWorkoutPoints(workout: Workout) : Flow<List<WorkoutTrackPoint>> {
+        return workoutDao.getPointsOfWorkout(workout.workoutId)
     }
-
-     */
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getUserTodayActivityRecords(): Flow<List<UserActivityRecord>> {
