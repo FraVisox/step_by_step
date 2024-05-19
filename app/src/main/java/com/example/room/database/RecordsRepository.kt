@@ -79,6 +79,21 @@ class RecordsRepository(
         distanceDao.insert(distance)
     }
 
+    @WorkerThread
+    suspend fun insertGoal(goal: Goal)  {
+        goalDao.insert(goal)
+    }
+
+    @WorkerThread
+    suspend fun updateGoal(goal: Goal) {
+        goalDao.updateGoal(goal)
+    }
+
+    @WorkerThread
+    suspend fun updateUser(user: User) {
+        userDao.updateUser(user)
+    }
+
     // Inserisci una nuova distanza
     @WorkerThread
     suspend fun insertDayRecord(step: Steps, distance: Distance, calorie: Calories) {

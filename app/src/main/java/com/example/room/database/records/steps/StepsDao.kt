@@ -25,8 +25,6 @@ interface StepsDao {
     @Query("SELECT * FROM steps_table WHERE date >= date('now', 'start of month') ORDER BY date ASC")
     fun getMonthlySteps(): Flow<List<Steps>>
 
-
-
     @Query("DELETE FROM steps_table")
     suspend fun deleteAll()
 }

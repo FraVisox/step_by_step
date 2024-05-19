@@ -1,7 +1,10 @@
 package com.example.room.fragments.settings
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +12,9 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.NumberPicker
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import com.example.room.MainActivity
 import com.example.room.R
 import java.util.Calendar
 
@@ -27,8 +32,8 @@ class SettingsFragment : Fragment() {
     // Views
     private lateinit var nameEditText: EditText
     private lateinit var datePicker: DatePicker
-    private lateinit var weightPicker: NumberPicker
-    private lateinit var heightPicker: NumberPicker
+    private lateinit var weightEditText: EditText
+    private lateinit var heightEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,12 +44,15 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         nameEditText = view.findViewById(R.id.addStepsButton)
-        datePicker = view.findViewById(R.id.datePicker)
-        weightPicker = view.findViewById(R.id.weightPicker)
-        heightPicker = view.findViewById(R.id.heigthPicker)
 
+        weightEditText = view.findViewById(R.id.weightEditText)
+        heightEditText = view.findViewById(R.id.heigthEditText)
+
+        datePicker = view.findViewById(R.id.datePicker)
         loadSavedData()
 
+        // todo  noi di fatto modifichiamo solo i dettagli dell'unico utente che abbiamo non si puo aggiungere utente ora direi
+        // todo modificare il database se modifica roba
         return view
     }
 
@@ -54,38 +62,42 @@ class SettingsFragment : Fragment() {
     }
 
     private fun saveData() {
-        val sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+
         editor.putString(KEY_NAME, nameEditText.text.toString())
 
-        val calendar = Calendar.getInstance()
-        calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth)
-        val selectedDateInMillis = calendar.timeInMillis
-        editor.putLong(KEY_BIRTHDAY, selectedDateInMillis)
+        val data = Calendar.getInstance()
+        data.set(datePicker.year, datePicker.month, datePicker.dayOfMonth)
+        editor.putLong(KEY_BIRTHDAY, data.timeInMillis)
 
-        editor.putInt(KEY_WEIGHT, weightPicker.value)
-        editor.putInt(KEY_HEIGHT, heightPicker.value)
+        editor.putString(KEY_WEIGHT,  weightEditText.text.toString())
+        editor.putString(KEY_HEIGHT,  heightEditText.text.toString())
         editor.apply()
     }
 
+
     private fun loadSavedData() {
-        val sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        nameEditText.setText(sharedPreferences.getString(KEY_NAME, ""))
+        val preferences = requireActivity().getPreferences(MODE_PRIVATE)
 
-        // Recupera il timestamp salvato dalle SharedPreferences
-        val savedBirthday = sharedPreferences.getLong(KEY_BIRTHDAY, 0)
+        nameEditText.setText(preferences.getString(KEY_NAME, ""))
+        DatePickerUpdate(preferences.getLong(KEY_BIRTHDAY, 0))
+        weightEditText.setText(preferences.getString(KEY_WEIGHT, ""))
+        heightEditText.setText(preferences.getString(KEY_HEIGHT, ""))
+    }
 
-        // Converte il timestamp in una data leggibile
+
+    private fun DatePickerUpdate(dateBirthDay :Long){
+
         val calendar = Calendar.getInstance()
-        calendar.timeInMillis = savedBirthday
+        calendar.timeInMillis = dateBirthDay
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
         // Imposta la data sul DatePicker
         datePicker.updateDate(year, month, dayOfMonth)
-
-        weightPicker.value = sharedPreferences.getInt(KEY_WEIGHT, 0)
-        heightPicker.value = sharedPreferences.getInt(KEY_HEIGHT, 0)
     }
+
+
 }

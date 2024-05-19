@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.room.MainActivity
 import com.example.room.R
-import com.example.room.RecordsApplication
-import com.example.room.database.RecordsViewModel
-import com.example.room.database.RecordsViewModelFactory
+import java.util.Calendar
 
 class WeeklyStepsFragment : Fragment() {
 
@@ -35,30 +32,39 @@ class WeeklyStepsFragment : Fragment() {
     private lateinit var countStepsSun : TextView
 
 
+    private lateinit var CircularProgressBarSteps : ProgressBar
+    private lateinit var CircularProgressBarCalories : ProgressBar
+    private lateinit var CircularProgressBarDistance : ProgressBar
+
+    private lateinit var CircularCountSteps : TextView
+    private lateinit var CircularCountDistance : TextView
+    private lateinit var CircularCountCalories : TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_show_weekly_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
 
-        progressBarStepsMon = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekMon)
-        progressBarStepsTues = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekTues)
-        progressBarStepsWed = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekWed)
-        progressBarStepsThur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekThurs)
-        progressBarStepsFri = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekFri)
-        progressBarStepsSatur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSatur)
-        progressBarStepsSun = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSun)
+        progressBarStepsMon = view.findViewById(R.id.progressbarStepsWeekMon)
+        progressBarStepsTues = view.findViewById(R.id.progressbarStepsWeekTues)
+        progressBarStepsWed = view.findViewById(R.id.progressbarStepsWeekWed)
+        progressBarStepsThur = view.findViewById(R.id.progressbarStepsWeekThurs)
+        progressBarStepsFri = view.findViewById(R.id.progressbarStepsWeekFri)
+        progressBarStepsSatur = view.findViewById(R.id.progressbarStepsWeekSatur)
+        progressBarStepsSun = view.findViewById(R.id.progressbarStepsWeekSun)
 
-        countStepsMon = view.findViewById<TextView>(R.id.stepsMon)
-        countStepsTues = view.findViewById<TextView>(R.id.stepsTues)
-        countStepsWed = view.findViewById<TextView>(R.id.stepsWed)
-        countStepsThur = view.findViewById<TextView>(R.id.stepsThur)
-        countStepsFri = view.findViewById<TextView>(R.id.stepsFri)
-        countStepsSatur = view.findViewById<TextView>(R.id.stepsSat)
-        countStepsSun = view.findViewById<TextView>(R.id.stepsSun)
+        countStepsMon = view.findViewById(R.id.stepsMon)
+        countStepsTues = view.findViewById(R.id.stepsTues)
+        countStepsWed = view.findViewById(R.id.stepsWed)
+        countStepsThur = view.findViewById(R.id.stepsThur)
+        countStepsFri = view.findViewById(R.id.stepsFri)
+        countStepsSatur = view.findViewById(R.id.stepsSat)
+        countStepsSun = view.findViewById(R.id.stepsSun)
 
-        (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer{ records ->
+        (activity as MainActivity).recordsViewModel.weeklyUserActivities.observe(viewLifecycleOwner, Observer{ records ->
+
             records?.let {
 
                 records.forEach { record ->
@@ -66,49 +72,108 @@ class WeeklyStepsFragment : Fragment() {
                     val countD = record.distance.count.toString()
                     val countC = record.calories.count.toString()
 
-                    // Bisogna mettere quelli selezionati dal bro
-                    val stepsGoal = 8004
-                    val distanceGoal = 1204
-                    val caloriesGoal = 1204
+                    /// Todo: uso utente 1 da generalizzare in caso
+                    val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
 
                     // Determina il giorno della settimana
                     val dayOfWeek =  Helpers.getDayOfWeek(record.steps.date)
 
-                    when (dayOfWeek) {
-                        "Monday" -> {
-                            countStepsMon.text = countS
-                            progressBarStepsMon.progress = Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Tuesday" -> {
-                            countStepsTues.text = countS
-                            progressBarStepsTues.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Wednesday" -> {
-                            countStepsWed.text = countS
-                            progressBarStepsWed.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Thursday" -> {
-                            countStepsThur.text = countS
-                            progressBarStepsThur.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Friday" -> {
-                            countStepsFri.text = countS
-                            progressBarStepsFri.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Saturday" -> {
-                            countStepsSatur.text = countS
-                            progressBarStepsSatur.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
-                        }
-                        "Sunday" -> {
-                            countStepsSun.text = countS
-                            progressBarStepsSun.progress =  Helpers.calculatePercentage(countS.toInt(), stepsGoal)
+                    if (currentGoal != null) {
+
+                        when (dayOfWeek) {
+                            "Monday" -> {
+                                countStepsMon.text = countS
+                                progressBarStepsMon.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Tuesday" -> {
+                                countStepsTues.text = countS
+                                progressBarStepsTues.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Wednesday" -> {
+                                countStepsWed.text = countS
+                                progressBarStepsWed.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Thursday" -> {
+                                countStepsThur.text = countS
+                                progressBarStepsThur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Friday" -> {
+                                countStepsFri.text = countS
+                                progressBarStepsFri.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Saturday" -> {
+                                countStepsSatur.text = countS
+                                progressBarStepsSatur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
+                            "Sunday" -> {
+                                countStepsSun.text = countS
+                                progressBarStepsSun.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                            }
                         }
                     }
                 }
             }
         })
 
+        CircularProgressBarSteps = view.findViewById(R.id.ProgressbarSteps2)
+        CircularProgressBarCalories = view.findViewById(R.id.ProgressbarCalories2)
+        CircularProgressBarDistance = view.findViewById(R.id.ProgressbarDistance2)
+
+        // todo ho un dubbi su dove devo trovarle
+        CircularCountSteps = view.findViewById(R.id.countSteps2)
+        CircularCountCalories = view.findViewById(R.id.countCalories2)
+        CircularCountDistance = view.findViewById(R.id.countDistance2)
+
+        // Imposta i click listener per i giorni della settimana
+        progressBarStepsMon.setOnClickListener {
+            handleProgressBarClick("Monday")
+        }
+
+        progressBarStepsTues.setOnClickListener {
+            handleProgressBarClick("Tuesday")
+        }
+
+        progressBarStepsWed.setOnClickListener {
+            handleProgressBarClick("Wednesday")
+        }
+        progressBarStepsThur.setOnClickListener {
+            handleProgressBarClick("Thursday")
+        }
+        progressBarStepsFri.setOnClickListener {
+            handleProgressBarClick("Friday")
+        }
+        progressBarStepsSatur.setOnClickListener {
+            handleProgressBarClick("Saturday")
+        }
+        progressBarStepsSun.setOnClickListener {
+            handleProgressBarClick("Sunday")
+        }
+
         return view
+    }
+
+    private fun handleProgressBarClick(dayOfWeek: String) {
+
+        // Ottieni le attività settimanali per il giorno specificato
+        val dayActivities = (activity as MainActivity).recordsViewModel.weeklyUserActivities.value?.find { weeklyActivity ->
+            Helpers.getDayOfWeek(weeklyActivity.steps.date) == dayOfWeek
+        }
+
+        // Se sono presenti attività per il giorno specificato
+        if (dayActivities != null) {
+            CircularCountSteps.text = dayActivities.steps.count.toString()
+            CircularCountCalories.text = dayActivities.calories.count.toString()
+            CircularCountDistance.text = dayActivities.distance.count.toString()
+
+            // Ottieni l'obiettivo utente
+            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+            if (currentGoal != null) {
+                // Aggiorna le progress bar
+                CircularProgressBarSteps.progress = Helpers.calculatePercentage(dayActivities.steps.count, currentGoal.steps)
+                CircularProgressBarCalories.progress = Helpers.calculatePercentage(dayActivities.calories.count, currentGoal.calories)
+                CircularProgressBarDistance.progress = Helpers.calculatePercentage(dayActivities.distance.count.toInt(), currentGoal.distance.toInt())
+            }
+        }
     }
 
 }

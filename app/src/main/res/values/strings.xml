@@ -28,7 +28,7 @@
     <string name="UserSettings">Impostazioni Utente</string>
     <string name="settingsDescription">Imposta il tuo profilo</string>
     <string name="BirthDay">Data di nascita</string>
-    <string name="weight">Peso corporeo (kg)</string>
+    <string name="weight">Peso (kg)</string>
     <string name="name">nome</string>
     <string name="heigth">Altezza (cm)</string>
     <string name="steps">Passi</string>

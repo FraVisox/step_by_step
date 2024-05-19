@@ -8,7 +8,7 @@
     <GridLayout
         android:layout_width="348dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="28dp"
         android:columnCount="7">
 
@@ -142,8 +142,13 @@
             android:text="0" />
     </GridLayout>
 
-    <include
-        layout="@layout/graph_weekly_steps" />
+    <include layout="@layout/graph_weekly_steps" />
+
+    <include layout="@layout/show_records2"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="370dp"
+        android:layout_height="150dp" />
+
 </LinearLayout>
 
 

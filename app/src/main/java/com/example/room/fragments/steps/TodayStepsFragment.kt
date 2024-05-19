@@ -21,12 +21,16 @@ class TodayStepsFragment : Fragment() {
 
     private lateinit var progressBarSteps  : ProgressBar
     private lateinit var countSteps: TextView
+    private lateinit var goalsSteps : TextView
 
-    private lateinit var progressBarColaries : ProgressBar
+    private lateinit var progressBarCalories : ProgressBar
     private lateinit var countCalories : TextView
+    private lateinit var goalsCalories : TextView
 
     private lateinit var progressBarDistance : ProgressBar
     private lateinit var countDistance : TextView
+    private lateinit var goalsDistance : TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +41,7 @@ class TodayStepsFragment : Fragment() {
         progressBarSteps = view.findViewById<ProgressBar>(R.id.progressbarStepsToday)
         countSteps = view.findViewById<TextView>(R.id.countStepsToday)
 
-        progressBarColaries = view.findViewById<ProgressBar>(R.id.progressbarCaloriesToday)
+        progressBarCalories = view.findViewById<ProgressBar>(R.id.progressbarCaloriesToday)
         countCalories = view.findViewById<TextView>(R.id.countCaloriesToday)
 
         progressBarDistance = view.findViewById<ProgressBar>(R.id.progressbarDistanceToday)
@@ -46,28 +50,33 @@ class TodayStepsFragment : Fragment() {
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
 
-        (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
+        (activity as MainActivity).recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
 
             records?.let {
                 // in realta qui è solo uno
                 records.forEach {
+
                     val countS = it.steps.count.toString()
                     val countD = it.distance.count.toString()
                     val countC = it.calories.count.toString()
-
-                    // bisona mettere quelli selezionati dal bro
-                    val stepsGoal : Int = 8004
-                    val distanceGoal : Int = 1204
-                    val caloriesGoal : Int = 1204
 
                     countSteps.text = countS
                     countCalories.text = countC
                     countDistance.text = countD
 
+                    // Todo: uso utente 1 da generalizzare in caso
+                    val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+                    goalsSteps.text = currentGoal?.steps.toString()
+                    goalsCalories.text = currentGoal?.calories.toString()
+                    goalsDistance.text = currentGoal?.distance.toString()
 
-                    progressBarSteps.setProgress(Helpers.calculatePercentage(countS.toInt(), stepsGoal))
-                    progressBarColaries.setProgress(Helpers.calculatePercentage(countC.toInt(), caloriesGoal))
-                    progressBarDistance.setProgress(Helpers.calculatePercentage(countD.toInt(), distanceGoal))
+                    // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
+                    if (currentGoal != null) {
+                        progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                        progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories)
+                        progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toInt())
+                    }
+
                 }
             }
         })

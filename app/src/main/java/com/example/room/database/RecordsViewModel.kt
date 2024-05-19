@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.room.database.goal.Goal
 import com.example.room.database.records.calories.Calories
 import com.example.room.database.records.distance.Distance
 import com.example.room.database.records.steps.Steps
@@ -15,15 +16,15 @@ import kotlinx.coroutines.launch
 
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
-//da togliere
-    val monthlyStepsActivities: LiveData<List<Steps>> = repository.monthlySteps.asLiveData()
-    val monthlyCaloriesActivities: LiveData<List<Calories>> = repository.monthlyCalories.asLiveData()
-    val monthlyDistanceActivities: LiveData<List<Distance>> = repository.monthlyDistances.asLiveData()
-//ok
+
+
     val todayUserActivities: LiveData<List<UserRecords>> = repository.todayActivityRecords.asLiveData()
     val weeklyUserActivities: LiveData<List<UserRecords>> = repository.weeklyActivityRecords.asLiveData()
     val monthlyUserActivities: LiveData<List<UserRecords>> = repository.monthlyActivityRecords.asLiveData()
 
+    val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
+
+    val userGoal : LiveData<List<Goal>> = repository.userGoals.asLiveData()
 
     fun insertUser(user: User) = viewModelScope.launch {
         repository.insertUser(user)
@@ -41,9 +42,22 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         repository.insertDistance(distance)
     }
 
+    fun insertGoal(goal: Goal) = viewModelScope.launch {
+        repository.insertGoal(goal)
+    }
+
+    fun updateGoal(goal: Goal) = viewModelScope.launch {
+        repository.updateGoal(goal)
+    }
+
+    fun updateUserInfo(user: User) = viewModelScope.launch {
+        repository.updateUser(user)
+    }
+
     fun insertTodayRecords(step: Steps, distance: Distance, calorie: Calories) = viewModelScope.launch {
         repository.insertDayRecord(step, distance, calorie)
     }
+
 
 }
 
