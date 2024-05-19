@@ -74,9 +74,9 @@ abstract class ActivityRoomDatabase : RoomDatabase() {
             database.distanceDao().insert(Distance(1, 1, 3.5, Date()))
             database.workoutDao().insert(Workout(1,1,"UGO",10,10.0,Date()))
             database.workoutDao().insert(WorkoutTrackPoint(0,1,10.0,10.0))
-            database.workoutDao().insert(WorkoutTrackPoint(1,1,10.0,10.0))
-            database.workoutDao().insert(WorkoutTrackPoint(2,1,10.0,10.0))
-            database.workoutDao().insert(WorkoutTrackPoint(3,1,10.0,10.0))
+            database.workoutDao().insert(WorkoutTrackPoint(1,1,10.1,10.1))
+            database.workoutDao().insert(WorkoutTrackPoint(2,1,10.2,10.2))
+            database.workoutDao().insert(WorkoutTrackPoint(3,1,10.3,10.3))
             Log.d("AAA", "Database popolato")
         }
     }
