@@ -50,9 +50,20 @@
             android:layout_below="@id/countStepsToday"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
+            android:gravity="center"
             android:text="1000"
             android:textColor="@color/black"
             android:textSize="18sp"/>
+
+        <!-- Immagine accanto agli obiettivi -->
+        <ImageView
+            android:id="@+id/imageGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_toStartOf="@id/goalsStepsToday"
+            android:layout_alignTop="@id/goalsStepsToday"
+            android:src="@drawable/goals_24" />
 
 
     </RelativeLayout>
@@ -104,9 +115,18 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/countCaloriesToday"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:text="1000"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:id="@+id/imageGoalsCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_toStartOf="@id/goalsCaloriesToday"
+                android:layout_alignTop="@id/goalsCaloriesToday"
+                android:src="@drawable/goals_24" />
 
 
         </RelativeLayout>
@@ -156,7 +176,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:text="1000"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:id="@+id/imageGoalsDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_toStartOf="@id/goalsDistanceToday"
+                android:layout_alignTop="@id/goalsDistanceToday"
+                android:src="@drawable/goals_24" />
+
         </RelativeLayout>
 
     </LinearLayout>

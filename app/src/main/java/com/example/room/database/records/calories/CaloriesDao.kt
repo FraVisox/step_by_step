@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface CaloriesDao {
 
     // Questa query seleziona tutti i dati dalla tabella 'calories_table' e li ordina per data in ordine crescente
-    @Query("SELECT * FROM calories_table")
+    @Query("SELECT * FROM calories_table ORDER BY date ASC")
     fun getAllCaloriesOrderedByDate(): Flow<List<Calories>>
 
     @Query("SELECT * FROM calories_table WHERE date = date('now', 'localtime') ORDER BY date ASC")
@@ -27,7 +27,7 @@ interface CaloriesDao {
     fun getMonthlyCalories(): Flow<List<Calories>>
 
     // Inserisce un nuovo record nella tabella. Se si verifica un conflitto (es. stesso uid), l'operazione di inserimento verrà ignorata.
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(calories: Calories)
 
     // Cancella tutti i dati dalla tabella 'calories_table'

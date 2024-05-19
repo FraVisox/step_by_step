@@ -16,6 +16,6 @@ class RecordsApplication : Application() {
     // Utilizza 'by lazy' per creare il database e il repository solo quando sono necessari,
     // invece che all'avvio dell'applicazione. Questo migliora l'efficienza della gestione delle risorse.
     val database by lazy { RecordsRoomDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { RecordsRepository(database.userDao(), database.stepsDao(), database.caloriesDao(),database.distanceDao()) }
+    val repository by lazy { RecordsRepository(database.userDao(), database.stepsDao(), database.caloriesDao(),database.distanceDao(), database.goalDao()) }
 
 }

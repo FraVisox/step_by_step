@@ -6,6 +6,10 @@
         android:icon="@drawable/workout"
         android:title="@string/allenamenti" />
     <item
+        android:id="@+id/Obiettivi"
+        android:icon="@drawable/baseline_stars_24"
+        android:title="@string/obiettiviTitle" />
+    <item
         android:id="@+id/passi"
         android:icon="@drawable/baseline_directions_run_24"
         android:title="@string/passi" />
@@ -13,5 +17,10 @@
         android:id="@+id/attività"
         android:icon="@drawable/baseline_map_24"
         android:title="@string/maps" />
+
+    <item
+        android:id="@+id/UserSettings"
+        android:icon="@drawable/baseline_manage_accounts_24"
+        android:title="@string/Impostazioni" />
 
 </menu>

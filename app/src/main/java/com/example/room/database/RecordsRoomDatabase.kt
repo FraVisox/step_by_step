@@ -10,6 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.room.database.goal.Goal
+import com.example.room.database.goal.GoalDao
 
 import com.example.room.database.records.calories.Calories
 import com.example.room.database.records.calories.CaloriesDao
@@ -21,13 +23,15 @@ import com.example.room.database.user.User
 import com.example.room.database.user.UserDao
 import java.util.Date
 
-@Database(entities = [User::class,Steps::class, Calories::class, Distance::class], version = 1, exportSchema = false)
+@Database(entities = [User::class,Steps::class, Calories::class, Distance::class, Goal::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RecordsRoomDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun stepsDao(): StepsDao
     abstract fun caloriesDao(): CaloriesDao
     abstract fun distanceDao(): DistanceDao
+
+    abstract fun goalDao(): GoalDao
 
     companion object {
         @Volatile
@@ -56,24 +60,26 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
                 // commenta la seguente riga.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) { // Avvia una coroutine nel Dispatcher di I/O per eseguire operazioni di database.
-                        populateDatabase(database.userDao(), database.stepsDao(), database.caloriesDao(), database.distanceDao()) // Chiama populateDatabase per inserire dati iniziali.
+                        populateDatabase(database.userDao(), database.stepsDao(), database.caloriesDao(), database.distanceDao(), database.goalDao()) // Chiama populateDatabase per inserire dati iniziali.
                     }
                 }
             }
         }
 
-        suspend fun populateDatabase(userDao: UserDao, stepsDao: StepsDao, caloriesDao: CaloriesDao, distanceDao: DistanceDao) {
+        suspend fun populateDatabase(userDao: UserDao, stepsDao: StepsDao, caloriesDao: CaloriesDao, distanceDao: DistanceDao, goalDao: GoalDao) {
 
             userDao.deleteAll()
             stepsDao.deleteAll()
             caloriesDao.deleteAll()
             distanceDao.deleteAll()
+            goalDao.deleteAll()
             Log.d("MainActivity00", "USto effettivamente inizializzando")
 
             userDao.insert(User(1, "John Doe", Date()))
             stepsDao.insert(Steps(1, 1, 1000, Date()))
             caloriesDao.insert(Calories(1, 1, 500, Date()))
             distanceDao.insert(Distance(1, 1, 3.5, Date()))
+            goalDao.insert(Goal(1, 1000, 1000, 100.1))
 
             val users = userDao.getAllUsers()
             val steps = stepsDao.getAllStepsOrderedByDate()

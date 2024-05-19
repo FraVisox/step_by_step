@@ -1,6 +1,8 @@
 package com.example.room.database
 
 import androidx.annotation.WorkerThread
+import com.example.room.database.goal.Goal
+import com.example.room.database.goal.GoalDao
 import com.example.room.database.records.calories.Calories
 import com.example.room.database.records.calories.CaloriesDao
 import com.example.room.database.records.distance.Distance
@@ -19,7 +21,8 @@ class RecordsRepository(
     private val userDao: UserDao,
     private val stepsDao: StepsDao,
     private val caloriesDao: CaloriesDao,
-    private val distanceDao: DistanceDao
+    private val distanceDao: DistanceDao,
+    private val goalDao: GoalDao
 ) {
 
     // tutti i records
@@ -48,6 +51,9 @@ class RecordsRepository(
     val todayActivityRecords: Flow<List<UserRecords>> = getUserTodayActivityRecords()
     val weeklyActivityRecords: Flow<List<UserRecords>> = getUserWeeklyActivityRecords()
     val monthlyActivityRecords: Flow<List<UserRecords>> = getUserMonthlyActivityRecords()
+
+    //goalAttuali
+    val userGoals : Flow<List<Goal>> = goalDao.getAllGoals()
 
     // Inserisci un nuovo utente
     @WorkerThread

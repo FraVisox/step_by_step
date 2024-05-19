@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StepsDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(steps: Steps)
-    // La query seleziona tutti i record dalla tabella 'steps_table' ordinandoli in base alla data in modo crescente
-    @Query("SELECT * FROM steps_table")
+
+    @Query("SELECT * FROM steps_table ORDER BY date ASC")
     fun getAllStepsOrderedByDate(): Flow<List<Steps>>
 
     @Query("SELECT * FROM steps_table WHERE date = date('now', 'localtime') ORDER BY date ASC")

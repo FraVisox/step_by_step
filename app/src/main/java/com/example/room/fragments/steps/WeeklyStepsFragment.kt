@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.example.room.MainActivity
 import com.example.room.R
 import com.example.room.RecordsApplication
 import com.example.room.database.RecordsViewModel
@@ -16,9 +17,24 @@ import com.example.room.database.RecordsViewModelFactory
 
 class WeeklyStepsFragment : Fragment() {
 
-    private val recordsViewModel: RecordsViewModel by viewModels {
-        RecordsViewModelFactory((requireActivity().application as RecordsApplication).repository)
-    }
+
+    private lateinit var progressBarStepsMon : ProgressBar
+    private lateinit var progressBarStepsTues : ProgressBar
+    private lateinit var progressBarStepsWed : ProgressBar
+    private lateinit var progressBarStepsThur : ProgressBar
+    private lateinit var progressBarStepsFri : ProgressBar
+    private lateinit var progressBarStepsSatur : ProgressBar
+    private lateinit var progressBarStepsSun : ProgressBar
+
+    private lateinit var countStepsMon : TextView
+    private lateinit var countStepsTues : TextView
+    private lateinit var countStepsWed : TextView
+    private lateinit var countStepsThur : TextView
+    private lateinit var countStepsFri : TextView
+    private lateinit var countStepsSatur : TextView
+    private lateinit var countStepsSun : TextView
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,25 +42,25 @@ class WeeklyStepsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_show_weekly_steps, container, false)
 
-        val progressBarStepsMon = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekMon)
-        val progressBarStepsTues = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekTues)
-        val progressBarStepsWed = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekWed)
-        val progressBarStepsThur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekThurs)
-        val progressBarStepsFri = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekFri)
-        val progressBarStepsSatur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSatur)
-        val progressBarStepsSun = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSun)
+        progressBarStepsMon = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekMon)
+        progressBarStepsTues = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekTues)
+        progressBarStepsWed = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekWed)
+        progressBarStepsThur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekThurs)
+        progressBarStepsFri = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekFri)
+        progressBarStepsSatur = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSatur)
+        progressBarStepsSun = view.findViewById<ProgressBar>(R.id.progressbarStepsWeekSun)
 
-        val countStepsMon = view.findViewById<TextView>(R.id.stepsMon)
-        val countStepsTues = view.findViewById<TextView>(R.id.stepsTues)
-        val countStepsWed = view.findViewById<TextView>(R.id.stepsWed)
-        val countStepsThur = view.findViewById<TextView>(R.id.stepsThur)
-        val countStepsFri = view.findViewById<TextView>(R.id.stepsFri)
-        val countStepsSatur = view.findViewById<TextView>(R.id.stepsSat)
-        val countStepsSun = view.findViewById<TextView>(R.id.stepsSun)
+        countStepsMon = view.findViewById<TextView>(R.id.stepsMon)
+        countStepsTues = view.findViewById<TextView>(R.id.stepsTues)
+        countStepsWed = view.findViewById<TextView>(R.id.stepsWed)
+        countStepsThur = view.findViewById<TextView>(R.id.stepsThur)
+        countStepsFri = view.findViewById<TextView>(R.id.stepsFri)
+        countStepsSatur = view.findViewById<TextView>(R.id.stepsSat)
+        countStepsSun = view.findViewById<TextView>(R.id.stepsSun)
 
-        recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
+        (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer{ records ->
             records?.let {
-                // In realtà qui è solo uno
+
                 records.forEach { record ->
                     val countS = record.steps.count.toString()
                     val countD = record.distance.count.toString()

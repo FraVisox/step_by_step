@@ -11,18 +11,22 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.example.room.MainActivity
 import com.example.room.R
 import com.example.room.RecordsApplication
 import com.example.room.database.RecordsViewModel
-import com.example.room.SetNewGoalsActivity
 import com.example.room.database.RecordsViewModelFactory
 
 class TodayStepsFragment : Fragment() {
 
-    private val recordsViewModel: RecordsViewModel by viewModels {
-        RecordsViewModelFactory((requireActivity().application as RecordsApplication).repository)
-    }
-    val progressBarSteps : ProgressBar? = null
+    private lateinit var progressBarSteps  : ProgressBar
+    private lateinit var countSteps: TextView
+
+    private lateinit var progressBarColaries : ProgressBar
+    private lateinit var countCalories : TextView
+
+    private lateinit var progressBarDistance : ProgressBar
+    private lateinit var countDistance : TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,22 +34,20 @@ class TodayStepsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_today_steps, container, false)
 
-        val progressBarSteps = view.findViewById<ProgressBar>(R.id.progressbarStepsToday)
-        val countSteps = view.findViewById<TextView>(R.id.countStepsToday)
+        progressBarSteps = view.findViewById<ProgressBar>(R.id.progressbarStepsToday)
+        countSteps = view.findViewById<TextView>(R.id.countStepsToday)
 
+        progressBarColaries = view.findViewById<ProgressBar>(R.id.progressbarCaloriesToday)
+        countCalories = view.findViewById<TextView>(R.id.countCaloriesToday)
 
-
-        val progressBarColaries = view.findViewById<ProgressBar>(R.id.progressbarCaloriesToday)
-        val countCalories = view.findViewById<TextView>(R.id.countCaloriesToday)
-
-        val progressBarDistance = view.findViewById<ProgressBar>(R.id.progressbarDistanceToday)
-        val countDistance = view.findViewById<TextView>(R.id.countDistanceToday)
+        progressBarDistance = view.findViewById<ProgressBar>(R.id.progressbarDistanceToday)
+        countDistance = view.findViewById<TextView>(R.id.countDistanceToday)
 
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
 
-        recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
-            // Update the cached copy of the words in the adapter.
+        (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
+
             records?.let {
                 // in realta qui è solo uno
                 records.forEach {
@@ -73,19 +75,13 @@ class TodayStepsFragment : Fragment() {
         progressBarSteps.setProgress(80)
         countSteps.setText("120")
 
-
         progressBarColaries.setProgress(20)
         countCalories.setText("660")
-
 
         progressBarDistance.setProgress(90)
         countDistance.setText("5")
         */
-        val goals : TextView = view.findViewById(R.id.goalsStepsToday)
-        goals.setOnClickListener {
-            val intent = Intent(view.context,SetNewGoalsActivity::class.java)
-            view.context.startActivity(intent)
-        }
+
 
 
 
@@ -94,3 +90,11 @@ class TodayStepsFragment : Fragment() {
 
 
 }
+
+/*
+ val goals : TextView = view.findViewById(R.id.goalsStepsToday)
+        goals.setOnClickListener {
+            val intent = Intent(view.context,SetNewGoalsActivity::class.java)
+            view.context.startActivity(intent)
+        }
+ */

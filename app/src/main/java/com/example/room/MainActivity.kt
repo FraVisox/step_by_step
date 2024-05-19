@@ -5,10 +5,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.example.room.database.RecordsRoomDatabase
+import com.example.room.database.RecordsViewModel
+import com.example.room.database.RecordsViewModelFactory
 import com.example.room.databinding.ActivityMainBinding
+import com.example.room.fragments.goals.GoalsFragment
 import com.example.room.fragments.maps.MapsFragment
+import com.example.room.fragments.settings.SettingsFragment
 import com.example.room.fragments.steps.StepsFragment
 import com.example.room.fragments.workouts.WorkoutsFragment
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +25,10 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-    private lateinit var database: RecordsRoomDatabase
+
+    val recordsViewModel : RecordsViewModel by viewModels{
+        RecordsViewModelFactory((application as RecordsApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,13 +46,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.passi -> replaceFragment(StepsFragment())
                 R.id.attività -> replaceFragment(MapsFragment())
                 R.id.allenementi -> replaceFragment(WorkoutsFragment())
+                R.id.Obiettivi -> replaceFragment(GoalsFragment())
+                R.id.UserSettings -> replaceFragment(SettingsFragment())
                 else ->{
 
                 }
             }
             true
         }
-       populateDatabaseAndPrintContents()
+
+
     }
 
     private fun replaceFragment(fragment : Fragment){

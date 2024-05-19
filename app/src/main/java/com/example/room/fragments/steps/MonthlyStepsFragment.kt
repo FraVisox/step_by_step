@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.room.MainActivity
 import com.example.room.RecordsApplication
 import com.example.room.R
 import com.example.room.database.RecordsViewModel
@@ -18,13 +19,6 @@ import com.example.room.database.RecordsViewModelFactory
 class MonthlyStepsFragment : Fragment() {
 
     class TodayStepsFragment : Fragment() {
-
-        //private lateinit var activityViewModel: RecordsViewModel
-
-        // Inizializza il ViewModel usando WordViewModelFactory per iniettare il repository necessario.
-        private val recordsViewModel: RecordsViewModel by viewModels {
-            RecordsViewModelFactory((requireActivity().application as RecordsApplication).repository)
-        }
 
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +35,7 @@ class MonthlyStepsFragment : Fragment() {
 
 
             // Observe LiveData from ViewModel
-            recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
+            (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
                 records?.let { adapter.submitList(it) }
             })
 
@@ -50,10 +44,6 @@ class MonthlyStepsFragment : Fragment() {
 
     }
 
-    // Funzione per popolare il database e stampare il suo contenuto nel logcat
-
-
 }
 
-// Initialize ViewModel
-//activityViewModel = ViewModelProvider(this, RecordsViewModelFactory((activity?.application as RecordsApplication).repository)).get( RecordsViewModel::class.java)
+
