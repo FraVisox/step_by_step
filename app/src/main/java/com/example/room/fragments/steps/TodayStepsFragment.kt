@@ -16,6 +16,11 @@ import com.example.room.R
 import com.example.room.RecordsApplication
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.RecordsViewModelFactory
+import com.example.room.database.goal.Goal
+import com.example.room.database.records.calories.Calories
+import com.example.room.database.records.distance.Distance
+import com.example.room.database.records.steps.Steps
+import java.util.Date
 
 class TodayStepsFragment : Fragment() {
 
@@ -49,7 +54,7 @@ class TodayStepsFragment : Fragment() {
 
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
-
+/*
         (activity as MainActivity).recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
 
             records?.let {
@@ -80,6 +85,82 @@ class TodayStepsFragment : Fragment() {
                 }
             }
         })
+
+
+ */
+        (activity as MainActivity).recordsViewModel.insertSteps(Steps(1, 1, 1000, Date()))
+        (activity as MainActivity).recordsViewModel.insertCalories(Calories(1, 1, 500, Date()))
+        (activity as MainActivity).recordsViewModel.insertDistance(Distance(1, 1, 3.5, Date()))
+        (activity as MainActivity).recordsViewModel.insertGoal(Goal(1, 1000, 1000, 100.1))
+
+        (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { stepsList ->
+            if (!stepsList.isNullOrEmpty()) {
+                // Converti la lista in una stringa leggibile
+                val stepsString = stepsList.joinToString(separator = "\n") { step ->
+                    " UserID: ${step.userId}, Steps: ${step.count}, Date: ${step.date}"
+                }
+                // Logga il contenuto della lista
+                Log.d("oggi", stepsString)
+            } else {
+                Log.d("oggi", "La lista dei passi di oggi è vuota")
+            }
+        })
+
+        (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { steps ->
+
+            // in realta qui è solo uno
+            steps.forEach {
+                val countS = it.count.toString()
+                countSteps.text = countS
+                Log.d("oggi", "countS: $countS")
+
+                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+                goalsSteps.text = currentGoal?.steps.toString()
+
+                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
+                if (currentGoal != null) {
+                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+
+                }
+            }
+        })
+
+        (activity as MainActivity).recordsViewModel.todayCalories.observe(viewLifecycleOwner, Observer { calories ->
+
+            calories.forEach {
+
+                val countC = it.count.toString()
+                countCalories.text = countC
+
+
+                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+                goalsCalories.text = currentGoal?.calories.toString()
+
+                if (currentGoal != null) {
+                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories)
+                }
+            }
+        })
+
+        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner, Observer { distance ->
+
+            distance.forEach {
+
+                val countD = it.count.toString()
+                countDistance.text = countD
+
+                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+
+                goalsDistance.text = currentGoal?.distance.toString()
+
+                if (currentGoal != null) {
+                    progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toInt())
+                }
+            }
+        })
+
+
+
         /*
         progressBarSteps.setProgress(80)
         countSteps.setText("120")

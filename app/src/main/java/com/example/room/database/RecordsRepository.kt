@@ -35,7 +35,7 @@ class RecordsRepository(
     // Records giornalieri
     val dailySteps: Flow<List<Steps>> = stepsDao.getTodaySteps()
     val dailyCalories: Flow<List<Calories>> = caloriesDao.getTodayCalories()
-    val dailyDistances: Flow<List<Distance>> = distanceDao.getTodayDistance()
+    val dailyDistance: Flow<List<Distance>> = distanceDao.getTodayDistance()
 
     // Records settimanali
     val weeklySteps: Flow<List<Steps>> = stepsDao.getWeeklySteps()
@@ -112,7 +112,7 @@ class RecordsRepository(
             combine(
                 dailySteps,
                 dailyCalories,
-                dailyDistances
+                dailyDistance
             ) { steps, calories, distances ->
                 users.flatMap { user ->
                     combineUserActivity(user, steps, calories, distances)

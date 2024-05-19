@@ -17,6 +17,9 @@ import kotlinx.coroutines.launch
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
+    val todaySteps: LiveData<List<Steps>> = repository.dailySteps.asLiveData()
+    val todayCalories: LiveData<List<Calories>> = repository.dailyCalories.asLiveData()
+    val todayDistance: LiveData<List<Distance>> = repository.dailyDistance.asLiveData()
 
     val todayUserActivities: LiveData<List<UserRecords>> = repository.todayActivityRecords.asLiveData()
     val weeklyUserActivities: LiveData<List<UserRecords>> = repository.weeklyActivityRecords.asLiveData()
