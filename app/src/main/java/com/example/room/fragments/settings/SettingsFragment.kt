@@ -35,16 +35,14 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
-        // Initialize views
         nameEditText = view.findViewById(R.id.addStepsButton)
         datePicker = view.findViewById(R.id.datePicker)
         weightPicker = view.findViewById(R.id.weightPicker)
         heightPicker = view.findViewById(R.id.heigthPicker)
 
-        // Load saved data
         loadSavedData()
 
         return view
