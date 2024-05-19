@@ -33,7 +33,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     private val positionTracker = PositionTracker(this)
 
     //Tracker of activities
-    private val activityTracker = ActivityTracker(this)
+    private val activityTracker = WorkoutTracker(this)
 
     //Polylines drawn
     var polyline : Polyline? = null //TODO: una o molte polyline?

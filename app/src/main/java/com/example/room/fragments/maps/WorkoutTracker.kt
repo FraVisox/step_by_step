@@ -1,10 +1,12 @@
 package com.example.room.fragments.maps
 
 import android.location.Location
-import android.util.Log
+import com.example.room.MainActivity
+import com.example.room.database.activities.Workout
 import java.util.Calendar
+import java.util.Date
 
-class ActivityTracker(private val manager: MapsManager) {
+class WorkoutTracker(private val manager: MapsManager) {
 
     private var track : Boolean = false
 
@@ -31,7 +33,8 @@ class ActivityTracker(private val manager: MapsManager) {
 
         val positions = manager.polyline!!.points //TODO: migliora il !!
 
-        //TODO: store the polyline positions and the time
+        //TODO: store the polyline positions and the time and the kms
+        (manager.context as MainActivity).activityViewModel.insertWorkout(Workout(2,1,"aaaa", time, 15.0, Date()), positions)
 
         manager.clearLine()
     }

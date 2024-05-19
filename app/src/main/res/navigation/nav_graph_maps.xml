@@ -7,7 +7,7 @@
     app:startDestination="@id/start_activity_fragment">
     <fragment
         android:id="@+id/start_activity_fragment"
-        android:name="com.example.room.fragments.maps.StartActivityFragment"
+        android:name="com.example.room.fragments.maps.StartWorkoutFragment"
         android:label="fragment_start"
         tools:layout="@layout/start_activity_maps" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/finish_activity_fragment"
-        android:name="com.example.room.fragments.maps.FinishActivityFragment"
+        android:name="com.example.room.fragments.maps.FinishWorkoutFragment"
         android:label="fragment_finish"
         tools:layout="@layout/finish_activity_maps" >
         <action

@@ -3,7 +3,10 @@ package com.example.room
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import com.example.room.database.ActivityViewModel
+import com.example.room.database.ActivityViewModelFactory
 import com.example.room.databinding.ActivityMainBinding
 import com.example.room.fragments.maps.MapsFragment
 import com.example.room.fragments.steps.StepsFragment
@@ -12,6 +15,10 @@ import com.example.room.fragments.workouts.WorkoutsFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+
+    val activityViewModel: ActivityViewModel by viewModels {
+        ActivityViewModelFactory((application as ActivityApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

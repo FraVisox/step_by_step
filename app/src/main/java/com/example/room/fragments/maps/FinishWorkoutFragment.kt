@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import com.example.room.R
 
 //TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
-class FinishActivityFragment : Fragment() {
+class FinishWorkoutFragment : Fragment() {
 
     //Create the fragment
     override fun onCreateView(
