@@ -27,12 +27,6 @@ class StartWorkoutFragment : Fragment() {
                 .navigate(R.id.action_startToFinish)
         }
 
-        val update = view.findViewById<Button>(R.id.permissions_button)
-        update.setOnClickListener {
-            //TODO: come gestire questa cosa?
-            (requireParentFragment().parentFragment as MapsFragment).askPermissions()
-        }
-
         return view
     }
 }
