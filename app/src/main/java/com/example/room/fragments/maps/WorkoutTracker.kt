@@ -57,6 +57,32 @@ class WorkoutTracker(private val manager: MapsManager) {
         distance = dd
         workoutId = id
         track = true
+        coroutine = scope.launch {
+            while(true) {
+                val millis: Long = Calendar.getInstance().timeInMillis - startTime
+                var seconds: Int = (millis / 1000).toInt()
+                var minutes: Int = (seconds / 60)
+                val hours: Int = (minutes/60)
+                minutes %= 60
+                seconds %= 60
+                scope.launch(Dispatchers.Main) {
+                    manager.fragment.timeView?.text = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}" //TODO: metti i minuti e secondi con gli zeri davanti
+                }
+                delay(500)
+            }
+        }
+    }
+
+    fun getDistance(): Double {
+        return distance
+    }
+
+    fun getId(): Int {
+        return workoutId
+    }
+
+    fun getTime(): Long {
+        return startTime
     }
 
     fun finishActivity(loc : Location?) {

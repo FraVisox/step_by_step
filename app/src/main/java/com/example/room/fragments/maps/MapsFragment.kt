@@ -2,6 +2,7 @@ package com.example.room.fragments.maps
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -18,6 +19,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.PermissionChecker
+import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.room.R
@@ -35,18 +38,25 @@ class MapsFragment : Fragment() {
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted.
+                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
                 manager.startLocationTrack(true)
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
+                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
                 manager.startLocationTrack(false)
             }
 
             else -> {
-                // No location access granted. TODO: how to manage this case
-                val toast = Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
-                toast.show()
+                if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    // No location access granted, but there is a possibility to update
+                    childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
+                        ?.navigate(R.id.action_emptyToRequest)
+                    val toast =
+                        Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
+                    toast.show()
+                }
             }
         }
     }
@@ -54,23 +64,51 @@ class MapsFragment : Fragment() {
     //Create the fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
+
         manager = MapsManager(this.activity as Activity, this)
+
         askPermissions()
-        if (savedInstanceState != null && savedInstanceState.getBoolean(IsThereFinishBottom)) {
-            //TODO
-            //manager.setWorkoutState
-        } //Non serve l'else, se non c'era finish non c'è nessuno stato
+
+        if (savedInstanceState != null && savedInstanceState.getBoolean(workoutStarted)) {
+            manager.setWorkoutState(savedInstanceState.getLong(timeKey), savedInstanceState.getDouble(distanceKey), savedInstanceState.getInt(idKey))
+        }
+
         return view
     }
 
-    private fun askPermissions() {
-        //Launch the requests of permissions
-        permissions.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+    fun askPermissions() {
+        if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
+            // Application can use position
+            childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
+            manager.startLocationTrack(checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED)
+            return
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            //This is the second time when system is about to show permission dialog.
+            AlertDialog.Builder(requireActivity())
+                .setMessage(
+                    R.string.reason_to_update_permissions
+                )
+                .setPositiveButton(
+                    "OK"
+                ) { _, _ ->
+                    // Show permission dialog
+                    permissions.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                }
+                .create().show()
+        } else {
+            //Launch the requests of permissions
+            permissions.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
             )
-        )
+        }
     }
 
     //When it's created, put the map inside of it
@@ -83,13 +121,19 @@ class MapsFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (timeView != null) {
-            outState.putBoolean(IsThereFinishBottom, true)
+            outState.putBoolean(workoutStarted, true)
+            outState.putDouble(distanceKey, manager.getDistance())
+            outState.putLong(timeKey, manager.getTime())
+            outState.putInt(idKey, manager.getId())
         } else {
-            outState.putBoolean(IsThereFinishBottom, true)
+            outState.putBoolean(workoutStarted, true)
         }
     }
 
     companion object {
-        const val IsThereFinishBottom = "BottomState"
+        const val workoutStarted = "workoutStarted"
+        const val distanceKey = "distance"
+        const val timeKey = "time"
+        const val idKey = "id"
     }
 }

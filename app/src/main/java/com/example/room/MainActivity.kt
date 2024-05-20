@@ -33,9 +33,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
-                R.id.passi -> replaceFragment(StepsFragment())
-                R.id.attività -> replaceFragment(MapsFragment())
-                R.id.allenementi -> replaceFragment(WorkoutsFragment())
+                R.id.passi -> replaceFragment(R.id.stepsFragment.toString(), StepsFragment::class.qualifiedName)
+                R.id.attività -> replaceFragment(R.id.mapsFragment.toString(), MapsFragment::class.qualifiedName)
+                R.id.allenementi -> replaceFragment(R.id.allenamentiFragment.toString(), WorkoutsFragment::class.qualifiedName)
                 else ->{
 
                 }
@@ -45,12 +45,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun replaceFragment(fragment : Fragment){
+    private fun replaceFragment(tag : String?, classname : String?){
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.activity_main_nav_host_fragment,fragment)
-        fragmentTransaction.commitAllowingStateLoss()
+        val currentFragment = fragmentManager.primaryNavigationFragment
+        if (currentFragment != null) {
+            fragmentTransaction.detach(currentFragment)
+        }
+
+        var fragment = fragmentManager.findFragmentByTag(tag)
+        if (fragment == null) {
+            fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
+            fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
+        } else {
+            fragmentTransaction.attach(fragment)
+        }
+
+        fragmentTransaction.setPrimaryNavigationFragment(fragment)
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.commitNow()
+
+        //fragmentTransaction.commitAllowingStateLoss()
     }
 
 }

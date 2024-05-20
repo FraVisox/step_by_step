@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_maps"
-    app:startDestination="@id/start_activity_fragment">
+    app:startDestination="@id/empty_fragment">
     <fragment
         android:id="@+id/start_activity_fragment"
         android:name="com.example.room.fragments.maps.StartWorkoutFragment"
@@ -22,5 +22,26 @@
         <action
             android:id="@+id/action_finishToStart"
             app:destination="@id/start_activity_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/request_permissions"
+        android:name="com.example.room.fragments.maps.RequestPermissionsFragment"
+        android:label="fragment_permissions"
+        tools:layout="@layout/request_permissions">
+        <action
+            android:id="@+id/action_requestToEmpty"
+            app:destination="@id/empty_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/empty_fragment"
+        android:name="com.example.room.fragments.maps.EmptyFragment"
+        android:label="fragment_empty"
+        tools:layout="@layout/empty_fragment">
+        <action
+            android:id="@+id/action_toStart"
+            app:destination="@id/start_activity_fragment" />
+        <action
+            android:id="@+id/action_emptyToRequest"
+            app:destination="@id/request_permissions" />
     </fragment>
 </navigation>

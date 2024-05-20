@@ -115,6 +115,18 @@ class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapRead
         polyline?.remove()
     }
 
+    fun getDistance(): Double {
+        return activityTracker.getDistance()
+    }
+
+    fun getId(): Int {
+        return activityTracker.getId()
+    }
+
+    fun getTime(): Long {
+        return activityTracker.getTime()
+    }
+
     fun setWorkoutState(time : Long, dd : Double, id: Int) {
         activityTracker.setWorkoutState(time, dd, id)
         //TODO: la posizione si prende da sola?

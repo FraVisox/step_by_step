@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/time_tv"
             style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/initial_time"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/finish_button"

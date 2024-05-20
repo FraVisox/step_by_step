@@ -8,6 +8,9 @@
     <string name="start_activity">Start</string>
     <string name="initial_time">00:00:00</string>
     <string name="initial_km">0m</string>
+    <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it now but want to update it later, please go to your device settings</string>
+    <string name="go_to_settings">The access to the position is required to track your workouts.\nPlease go to your device settings to update it if you want to track your workouts.</string>
+    <string name="update_permissions">Update permissions</string>
     <string name="finish_activity">Finish</string>
     <!-- nav_menu -->
     <string name="maps">Attività</string>

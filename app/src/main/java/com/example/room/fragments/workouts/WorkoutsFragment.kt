@@ -1,6 +1,7 @@
 package com.example.room.fragments.workouts
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class WorkoutsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_allenamenti, container, false)
         // Initialize the RecyclerView
+        Log.d("AAA", "workouts fragment created")
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)
         val adapter = WorkoutsAdapter(activity as MainActivity)
         recyclerView.adapter = adapter

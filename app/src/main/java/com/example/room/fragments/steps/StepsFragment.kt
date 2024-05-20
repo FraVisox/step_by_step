@@ -1,6 +1,7 @@
 package com.example.room.fragments.steps
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class StepsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        Log.d("AAA", "steps fragment created")
         return inflater.inflate(R.layout.fragment_steps, container, false)
     }
 
