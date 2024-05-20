@@ -16,13 +16,18 @@ import java.util.Date
 
 class WorkoutTracker(private val manager: MapsManager) {
 
-    private var track : Boolean = false
+    //Coroutine to track time
     private lateinit var coroutine : Job
 
-    private var workoutId : Int = 1
+    private val scope = (manager.context.application as ActivityApplication).applicationScope
 
+    //Id of this workout
+    private var workoutId : Int = 1 //TODO: migliora (che succede se chiudo e riapro?)
+
+    //For this workout
+    private var track : Boolean = false
     private var startTime : Long = 0
-    private var distance : Double = 0.0 //in meters
+    private var distance : Double = 0.0
 
     fun startActivity(loc : Location?) {
         if (loc == null) {
@@ -30,7 +35,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
         startTime = Calendar.getInstance().timeInMillis
         manager.addPointToLine(loc)
-        coroutine = (manager.context.application as ActivityApplication).applicationScope.launch {
+        coroutine = scope.launch {
             while(true) {
                 val millis: Long = Calendar.getInstance().timeInMillis - startTime
                 var seconds: Int = (millis / 1000).toInt()
@@ -38,13 +43,19 @@ class WorkoutTracker(private val manager: MapsManager) {
                 val hours: Int = (minutes/60)
                 minutes %= 60
                 seconds %= 60
-                (manager.context.application as ActivityApplication).applicationScope.launch(Dispatchers.Main) {
-                    manager.fragment.timeView.text = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}" //TODO: metti i minuti e secondi con gli zeri davanti
+                scope.launch(Dispatchers.Main) {
+                    manager.fragment.timeView?.text = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}" //TODO: metti i minuti e secondi con gli zeri davanti
                 }
-                Log.d("AAA", "ugo boss")
                 delay(500)
             }
         }
+        track = true
+    }
+
+    fun setWorkoutState(time : Long, dd : Double, id: Int) {
+        startTime = time
+        distance = dd
+        workoutId = id
         track = true
     }
 
@@ -52,16 +63,19 @@ class WorkoutTracker(private val manager: MapsManager) {
         if (loc == null || manager.polyline == null) {
             return
         }
+        //Take endingTime
+        val endTime = Calendar.getInstance().timeInMillis
 
+        //Cancel the updating of the textview
         coroutine.cancel()
-        manager.fragment.timeView.text = (R.string.initial_time).toString() //TODO: funziona di merda
-
-        val endTime = Calendar.getInstance()
         track = false
+
+        //Add this point to location and update the distance
         manager.addPointToLine(loc)
         updateDistance(loc)
-        val time = endTime.timeInMillis-startTime
 
+        //Take time and points
+        val time = endTime-startTime
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
         (manager.context as MainActivity).activityViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
@@ -91,7 +105,7 @@ class WorkoutTracker(private val manager: MapsManager) {
                 result
             )
             distance += result[0] //TODO: migliora
-            manager.fragment.distanceView.text = "${distance.toInt()}m"
+            manager.fragment.distanceView?.text = "${distance.toInt()}m"
         }
     }
 }

@@ -17,6 +17,10 @@ import com.google.android.gms.maps.model.RoundCap
 //The class that manages all the interactions and updates to the map
 class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapReadyCallback {
 
+    companion object {
+        val trackColor : Int = Color.parseColor("#FF0000")
+    }
+
     //Map
     private lateinit var map: GoogleMap
 
@@ -39,7 +43,7 @@ class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapRead
     var polyline : Polyline? = null  //TODO: meglio più polyline?
 
     //Options of the line to draw
-    private var positions: PolylineOptions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
+    private var positions: PolylineOptions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -107,7 +111,12 @@ class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapRead
 
     //Deletes the line drawn
     fun clearLine() {
-        positions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
+        positions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
         polyline?.remove()
+    }
+
+    fun setWorkoutState(time : Long, dd : Double, id: Int) {
+        activityTracker.setWorkoutState(time, dd, id)
+        //TODO: la posizione si prende da sola?
     }
 }

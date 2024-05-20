@@ -46,9 +46,8 @@ class PositionTracker(private val manager: MapsManager) {
             .setPriority(if (accurate) Priority.PRIORITY_HIGH_ACCURACY else Priority.PRIORITY_BALANCED_POWER_ACCURACY)
             .build()
 
-        //Take the current location settings
-        val client: SettingsClient = LocationServices.getSettingsClient(manager.context)
         //Add the request to the location settings
+        val client: SettingsClient = LocationServices.getSettingsClient(manager.context)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(LocationSettingsRequest.Builder().addLocationRequest(rr).build())
 
         //If the task has success, we now can initialize the location requests
@@ -72,7 +71,7 @@ class PositionTracker(private val manager: MapsManager) {
     }
 
     private fun startLocationUpdates(rr : LocationRequest) {
-        //Check if permissions are granted: if not, return
+        //Check if permissions are granted
         if (ActivityCompat.checkSelfPermission(
                 manager.context,
                 Manifest.permission.ACCESS_FINE_LOCATION

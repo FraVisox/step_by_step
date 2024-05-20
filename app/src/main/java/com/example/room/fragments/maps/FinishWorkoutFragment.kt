@@ -13,8 +13,7 @@ import com.example.room.R
 //TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
 class FinishWorkoutFragment : Fragment() {
 
-    private lateinit var time : TextView
-    private lateinit var distance : TextView
+    private lateinit var fragment: MapsFragment
 
     //Create the fragment
     override fun onCreateView(
@@ -24,15 +23,20 @@ class FinishWorkoutFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.finish_activity_maps, container, false)
 
-        time = view.findViewById<TextView>(R.id.time_tv)
-        (parentFragment?.parentFragment as MapsFragment).timeView = time
+        fragment = (parentFragment?.parentFragment as MapsFragment)
 
-        distance = view.findViewById<TextView>(R.id.km_tv)
-        (parentFragment?.parentFragment as MapsFragment).distanceView = distance
+        //Initialize the text views used in MapsFragment
+        fragment.timeView = view.findViewById(R.id.time_tv)
+        fragment.distanceView = view.findViewById(R.id.km_tv)
 
         val finish = view.findViewById<Button>(R.id.finish_button)
         finish.setOnClickListener {
-            (requireParentFragment().parentFragment as MapsFragment).manager.finishActivity()
+            fragment.manager.finishActivity()
+            fragment.timeView?.text = (R.string.initial_time).toString()
+            fragment.timeView?.text = (R.string.initial_km).toString()
+            fragment.timeView = null
+            fragment.distanceView = null
+
             view.findNavController()
                 .navigate(R.id.action_finishToStart)
         }

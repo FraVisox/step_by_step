@@ -18,6 +18,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.room.R
 import com.google.android.gms.maps.SupportMapFragment
 
@@ -25,9 +27,8 @@ class MapsFragment : Fragment() {
 
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
-    lateinit var distanceView: TextView
-    lateinit var timeView: TextView
-    lateinit var mapFrag: SupportMapFragment
+    var distanceView: TextView? = null
+    var timeView: TextView? = null
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -43,7 +44,7 @@ class MapsFragment : Fragment() {
             }
 
             else -> {
-                // No location access granted. TODO: manage this case
+                // No location access granted. TODO: how to manage this case
                 val toast = Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
                 toast.show()
             }
@@ -53,17 +54,16 @@ class MapsFragment : Fragment() {
     //Create the fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
-
         manager = MapsManager(this.activity as Activity, this)
         askPermissions()
-
-        Log.d("AAA", "createview")
-
+        if (savedInstanceState != null && savedInstanceState.getBoolean(IsThereFinishBottom)) {
+            //TODO
+            //manager.setWorkoutState
+        } //Non serve l'else, se non c'era finish non c'è nessuno stato
         return view
     }
 
-    fun askPermissions() {
-        //TODO: metti un bool che controlla quali permessi sono stati dati
+    private fun askPermissions() {
         //Launch the requests of permissions
         permissions.launch(
             arrayOf(
@@ -77,10 +77,19 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFrag = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment?.getMapAsync(manager)
-        Log.d("AAA", "viewcreated")
-        timeView = TextView(this.activity)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (timeView != null) {
+            outState.putBoolean(IsThereFinishBottom, true)
+        } else {
+            outState.putBoolean(IsThereFinishBottom, true)
+        }
+    }
+
+    companion object {
+        const val IsThereFinishBottom = "BottomState"
+    }
 }

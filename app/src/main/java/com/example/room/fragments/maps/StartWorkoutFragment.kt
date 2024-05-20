@@ -9,15 +9,9 @@ import android.widget.Button
 import androidx.navigation.findNavController
 import com.example.room.R
 
-//TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
 class StartWorkoutFragment : Fragment() {
 
-    //Create the fragment
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.start_activity_maps, container, false)
 
         val start = view.findViewById<Button>(R.id.start_button)
