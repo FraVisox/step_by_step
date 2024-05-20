@@ -1,4 +1,4 @@
-package com.example.room.database.activities
+package com.example.room.database.workout
 
 import androidx.room.Dao
 import androidx.room.Insert

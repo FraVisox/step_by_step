@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.room.database.activities.Workout
-import com.example.room.database.activities.WorkoutTrackPoint
+import com.example.room.database.workout.Workout
+import com.example.room.database.workout.WorkoutTrackPoint
 import com.example.room.database.calories.Calories
 import com.example.room.database.distance.Distance
 import com.example.room.database.steps.Steps

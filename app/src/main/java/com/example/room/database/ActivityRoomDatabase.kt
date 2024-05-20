@@ -10,9 +10,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.room.database.activities.Workout
-import com.example.room.database.activities.WorkoutDao
-import com.example.room.database.activities.WorkoutTrackPoint
+import com.example.room.database.workout.Workout
+import com.example.room.database.workout.WorkoutDao
+import com.example.room.database.workout.WorkoutTrackPoint
 
 import com.example.room.database.calories.Calories
 import com.example.room.database.calories.CaloriesDao

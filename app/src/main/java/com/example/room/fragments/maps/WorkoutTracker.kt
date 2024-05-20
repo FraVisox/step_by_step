@@ -2,29 +2,24 @@ package com.example.room.fragments.maps
 
 import android.location.Location
 import android.util.Log
-import androidx.core.os.postDelayed
-import androidx.navigation.fragment.findNavController
 import com.example.room.ActivityApplication
 import com.example.room.MainActivity
 import com.example.room.R
-import com.example.room.database.activities.Workout
+import com.example.room.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 import java.util.Calendar
 import java.util.Date
-import java.util.logging.Handler
 
 class WorkoutTracker(private val manager: MapsManager) {
 
     private var track : Boolean = false
     private lateinit var coroutine : Job
+
+    private var workoutId : Int = 1
 
     private var startTime : Long = 0
     private var distance : Double = 0.0 //in meters
@@ -59,6 +54,8 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
 
         coroutine.cancel()
+        manager.fragment.timeView.text = (R.string.initial_time).toString() //TODO: funziona di merda
+
         val endTime = Calendar.getInstance()
         track = false
         manager.addPointToLine(loc)
@@ -67,8 +64,8 @@ class WorkoutTracker(private val manager: MapsManager) {
 
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
-        //TODO: store the polyline positions and the time and the kms
-        (manager.context as MainActivity).activityViewModel.insertWorkout(Workout(2,1,"user name", time/1000, distance.toInt(), Date()), positions)
+        (manager.context as MainActivity).activityViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
+        workoutId++
 
         distance = 0.0
         manager.clearLine()

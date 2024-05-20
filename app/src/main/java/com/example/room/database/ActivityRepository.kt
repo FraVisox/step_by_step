@@ -1,9 +1,9 @@
 package com.example.room.database
 
 import androidx.annotation.WorkerThread
-import com.example.room.database.activities.Workout
-import com.example.room.database.activities.WorkoutDao
-import com.example.room.database.activities.WorkoutTrackPoint
+import com.example.room.database.workout.Workout
+import com.example.room.database.workout.WorkoutDao
+import com.example.room.database.workout.WorkoutTrackPoint
 import com.example.room.database.calories.Calories
 import com.example.room.database.calories.CaloriesDao
 import com.example.room.database.distance.Distance
