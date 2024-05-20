@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.common.internal.zzag
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,7 +21,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     //Map
     private lateinit var map: GoogleMap
 
-    //Boolean to check if the map has been initialized TODO: l'alternativa è mettere la mappa come possibile null
+    //Boolean to check if the map has been initialized. TODO: l'alternativa è mettere la mappa come possibile null
     private var mapInitialized = false
 
     //Boolean to check if has been made a request while the map was not initialized
@@ -35,8 +36,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     //Tracker of activities
     private val activityTracker = WorkoutTracker(this)
 
-    //Polylines drawn
-    var polyline : Polyline? = null //TODO: una o molte polyline?
+    //Polyline drawn
+    var polyline : Polyline? = null  //TODO: meglio più polyline?
 
     //Options of the line to draw
     private var positions: PolylineOptions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())

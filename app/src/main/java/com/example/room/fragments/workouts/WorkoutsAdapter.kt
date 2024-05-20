@@ -48,15 +48,13 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Returns a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.workout_record_item, parent, false)
-        Log.d("AAA", "ufo")
-        return WorkoutViewHolder(view)
+        return WorkoutViewHolder.create(parent)
     }
 
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
+        Log.d("AAA", "nana")
         val record = getItem(position)
         val dateOfRecords= record.date
         val kms= record.km.toString()
@@ -69,14 +67,18 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     }
     // Describes an item view and its place within the RecyclerView
-    class WorkoutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class WorkoutViewHolder(itemView: View, private val mapFragment : SupportMapFragment?) : RecyclerView.ViewHolder(itemView) {
 
-        private val mapFragment = (itemView.context as MainActivity).supportFragmentManager.findFragmentById(R.id.workout_map) as SupportMapFragment?
-        private val manager: LittleMapManager = LittleMapManager()
-
-        init {
-            mapFragment?.getMapAsync(manager)
+        companion object {
+            fun create(parent: ViewGroup): WorkoutViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.workout_record_item, parent, false)
+                val mapFragment = (view.context as MainActivity).supportFragmentManager.findFragmentById(R.id.workout_map) as SupportMapFragment?
+                return WorkoutViewHolder(view, mapFragment)
+            }
         }
+
+        private val manager: LittleMapManager = LittleMapManager()
 
         private val date: TextView = itemView.findViewById(R.id.date)
 
@@ -87,6 +89,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
         fun bind(dat: String, km: String, tim: String, nam:String, points: List<WorkoutTrackPoint> ) {
+            mapFragment?.getMapAsync(manager)
             if (points.isNotEmpty()) {
                 manager.createLine(points.map { LatLng(it.lat, it.lng) })
             }

@@ -68,15 +68,12 @@
         android:layout_height="0dp"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.5"
-        map:uiZoomControls="true"
-        map:uiCompass="false"
-        map:uiScrollGestures="true"
-        map:uiZoomGestures="true"
-        map:uiRotateGestures="false"
-        map:uiTiltGestures="false"
+        map:liteMode="true"
         map:mapType="normal"
+        map:uiZoomControls="true"
+        map:uiZoomGestures="true"
         map:cameraTargetLat="41.9"
         map:cameraTargetLng="12.5"
-        />
+        /> <!-- TODO: lite mode?-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
