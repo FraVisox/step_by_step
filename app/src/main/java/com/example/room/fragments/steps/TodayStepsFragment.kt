@@ -35,6 +35,8 @@ class TodayStepsFragment : Fragment() {
     private lateinit var progressBarDistance : ProgressBar
     private lateinit var countDistance : TextView
     private lateinit var goalsDistance : TextView
+     var ListGoals : List<Goal>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,13 +47,13 @@ class TodayStepsFragment : Fragment() {
 
         progressBarSteps = view.findViewById<ProgressBar>(R.id.progressbarStepsToday)
         countSteps = view.findViewById<TextView>(R.id.countStepsToday)
-
+        goalsSteps = view.findViewById(R.id.goalsStepsToday)
         progressBarCalories = view.findViewById<ProgressBar>(R.id.progressbarCaloriesToday)
         countCalories = view.findViewById<TextView>(R.id.countCaloriesToday)
-
+        goalsCalories= view.findViewById(R.id.goalsCaloriesToday)
         progressBarDistance = view.findViewById<ProgressBar>(R.id.progressbarDistanceToday)
         countDistance = view.findViewById<TextView>(R.id.countDistanceToday)
-
+        goalsDistance = view.findViewById(R.id.goalsDistanceToday)
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
 /*
@@ -88,13 +90,13 @@ class TodayStepsFragment : Fragment() {
 
 
  */
-        (activity as MainActivity).recordsViewModel.insertSteps(Steps(1, 1, 1000, Date()))
-        (activity as MainActivity).recordsViewModel.insertCalories(Calories(1, 1, 500, Date()))
-        (activity as MainActivity).recordsViewModel.insertDistance(Distance(1, 1, 3.5, Date()))
-        (activity as MainActivity).recordsViewModel.insertGoal(Goal(1, 1000, 1000, 100.1))
+        //(activity as MainActivity).recordsViewModel.insertSteps(Steps(1, 1, 1000, Date()))
+        //(activity as MainActivity).recordsViewModel.insertCalories(Calories(1, 1, 500, Date()))
+        //(activity as MainActivity).recordsViewModel.insertDistance(Distance(1, 1, 3.5, Date()))
+        //(activity as MainActivity).recordsViewModel.insertGoal(Goal(1, 1000, 1000, 100.1))
 
         (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { stepsList ->
-            if (!stepsList.isNullOrEmpty()) {
+            if (stepsList.isNotEmpty()) {
                 // Converti la lista in una stringa leggibile
                 val stepsString = stepsList.joinToString(separator = "\n") { step ->
                     " UserID: ${step.userId}, Steps: ${step.count}, Date: ${step.date}"
@@ -106,6 +108,19 @@ class TodayStepsFragment : Fragment() {
             }
         })
 
+        (activity as MainActivity).recordsViewModel.userGoal.observe(viewLifecycleOwner, Observer { goals ->
+            if (goals.isNotEmpty()) {
+                // Converti la lista in una stringa leggibile
+                val goalsString = goals.joinToString(separator = "\n") { goals ->
+                    " UserID: ${goals.userId}, Steps: ${goals.steps}, Date: ${goals.distance}"
+                }
+                // Logga il contenuto della lista
+                Log.d("oggi", goalsString)
+            } else {
+                Log.d("oggi", "La lista dei passi di oggi è vuota")
+            }
+        })
+/*
         (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { steps ->
 
             // in realta qui è solo uno
@@ -113,14 +128,33 @@ class TodayStepsFragment : Fragment() {
                 val countS = it.count.toString()
                 countSteps.text = countS
                 Log.d("oggi", "countS: $countS")
+                (activity as MainActivity).recordsViewModel.userGoal.observe(viewLifecycleOwner, Observer { goal ->
+                    ListGoals = goal
+                })
+
+                goalsSteps.text = ListGoals?.first()?.steps.toString()
+
+                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
+                if (ListGoals != null) {
+                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), ListGoals!!.first().steps)
+
+                }
+            }
+        })
+*/
+        (activity as MainActivity).recordsViewModel.todayCalories.observe(viewLifecycleOwner, Observer { steps ->
+
+            steps.forEach(){ step ->
+
+                val countC = step.count.toString()
+                countSteps.text = countC
+
 
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 goalsSteps.text = currentGoal?.steps.toString()
 
-                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
-                if (currentGoal != null) {
-                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
-
+                if (currentGoal?.steps != null) {
+                    progressBarSteps.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.steps.toDouble())
                 }
             }
         })
@@ -136,8 +170,8 @@ class TodayStepsFragment : Fragment() {
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 goalsCalories.text = currentGoal?.calories.toString()
 
-                if (currentGoal != null) {
-                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories)
+                if (currentGoal?.calories != null) {
+                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories.toDouble())
                 }
             }
         })
@@ -153,9 +187,8 @@ class TodayStepsFragment : Fragment() {
 
                 goalsDistance.text = currentGoal?.distance.toString()
 
-                if (currentGoal != null) {
-                    progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toInt())
-                }
+                if (currentGoal?.distance != null)
+                    progressBarDistance.progress = Helpers.calculatePercentage(it.count.toInt(), currentGoal.distance.toDouble())
             }
         })
 

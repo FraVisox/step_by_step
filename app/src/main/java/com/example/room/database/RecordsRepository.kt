@@ -1,6 +1,9 @@
 package com.example.room.database
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.asLiveData
 import com.example.room.database.goal.Goal
 import com.example.room.database.goal.GoalDao
 import com.example.room.database.records.calories.Calories
@@ -11,10 +14,17 @@ import com.example.room.database.records.steps.Steps
 import com.example.room.database.records.steps.StepsDao
 import com.example.room.database.user.User
 import com.example.room.database.user.UserDao
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.single
+import java.util.Calendar
+import java.util.Date
+
 
 
 class RecordsRepository(
@@ -33,12 +43,12 @@ class RecordsRepository(
     val allDistances: Flow<List<Distance>> = distanceDao.getAllDistancesOrderedByDate()
 
     // Records giornalieri
-    val dailySteps: Flow<List<Steps>> = stepsDao.getTodaySteps()
-    val dailyCalories: Flow<List<Calories>> = caloriesDao.getTodayCalories()
-    val dailyDistance: Flow<List<Distance>> = distanceDao.getTodayDistance()
+    val dailySteps: Flow<List<Steps>> = stepsDao.getAllStepsOrderedByDate()
+    val dailyCalories: Flow<List<Calories>> = caloriesDao.getAllCaloriesOrderedByDate()
+    val dailyDistance: Flow<List<Distance>> = distanceDao.getAllDistancesOrderedByDate()
 
     // Records settimanali
-    val weeklySteps: Flow<List<Steps>> = stepsDao.getWeeklySteps()
+    val weeklySteps: Flow<List<Steps>> = getCurrentWeekSteps()
     val weeklyCalories: Flow<List<Calories>> = caloriesDao.getWeeklyCalories()
     val weeklyDistances: Flow<List<Distance>> = distanceDao.getWeeklyDistances()
 
@@ -105,6 +115,44 @@ class RecordsRepository(
             throw Exception("Date and user ids must be equal")
         }
     }
+
+    private suspend fun getLastXElements(x: Int): List<Steps> {
+        return dailySteps.map { stepsList ->
+            if (stepsList.size <= x) {
+                stepsList
+            } else {
+                stepsList.subList(stepsList.size - x, stepsList.size)
+            }
+        }.single()
+    }
+
+    fun getCurrentWeekSteps(): Flow<List<Steps>> {
+        return flow {
+            val currentDate = Date()
+            val calendar = Calendar.getInstance()
+            calendar.time = currentDate
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+            // Se oggi è lunedì, considera la settimana iniziata lunedì scorso
+            val daysToSubtract = if (dayOfWeek == Calendar.MONDAY) 0 else dayOfWeek - Calendar.MONDAY + if (dayOfWeek < Calendar.MONDAY) 6 else 0
+            val startOfWeek = calendar.clone() as Calendar
+            startOfWeek.add(Calendar.DAY_OF_YEAR, -daysToSubtract)
+            val endOfWeek = calendar.clone() as Calendar
+            endOfWeek.add(Calendar.DAY_OF_YEAR, Calendar.SUNDAY - dayOfWeek)
+
+            // Ottieni i passi per la settimana corrente
+            val stepsList = mutableListOf<Steps>()
+            dailySteps.collect { steps ->
+                steps.forEach { step ->
+                    if (step.date in startOfWeek.time..endOfWeek.time) {
+                        stepsList.add(step)
+                    }
+                }
+            }
+            emit(stepsList)
+        }
+    }
+
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getUserTodayActivityRecords(): Flow<List<UserRecords>> {

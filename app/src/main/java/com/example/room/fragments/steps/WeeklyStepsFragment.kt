@@ -10,36 +10,145 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.room.MainActivity
 import com.example.room.R
+import java.lang.RuntimeException
 import java.util.Calendar
 
 class WeeklyStepsFragment : Fragment() {
 
 
-    private lateinit var progressBarStepsMon : ProgressBar
-    private lateinit var progressBarStepsTues : ProgressBar
-    private lateinit var progressBarStepsWed : ProgressBar
-    private lateinit var progressBarStepsThur : ProgressBar
-    private lateinit var progressBarStepsFri : ProgressBar
-    private lateinit var progressBarStepsSatur : ProgressBar
-    private lateinit var progressBarStepsSun : ProgressBar
+    private lateinit var progressBarStepsMon: ProgressBar
+    private lateinit var progressBarStepsTues: ProgressBar
+    private lateinit var progressBarStepsWed: ProgressBar
+    private lateinit var progressBarStepsThur: ProgressBar
+    private lateinit var progressBarStepsFri: ProgressBar
+    private lateinit var progressBarStepsSatur: ProgressBar
+    private lateinit var progressBarStepsSun: ProgressBar
 
-    private lateinit var countStepsMon : TextView
-    private lateinit var countStepsTues : TextView
-    private lateinit var countStepsWed : TextView
-    private lateinit var countStepsThur : TextView
-    private lateinit var countStepsFri : TextView
-    private lateinit var countStepsSatur : TextView
-    private lateinit var countStepsSun : TextView
+    private lateinit var countStepsMon: TextView
+    private lateinit var countStepsTues: TextView
+    private lateinit var countStepsWed: TextView
+    private lateinit var countStepsThur: TextView
+    private lateinit var countStepsFri: TextView
+    private lateinit var countStepsSatur: TextView
+    private lateinit var countStepsSun: TextView
 
 
-    private lateinit var CircularProgressBarSteps : ProgressBar
-    private lateinit var CircularProgressBarCalories : ProgressBar
-    private lateinit var CircularProgressBarDistance : ProgressBar
+    private lateinit var CircularProgressBarSteps: ProgressBar
+    private lateinit var CircularProgressBarCalories: ProgressBar
+    private lateinit var CircularProgressBarDistance: ProgressBar
 
-    private lateinit var CircularCountSteps : TextView
-    private lateinit var CircularCountDistance : TextView
-    private lateinit var CircularCountCalories : TextView
+    private lateinit var CircularCountSteps: TextView
+    private lateinit var CircularCountDistance: TextView
+    private lateinit var CircularCountCalories: TextView
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+
+        progressBarStepsMon = view.findViewById(R.id.progressbarStepsWeekMon)
+        progressBarStepsTues = view.findViewById(R.id.progressbarStepsWeekTues)
+        progressBarStepsWed = view.findViewById(R.id.progressbarStepsWeekWed)
+        progressBarStepsThur = view.findViewById(R.id.progressbarStepsWeekThurs)
+        progressBarStepsFri = view.findViewById(R.id.progressbarStepsWeekFri)
+        progressBarStepsSatur = view.findViewById(R.id.progressbarStepsWeekSatur)
+        progressBarStepsSun = view.findViewById(R.id.progressbarStepsWeekSun)
+
+        countStepsMon = view.findViewById(R.id.stepsMon)
+        countStepsTues = view.findViewById(R.id.stepsTues)
+        countStepsWed = view.findViewById(R.id.stepsWed)
+        countStepsThur = view.findViewById(R.id.stepsThur)
+
+        countStepsFri = view.findViewById(R.id.stepsFri)
+        countStepsSatur = view.findViewById(R.id.stepsSat)
+        countStepsSun = view.findViewById(R.id.stepsSun)
+
+        (activity as MainActivity).recordsViewModel.todaySteps.observe(
+            viewLifecycleOwner,
+            Observer { steps ->
+
+
+
+                    steps.forEach { todaySteps ->
+                        val countS = todaySteps.count.toString()
+
+                        /// Todo: uso utente 1 da generalizzare in caso
+                        val currentGoal =
+                            (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+
+                        // Determina il giorno della settimana
+                        val dayOfWeek = Helpers.getDayOfWeek(todaySteps.date)
+
+                        if (currentGoal != null) {
+
+                            when (dayOfWeek) {
+                                "Monday" -> {
+                                    countStepsMon.text = countS
+                                    progressBarStepsMon.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Tuesday" -> {
+                                    countStepsTues.text = countS
+                                    progressBarStepsTues.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Wednesday" -> {
+                                    countStepsWed.text = countS
+                                    progressBarStepsWed.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Thursday" -> {
+                                    countStepsThur.text = countS
+                                    progressBarStepsThur.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Friday" -> {
+                                    countStepsFri.text = countS
+                                    progressBarStepsFri.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Saturday" -> {
+                                    countStepsSatur.text = countS
+                                    progressBarStepsSatur.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+
+                                "Sunday" -> {
+                                    countStepsSun.text = countS
+                                    progressBarStepsSun.progress = Helpers.calculatePercentage(
+                                        countS.toInt(),
+                                        currentGoal.steps.toDouble()
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+            })
+        return view
+    }
+}
+/*
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +172,7 @@ class WeeklyStepsFragment : Fragment() {
         countStepsSatur = view.findViewById(R.id.stepsSat)
         countStepsSun = view.findViewById(R.id.stepsSun)
 
-        (activity as MainActivity).recordsViewModel.weeklyUserActivities.observe(viewLifecycleOwner, Observer{ records ->
+        (activity as MainActivity).recordsViewModel.weeklySteps.observe(viewLifecycleOwner, Observer{ records ->
 
             records?.let {
 
@@ -83,31 +192,31 @@ class WeeklyStepsFragment : Fragment() {
                         when (dayOfWeek) {
                             "Monday" -> {
                                 countStepsMon.text = countS
-                                progressBarStepsMon.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsMon.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Tuesday" -> {
                                 countStepsTues.text = countS
-                                progressBarStepsTues.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsTues.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Wednesday" -> {
                                 countStepsWed.text = countS
-                                progressBarStepsWed.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsWed.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Thursday" -> {
                                 countStepsThur.text = countS
-                                progressBarStepsThur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsThur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Friday" -> {
                                 countStepsFri.text = countS
-                                progressBarStepsFri.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsFri.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Saturday" -> {
                                 countStepsSatur.text = countS
-                                progressBarStepsSatur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsSatur.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                             "Sunday" -> {
                                 countStepsSun.text = countS
-                                progressBarStepsSun.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
+                                progressBarStepsSun.progress =  Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
                             }
                         }
                     }
@@ -169,11 +278,12 @@ class WeeklyStepsFragment : Fragment() {
             val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
             if (currentGoal != null) {
                 // Aggiorna le progress bar
-                CircularProgressBarSteps.progress = Helpers.calculatePercentage(dayActivities.steps.count, currentGoal.steps)
-                CircularProgressBarCalories.progress = Helpers.calculatePercentage(dayActivities.calories.count, currentGoal.calories)
-                CircularProgressBarDistance.progress = Helpers.calculatePercentage(dayActivities.distance.count.toInt(), currentGoal.distance.toInt())
+                CircularProgressBarSteps.progress = Helpers.calculatePercentage(dayActivities.steps.count, currentGoal.steps.toDouble())
+                CircularProgressBarCalories.progress = Helpers.calculatePercentage(dayActivities.calories.count, currentGoal.calories.toDouble())
+                CircularProgressBarDistance.progress = Helpers.calculatePercentage(dayActivities.distance.count.toInt(), currentGoal.distance)
             }
         }
     }
 
 }
+*/

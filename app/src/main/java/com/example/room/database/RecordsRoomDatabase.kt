@@ -76,10 +76,10 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             Log.d("MainActivity00", "USto effettivamente inizializzando")
 
             userDao.insert(User(1, "John Doe", Date(),70,160))
-            //stepsDao.insert(Steps(1, 1, 1000, Date()))
-            //caloriesDao.insert(Calories(1, 1, 500, Date()))
-            //distanceDao.insert(Distance(1, 1, 3.5, Date()))
-            //goalDao.insert(Goal(1, 1000, 1000, 100.1))
+            stepsDao.insert(Steps(1, 1, 1000, Date()))
+            caloriesDao.insert(Calories(1, 1, 500, Date()))
+            distanceDao.insert(Distance(1, 1, 3.5, Date()))
+            goalDao.insert(Goal(1, 1000, 1000, 100.1))
 
             val users = userDao.getAllUsers()
             val steps = stepsDao.getAllStepsOrderedByDate()

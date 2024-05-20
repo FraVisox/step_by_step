@@ -5,11 +5,11 @@ import java.util.Date
 
 class Helpers {
     companion object {
-        fun calculatePercentage(part: Int, total: Int): Int {
-            if (total == 0) {
-                throw IllegalArgumentException("Total cannot be zero")
+        fun calculatePercentage(part: Int, total: Double): Int {
+            if (total == 0.0) {
+                return 0
             }
-            val percentage = (part.toDouble() / total.toDouble()) * 100
+            val percentage = (part.toDouble() / total) * 100
 
             return if (percentage > 100) 100 else percentage.toInt()
         }
