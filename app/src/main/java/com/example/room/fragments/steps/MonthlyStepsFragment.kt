@@ -21,7 +21,7 @@ class MonthlyStepsFragment : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             // Inflate the layout for this fragment
-            val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+            val view = inflater.inflate(R.layout.fragment_monthly_steps, container, false)
 
             // Initialize the RecyclerView
             val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)

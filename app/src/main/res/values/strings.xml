@@ -30,7 +30,7 @@
     <string name="BirthDay">Data di nascita</string>
     <string name="weight">Peso (kg)</string>
     <string name="name">nome</string>
-    <string name="heigth">Altezza (cm)</string>
+    <string name="height">Altezza (cm)</string>
     <string name="steps">Passi</string>
     <string name="calories">Calorie</string>
     <string name="distance">Km</string>

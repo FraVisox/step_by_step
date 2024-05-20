@@ -31,7 +31,7 @@ class SettingsFragment : Fragment() {
 
     // Views
     private lateinit var nameEditText: EditText
-    private lateinit var datePicker: DatePicker
+    //private lateinit var datePicker: DatePicker
     private lateinit var weightEditText: EditText
     private lateinit var heightEditText: EditText
 
@@ -46,16 +46,16 @@ class SettingsFragment : Fragment() {
         nameEditText = view.findViewById(R.id.addStepsButton)
 
         weightEditText = view.findViewById(R.id.weightEditText)
-        heightEditText = view.findViewById(R.id.heigthEditText)
+        heightEditText = view.findViewById(R.id.heightEditText)
 
-        datePicker = view.findViewById(R.id.datePicker)
-        loadSavedData()
+        //datePicker = view.findViewById(R.id.datePicker)
+        //loadSavedData()
 
         // todo  noi di fatto modifichiamo solo i dettagli dell'unico utente che abbiamo non si puo aggiungere utente ora direi
         // todo modificare il database se modifica roba
         return view
     }
-
+/*
     override fun onPause() {
         super.onPause()
         saveData()
@@ -99,5 +99,5 @@ class SettingsFragment : Fragment() {
         datePicker.updateDate(year, month, dayOfMonth)
     }
 
-
+*/
 }

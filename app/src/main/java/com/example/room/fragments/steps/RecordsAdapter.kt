@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.room.MainActivity
 import com.example.room.R
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.UserRecords
@@ -35,7 +34,7 @@ class RecordsAdapter(private val recordsViewModel: RecordsViewModel) : ListAdapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.show_records, parent, false)
+            .inflate(R.layout.show_records_delate, parent, false)
 
         return RecordsViewHolder(view, recordsViewModel)
     }

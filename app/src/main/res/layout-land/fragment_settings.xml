@@ -4,267 +4,216 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.settings.SettingsFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp">
-        <!-- Titolo -->
-        <TextView
-            android:id="@+id/settingsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/UserSettings"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-        <!-- Immagine -->
-
-        <ImageView
-            android:id="@+id/SettingsImage"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_manage_accounts_24"
-            android:layout_marginStart="8dp" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/settingsDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/settingsDescription"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp"/>
+    android:orientation="horizontal">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/nameCard"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        tools:context=".fragments.settings.SettingsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/NameImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/baseline_person_24" />
 
             <TextView
-                android:id="@+id/nameImage"
-                android:layout_marginStart="10dp"
+                android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="@string/name"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/NameImage"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/NameImage"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_cake_24" />
+                app:layout_constraintBottom_toBottomOf="@id/NameImage" />
 
             <EditText
                 android:id="@+id/addStepsButton"
-                android:layout_marginEnd="10dp"
-                android:layout_width="210dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/NameImage"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/baseline_add_24" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/BirthDayCard"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/BirthDayImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/baseline_cake_24" />
 
             <TextView
-                android:id="@+id/BirthDay"
-                android:layout_marginStart="5dp"
+                android:id="@+id/BirthDayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="@string/BirthDay"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/BirthDayImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/BirthDayImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/BirthDayImage" />
 
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:calendarViewShown="false"
-                android:datePickerMode="spinner"
+                android:datePickerMode= "spinner"
                 android:spinnersShown="true"
+                app:layout_constraintTop_toBottomOf="@id/BirthDayImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/WeightCard"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/weightImage"
-                android:layout_marginStart="10dp"
+                android:id="@+id/WeightImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/baseline_monitor_weight_24" />
 
             <TextView
-                android:id="@+id/weigth"
-                android:layout_marginStart="10dp"
+                android:id="@+id/WeightTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="@string/weight"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/weightImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/WeightImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/WeightImage" />
 
             <EditText
                 android:id="@+id/weightEditText"
-                android:layout_width="210dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WeightImage"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/HeigthCard"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/HeightCard"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/HeightImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/baseline_height_24" />
 
             <TextView
-                android:id="@+id/height"
-                android:layout_marginStart="10dp"
+                android:id="@+id/HeightTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="@string/height"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/HeightImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintStart_toEndOf="@id/HeightImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/HeightImage" />
 
             <EditText
                 android:id="@+id/heightEditText"
-                android:layout_width="210dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/HeightImage"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

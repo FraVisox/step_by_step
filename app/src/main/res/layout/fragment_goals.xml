@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragments.goals.GoalsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +47,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardSteps"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
@@ -130,7 +132,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardCalories"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
@@ -214,7 +217,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardDistance"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:cardBackgroundColor="@color/progressBar"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"

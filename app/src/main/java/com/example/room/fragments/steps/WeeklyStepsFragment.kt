@@ -10,8 +10,6 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.room.MainActivity
 import com.example.room.R
-import java.lang.RuntimeException
-import java.util.Calendar
 
 class WeeklyStepsFragment : Fragment() {
 
@@ -47,7 +45,7 @@ class WeeklyStepsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_weekly_steps2, container, false)
 
         progressBarStepsMon = view.findViewById(R.id.progressbarStepsWeekMon)
         progressBarStepsTues = view.findViewById(R.id.progressbarStepsWeekTues)
