@@ -10,7 +10,7 @@ class ActivityApplication : Application() {
 
     // CoroutineScope associato alla durata dell'applicazione; non è necessario cancellarlo
     // poiché verrà distrutto insieme al processo dell'applicazione.
-    private val applicationScope = CoroutineScope(SupervisorJob())
+    val applicationScope = CoroutineScope(SupervisorJob())
 
     // Utilizza 'by lazy' per creare il database e il repository solo quando sono necessari,
     // invece che all'avvio dell'applicazione. Questo migliora l'efficienza della gestione delle risorse.

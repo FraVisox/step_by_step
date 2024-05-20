@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.common.internal.zzag
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,7 +15,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 
 //The class that manages all the interactions and updates to the map
-class MapsManager(val context: Activity) : OnMapReadyCallback {
+class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapReadyCallback {
 
     //Map
     private lateinit var map: GoogleMap

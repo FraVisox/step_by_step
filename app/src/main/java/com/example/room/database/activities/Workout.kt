@@ -15,8 +15,8 @@ data class Workout(
     val name: String,
     @ColumnInfo(name = "time")
     val time: Long,
-    @ColumnInfo(name = "km")
-    val km: Double,
+    @ColumnInfo(name = "meters")
+    val meters: Int,
     @ColumnInfo(name = "date")
     val date: Date
 )

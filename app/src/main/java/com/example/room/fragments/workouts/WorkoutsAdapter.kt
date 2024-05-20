@@ -57,28 +57,27 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         Log.d("AAA", "nana")
         val record = getItem(position)
         val dateOfRecords= record.date
-        val kms= record.km.toString()
+        val kms= record.meters.toString()
         val time= record.time.toString()
         val name= record.name
-        val p = points.filter {
+        /*val p = points.filter {
             it.workoutId == record.workoutId
         }
-        holder.bind(dateOfRecords.toString(), kms, time, name, p)
+
+         */
+        holder.bind(dateOfRecords.toString(), kms, time, name)
 
     }
     // Describes an item view and its place within the RecyclerView
-    class WorkoutViewHolder(itemView: View, private val mapFragment : SupportMapFragment?) : RecyclerView.ViewHolder(itemView) {
+    class WorkoutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         companion object {
             fun create(parent: ViewGroup): WorkoutViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.workout_record_item, parent, false)
-                val mapFragment = (view.context as MainActivity).supportFragmentManager.findFragmentById(R.id.workout_map) as SupportMapFragment?
-                return WorkoutViewHolder(view, mapFragment)
+                return WorkoutViewHolder(view)
             }
         }
-
-        private val manager: LittleMapManager = LittleMapManager()
 
         private val date: TextView = itemView.findViewById(R.id.date)
 
@@ -88,11 +87,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: String, km: String, tim: String, nam:String, points: List<WorkoutTrackPoint> ) {
-            mapFragment?.getMapAsync(manager)
-            if (points.isNotEmpty()) {
-                manager.createLine(points.map { LatLng(it.lat, it.lng) })
-            }
+        fun bind(dat: String, km: String, tim: String, nam:String, /*points: List<WorkoutTrackPoint> */) {
             date.text = dat
             kms.text = km
             time.text = tim

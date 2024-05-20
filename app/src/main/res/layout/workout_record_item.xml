@@ -1,14 +1,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/activity_name"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -16,47 +16,44 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.25"/>
+        />
         <!-- Prima Card -->
         <TextView
             android:id="@+id/kms"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/activity_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/time"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.33"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.25"/>
+            />
 
         <!-- Seconda Card -->
         <TextView
             android:id="@+id/time"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/activity_name"
             app:layout_constraintStart_toEndOf="@id/kms"
             app:layout_constraintEnd_toStartOf="@id/date"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.33"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.25"/>
+            />
 
         <!-- Terza Card -->
         <TextView
             android:id="@+id/date"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/activity_name"
             app:layout_constraintStart_toEndOf="@id/time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.33"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.25"/>
+            />
 
+    <!--
     <androidx.fragment.app.FragmentContainerView
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/workout_map"
@@ -74,6 +71,6 @@
         map:uiZoomGestures="true"
         map:cameraTargetLat="41.9"
         map:cameraTargetLng="12.5"
-        /> <!-- TODO: lite mode?-->
+        />  TODO: lite mode?-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
