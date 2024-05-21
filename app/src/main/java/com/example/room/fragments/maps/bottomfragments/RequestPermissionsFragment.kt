@@ -1,4 +1,4 @@
-package com.example.room.fragments.maps
+package com.example.room.fragments.maps.bottomfragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.example.room.R
+import com.example.room.fragments.maps.MapsFragment
 
 //TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
 class RequestPermissionsFragment : Fragment() {
@@ -17,7 +18,7 @@ class RequestPermissionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.request_permissions, container, false)
+        val view = inflater.inflate(R.layout.maps_request_permissions, container, false)
 
         val button = view.findViewById<Button>(R.id.update_button)
         button.setOnClickListener {

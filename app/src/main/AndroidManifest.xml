@@ -24,9 +24,6 @@
             android:value="AIzaSyAWXBAlnvR_B7yIFTB5_xOV0XXDonQTARU" />
 
         <activity
-            android:name=".NewWordActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

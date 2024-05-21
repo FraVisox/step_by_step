@@ -3,27 +3,19 @@ package com.example.room.fragments.maps
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
-import android.content.IntentSender
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Location
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.room.R
+import com.example.room.fragments.maps.manager.MapsManager
 import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
@@ -32,6 +24,8 @@ class MapsFragment : Fragment() {
     lateinit var manager: MapsManager
     var distanceView: TextView? = null
     var timeView: TextView? = null
+
+    private var isStart = false
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -63,7 +57,7 @@ class MapsFragment : Fragment() {
 
     //Create the fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_maps, container, false)
+        val view = inflater.inflate(R.layout.maps_fragment, container, false)
 
         manager = MapsManager(this.activity as Activity, this)
 
@@ -79,8 +73,13 @@ class MapsFragment : Fragment() {
     fun askPermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position
-            childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
             manager.startLocationTrack(checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED)
+
+            if (!isStart) {
+                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
+                isStart = true
+            }
+
             return
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
             //This is the second time when system is about to show permission dialog.
@@ -125,6 +124,7 @@ class MapsFragment : Fragment() {
             outState.putDouble(distanceKey, manager.getDistance())
             outState.putLong(timeKey, manager.getTime())
             outState.putInt(idKey, manager.getId())
+            manager.activityTracker.coroutine?.cancel() //FIXME
         } else {
             outState.putBoolean(workoutStarted, true)
         }

@@ -1,4 +1,4 @@
-package com.example.room.fragments.maps
+package com.example.room.fragments.maps.bottomfragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.navigation.findNavController
 import com.example.room.R
+import com.example.room.fragments.maps.MapsFragment
 
 //TO ADD MY LOCATION: https://developers.google.com/android/reference/com/google/android/gms/location/package-summary
 class FinishWorkoutFragment : Fragment() {
@@ -21,7 +21,7 @@ class FinishWorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.finish_activity_maps, container, false)
+        val view = inflater.inflate(R.layout.maps_finish_workout, container, false)
 
         fragment = (parentFragment?.parentFragment as MapsFragment)
 
@@ -32,8 +32,6 @@ class FinishWorkoutFragment : Fragment() {
         val finish = view.findViewById<Button>(R.id.finish_button)
         finish.setOnClickListener {
             fragment.manager.finishActivity()
-            fragment.timeView?.text = (R.string.initial_time).toString()
-            fragment.timeView?.text = (R.string.initial_km).toString()
             fragment.timeView = null
             fragment.distanceView = null
 

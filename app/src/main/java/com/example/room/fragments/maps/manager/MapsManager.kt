@@ -1,4 +1,4 @@
-package com.example.room.fragments.maps
+package com.example.room.fragments.maps.manager
 
 import android.Manifest
 import android.app.Activity
@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import androidx.core.app.ActivityCompat
+import com.example.room.fragments.maps.MapsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,7 +38,7 @@ class MapsManager(val context: Activity, val fragment: MapsFragment) : OnMapRead
     private val positionTracker = PositionTracker(this)
 
     //Tracker of activities
-    private val activityTracker = WorkoutTracker(this)
+    val activityTracker = WorkoutTracker(this)
 
     //Polyline drawn
     var polyline : Polyline? = null  //TODO: meglio più polyline?

@@ -1,4 +1,4 @@
-package com.example.room.fragments.maps
+package com.example.room.fragments.maps.manager
 
 import android.Manifest
 import android.content.IntentSender

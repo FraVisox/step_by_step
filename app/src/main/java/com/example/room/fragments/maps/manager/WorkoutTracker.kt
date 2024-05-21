@@ -1,10 +1,9 @@
-package com.example.room.fragments.maps
+package com.example.room.fragments.maps.manager
 
 import android.location.Location
 import android.util.Log
 import com.example.room.ActivityApplication
 import com.example.room.MainActivity
-import com.example.room.R
 import com.example.room.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,7 @@ import java.util.Date
 class WorkoutTracker(private val manager: MapsManager) {
 
     //Coroutine to track time
-    private lateinit var coroutine : Job
+    var coroutine : Job? = null
 
     private val scope = (manager.context.application as ActivityApplication).applicationScope
 
@@ -37,6 +36,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         manager.addPointToLine(loc)
         coroutine = scope.launch {
             while(true) {
+                Log.d("AAA", startTime.toString())
                 val millis: Long = Calendar.getInstance().timeInMillis - startTime
                 var seconds: Int = (millis / 1000).toInt()
                 var minutes: Int = (seconds / 60)
@@ -53,12 +53,14 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun setWorkoutState(time : Long, dd : Double, id: Int) {
+        coroutine?.cancel()
         startTime = time
         distance = dd
         workoutId = id
         track = true
         coroutine = scope.launch {
             while(true) {
+                Log.d("AAA", startTime.toString())
                 val millis: Long = Calendar.getInstance().timeInMillis - startTime
                 var seconds: Int = (millis / 1000).toInt()
                 var minutes: Int = (seconds / 60)
@@ -68,7 +70,7 @@ class WorkoutTracker(private val manager: MapsManager) {
                 scope.launch(Dispatchers.Main) {
                     manager.fragment.timeView?.text = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}" //TODO: metti i minuti e secondi con gli zeri davanti
                 }
-                delay(500)
+                delay(500) //TODO: bug, probabilmente non si stoppa quando il fragment viene pausato
             }
         }
     }
@@ -86,15 +88,14 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun finishActivity(loc : Location?) {
+        //Cancel the updating of the textview
+        coroutine?.cancel()
+        track = false
         if (loc == null || manager.polyline == null) {
             return
         }
         //Take endingTime
         val endTime = Calendar.getInstance().timeInMillis
-
-        //Cancel the updating of the textview
-        coroutine.cancel()
-        track = false
 
         //Add this point to location and update the distance
         manager.addPointToLine(loc)
