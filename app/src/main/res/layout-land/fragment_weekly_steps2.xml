@@ -1,0 +1,89 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    tools:context=".fragments.steps.WeeklyStepsFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="348dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="32dp">
+
+            <!-- TextView per i conteggi dei passi -->
+            <TextView
+                android:id="@+id/stepsMon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"/>
+
+            <TextView
+                android:id="@+id/stepsTues"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/stepsWed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/stepsThur"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/stepsFri"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/stepsSat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/stepsSun"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"/>
+
+        </LinearLayout>
+
+
+        <include layout="@layout/graph_weekly_steps" />
+
+    </LinearLayout>
+
+    <include layout="@layout/show_records2" />
+
+</LinearLayout>

@@ -1,0 +1,150 @@
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    app:cardBackgroundColor="@color/navigation_bar"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/DateOfRecords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:context=".fragments.steps.TodayStepsFragment">
+
+            <RelativeLayout
+                android:id="@+id/steps_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/progressbarSteps"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_shape"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:textAlignment="center" />
+
+                <ImageView
+                    android:id="@+id/imageSteps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@id/countSteps"
+                    android:src="@drawable/baseline_directions_run_24" />
+
+                <TextView
+                    android:id="@+id/countSteps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/calories_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/progressbarCalories"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_shape"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:textAlignment="center" />
+
+                <ImageView
+                    android:id="@+id/imageCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/countCalories"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/calories" />
+
+                <TextView
+                    android:id="@+id/countCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/distance_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/progressbarDistance"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_shape"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:textAlignment="center" />
+
+                <ImageView
+                    android:id="@+id/imageDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/countDistance"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/distance" />
+
+                <TextView
+                    android:id="@+id/countDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+

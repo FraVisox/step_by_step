@@ -2,8 +2,8 @@ package com.example.room.fragments.maps.manager
 
 import android.location.Location
 import android.util.Log
-import com.example.room.ActivityApplication
 import com.example.room.MainActivity
+import com.example.room.RecordsApplication
 import com.example.room.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ class WorkoutTracker(private val manager: MapsManager) {
     //Coroutine to track time
     var coroutine : Job? = null
 
-    private val scope = (manager.context.application as ActivityApplication).applicationScope
+    private val scope = (manager.context.application as RecordsApplication).applicationScope
 
     //Id of this workout
     private var workoutId : Int = 1 //TODO: migliora (che succede se chiudo e riapro?)
@@ -105,7 +105,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         val time = endTime-startTime
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
-        (manager.context as MainActivity).activityViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
+        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
         workoutId++
 
         distance = 0.0
