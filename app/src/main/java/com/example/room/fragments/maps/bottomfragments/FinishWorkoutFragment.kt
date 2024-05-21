@@ -36,7 +36,7 @@ class FinishWorkoutFragment : Fragment() {
             fragment.distanceView = null
 
             view.findNavController()
-                .navigate(R.id.action_finishToStart)
+                .navigate(R.id.action_toStart)
         }
 
         return view

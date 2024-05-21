@@ -23,7 +23,7 @@ class RequestPermissionsFragment : Fragment() {
         val button = view.findViewById<Button>(R.id.update_button)
         button.setOnClickListener {
             view.findNavController()
-                .navigate(R.id.action_requestToEmpty)
+                .navigate(R.id.action_toEmpty)
             (parentFragment?.parentFragment as MapsFragment).askPermissions()
         }
 

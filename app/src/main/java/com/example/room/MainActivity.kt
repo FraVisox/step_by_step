@@ -3,8 +3,10 @@ package com.example.room
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import com.example.room.database.RecordsRoomDatabase
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.RecordsViewModelFactory
@@ -25,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
+    private var thisFragment : Int = R.id.stepsFragment
+
     val recordsViewModel : RecordsViewModel by viewModels{
         RecordsViewModelFactory((application as RecordsApplication).repository)
     }
@@ -35,18 +39,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigationView.post {
-            binding.bottomNavigationView.selectedItemId = R.id.passi
+        if (savedInstanceState != null) {
+            binding.bottomNavigationView.post {
+                binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
+            }
+        } else {
+            binding.bottomNavigationView.post {
+                binding.bottomNavigationView.selectedItemId = R.id.passi
+            }
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
-                R.id.passi -> replaceFragment(R.id.stepsFragment.toString(), StepsFragment::class.qualifiedName)
-                R.id.attività -> replaceFragment(R.id.mapsFragment.toString(), MapsFragment::class.qualifiedName)
-                R.id.allenementi -> replaceFragment(R.id.allenamentiFragment.toString(), WorkoutsFragment::class.qualifiedName)
-                R.id.Obiettivi -> replaceFragment(R.id.goalsFragment.toString(), GoalsFragment::class.qualifiedName)
-                R.id.UserSettings -> replaceFragment(R.id.settingsFragment.toString(), SettingsFragment::class.qualifiedName)
+                R.id.passi -> replaceFragment(R.id.stepsFragment, StepsFragment::class.qualifiedName)
+                R.id.attività -> replaceFragment(R.id.mapsFragment, MapsFragment::class.qualifiedName)
+                R.id.allenementi -> replaceFragment(R.id.allenamentiFragment, WorkoutsFragment::class.qualifiedName)
+                R.id.Obiettivi -> replaceFragment(R.id.goalsFragment, GoalsFragment::class.qualifiedName)
+                R.id.UserSettings -> replaceFragment(R.id.settingsFragment, SettingsFragment::class.qualifiedName)
                 else ->{
 
                 }
@@ -57,7 +67,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun replaceFragment(tag : String?, classname : String?){
+    private fun replaceFragment(fragmentId : Int, classname : String?){
+
+        val tag = fragmentId.toString()
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -78,7 +90,18 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.setReorderingAllowed(true)
         fragmentTransaction.commitNow()
 
+        thisFragment = fragmentId
+
         //fragmentTransaction.commitAllowingStateLoss()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putInt(fragment, thisFragment)
+    }
+
+    companion object {
+        private const val fragment = "currentFragment"
     }
 
 
