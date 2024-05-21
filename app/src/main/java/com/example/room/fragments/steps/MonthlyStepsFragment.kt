@@ -29,12 +29,12 @@ class MonthlyStepsFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
 
-
+/*
             // Observe LiveData from ViewModel
             (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
                 records?.let { adapter.submitList(it) }
             })
-
+*/
             return view
         }
 

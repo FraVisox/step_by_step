@@ -22,10 +22,9 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val todayDistance: LiveData<List<Distance>> = repository.dailyDistance.asLiveData()
 
     val weeklySteps : LiveData<List<Steps>> = repository.weeklySteps.asLiveData()
+    val weeklyCalories : LiveData<List<Calories>> = repository.weeklyCalories.asLiveData()
+    val weeklyDistance : LiveData<List<Distance>> = repository.weeklyDistances.asLiveData()
 
-    val todayUserActivities: LiveData<List<UserRecords>> = repository.todayActivityRecords.asLiveData()
-    val weeklyUserActivities: LiveData<List<UserRecords>> = repository.weeklyActivityRecords.asLiveData()
-    val monthlyUserActivities: LiveData<List<UserRecords>> = repository.monthlyActivityRecords.asLiveData()
 
     val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
 

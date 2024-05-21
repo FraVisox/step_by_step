@@ -56,40 +56,39 @@ class TodayStepsFragment : Fragment() {
         goalsDistance = view.findViewById(R.id.goalsDistanceToday)
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
-/*
-        (activity as MainActivity).recordsViewModel.todayUserActivities.observe(viewLifecycleOwner, Observer { records ->
+        /*
+        (activity as MainActivity).recordsViewModel.lastRecord.observe(viewLifecycleOwner, Observer { records ->
 
-            records?.let {
                 // in realta qui è solo uno
-                records.forEach {
+            records.forEach { record->
 
-                    val countS = it.steps.count.toString()
-                    val countD = it.distance.count.toString()
-                    val countC = it.calories.count.toString()
+                val countS = record.steps.count.toString()
+                val countD = record.distance.count.toString()
+                val countC = record.calories.count.toString()
 
-                    countSteps.text = countS
-                    countCalories.text = countC
-                    countDistance.text = countD
+                countSteps.text = countS
+                countCalories.text = countC
+                countDistance.text = countD
 
-                    // Todo: uso utente 1 da generalizzare in caso
-                    val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-                    goalsSteps.text = currentGoal?.steps.toString()
-                    goalsCalories.text = currentGoal?.calories.toString()
-                    goalsDistance.text = currentGoal?.distance.toString()
+                // Todo: uso utente 1 da generalizzare in caso
+                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+                goalsSteps.text = currentGoal?.steps.toString()
+                goalsCalories.text = currentGoal?.calories.toString()
+                goalsDistance.text = currentGoal?.distance.toString()
 
-                    // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
-                    if (currentGoal != null) {
-                        progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps)
-                        progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories)
-                        progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toInt())
-                    }
-
+                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
+                if (currentGoal != null) {
+                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
+                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories.toDouble())
+                    progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toDouble())
                 }
+
             }
+
         })
+*/
 
 
- */
         //(activity as MainActivity).recordsViewModel.insertSteps(Steps(1, 1, 1000, Date()))
         //(activity as MainActivity).recordsViewModel.insertCalories(Calories(1, 1, 500, Date()))
         //(activity as MainActivity).recordsViewModel.insertDistance(Distance(1, 1, 3.5, Date()))
@@ -108,6 +107,7 @@ class TodayStepsFragment : Fragment() {
             }
         })
 
+        // todo bug enorme se lo tolgo non va niente !!
         (activity as MainActivity).recordsViewModel.userGoal.observe(viewLifecycleOwner, Observer { goals ->
             if (goals.isNotEmpty()) {
                 // Converti la lista in una stringa leggibile
@@ -120,50 +120,29 @@ class TodayStepsFragment : Fragment() {
                 Log.d("oggi", "La lista dei passi di oggi è vuota")
             }
         })
-/*
+
+
         (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { steps ->
 
-            // in realta qui è solo uno
-            steps.forEach {
-                val countS = it.count.toString()
+            if (steps.isNotEmpty() && steps.size == 1) {
+
+                val countS = steps.last().count.toString()
                 countSteps.text = countS
-                Log.d("oggi", "countS: $countS")
-                (activity as MainActivity).recordsViewModel.userGoal.observe(viewLifecycleOwner, Observer { goal ->
-                    ListGoals = goal
-                })
-
-                goalsSteps.text = ListGoals?.first()?.steps.toString()
-
-                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
-                if (ListGoals != null) {
-                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), ListGoals!!.first().steps)
-
-                }
-            }
-        })
-*/
-        (activity as MainActivity).recordsViewModel.todayCalories.observe(viewLifecycleOwner, Observer { steps ->
-
-            steps.forEach(){ step ->
-
-                val countC = step.count.toString()
-                countSteps.text = countC
-
 
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 goalsSteps.text = currentGoal?.steps.toString()
 
                 if (currentGoal?.steps != null) {
-                    progressBarSteps.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.steps.toDouble())
+                    progressBarSteps.progress = Helpers.calculatePercentage(steps.last().count.toInt(), currentGoal.steps.toDouble())
                 }
             }
         })
 
         (activity as MainActivity).recordsViewModel.todayCalories.observe(viewLifecycleOwner, Observer { calories ->
 
-            calories.forEach {
+            if (calories.isNotEmpty() && calories.size == 1) {
 
-                val countC = it.count.toString()
+                val countC = calories.last().count.toString()
                 countCalories.text = countC
 
 
@@ -171,16 +150,16 @@ class TodayStepsFragment : Fragment() {
                 goalsCalories.text = currentGoal?.calories.toString()
 
                 if (currentGoal?.calories != null) {
-                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories.toDouble())
+                    progressBarCalories.progress = Helpers.calculatePercentage(calories.last().count, currentGoal.calories.toDouble())
                 }
             }
         })
 
         (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner, Observer { distance ->
 
-            distance.forEach {
+            if (distance.isNotEmpty() && distance.size == 1) {
 
-                val countD = it.count.toString()
+                val countD = distance.last().count.toString()
                 countDistance.text = countD
 
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
@@ -188,36 +167,12 @@ class TodayStepsFragment : Fragment() {
                 goalsDistance.text = currentGoal?.distance.toString()
 
                 if (currentGoal?.distance != null)
-                    progressBarDistance.progress = Helpers.calculatePercentage(it.count.toInt(), currentGoal.distance.toDouble())
+                    progressBarDistance.progress = Helpers.calculatePercentage(distance.last().count.toInt(), currentGoal.distance.toDouble())
             }
         })
-
-
-
-        /*
-        progressBarSteps.setProgress(80)
-        countSteps.setText("120")
-
-        progressBarColaries.setProgress(20)
-        countCalories.setText("660")
-
-        progressBarDistance.setProgress(90)
-        countDistance.setText("5")
-        */
-
-
-
 
         return view
     }
 
 
 }
-
-/*
- val goals : TextView = view.findViewById(R.id.goalsStepsToday)
-        goals.setOnClickListener {
-            val intent = Intent(view.context,SetNewGoalsActivity::class.java)
-            view.context.startActivity(intent)
-        }
- */

@@ -1,7 +1,9 @@
 package com.example.room.fragments.steps
 
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class Helpers {
     companion object {
@@ -12,6 +14,13 @@ class Helpers {
             val percentage = (part.toDouble() / total) * 100
 
             return if (percentage > 100) 100 else percentage.toInt()
+        }
+
+        fun formatDateToString(date: Date): String {
+            // Definisci il formato desiderato per la data
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            // Formatta la data nel formato desiderato
+            return dateFormat.format(date)
         }
         fun getDayOfWeek(date: Date): String {
             val calendar = Calendar.getInstance()
