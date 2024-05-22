@@ -16,6 +16,23 @@ class Helpers {
             return if (percentage > 100) 100 else percentage.toInt()
         }
 
+        fun calculateCalories(weight: Double, distance: Int): Double {
+            return weight * distance * 0.9
+        }
+        fun calculateSteps(height: Int, distance: Double): Int {
+            // Convert height from centimeters to meters
+            val heightInMeters = height / 100.0
+            // Distance in kilometers to meters
+            val distanceInMeters = distance * 1000
+
+            // Approximate step length
+            val stepLength = 0.413 * heightInMeters
+
+            // Calculate the number of steps
+            val steps = distanceInMeters / stepLength
+            return steps.toInt()
+        }
+
         fun formatDateToString(date: Date): String {
             // Definisci il formato desiderato per la data
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

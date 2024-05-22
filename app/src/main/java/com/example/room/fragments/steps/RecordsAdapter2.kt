@@ -14,8 +14,9 @@ import com.example.room.database.goal.Goal
 import com.example.room.database.records.calories.Calories
 import com.example.room.database.records.distance.Distance
 import com.example.room.database.records.steps.Steps
+import com.example.room.database.user.User
 
-class RecordsAdapter2(private val goal : Goal, private val stepsList: List<Steps>, private val caloriesList: List<Calories>, private val distanceList: List<Distance>) : RecyclerView.Adapter<RecordsAdapter2.RecordsViewHolder>() {
+class RecordsAdapter2(private val goal : Goal, private val user : User, private val distanceList: List<Distance>) : RecyclerView.Adapter<RecordsAdapter2.RecordsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.show_records, parent, false)
@@ -24,21 +25,19 @@ class RecordsAdapter2(private val goal : Goal, private val stepsList: List<Steps
     }
 
     override fun getItemCount(): Int {
-        return stepsList.size
+        return distanceList.size
     }
 
 
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
-        val dailySteps = stepsList[position]
-
-        val dateOfRecords= Helpers.formatDateToString(dailySteps.date)
-        val countSteps= dailySteps.count.toString()
-
-        val dailyCalories = caloriesList[position]
-        val countCalories = dailyCalories.count.toString()
 
         val dailyDistance = distanceList[position]
-        val countDistance = dailyDistance.count.toString()
+
+        val dateOfRecords= Helpers.formatDateToString(dailyDistance.date)
+
+        val countDistance = dailyDistance.count
+        val countSteps = Helpers.calculateSteps(user.height, dailyDistance.count)
+        val countCalories = Helpers.calculateCalories(dailyDistance.count,user.weight)
 
         holder.bind(dateOfRecords, countSteps, countCalories,countDistance, goal)
 
@@ -57,19 +56,19 @@ class RecordsAdapter2(private val goal : Goal, private val stepsList: List<Steps
         private val distance : TextView = itemView.findViewById(R.id.countDistance)
         private val progressBarDistance : ProgressBar = itemView.findViewById(R.id.progressbarDistance)
 
-        fun bind(date: String, countSteps: String, countCalories: String, countDistance:String, currentGoal: Goal) {
+        fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Double, currentGoal: Goal) {
 
             dateOfRecords.text = date
-            steps.text = countSteps
-            calories.text = countCalories
-            distance.text = countDistance
+            steps.text = countSteps.toString()
+            calories.text = countCalories.toString()
+            distance.text = countDistance.toString()
 
             progressBarSteps.progress =
                 Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
             progressBarCalories.progress =
-                Helpers.calculatePercentage(countCalories.toDouble(), currentGoal.steps.toDouble())
+                Helpers.calculatePercentage(countCalories, currentGoal.steps.toDouble())
             progressBarDistance.progress =
-                Helpers.calculatePercentage(countDistance.toDouble(), currentGoal.steps.toDouble())
+                Helpers.calculatePercentage(countDistance, currentGoal.steps.toDouble())
 
         }
     }

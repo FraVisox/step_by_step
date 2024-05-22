@@ -56,43 +56,6 @@ class TodayStepsFragment : Fragment() {
         goalsDistance = view.findViewById(R.id.goalsDistanceToday)
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 
-        /*
-        (activity as MainActivity).recordsViewModel.lastRecord.observe(viewLifecycleOwner, Observer { records ->
-
-                // in realta qui è solo uno
-            records.forEach { record->
-
-                val countS = record.steps.count.toString()
-                val countD = record.distance.count.toString()
-                val countC = record.calories.count.toString()
-
-                countSteps.text = countS
-                countCalories.text = countC
-                countDistance.text = countD
-
-                // Todo: uso utente 1 da generalizzare in caso
-                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-                goalsSteps.text = currentGoal?.steps.toString()
-                goalsCalories.text = currentGoal?.calories.toString()
-                goalsDistance.text = currentGoal?.distance.toString()
-
-                // non è sicuramente null in teoria nel nostro caso perche lo pololiamo noi l'utente
-                if (currentGoal != null) {
-                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toInt(), currentGoal.steps.toDouble())
-                    progressBarCalories.progress = Helpers.calculatePercentage(countC.toInt(), currentGoal.calories.toDouble())
-                    progressBarDistance.progress = Helpers.calculatePercentage(countD.toInt(), currentGoal.distance.toDouble())
-                }
-
-            }
-
-        })
-*/
-
-
-        //(activity as MainActivity).recordsViewModel.insertSteps(Steps(1, 1, 1000, Date()))
-        //(activity as MainActivity).recordsViewModel.insertCalories(Calories(1, 1, 500, Date()))
-        //(activity as MainActivity).recordsViewModel.insertDistance(Distance(1, 1, 3.5, Date()))
-        //(activity as MainActivity).recordsViewModel.insertGoal(Goal(1, 1000, 1000, 100.1))
 
         (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { stepsList ->
             if (stepsList.isNotEmpty()) {
@@ -120,7 +83,19 @@ class TodayStepsFragment : Fragment() {
                 Log.d("oggi", "La lista dei passi di oggi è vuota")
             }
         })
-
+        (activity as MainActivity).recordsViewModel.users.observe(viewLifecycleOwner, Observer { goals ->
+            if (goals.isNotEmpty()) {
+                // Converti la lista in una stringa leggibile
+                val goalsString = goals.joinToString(separator = "\n") { goals ->
+                    "OK"
+                }
+                // Logga il contenuto della lista
+                Log.d("oggi", goalsString)
+            } else {
+                Log.d("oggi", "La lista dei Users di oggi è vuota")
+            }
+        })
+/*
 
         (activity as MainActivity).recordsViewModel.todaySteps.observe(viewLifecycleOwner, Observer { steps ->
 
@@ -154,21 +129,36 @@ class TodayStepsFragment : Fragment() {
                 }
             }
         })
-
+*/
         (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner, Observer { distance ->
 
             if (distance.isNotEmpty() && distance.size == 1) {
-
-                val countD = distance.last().count.toString()
-                countDistance.text = countD
-
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+                val currentUser = (activity as MainActivity).recordsViewModel.users.value?.find { it.userId == 1 }
+                val countD = distance.last().count.toString()
 
-                goalsDistance.text = currentGoal?.distance.toString()
+                countDistance.text = countD
+                if(currentUser != null && currentGoal != null){
 
-                if (currentGoal?.distance != null)
+                    val countS = Helpers.calculateSteps(currentUser.height, distance.last().count)
+                    countSteps.text = countS.toString()
+
+                    val countC = Helpers.calculateCalories(distance.last().count,currentUser.weight)
+                    countCalories.text = countC.toString()
+
+                    goalsCalories.text = currentGoal.calories.toString()
+                    goalsSteps.text = currentGoal.steps.toString()
+                    goalsDistance.text = currentGoal.distance.toString()
+
                     progressBarDistance.progress = Helpers.calculatePercentage(distance.last().count.toDouble(), currentGoal.distance.toDouble())
+                    progressBarCalories.progress = Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())
+                    progressBarSteps.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
+
+
+                }
+
             }
+
         })
 
         return view
