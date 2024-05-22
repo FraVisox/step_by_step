@@ -15,23 +15,14 @@ import kotlinx.coroutines.launch
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
-    val users : LiveData<List<User>> = repository.allUsers.asLiveData()
-    val todaySteps: LiveData<List<Steps>> = repository.dailySteps.asLiveData()
-    val todayCalories: LiveData<List<Calories>> = repository.dailyCalories.asLiveData()
-    val todayDistance: LiveData<List<Distance>> = repository.dailyDistance.asLiveData()
 
-    val weeklySteps : LiveData<List<Steps>> = repository.weeklySteps.asLiveData()
-    val weeklyCalories : LiveData<List<Calories>> = repository.weeklyCalories.asLiveData()
-    val weeklyDistance : LiveData<List<Distance>> = repository.weeklyDistances.asLiveData()
-
-    val monthlySteps : LiveData<List<Steps>> = repository.monthlySteps.asLiveData()
-    val monthlyCalories : LiveData<List<Calories>> = repository.monthlyCalories.asLiveData()
-    val monthlyDistance : LiveData<List<Distance>> = repository.monthlyDistances.asLiveData()
+    val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()
+    val last7Distances : LiveData<List<Distance>> = repository.last7Distances.asLiveData()
+    val last30Distances : LiveData<List<Distance>> = repository.last30Distances.asLiveData()
 
     val last30UserRecords: LiveData<List<UserRecords>> = repository.getUserRecords().asLiveData()
 
     val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
-
     val userGoal : LiveData<List<Goal>> = repository.userGoals.asLiveData()
 
     fun insertUser(user: User) = viewModelScope.launch {

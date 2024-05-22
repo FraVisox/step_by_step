@@ -8,7 +8,8 @@
         android:id="@+id/stepsFragment"
         android:name="com.example.room.fragments.steps.StepsFragment"
         android:label="fragment_steps"
-        tools:layout="@layout/fragment_steps" />
+        tools:layout="@layout/fragment_steps" >
+    </fragment>
     <fragment
         android:id="@+id/allenamentiFragment"
         android:name="com.example.room.fragments.workouts.WorkoutsFragment"

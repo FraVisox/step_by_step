@@ -31,7 +31,7 @@ class SettingsFragment : Fragment() {
 
     // Views
     private lateinit var nameEditText: EditText
-    //private lateinit var datePicker: DatePicker
+    private lateinit var date: EditText
     private lateinit var weightEditText: EditText
     private lateinit var heightEditText: EditText
 
@@ -48,14 +48,14 @@ class SettingsFragment : Fragment() {
         weightEditText = view.findViewById(R.id.weightEditText)
         heightEditText = view.findViewById(R.id.heightEditText)
 
-        //datePicker = view.findViewById(R.id.datePicker)
-        //loadSavedData()
+        date = view.findViewById(R.id.dateText)
+        loadSavedData()
 
         // todo  noi di fatto modifichiamo solo i dettagli dell'unico utente che abbiamo non si puo aggiungere utente ora direi
         // todo modificare il database se modifica roba
         return view
     }
-/*
+
     override fun onPause() {
         super.onPause()
         saveData()
@@ -67,9 +67,8 @@ class SettingsFragment : Fragment() {
 
         editor.putString(KEY_NAME, nameEditText.text.toString())
 
-        val data = Calendar.getInstance()
-        data.set(datePicker.year, datePicker.month, datePicker.dayOfMonth)
-        editor.putLong(KEY_BIRTHDAY, data.timeInMillis)
+
+        editor.putString(KEY_BIRTHDAY, date.text.toString())
 
         editor.putString(KEY_WEIGHT,  weightEditText.text.toString())
         editor.putString(KEY_HEIGHT,  heightEditText.text.toString())
@@ -81,23 +80,12 @@ class SettingsFragment : Fragment() {
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
 
         nameEditText.setText(preferences.getString(KEY_NAME, ""))
-        DatePickerUpdate(preferences.getLong(KEY_BIRTHDAY, 0))
+        date.setText(preferences.getString(KEY_BIRTHDAY, ""))
         weightEditText.setText(preferences.getString(KEY_WEIGHT, ""))
         heightEditText.setText(preferences.getString(KEY_HEIGHT, ""))
     }
 
 
-    private fun DatePickerUpdate(dateBirthDay :Long){
 
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = dateBirthDay
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Imposta la data sul DatePicker
-        datePicker.updateDate(year, month, dayOfMonth)
-    }
-
-*/
 }

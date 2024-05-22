@@ -32,12 +32,11 @@ class RecordsAdapter2(private val goal : Goal, private val user : User, private 
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
 
         val dailyDistance = distanceList[position]
-
         val dateOfRecords= Helpers.formatDateToString(dailyDistance.date)
 
         val countDistance = dailyDistance.count
-        val countSteps = Helpers.calculateSteps(user.height, dailyDistance.count)
-        val countCalories = Helpers.calculateCalories(dailyDistance.count,user.weight)
+        val countSteps = Helpers.calculateSteps(user.height.toDouble(), dailyDistance.count)
+        val countCalories = Helpers.calculateCalories(user.weight.toDouble(), dailyDistance.count)
 
         holder.bind(dateOfRecords, countSteps, countCalories,countDistance, goal)
 
@@ -63,12 +62,9 @@ class RecordsAdapter2(private val goal : Goal, private val user : User, private 
             calories.text = countCalories.toString()
             distance.text = countDistance.toString()
 
-            progressBarSteps.progress =
-                Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
-            progressBarCalories.progress =
-                Helpers.calculatePercentage(countCalories, currentGoal.steps.toDouble())
-            progressBarDistance.progress =
-                Helpers.calculatePercentage(countDistance, currentGoal.steps.toDouble())
+            progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
+            progressBarCalories.progress = Helpers.calculatePercentage(countCalories, currentGoal.calories.toDouble())
+            progressBarDistance.progress = Helpers.calculatePercentage(countDistance, currentGoal.distance)
 
         }
     }

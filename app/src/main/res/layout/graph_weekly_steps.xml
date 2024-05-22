@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:textColor="@color/black"
+        android:textColor="@color/progressBar"
         android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
                 android:id="@+id/steps1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
 
@@ -79,7 +79,7 @@
                 android:id="@+id/steps2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
 
@@ -114,7 +114,7 @@
                 android:id="@+id/steps3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
 
@@ -148,7 +148,7 @@
                 android:id="@+id/steps4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
 
@@ -180,7 +180,7 @@
                 android:id="@+id/steps5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
         </LinearLayout>
@@ -213,7 +213,7 @@
                 android:id="@+id/steps6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
 
@@ -246,7 +246,7 @@
                 android:id="@+id/steps7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="@string/zero"/>
         </LinearLayout>

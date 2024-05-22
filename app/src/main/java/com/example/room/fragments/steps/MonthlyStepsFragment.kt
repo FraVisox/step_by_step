@@ -1,7 +1,6 @@
 package com.example.room.fragments.steps
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,13 +21,13 @@ class MonthlyStepsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_monthly_steps, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
-        (activity as MainActivity).recordsViewModel.monthlyDistance.observe(viewLifecycleOwner, Observer { distances ->
+        (activity as MainActivity).recordsViewModel.last30Distances.observe(viewLifecycleOwner, Observer { distances ->
 
             val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-            val currentUser = (activity as MainActivity).recordsViewModel.users.value?.find { it.userId == 1 }
+            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
             if(currentUser != null && currentGoal != null){
-                val adapter = RecordsAdapter2(currentGoal, currentUser, distances)
+                val adapter = RecordsAdapter2(currentGoal, currentUser, distances.reversed())
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }

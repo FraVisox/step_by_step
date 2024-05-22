@@ -21,6 +21,8 @@ import com.example.room.database.records.steps.Steps
 import com.example.room.database.records.steps.StepsDao
 import com.example.room.database.user.User
 import com.example.room.database.user.UserDao
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 
 @Database(entities = [User::class,Steps::class, Calories::class, Distance::class, Goal::class], version = 1, exportSchema = false)
@@ -78,8 +80,28 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             userDao.insert(User(1, "John Doe", Date(),70,180))
             stepsDao.insert(Steps(1, 1, 1000, Date()))
             caloriesDao.insert(Calories(1, 1, 500, Date()))
-            distanceDao.insert(Distance(1, 1, 3.5, Date()))
-            goalDao.insert(Goal(1, 1000, 1000, 100.1))
+            goalDao.insert(Goal(1, 0, 0,0.0))
+
+            val calendar = Calendar.getInstance()
+            // Imposta date diverse usando Calendar
+            calendar.set(2023, Calendar.JANUARY, 1)
+            val date1 = calendar.time
+
+            calendar.set(2023, Calendar.FEBRUARY, 1)
+            val date2 = calendar.time
+
+            calendar.set(2023, Calendar.MARCH, 1)
+            val date3 = calendar.time
+
+            calendar.set(2023, Calendar.APRIL, 1)
+            val date4 = calendar.time
+
+            distanceDao.insert(Distance(1, 1, 3.5, date1))
+            distanceDao.insert(Distance(2, 1, 0.2, date2))
+            distanceDao.insert(Distance(3, 1, 9.0, date3))
+            distanceDao.insert(Distance(4, 1, 2.0, date4))
+
+
 
             val users = userDao.getAllUsers()
             val steps = stepsDao.getAllStepsOrderedByDate()

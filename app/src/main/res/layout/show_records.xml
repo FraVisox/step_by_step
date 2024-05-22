@@ -16,11 +16,12 @@
             android:id="@+id/DateOfRecords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
             android:gravity="center"
             android:textAlignment="center"
+            android:fontFamily="sans-serif-medium"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/progressBar" />
 
         <LinearLayout
             xmlns:tools="http://schemas.android.com/tools"
@@ -62,7 +63,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"/>
 
             </RelativeLayout>
@@ -100,7 +101,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -138,7 +139,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>

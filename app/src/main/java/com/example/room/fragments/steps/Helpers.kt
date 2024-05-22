@@ -16,10 +16,10 @@ class Helpers {
             return if (percentage > 100) 100 else percentage.toInt()
         }
 
-        fun calculateCalories(weight: Double, distance: Int): Double {
+        fun calculateCalories(weight: Double, distance: Double): Double {
             return weight * distance * 0.9
         }
-        fun calculateSteps(height: Int, distance: Double): Int {
+        fun calculateSteps(height: Double, distance: Double): Int {
             // Convert height from centimeters to meters
             val heightInMeters = height / 100.0
             // Distance in kilometers to meters
@@ -34,11 +34,10 @@ class Helpers {
         }
 
         fun formatDateToString(date: Date): String {
-            // Definisci il formato desiderato per la data
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            // Formatta la data nel formato desiderato
             return dateFormat.format(date)
         }
+
         fun getDayOfWeek(date: Date): String {
             val calendar = Calendar.getInstance()
             calendar.time = date
