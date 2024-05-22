@@ -27,9 +27,7 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val monthlyCalories : LiveData<List<Calories>> = repository.monthlyCalories.asLiveData()
     val monthlyDistance : LiveData<List<Distance>> = repository.monthlyDistances.asLiveData()
 
-    val lastUserRecords : LiveData<List<UserRecords>> = repository.lastRecords.asLiveData()
-    val last7UserRecords : LiveData<List<UserRecords>> = repository.last7Records.asLiveData()
-    val last30UserRecords : LiveData<List<UserRecords>> = repository.last30Records.asLiveData()
+    val last30UserRecords: LiveData<List<UserRecords>> = repository.getUserRecords().asLiveData()
 
     val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
 

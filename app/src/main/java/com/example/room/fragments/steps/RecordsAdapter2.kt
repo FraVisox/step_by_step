@@ -9,11 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.R
 import com.example.room.database.RecordsViewModel
+import com.example.room.database.UserRecords
 import com.example.room.database.records.steps.Steps
 
 class RecordsAdapter2(private val recordsViewModel: RecordsViewModel, private val stepsList: List<Steps>) : RecyclerView.Adapter<RecordsAdapter2.RecordsViewHolder>() {
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.show_records, parent, false)
@@ -29,7 +28,7 @@ class RecordsAdapter2(private val recordsViewModel: RecordsViewModel, private va
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
         val dailySteps = stepsList[position]
 
-        val dateOfRecords= dailySteps.date.toString()
+        val dateOfRecords= Helpers.formatDateToString(dailySteps.date)
         val countSteps= dailySteps.count.toString()
         holder.bind(dateOfRecords, countSteps)
 

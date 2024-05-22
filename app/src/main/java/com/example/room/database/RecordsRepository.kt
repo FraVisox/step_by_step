@@ -38,9 +38,9 @@ class RecordsRepository(
     val dailyCalories: Flow<List<Calories>> = getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1)
     val dailyDistance: Flow<List<Distance>> = getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1)
 
-    val lastRecords : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),1),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1))
-    val last7Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),7), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),7))
-    val last30Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),30),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),30), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),30))
+    //val lastRecords : Flow<List<UserRecords2>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),1),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1))
+    //val last7Records : Flow<List<UserRecords2>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),7), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),7))
+    //val last30Records : Flow<List<UserRecords2>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),30),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),30), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),30))
 
     // Records settimanali
     val weeklySteps: Flow<List<Steps>> = getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7)
@@ -73,27 +73,24 @@ class RecordsRepository(
         }
     }
 
-  private fun getUserRecords(
-      weeklySteps: Flow<List<Steps>>,
-      weeklyCalories: Flow<List<Calories>>,
-      weeklyDistances: Flow<List<Distance>>
-    ): Flow<List<UserRecords>> {
+    fun getUserRecords(): Flow<List<UserRecords>> {
         return combine(
             weeklySteps,
             weeklyCalories,
             weeklyDistances
         ) { stepsList, caloriesList, distancesList ->
-            // Creiamo una lista di UserRecords.
+            // Create a list of UserRecords.
             val userRecordsList = mutableListOf<UserRecords>()
 
-            // Iteriamo su ogni elemento delle liste.
+            // Iterate over each element of the lists.
             for (i in stepsList.indices) {
-                val steps = stepsList[i]
-                val calories = caloriesList[i]
-                val distance = distancesList[i]
+                val steps = stepsList.getOrNull(i)
+                val calories = caloriesList.getOrNull(i)
+                val distance = distancesList.getOrNull(i)
 
-                // Controlliamo se tutte le registrazioni appartengono allo stesso utente e hanno la stessa data.
-                if (steps.userId == calories.userId && steps.userId == distance.userId &&
+                // Check if all records belong to the same user and have the same date.
+                if (steps != null && calories != null && distance != null &&
+                    steps.userId == calories.userId && steps.userId == distance.userId &&
                     steps.date == calories.date && steps.date == distance.date
                 ) {
                     userRecordsList.add(UserRecords(steps.userId, steps, calories, distance))
@@ -103,7 +100,6 @@ class RecordsRepository(
             userRecordsList
         }
     }
-
 
 
     // Inserisci un nuovo utente
