@@ -6,30 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.room.R
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.records.steps.Steps
 
-class RecordsAdapter(private val recordsViewModel: RecordsViewModel) : ListAdapter<Steps, RecordsAdapter.RecordsViewHolder>(DIFF_CALLBACK) {
+class RecordsAdapter2(private val recordsViewModel: RecordsViewModel, private val stepsList: List<Steps>) : RecyclerView.Adapter<RecordsAdapter2.RecordsViewHolder>() {
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Steps>() {
-            override fun areItemsTheSame(oldItem: Steps, newItem: Steps): Boolean {
-
-                // Logica per determinare se due elementi rappresentano lo stesso oggetto
-                return oldItem.userId == newItem.userId
-            }
-
-            override fun areContentsTheSame(oldItem: Steps, newItem: Steps): Boolean {
-                // Confronta se il contenuto di due oggetti è lo stesso
-                // Potresti confrontare ogni campo o fare un confronto basato su una versione hash
-                return oldItem.date == newItem.date
-            }
-        }
-    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
@@ -38,10 +21,13 @@ class RecordsAdapter(private val recordsViewModel: RecordsViewModel) : ListAdapt
         return RecordsViewHolder(view, recordsViewModel)
     }
 
+    override fun getItemCount(): Int {
+        return stepsList.size
+    }
 
 
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
-        val dailySteps = getItem(position)
+        val dailySteps = stepsList[position]
 
         val dateOfRecords= dailySteps.date.toString()
         val countSteps= dailySteps.count.toString()

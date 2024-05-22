@@ -198,6 +198,7 @@ class WeeklyStepsFragment : Fragment() {
 
     }
 
+    // todo in realta bisgnerebbe verificare che avessero la stessa data tipo combinandole tra loro. ma se li metto assieme tipo in UserRecords non vanno!!!!!
     private fun handleProgressBarClick(num : Int) {
         (activity as MainActivity).recordsViewModel.weeklySteps.observe( viewLifecycleOwner, Observer { stepsList ->
             if(stepsList.size >= num && stepsList.isNotEmpty()) {

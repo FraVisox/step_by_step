@@ -1,9 +1,6 @@
 package com.example.room.database
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.asLiveData
 import com.example.room.database.goal.Goal
 import com.example.room.database.goal.GoalDao
 import com.example.room.database.records.calories.Calories
@@ -15,17 +12,10 @@ import com.example.room.database.records.steps.StepsDao
 import com.example.room.database.user.User
 import com.example.room.database.user.UserDao
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
-import java.util.Calendar
-import java.util.Date
-
 
 
 class RecordsRepository(
@@ -48,9 +38,9 @@ class RecordsRepository(
     val dailyCalories: Flow<List<Calories>> = getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1)
     val dailyDistance: Flow<List<Distance>> = getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1)
 
-    //val lastRecords : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),1),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1))
-    //val last7Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),7), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),7))
-    //val last30Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),30),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),30), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),30))
+    val lastRecords : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),1),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),1), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),1))
+    val last7Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),7), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),7))
+    val last30Records : Flow<List<UserRecords>> = getUserRecords(getLastXSteps(stepsDao.getAllStepsOrderedByDate(),30),getLastXCalories(caloriesDao.getAllCaloriesOrderedByDate(),30), getLastXDistance(distanceDao.getAllDistancesOrderedByDate(),30))
 
     // Records settimanali
     val weeklySteps: Flow<List<Steps>> = getLastXSteps(stepsDao.getAllStepsOrderedByDate(),7)
@@ -84,9 +74,9 @@ class RecordsRepository(
     }
 
   private fun getUserRecords(
-        weeklySteps: Flow<List<Steps>>,
-        weeklyCalories: Flow<List<Calories>>,
-        weeklyDistances: Flow<List<Distance>>
+      weeklySteps: Flow<List<Steps>>,
+      weeklyCalories: Flow<List<Calories>>,
+      weeklyDistances: Flow<List<Distance>>
     ): Flow<List<UserRecords>> {
         return combine(
             weeklySteps,

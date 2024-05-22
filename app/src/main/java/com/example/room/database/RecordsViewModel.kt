@@ -1,6 +1,5 @@
 package com.example.room.database
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,6 @@ import com.example.room.database.records.calories.Calories
 import com.example.room.database.records.distance.Distance
 import com.example.room.database.records.steps.Steps
 import com.example.room.database.user.User
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -25,6 +23,13 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val weeklyCalories : LiveData<List<Calories>> = repository.weeklyCalories.asLiveData()
     val weeklyDistance : LiveData<List<Distance>> = repository.weeklyDistances.asLiveData()
 
+    val monthlySteps : LiveData<List<Steps>> = repository.monthlySteps.asLiveData()
+    val monthlyCalories : LiveData<List<Calories>> = repository.monthlyCalories.asLiveData()
+    val monthlyDistance : LiveData<List<Distance>> = repository.monthlyDistances.asLiveData()
+
+    val lastUserRecords : LiveData<List<UserRecords>> = repository.lastRecords.asLiveData()
+    val last7UserRecords : LiveData<List<UserRecords>> = repository.last7Records.asLiveData()
+    val last30UserRecords : LiveData<List<UserRecords>> = repository.last30Records.asLiveData()
 
     val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
 
