@@ -63,7 +63,7 @@ class RecordsAdapter(private val recordsViewModel: RecordsViewModel) : ListAdapt
             val currentGoal = recordsViewModel.userGoal.value?.find { it.userId == 1 }
 
             if (currentGoal != null) {
-                progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toInt(),currentGoal.steps.toDouble() )
+                progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toDouble(),currentGoal.steps.toDouble() )
 
             }
 

@@ -140,31 +140,31 @@ class WeeklyStepsFragment : Fragment() {
                 if (currentGoal != null) {
 
                     val size = stepsList.size
-                    StepsProgressBar1.progress = Helpers.calculatePercentage(stepsList.last().count, currentGoal.steps.toDouble())
+                    StepsProgressBar1.progress = Helpers.calculatePercentage(stepsList.last().count.toDouble(), currentGoal.steps.toDouble())
                     countSteps1.text = stepsList.last().count.toString()
 
                     if(size > 1){
-                        StepsProgressBar2.progress = Helpers.calculatePercentage(stepsList[size-2].count, currentGoal.steps.toDouble())
+                        StepsProgressBar2.progress = Helpers.calculatePercentage(stepsList[size-2].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps2.text = stepsList[size-2].count.toString()
                     }
                     if(size > 2){
-                        StepsProgressBar3.progress = Helpers.calculatePercentage(stepsList[size-3].count, currentGoal.steps.toDouble())
+                        StepsProgressBar3.progress = Helpers.calculatePercentage(stepsList[size-3].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps3.text = stepsList[size-3].count.toString()
                     }
                     if(size > 3){
-                        StepsProgressBar4.progress = Helpers.calculatePercentage(stepsList[size-4].count, currentGoal.steps.toDouble())
+                        StepsProgressBar4.progress = Helpers.calculatePercentage(stepsList[size-4].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps4.text = stepsList[size-4].count.toString()
                     }
                     if(size > 4){
-                        StepsProgressBar5.progress = Helpers.calculatePercentage(stepsList[size-5].count, currentGoal.steps.toDouble())
+                        StepsProgressBar5.progress = Helpers.calculatePercentage(stepsList[size-5].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps5.text = stepsList[size-5].count.toString()
                     }
                     if(size > 5){
-                        StepsProgressBar6.progress = Helpers.calculatePercentage(stepsList[size-6].count, currentGoal.steps.toDouble())
+                        StepsProgressBar6.progress = Helpers.calculatePercentage(stepsList[size-6].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps6.text = stepsList[size-6].count.toString()
                     }
                     if(size > 6){
-                        StepsProgressBar7.progress = Helpers.calculatePercentage(stepsList[size-7].count, currentGoal.steps.toDouble())
+                        StepsProgressBar7.progress = Helpers.calculatePercentage(stepsList[size-7].count.toDouble(), currentGoal.steps.toDouble())
                         countSteps7.text = stepsList[size-7].count.toString()
                     }
 
@@ -208,7 +208,7 @@ class WeeklyStepsFragment : Fragment() {
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 if (currentGoal != null) {
                     // Aggiorna le progress bar
-                    CircularProgressBarSteps.progress = Helpers.calculatePercentage(stepsList[stepsList.size - num].count, currentGoal.steps.toDouble())
+                    CircularProgressBarSteps.progress = Helpers.calculatePercentage(stepsList[stepsList.size - num].count.toDouble(), currentGoal.steps.toDouble())
                 }
             }
         })
@@ -220,7 +220,7 @@ class WeeklyStepsFragment : Fragment() {
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 if (currentGoal != null) {
                     // Aggiorna le progress bar
-                    CircularProgressBarCalories.progress = Helpers.calculatePercentage(caloriesList[caloriesList.size - num].count, currentGoal.calories.toDouble())
+                    CircularProgressBarCalories.progress = Helpers.calculatePercentage(caloriesList[caloriesList.size - num].count.toDouble(), currentGoal.calories.toDouble())
                 }
             }
         })
@@ -232,7 +232,7 @@ class WeeklyStepsFragment : Fragment() {
                 val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
                 if (currentGoal != null) {
                     // Aggiorna le progress bar
-                    CircularProgressBarDistance.progress = Helpers.calculatePercentage(distanceList[distanceList.size - num].count.toInt(), currentGoal.distance.toDouble())
+                    CircularProgressBarDistance.progress = Helpers.calculatePercentage(distanceList[distanceList.size - num].count, currentGoal.distance)
                 }
             }
         })

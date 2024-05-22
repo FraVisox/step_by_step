@@ -28,9 +28,20 @@ class MonthlyStepsFragment : Fragment() {
 
         // Observe LiveData from ViewModel
         (activity as MainActivity).recordsViewModel.monthlySteps.observe(viewLifecycleOwner, Observer { steps ->
-            val adapter = RecordsAdapter2((activity as MainActivity).recordsViewModel,steps)
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
+            (activity as MainActivity).recordsViewModel.monthlyCalories.observe(viewLifecycleOwner, Observer { calories ->
+                (activity as MainActivity).recordsViewModel.monthlyDistance.observe(viewLifecycleOwner, Observer { distances ->
+                    val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+
+                    if (currentGoal != null) {
+                        val adapter = RecordsAdapter2(currentGoal, steps, calories, distances)
+                        recyclerView.adapter = adapter
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                    }
+
+
+                })
+
+            })
 
         })
 

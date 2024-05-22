@@ -7,11 +7,11 @@ import java.util.Locale
 
 class Helpers {
     companion object {
-        fun calculatePercentage(part: Int, total: Double): Int {
+        fun calculatePercentage(part: Double, total: Double): Int {
             if (total == 0.0) {
                 return 0
             }
-            val percentage = (part.toDouble() / total) * 100
+            val percentage = (part / total) * 100
 
             return if (percentage > 100) 100 else percentage.toInt()
         }

@@ -133,7 +133,7 @@ class TodayStepsFragment : Fragment() {
                 goalsSteps.text = currentGoal?.steps.toString()
 
                 if (currentGoal?.steps != null) {
-                    progressBarSteps.progress = Helpers.calculatePercentage(steps.last().count.toInt(), currentGoal.steps.toDouble())
+                    progressBarSteps.progress = Helpers.calculatePercentage(steps.last().count.toDouble(), currentGoal.steps.toDouble())
                 }
             }
         })
@@ -150,7 +150,7 @@ class TodayStepsFragment : Fragment() {
                 goalsCalories.text = currentGoal?.calories.toString()
 
                 if (currentGoal?.calories != null) {
-                    progressBarCalories.progress = Helpers.calculatePercentage(calories.last().count, currentGoal.calories.toDouble())
+                    progressBarCalories.progress = Helpers.calculatePercentage(calories.last().count.toDouble(), currentGoal.calories.toDouble())
                 }
             }
         })
@@ -167,7 +167,7 @@ class TodayStepsFragment : Fragment() {
                 goalsDistance.text = currentGoal?.distance.toString()
 
                 if (currentGoal?.distance != null)
-                    progressBarDistance.progress = Helpers.calculatePercentage(distance.last().count.toInt(), currentGoal.distance.toDouble())
+                    progressBarDistance.progress = Helpers.calculatePercentage(distance.last().count.toDouble(), currentGoal.distance.toDouble())
             }
         })
 
