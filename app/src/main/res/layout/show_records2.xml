@@ -38,7 +38,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="28sp"
+            android:textSize="15sp"
             android:textStyle="bold"/>
 
     </RelativeLayout>
@@ -76,7 +76,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="28sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -114,7 +114,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="28sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

@@ -7,6 +7,7 @@ import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.room.database.RecordsRoomDatabase
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.RecordsViewModelFactory
@@ -63,6 +64,20 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        // todo bug enorme se lo tolgo non va niente !!
+        recordsViewModel.last30UserRecords.observe(this, Observer { records ->
+            if (records.isNotEmpty()) {
+                // Converti la lista in una stringa leggibile
+                val goalsString = records.joinToString(separator = "\n") { records ->
+                    " UserID: ${records.userId}, Steps: ${records.steps}, Date: ${records.distance}"
+                }
+                // Logga il contenuto della lista
+                Log.d("today", goalsString)
+            } else {
+                Log.d("today", "La lista dei records di oggi è vuota")
+            }
+        })
 
 
     }

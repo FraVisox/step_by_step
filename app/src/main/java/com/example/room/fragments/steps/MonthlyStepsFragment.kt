@@ -14,32 +14,27 @@ import com.example.room.R
 
 class MonthlyStepsFragment : Fragment() {
 
-    class TodayStepsFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_monthly_steps, container, false)
+        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            // Inflate the layout for this fragment
-            val view = inflater.inflate(R.layout.fragment_monthly_steps, container, false)
+        (activity as MainActivity).recordsViewModel.last30Distances.observe(viewLifecycleOwner, Observer { distances ->
 
-            // Initialize the RecyclerView
-            val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
-            val adapter = RecordsAdapter((activity as MainActivity).recordsViewModel)
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
+            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
+            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
+            if(currentUser != null && currentGoal != null){
+                val adapter = RecordsAdapter2(currentGoal, currentUser, distances.reversed())
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(context)
+            }
+        })
 
-            // Observe LiveData from ViewModel
-            (activity as MainActivity).recordsViewModel.monthlyUserActivities.observe(viewLifecycleOwner, Observer { records ->
-                records?.let { adapter.submitList(it) }
-            })
-
-            return view
-        }
-
+        return view
     }
 
 }
-
 

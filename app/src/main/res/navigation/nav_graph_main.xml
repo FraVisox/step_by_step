@@ -20,13 +20,13 @@
         android:label="fragment_maps"
         tools:layout="@layout/maps_fragment" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.room.fragments.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
         android:id="@+id/goalsFragment"
         android:name="com.example.room.fragments.goals.GoalsFragment"
         android:label="fragment_goals"
         tools:layout="@layout/fragment_goals" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.room.fragments.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

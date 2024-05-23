@@ -1,6 +1,5 @@
 package com.example.room.database
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,18 +19,14 @@ import kotlinx.coroutines.launch
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
-    val todaySteps: LiveData<List<Steps>> = repository.dailySteps.asLiveData()
-    val todayCalories: LiveData<List<Calories>> = repository.dailyCalories.asLiveData()
-    val todayDistance: LiveData<List<Distance>> = repository.dailyDistance.asLiveData()
 
-    val weeklySteps : LiveData<List<Steps>> = repository.weeklySteps.asLiveData()
+    val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()
+    val last7Distances : LiveData<List<Distance>> = repository.last7Distances.asLiveData()
+    val last30Distances : LiveData<List<Distance>> = repository.last30Distances.asLiveData()
 
-    val todayUserActivities: LiveData<List<UserRecords>> = repository.todayActivityRecords.asLiveData()
-    val weeklyUserActivities: LiveData<List<UserRecords>> = repository.weeklyActivityRecords.asLiveData()
-    val monthlyUserActivities: LiveData<List<UserRecords>> = repository.monthlyActivityRecords.asLiveData()
+    val last30UserRecords: LiveData<List<UserRecords>> = repository.getUserRecords().asLiveData()
 
     val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
-
     val userGoal : LiveData<List<Goal>> = repository.userGoals.asLiveData()
 
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()

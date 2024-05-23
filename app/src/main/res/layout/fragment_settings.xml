@@ -9,17 +9,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
         <!-- Titolo -->
         <TextView
             android:id="@+id/settingsTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/UserSettings"
+            android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
         <!-- Immagine -->
@@ -28,8 +29,9 @@
             android:id="@+id/SettingsImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
             android:src="@drawable/baseline_manage_accounts_24"
-            android:layout_marginStart="8dp" />
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -38,10 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/settingsDescription"
-        android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp"/>
+        android:textSize="16sp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/nameCard"
@@ -61,39 +64,39 @@
 
             <ImageView
                 android:id="@+id/NameImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_person_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_person_24" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/nameImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_cake_24"
                 android:text="@string/name"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/NameImage"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_cake_24" />
+                app:layout_constraintLeft_toRightOf="@id/NameImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/addStepsButton"
-                android:layout_marginEnd="10dp"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/baseline_add_24"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/baseline_add_24" />
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -117,38 +120,41 @@
 
             <ImageView
                 android:id="@+id/BirthDayImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_cake_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_cake_24" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/BirthDay"
-                android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:text="@string/BirthDay"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/BirthDayImage"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/BirthDayImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner"
-                android:spinnersShown="true"
+
+            <EditText
+                android:id="@+id/dateText"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:inputType="date"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -172,40 +178,40 @@
 
             <ImageView
                 android:id="@+id/weightImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_monitor_weight_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_monitor_weight_24" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/weigth"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:text="@string/weight"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/weightImage"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/weightImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/weightEditText"
                 android:layout_width="210dp"
-                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -230,41 +236,41 @@
 
             <ImageView
                 android:id="@+id/HeightImage"
-                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_height_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_height_24" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/height"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:text="@string/height"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/HeightImage"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/HeightImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
             <EditText
                 android:id="@+id/heightEditText"
                 android:layout_width="210dp"
-                android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:backgroundTint="@color/white"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

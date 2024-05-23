@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:textColor="@color/progressBar"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
@@ -21,7 +21,6 @@
 
     <RelativeLayout
         android:id="@+id/Relativelayout1"
-        android:layout_margin="2dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -37,23 +36,21 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
-
             <TextView
                 android:id="@+id/steps1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
-
+                android:text="0"/>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout2"
-        android:layout_margin="2dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -64,14 +61,12 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
-
             <ProgressBar
                 android:id="@+id/progressbarSteps2"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
 
@@ -81,14 +76,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
-
+                android:text="0"/>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout13"
         android:layout_width="match_parent"
-        android:layout_margin="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -98,15 +92,12 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
-
-
             <ProgressBar
                 android:id="@+id/progressbarSteps3"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
 
@@ -116,14 +107,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
-
+                android:text="0"/>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout4"
         android:layout_width="match_parent"
-        android:layout_margin="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -133,14 +123,12 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
-
             <ProgressBar
                 android:id="@+id/progressbarSteps4"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
 
@@ -150,14 +138,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
+                android:text="0"/>
 
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout5"
         android:layout_width="match_parent"
-        android:layout_margin="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -167,28 +155,28 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
             <ProgressBar
                 android:id="@+id/progressbarSteps5"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
+
             <TextView
                 android:id="@+id/steps5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
+                android:text="0"/>
         </LinearLayout>
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/Relativelayout6"
         android:layout_width="match_parent"
-        android:layout_margin="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -198,14 +186,12 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
-
             <ProgressBar
                 android:id="@+id/progressbarSteps6"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
 
@@ -215,14 +201,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
-
+                android:text="0"/>
         </LinearLayout>
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/Relativelayout7"
         android:layout_width="match_parent"
-        android:layout_margin="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -232,23 +217,22 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <!-- TextView per i conteggi dei passi -->
             <ProgressBar
                 android:id="@+id/progressbarSteps7"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"/>
-
             <TextView
                 android:id="@+id/steps7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:text="@string/zero"/>
+                android:text="0"/>
+
         </LinearLayout>
     </RelativeLayout>
 

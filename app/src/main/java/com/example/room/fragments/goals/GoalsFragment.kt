@@ -56,6 +56,12 @@ class GoalsFragment : Fragment() {
         caloriesGoal.text = preferences.getInt(CALORIES_GOAL, 0).toString()
         distanceGoal.text = preferences.getInt(DISTANCE_GOAL, 0).toString()
 
+        if (savedInstanceState != null) {
+            stepsGoal.text = savedInstanceState.getInt(STEPS_GOAL, 0).toString()
+            caloriesGoal.text = savedInstanceState.getInt(CALORIES_GOAL, 0).toString()
+            distanceGoal.text = savedInstanceState.getInt(DISTANCE_GOAL, 0).toString()
+        }
+
         addStepsButton.setOnClickListener {
 
             increment100Goal(stepsGoal)
@@ -170,6 +176,15 @@ class GoalsFragment : Fragment() {
         editor.putInt(CALORIES_GOAL, caloriesGoal.text.toString().toInt())
         editor.putInt(DISTANCE_GOAL, distanceGoal.text.toString().toInt())
         editor.apply()
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle)
+    {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putInt(STEPS_GOAL, stepsGoal.text.toString().toInt())
+        savedInstanceState.putInt(CALORIES_GOAL, caloriesGoal.text.toString().toInt())
+        savedInstanceState.putInt(DISTANCE_GOAL, distanceGoal.text.toString().toInt())
+
     }
 
     private fun incrementGoal(textView: TextView) {
