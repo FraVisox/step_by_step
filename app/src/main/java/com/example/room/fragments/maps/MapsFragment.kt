@@ -46,7 +46,7 @@ class MapsFragment : Fragment() {
                 if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
                     // No location access granted, but there is a possibility to update
                     childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
-                        ?.navigate(R.id.action_emptyToRequest)
+                        ?.navigate(R.id.action_toRequest)
                     val toast =
                         Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
                     toast.show()
