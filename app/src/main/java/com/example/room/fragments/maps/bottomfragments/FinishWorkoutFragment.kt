@@ -34,10 +34,6 @@ class FinishWorkoutFragment : Fragment() {
         timeView = view.findViewById(R.id.time_tv)
         distanceView = view.findViewById(R.id.km_tv)
 
-        if (savedInstanceState != null) {
-            fragment.manager.restartWorkout(timeView, distanceView, savedInstanceState.getLong(timeKey), savedInstanceState.getDouble(distanceKey), savedInstanceState.getInt(idKey))
-        }
-
         //Start the activity
         if (!fragment.manager.startWorkout(timeView, distanceView)) {
             fragment.manager.restartWorkout(timeView, distanceView)

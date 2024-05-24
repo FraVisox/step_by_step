@@ -12,6 +12,13 @@
     <string name="go_to_settings">The access to the position is required.</string>
     <string name="update_permissions">Update permissions</string>
 
+    <!-- Service of location -->
+    <string name="notification_title">Attività</string>
+    <string name="notification_content">Attività</string>
+    <string name="notification_channel_name">Attività</string>
+    <string name="notification_channel_description">Attività</string>
+
+
     <!-- nav_menu -->
     <string name="maps">Attività</string>
     <string name="passi">Passi</string>

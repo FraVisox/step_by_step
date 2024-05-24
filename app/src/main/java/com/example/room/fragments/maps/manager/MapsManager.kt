@@ -111,11 +111,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     fun pauseWorkout() {
         workoutTracker.pauseWorkout()
     }
-    //Restart the workout with data saved
-    fun restartWorkout(timeView: TextView, distanceView: TextView,time : Long, dd : Double, id: Int) {
-        workoutTracker.restartWorkout(timeView, distanceView,time, dd, id)
-    }
-    //Restart the workout without data saved
+    //Restart the workout
     fun restartWorkout(timeView: TextView, distanceView: TextView) {
         workoutTracker.restartWorkout(timeView, distanceView)
     }

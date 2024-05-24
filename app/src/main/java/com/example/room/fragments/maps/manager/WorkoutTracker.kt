@@ -1,11 +1,17 @@
 package com.example.room.fragments.maps.manager
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.location.Location
+import android.os.IBinder
 import android.util.Log
 import android.widget.TextView
 import com.example.room.MainActivity
 import com.example.room.RecordsApplication
 import com.example.room.database.workout.Workout
+import com.example.room.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,38 +35,62 @@ class WorkoutTracker(private val manager: MapsManager) {
     private var workoutId : Int = 1 //TODO: migliora (che succede se chiudo e riapro?)
 
     //For this workout
-    private var track : Boolean = false
     private var startTime : Long = 0
     private var distance : Double = 0.0
 
-    companion object {
-        private var oldTrack: Boolean = false
-        private var oldStartTime: Long = 0
-        private var oldDistance: Double = 0.0
+    private lateinit var mService: TrackWorkoutService
+    private var mBound = false
+
+    // Callbacks for service binding (ServiceConnection interface)
+    private val connection = object : ServiceConnection
+    {
+        override fun onServiceConnected(className: ComponentName, service: IBinder)
+        {
+            val binder = service as TrackWorkoutService.MyBinder
+            mService = binder.service
+            mBound = true
+
+            mService.startTracking()
+            startTime = mService.startTime
+
+            updateTimeView()
+        }
+        override fun onServiceDisconnected(name: ComponentName) { mBound = false }
     }
 
     fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
-        if (loc == null || startTime != 0.toLong()) {
+        //If there is no location or the track is already going on, return false
+        if (loc == null || mBound) {
             return false
         }
-        startTime = Calendar.getInstance().timeInMillis
 
+        //Connect the views
         this.timeView = timeView
         this.distanceView = distanceView
 
-        manager.addPointToLine(loc)
+        //Create the service that will be used to track the workout
+        val intent = Intent(manager.context, TrackWorkoutService::class.java)
+        intent.putExtra(TrackWorkoutService.timeKey, Calendar.getInstance().timeInMillis)
+        manager.context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
-        track = true
-
-        updateTimeView()
         return true
+    }
+
+    fun pauseWorkout() {
+        if (mBound) {
+            manager.context.unbindService(connection)
+            mBound = false
+        }
+
+        //Cancel the updating of the timeView
+        coroutine?.cancel()
     }
 
     private fun updateTimeView() {
         coroutine = scope.launch {
             while(isActive) {
+                //Get the time and update the text view
                 val millis: Long = Calendar.getInstance().timeInMillis - startTime
-                Log.d("AAA", millis.toString())
                 var seconds: Int = (millis / 1000).toInt()
                 var minutes: Int = (seconds / 60)
                 val hours: Int = (minutes/60)
@@ -75,37 +105,26 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun restartWorkout(timeView: TextView, distanceView: TextView) {
+        //Connect the views
         this.timeView = timeView
         this.distanceView = distanceView
-        startTime = oldStartTime
-        track = oldTrack
-        distance = oldDistance
-        updateTimeView()
-    }
 
-    fun restartWorkout(timeView: TextView, distanceView: TextView, time : Long, dd : Double, id: Int) {
-        coroutine?.cancel()
-        this.timeView = timeView
-        this.distanceView = distanceView
-        startTime = time
-        distance = dd
-        workoutId = id
-        track = true
-        updateTimeView()
-    }
-    fun pauseWorkout() {
-        coroutine?.cancel()
-        oldDistance = distance
-        oldTrack = track
-        oldStartTime = startTime
+        //Bind to the service that is tracking the workout
+        val intent = Intent(manager.context, TrackWorkoutService::class.java)
+        manager.context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     fun finishWorkout(loc : Location?) {
+        if (mBound) {
+            mService.endTracking()
+            manager.context.unbindService(connection)
+            mBound = false
+        }
+
         //Cancel the updating of the timeView
         coroutine?.cancel()
-        track = false
 
-        //If the location was never taken
+        //If the location was never taken, return
         if (loc == null || manager.polyline == null) {
             return
         }
@@ -130,11 +149,10 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun updatePolyline(current : Location) {
-        if (!track) {
-            return
+        if (mBound) {
+            updateDistance(current)
+            manager.addPointToLine(current)
         }
-        updateDistance(current)
-        manager.addPointToLine(current)
     }
 
     private fun updateDistance(current: Location) {
