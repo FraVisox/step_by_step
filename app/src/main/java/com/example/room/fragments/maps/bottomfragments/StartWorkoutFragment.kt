@@ -1,11 +1,14 @@
 package com.example.room.fragments.maps.bottomfragments
 
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.core.content.PermissionChecker
 import androidx.navigation.findNavController
 import com.example.room.R
 import com.example.room.fragments.maps.MapsFragment
@@ -17,7 +20,18 @@ class StartWorkoutFragment : Fragment() {
 
         val start = view.findViewById<Button>(R.id.start_button)
         start.setOnClickListener {
-            (requireParentFragment().parentFragment as MapsFragment).manager.startActivity()
+            if (PermissionChecker.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PermissionChecker.PERMISSION_GRANTED && PermissionChecker.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PermissionChecker.PERMISSION_GRANTED) {
+                val toast = Toast.makeText(requireContext(), "Permission not granted", Toast.LENGTH_SHORT) //TODO: metti in stringa
+                toast.show()
+                return@setOnClickListener
+            }
+
             view.findNavController()
                 .navigate(R.id.action_startToFinish)
         }

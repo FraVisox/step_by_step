@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.room.R
 import com.example.room.fragments.maps.manager.MapsManager
@@ -20,37 +22,28 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
 
+    companion object {
+        const val workoutStarted : String = "workoutStarted"
+    }
+
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
-    var distanceView: TextView? = null
-    var timeView: TextView? = null
-
-    private var isStart = false
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // Precise location access granted.
-                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
+                // Precise location access granted
                 manager.startLocationTrack(true)
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
-                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
                 manager.startLocationTrack(false)
             }
 
             else -> {
-                if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                    // No location access granted, but there is a possibility to update
-                    childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
-                        ?.navigate(R.id.action_toRequest)
-                    val toast =
-                        Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT)
-                    toast.show()
-                }
+                //Nothing happens TODO: mostra un dialog
             }
         }
     }
@@ -59,30 +52,36 @@ class MapsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.maps_fragment, container, false)
 
-        manager = MapsManager(this.activity as Activity, this)
-
-        askPermissions()
+        manager = MapsManager(this.activity as Activity)
 
         if (savedInstanceState != null && savedInstanceState.getBoolean(workoutStarted)) {
-            manager.setWorkoutState(savedInstanceState.getLong(timeKey), savedInstanceState.getDouble(distanceKey), savedInstanceState.getInt(idKey))
+            childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
+                ?.navigate(R.id.action_startToFinish)
         }
 
         return view
     }
 
-    fun askPermissions() {
+    //When it's created, put the map inside of it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(manager)
+    }
+
+    //Everytime it's started, check permissions
+    override fun onStart() {
+        super.onStart()
+        requirePermissions()
+    }
+
+    private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position
             manager.startLocationTrack(checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED)
 
-            if (!isStart) {
-                childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()?.navigate(R.id.action_toStart)
-                isStart = true
-            }
-
-            return
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            //This is the second time when system is about to show permission dialog.
+            //Show permissions dialog
             AlertDialog.Builder(requireActivity())
                 .setMessage(
                     R.string.reason_to_update_permissions
@@ -90,7 +89,6 @@ class MapsFragment : Fragment() {
                 .setPositiveButton(
                     "OK"
                 ) { _, _ ->
-                    // Show permission dialog
                     permissions.launch(
                         arrayOf(
                             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -108,32 +106,5 @@ class MapsFragment : Fragment() {
                 )
             )
         }
-    }
-
-    //When it's created, put the map inside of it
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(manager)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (timeView != null) {
-            outState.putBoolean(workoutStarted, true)
-            outState.putDouble(distanceKey, manager.getDistance())
-            outState.putLong(timeKey, manager.getTime())
-            outState.putInt(idKey, manager.getId())
-            manager.activityTracker.coroutine?.cancel() //FIXME
-        } else {
-            outState.putBoolean(workoutStarted, true)
-        }
-    }
-
-    companion object {
-        const val workoutStarted = "workoutStarted"
-        const val distanceKey = "distance"
-        const val timeKey = "time"
-        const val idKey = "id"
     }
 }

@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
+            //TODO: bug se tolgo le autorizzazioni mentre sono in maps o altra parte
             binding.bottomNavigationView.post {
                 binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
             }
@@ -89,12 +90,15 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFragment = fragmentManager.primaryNavigationFragment
+
         if (currentFragment != null) {
             fragmentTransaction.detach(currentFragment)
         }
 
+
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
+            //Questo ci permette di crearlo una sola volta, così lo stato rimane se passo da una parte all'altra
             fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
             fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
         } else {
@@ -106,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commitNow()
 
         thisFragment = fragmentId
-
         //fragmentTransaction.commitAllowingStateLoss()
     }
 

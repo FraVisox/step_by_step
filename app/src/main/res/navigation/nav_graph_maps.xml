@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_maps"
-    app:startDestination="@id/empty_fragment">
+    app:startDestination="@id/start_workout_fragment">
     <fragment
         android:id="@+id/start_workout_fragment"
         android:name="com.example.room.fragments.maps.bottomfragments.StartWorkoutFragment"
@@ -13,15 +13,6 @@
         <action
         android:id="@+id/action_startToFinish"
         app:destination="@id/finish_workout_fragment" />
-        <action
-            android:id="@+id/action_toEmpty"
-            app:destination="@id/empty_fragment" />
-        <action
-            android:id="@+id/action_toRequest"
-            app:destination="@id/request_permissions" />
-        <action
-            android:id="@+id/action_toStart"
-            app:destination="@id/start_workout_fragment" />
     </fragment>
     <fragment
         android:id="@+id/finish_workout_fragment"
@@ -29,43 +20,7 @@
         android:label="fragment_finish"
         tools:layout="@layout/maps_finish_workout" >
         <action
-            android:id="@+id/action_toEmpty"
-            app:destination="@id/empty_fragment" />
-        <action
-            android:id="@+id/action_toRequest"
-            app:destination="@id/request_permissions" />
-        <action
-            android:id="@+id/action_toStart"
-            app:destination="@id/start_workout_fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/request_permissions"
-        android:name="com.example.room.fragments.maps.bottomfragments.RequestPermissionsFragment"
-        android:label="fragment_permissions"
-        tools:layout="@layout/maps_request_permissions">
-        <action
-            android:id="@+id/action_toEmpty"
-            app:destination="@id/empty_fragment" />
-        <action
-            android:id="@+id/action_toStart"
-            app:destination="@id/start_workout_fragment" />
-        <action
-            android:id="@+id/action_toRequest"
-            app:destination="@id/request_permissions" />
-    </fragment>
-    <fragment
-        android:id="@+id/empty_fragment"
-        android:name="com.example.room.fragments.maps.bottomfragments.EmptyFragment"
-        android:label="fragment_empty"
-        tools:layout="@layout/maps_empty_fragment">
-        <action
-            android:id="@+id/action_toEmpty"
-            app:destination="@id/empty_fragment" />
-        <action
-            android:id="@+id/action_toRequest"
-            app:destination="@id/request_permissions" />
-        <action
-            android:id="@+id/action_toStart"
+            android:id="@+id/action_finishToStart"
             app:destination="@id/start_workout_fragment" />
     </fragment>
 </navigation>
