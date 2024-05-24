@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import com.example.room.R
 import com.example.room.fragments.maps.MapsFragment
+import com.example.room.fragments.maps.MapsFragment.Companion.workoutStarted
 
 class FinishWorkoutFragment : Fragment() {
 
@@ -36,6 +37,7 @@ class FinishWorkoutFragment : Fragment() {
 
         //Start the activity
         if (!fragment.manager.startWorkout(timeView, distanceView)) {
+            Log.d("AAA", "restarted")
             fragment.manager.restartWorkout(timeView, distanceView)
         }
 
@@ -58,13 +60,6 @@ class FinishWorkoutFragment : Fragment() {
         super.onSaveInstanceState(outState)
         fragment.manager.pauseWorkout()
         outState.putBoolean(workoutStarted, true)
-    }
-
-    companion object {
-        const val workoutStarted = "workoutStarted" //TODO: mettilo solo dentro a maps
-        const val distanceKey = "distance"
-        const val timeKey = "time"
-        const val idKey = "id"
     }
 
 }

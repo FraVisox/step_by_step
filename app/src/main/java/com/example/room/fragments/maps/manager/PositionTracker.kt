@@ -25,14 +25,26 @@ class PositionTracker(private val manager: MapsManager) {
     //Current location
     private var mCurrentLocation : Location? = null
 
+    private val observers : MutableList<PositionLocationObserver>  = mutableListOf()
+
     //The callback that updates the position every second
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations){
                 mCurrentLocation = location
-                manager.updatePosition(location)
+                for (obs in observers) {
+                    obs.locationUpdated(location)
+                }
             }
         }
+    }
+
+    fun addObserver(obs: PositionLocationObserver) {
+        observers.add(obs)
+    }
+
+    fun removeObserver(obs: PositionLocationObserver) {
+        observers.remove(obs)
     }
 
     //Function to start the tracking of the position, called by the manager

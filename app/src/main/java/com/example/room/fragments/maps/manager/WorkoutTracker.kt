@@ -36,7 +36,7 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     //For this workout
     private var startTime : Long = 0
-    private var distance : Double = 0.0
+    private var distance : Int = 0
 
     private lateinit var mService: TrackWorkoutService
     private var mBound = false
@@ -50,12 +50,21 @@ class WorkoutTracker(private val manager: MapsManager) {
             mService = binder.service
             mBound = true
 
-            mService.startTracking()
-            startTime = mService.startTime
+            mService.startTracking(manager.positionTracker)
+
+            setTracker()
 
             updateTimeView()
         }
-        override fun onServiceDisconnected(name: ComponentName) { mBound = false }
+        override fun onServiceDisconnected(name: ComponentName) {
+            mBound = false
+        }
+    }
+
+    private fun setTracker() {
+        startTime = mService.startTime
+        distance = mService.distance
+        manager.drawCurrentTrack(mService.locations)
     }
 
     fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
@@ -71,17 +80,12 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Create the service that will be used to track the workout
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
         intent.putExtra(TrackWorkoutService.timeKey, Calendar.getInstance().timeInMillis)
-        manager.context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
         return true
     }
 
     fun pauseWorkout() {
-        if (mBound) {
-            manager.context.unbindService(connection)
-            mBound = false
-        }
-
         //Cancel the updating of the timeView
         coroutine?.cancel()
     }
@@ -111,18 +115,20 @@ class WorkoutTracker(private val manager: MapsManager) {
 
         //Bind to the service that is tracking the workout
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
-        manager.context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+
+        updateTimeView()
     }
 
     fun finishWorkout(loc : Location?) {
-        if (mBound) {
-            mService.endTracking()
-            manager.context.unbindService(connection)
-            mBound = false
-        }
-
         //Cancel the updating of the timeView
         coroutine?.cancel()
+
+        if (mBound) {
+            mService.endTracking()
+            manager.context.applicationContext.unbindService(connection)
+            mBound = false
+        }
 
         //If the location was never taken, return
         if (loc == null || manager.polyline == null) {
@@ -140,10 +146,12 @@ class WorkoutTracker(private val manager: MapsManager) {
         val time = endTime-startTime
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
+        //TODO: change the ID
         (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
         workoutId++
 
-        distance = 0.0
+        //Reset
+        distance = 0
         startTime = 0
         manager.clearLine()
     }
@@ -158,7 +166,7 @@ class WorkoutTracker(private val manager: MapsManager) {
     private fun updateDistance(current: Location) {
         val last = manager.polyline?.points?.last()
         if (last != null) {
-            val result : FloatArray = FloatArray(1)
+            val result = FloatArray(1)
             Location.distanceBetween(
                 last.latitude,
                 last.longitude,
@@ -166,11 +174,10 @@ class WorkoutTracker(private val manager: MapsManager) {
                 current.longitude,
                 result
             )
-            distance += result[0] //TODO: migliora
+            distance += result[0].toInt() //TODO: migliora
             distanceView.post {
-                distanceView.text = "${distance.toInt()}m"
+                distanceView.text = "${distance}m"
             }
         }
-
     }
 }

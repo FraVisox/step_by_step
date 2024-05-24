@@ -5,16 +5,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.location.Location
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.room.R
-import kotlin.properties.Delegates
+import com.example.room.fragments.maps.manager.PositionLocationObserver
+import com.example.room.fragments.maps.manager.PositionTracker
+import com.google.android.gms.maps.model.LatLng
 
 
-class TrackWorkoutService: Service() {
+class TrackWorkoutService: Service(), PositionLocationObserver {
 
     companion object {
         const val timeKey = "startTime"
@@ -23,8 +24,11 @@ class TrackWorkoutService: Service() {
     }
 
     private val binder = MyBinder()
+    private lateinit var positionTracker : PositionTracker
 
-    var startTime by Delegates.notNull<Long>()
+    var startTime : Long = 0
+    var distance : Int = 0
+    var locations : MutableList<LatLng> = mutableListOf()
 
     inner class MyBinder: Binder() {
         val service: TrackWorkoutService
@@ -43,14 +47,18 @@ class TrackWorkoutService: Service() {
         channel.description = getString(R.string.notification_channel_description)
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(channel)
+        Log.d("AAA", "creato")
     }
 
     override fun onBind(intent: Intent?): IBinder {
-        startTime = intent?.getLongExtra(timeKey, 0) ?: 0
+        if (startTime == 0L) {
+            startTime = intent?.getLongExtra(timeKey, 0) ?: 0
+        }
+        Log.d("AAA", startTime.toString())
         return binder
     }
 
-    fun startTracking() {
+    fun startTracking(positionTracker: PositionTracker) {
         // Build a notification with basic info
         val notificationBuilder: Notification.Builder = Notification.Builder(applicationContext, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.notification_title))
@@ -60,12 +68,39 @@ class TrackWorkoutService: Service() {
         val notification = notificationBuilder.build()
         startForeground(serviceId, notification)
 
+        positionTracker.addObserver(this)
 
+        this.positionTracker = positionTracker
     }
 
     fun endTracking() {
+        positionTracker.removeObserver(this)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
+    }
+
+    override fun locationUpdated(loc: Location) {
+        val pos = LatLng(loc.latitude, loc.longitude)
+
+        updateDistance(loc)
+
+        locations.add(pos)
+    }
+
+    private fun updateDistance(current: Location) {
+        if (locations.isNotEmpty()) {
+            val last = locations.last()
+
+            val result = FloatArray(1)
+            Location.distanceBetween(
+                last.latitude,
+                last.longitude,
+                current.latitude,
+                current.longitude,
+                result
+            )
+            distance += result[0].toInt() //TODO: migliora
+        }
     }
 
 }

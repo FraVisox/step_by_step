@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 
 //The class that manages all the interactions and updates to the map
-class MapsManager(val context: Activity) : OnMapReadyCallback {
+class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationObserver {
 
     companion object {
         //Color of the polyline
@@ -40,7 +40,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
      * Utils to track position and workouts
      */
     //Tracker of position
-    private val positionTracker = PositionTracker(this)
+    val positionTracker = PositionTracker(this)
     //Tracker of activities
     private val workoutTracker = WorkoutTracker(this)
 
@@ -56,6 +56,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         mapInitialized = true
+        positionTracker.addObserver(this)
         if (requestMade) {
             startLocationTrack()
         }
@@ -92,7 +93,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
     }
     //Updates the position in the activity: if so, we update the polyline if needed
-    fun updatePosition(loc : Location) {
+    override fun locationUpdated(loc: Location) {
         workoutTracker.updatePolyline(loc)
     }
 
@@ -124,6 +125,15 @@ class MapsManager(val context: Activity) : OnMapReadyCallback {
         val pos = LatLng(loc.latitude, loc.longitude)
         val old = polyline
         polyline = map.addPolyline(positions.add(pos))
+        old?.remove()
+    }
+    //Draw all current line
+    fun drawCurrentTrack(locs: List<LatLng>) {
+        if (locs.isEmpty()) {
+            return
+        }
+        val old = polyline
+        polyline = map.addPolyline(positions.addAll(locs))
         old?.remove()
     }
     //Deletes the line drawn
