@@ -27,7 +27,7 @@ class StartWorkoutFragment : Fragment() {
                     requireContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PermissionChecker.PERMISSION_GRANTED) {
-                val toast = Toast.makeText(requireContext(), "Permission not granted", Toast.LENGTH_SHORT) //TODO: metti in stringa
+                val toast = Toast.makeText(requireContext(), R.string.go_to_settings, Toast.LENGTH_SHORT)
                 toast.show()
                 return@setOnClickListener
             }
