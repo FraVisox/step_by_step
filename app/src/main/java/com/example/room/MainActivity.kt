@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val preferences = getPreferences(MODE_PRIVATE)
+        (application as RecordsApplication).workoutId = preferences.getInt(currentID, 1)
+
         if (savedInstanceState != null) {
             //TODO: bug se tolgo le autorizzazioni mentre sono in maps o altra parte
             binding.bottomNavigationView.post {
@@ -117,8 +120,21 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(fragment, thisFragment)
     }
 
+    override fun onPause() {
+        super.onPause()
+        val preferences = getPreferences(MODE_PRIVATE)
+        val editor = preferences.edit()
+
+        // Store relevant status of the widgets that are part of the persistent state
+        editor.putInt(currentID, (application as RecordsApplication).workoutId)
+
+        // Commit to storage synchronously
+        editor.apply()
+    }
+
     companion object {
         private const val fragment = "currentFragment"
+        const val currentID = "workoutID"
     }
 
 

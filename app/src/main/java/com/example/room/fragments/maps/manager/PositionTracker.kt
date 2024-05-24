@@ -82,6 +82,9 @@ class PositionTracker(private val manager: MapsManager) {
             if (it.isSuccessful && it.result != null) {
                 mCurrentLocation = it.result
                 manager.focusPosition(it.result)
+                for (obs in observers) {
+                    obs.locationUpdated(it.result)
+                }
             } else {
                 //If it's not successful, get current location with the priority of the request
                 fusedLocationClient.getCurrentLocation(
@@ -91,6 +94,9 @@ class PositionTracker(private val manager: MapsManager) {
                         //If it's successful, update the position
                         mCurrentLocation = task.result
                         manager.focusPosition(task.result)
+                        for (obs in observers) {
+                            obs.locationUpdated(it.result)
+                        }
                     } else {
                         //Else, show the user a toast
                         val toast =

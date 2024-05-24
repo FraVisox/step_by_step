@@ -18,4 +18,5 @@ class RecordsApplication : Application() {
     private val database by lazy { RecordsRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { RecordsRepository(database.userDao(), database.stepsDao(), database.caloriesDao(),database.distanceDao(), database.goalDao(), database.workoutDao()) }
 
+    var workoutId = 1
 }

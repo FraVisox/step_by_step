@@ -70,6 +70,11 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
 
         positionTracker.addObserver(this)
 
+        val current = positionTracker.getCurrent()
+        if (current!= null) {
+            locations.add(LatLng(current.latitude, current.longitude))
+        }
+
         this.positionTracker = positionTracker
     }
 

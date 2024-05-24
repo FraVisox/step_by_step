@@ -135,6 +135,7 @@ class WorkoutTracker(private val manager: MapsManager) {
             return
         }
 
+
         //Take endingTime
         val endTime = Calendar.getInstance().timeInMillis
 
@@ -146,9 +147,9 @@ class WorkoutTracker(private val manager: MapsManager) {
         val time = endTime-startTime
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
-        //TODO: change the ID
-        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(workoutId, 1,"Activity $workoutId", time/1000, distance.toInt(), Date()), positions)
-        workoutId++
+        val thisID = (manager.context.application as RecordsApplication).workoutId
+        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance.toInt(), Date()), positions)
+        (manager.context.application as RecordsApplication).workoutId++
 
         //Reset
         distance = 0

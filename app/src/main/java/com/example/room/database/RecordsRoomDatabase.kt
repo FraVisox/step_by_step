@@ -80,14 +80,8 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             goalDao.deleteAll()
             Log.d("MainActivity00", "USto effettivamente inizializzando")
 
-            workoutDao.insert(Workout(1,1,"UGO",10,10,Date()))
-            workoutDao.insert(WorkoutTrackPoint(0,1,10.0,10.0))
-            workoutDao.insert(WorkoutTrackPoint(1,1,10.1,10.1))
-            workoutDao.insert(WorkoutTrackPoint(2,1,10.2,10.2))
-            workoutDao.insert(WorkoutTrackPoint(3,1,10.3,10.3))
 
             userDao.insert(User(1, "John Doe", Date(),70,160))
-            userDao.insert(User(1, "John Doe", Date(),70,180))
             stepsDao.insert(Steps(1, 1, 1000, Date()))
             caloriesDao.insert(Calories(1, 1, 500, Date()))
             goalDao.insert(Goal(1, 0, 0,0.0))
