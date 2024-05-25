@@ -28,7 +28,7 @@ class StartWorkoutFragment : Fragment() {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PermissionChecker.PERMISSION_GRANTED) {
                 val toast = Toast.makeText(requireContext(), R.string.go_to_settings, Toast.LENGTH_SHORT)
-                toast.show()
+                toast.show() //TODO: why if position is not present this shows?
                 return@setOnClickListener
             }
 

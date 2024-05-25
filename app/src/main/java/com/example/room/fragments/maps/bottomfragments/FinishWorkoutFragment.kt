@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.room.R
 import com.example.room.fragments.maps.MapsFragment
 import com.example.room.fragments.maps.MapsFragment.Companion.workoutStarted
+import com.example.room.fragments.maps.manager.MapsManager
 
 class FinishWorkoutFragment : Fragment() {
 
@@ -36,9 +39,14 @@ class FinishWorkoutFragment : Fragment() {
         distanceView = view.findViewById(R.id.km_tv)
 
         //Start the activity
-        if (!fragment.manager.startWorkout(timeView, distanceView)) {
+        val res = fragment.manager.startWorkout(timeView, distanceView)
+        if (res == MapsManager.STARTED) {
             Log.d("AAA", "restarted")
             fragment.manager.restartWorkout(timeView, distanceView)
+        } else if (res == MapsManager.POS_NOT_FOUND) {
+            Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
+            findNavController()
+                .navigate(R.id.action_finishToStart)
         }
 
         val finish = view.findViewById<Button>(R.id.finish_button)

@@ -76,7 +76,7 @@ class PositionTracker(private val manager: MapsManager) {
             return
         }
 
-        //Try to get last known location
+        //Try to get last known location //TODO: casini se non attivo la posizione
         val result = fusedLocationClient.lastLocation
         result.addOnCompleteListener {
             if (it.isSuccessful && it.result != null) {
@@ -90,7 +90,7 @@ class PositionTracker(private val manager: MapsManager) {
                 fusedLocationClient.getCurrentLocation(
                     CurrentLocationRequest.Builder().setPriority(rr.priority).build(), null
                 ).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                    if (task.isSuccessful && task.result != null) {
                         //If it's successful, update the position
                         mCurrentLocation = task.result
                         manager.focusPosition(task.result)

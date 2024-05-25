@@ -27,7 +27,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     private lateinit var positionTracker : PositionTracker
 
     var startTime : Long = 0
-    var distance : Int = 0
+    var distance : Float = 0F
     var locations : MutableList<LatLng> = mutableListOf()
 
     inner class MyBinder: Binder() {
@@ -104,7 +104,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
                 current.longitude,
                 result
             )
-            distance += result[0].toInt() //TODO: migliora
+            distance += result[0]
         }
     }
 

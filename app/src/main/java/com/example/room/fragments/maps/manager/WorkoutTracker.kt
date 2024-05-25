@@ -31,12 +31,8 @@ class WorkoutTracker(private val manager: MapsManager) {
     private lateinit var timeView : TextView
     private lateinit var distanceView: TextView
 
-    //Id of this workout
-    private var workoutId : Int = 1 //TODO: migliora (che succede se chiudo e riapro?)
-
     //For this workout
     private var startTime : Long = 0
-    private var distance : Int = 0
 
     private lateinit var mService: TrackWorkoutService
     private var mBound = false
@@ -63,14 +59,13 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     private fun setTracker() {
         startTime = mService.startTime
-        distance = mService.distance
         manager.drawCurrentTrack(mService.locations)
     }
 
-    fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
+    fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Int {
         //If there is no location or the track is already going on, return false
-        if (loc == null || mBound) {
-            return false
+        if (mBound) {
+            return MapsManager.STARTED
         }
 
         //Connect the views
@@ -82,7 +77,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         intent.putExtra(TrackWorkoutService.timeKey, Calendar.getInstance().timeInMillis)
         manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
-        return true
+        return MapsManager.NOT_STARTED
     }
 
     fun pauseWorkout() {
@@ -124,7 +119,10 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Cancel the updating of the timeView
         coroutine?.cancel()
 
+        var distance = 0
+
         if (mBound) {
+            distance = mService.distance.toInt()
             mService.endTracking()
             manager.context.applicationContext.unbindService(connection)
             mBound = false
@@ -141,44 +139,31 @@ class WorkoutTracker(private val manager: MapsManager) {
 
         //Add this point to location and update the distance
         manager.addPointToLine(loc)
-        updateDistance(loc)
+        updateDistance()
 
         //Take time and points
         val time = endTime-startTime
         val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
 
         val thisID = (manager.context.application as RecordsApplication).workoutId
-        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance.toInt(), Date()), positions)
+        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance, Date()), positions)
         (manager.context.application as RecordsApplication).workoutId++
 
         //Reset
-        distance = 0
         startTime = 0
         manager.clearLine()
     }
 
     fun updatePolyline(current : Location) {
         if (mBound) {
-            updateDistance(current)
+            updateDistance()
             manager.addPointToLine(current)
         }
     }
 
-    private fun updateDistance(current: Location) {
-        val last = manager.polyline?.points?.last()
-        if (last != null) {
-            val result = FloatArray(1)
-            Location.distanceBetween(
-                last.latitude,
-                last.longitude,
-                current.latitude,
-                current.longitude,
-                result
-            )
-            distance += result[0].toInt() //TODO: migliora
-            distanceView.post {
-                distanceView.text = "${distance}m"
-            }
+    private fun updateDistance() {
+        distanceView.post {
+            distanceView.text = "${mService.distance.toInt()}m"
         }
     }
 }
