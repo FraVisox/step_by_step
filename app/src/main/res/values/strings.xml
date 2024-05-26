@@ -20,6 +20,10 @@
     <string name="notification_channel_name">Workout channel</string>
     <string name="notification_channel_description">The channel where workouts are displayed</string>
 
+    <!-- Workouts descriptions -->
+    <string name="time">TIME</string>
+    <string name="meters">METERS</string>
+    <string name="date">DATE</string>
 
     <!-- nav_menu -->
     <string name="maps">Attività</string>

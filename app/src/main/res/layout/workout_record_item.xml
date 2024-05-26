@@ -28,7 +28,43 @@
             android:padding="8dp"
             style="@style/MyTextView"
             />
-        <!-- TODO: fai come le card del fede -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:divider="@drawable/dividervertical"
+            android:showDividers="middle">
+
+            <!-- Info sui km percorsi -->
+            <TextView
+                android:text="@string/meters"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/MyTextView"
+                />
+
+            <!-- Seconda Card -->
+            <TextView
+                android:text="@string/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/MyTextView"
+                />
+
+            <!-- Terza Card -->
+            <TextView
+                android:text="@string/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/MyTextView"
+                />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,8 +72,7 @@
             android:layout_weight="3"
             android:orientation="horizontal"
             android:divider="@drawable/dividervertical"
-            android:showDividers="middle"
-            android:weightSum="3">
+            android:showDividers="middle">
 
             <!-- Info sui km percorsi -->
             <TextView
