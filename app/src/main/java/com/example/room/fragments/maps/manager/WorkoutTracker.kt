@@ -62,10 +62,10 @@ class WorkoutTracker(private val manager: MapsManager) {
         manager.drawCurrentTrack(mService.locations)
     }
 
-    fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Int {
+    fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
         //If there is no location or the track is already going on, return false
-        if (mBound) {
-            return MapsManager.STARTED
+        if (mBound || loc == null) {
+            return false
         }
 
         //Connect the views
@@ -77,7 +77,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         intent.putExtra(TrackWorkoutService.timeKey, Calendar.getInstance().timeInMillis)
         manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
-        return MapsManager.NOT_STARTED
+        return true
     }
 
     fun pauseWorkout() {

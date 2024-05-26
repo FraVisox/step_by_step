@@ -24,9 +24,6 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         //Color of the polyline
         private val trackColor : Int = Color.parseColor("#FF0000")
         private val defaultOptions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
-        const val POS_NOT_FOUND = 1
-        const val STARTED = 2
-        const val NOT_STARTED = 3
     }
 
     //Map
@@ -105,10 +102,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      * Functions used to manage the workouts
      */
     //Start a new workout
-    fun startWorkout(timeView : TextView, distanceView: TextView): Int {
+    fun startWorkout(timeView : TextView, distanceView: TextView): Boolean {
         if (positionTracker.getCurrent() == null) {
             //In this case, no workout could be initialized
-            return POS_NOT_FOUND
+            return false
         }
         return workoutTracker.startWorkout(positionTracker.getCurrent(), timeView, distanceView)
     }

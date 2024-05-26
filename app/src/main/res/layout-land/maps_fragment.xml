@@ -8,7 +8,7 @@
     android:name="com.example.room.fragments.maps.MapsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     style="@style/Background">
 
     <!-- This fragment manages the lifecycle of the map-->
@@ -17,8 +17,8 @@
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="4"
         map:uiZoomControls="true"
         map:uiCompass="true"
@@ -34,8 +34,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         tools:context=".fragments.maps.MapsFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

@@ -1,5 +1,6 @@
 package com.example.room.fragments.maps.bottomfragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -30,7 +31,6 @@ class FinishWorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.maps_finish_workout, container, false)
-        Log.d("AAA", "recreated maps bottom ${savedInstanceState.toString()}")
 
         fragment = (parentFragment?.parentFragment as MapsFragment)
 
@@ -39,14 +39,14 @@ class FinishWorkoutFragment : Fragment() {
         distanceView = view.findViewById(R.id.km_tv)
 
         //Start the activity
-        val res = fragment.manager.startWorkout(timeView, distanceView)
-        if (res == MapsManager.STARTED) {
-            Log.d("AAA", "restarted")
+        if (activity?.getPreferences(Context.MODE_PRIVATE)?.getBoolean(workoutStarted, false) == true) {
             fragment.manager.restartWorkout(timeView, distanceView)
-        } else if (res == MapsManager.POS_NOT_FOUND) {
-            Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
-            findNavController()
-                .navigate(R.id.action_finishToStart)
+        } else {
+            if (!fragment.manager.startWorkout(timeView, distanceView)) {
+                Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
+                findNavController()
+                    .navigate(R.id.action_finishToStart)
+            }
         }
 
         val finish = view.findViewById<Button>(R.id.finish_button)
@@ -62,12 +62,11 @@ class FinishWorkoutFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         fragment.manager.pauseWorkout()
-    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        fragment.manager.pauseWorkout()
-        outState.putBoolean(workoutStarted, true)
+        //As the workout could work between different stages of the application, we save it in shared preferences
+        val preferences = activity?.getPreferences(Context.MODE_PRIVATE)
+        val editor = preferences?.edit()
+        editor?.putBoolean(workoutStarted, true)
+        editor?.apply()
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.room.fragments.maps
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -54,7 +55,8 @@ class MapsFragment : Fragment() {
 
         manager = MapsManager(this.activity as Activity)
 
-        if (savedInstanceState != null && savedInstanceState.getBoolean(workoutStarted)) {
+        if (activity?.getPreferences(MODE_PRIVATE)?.getBoolean(workoutStarted, false) == true && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
+                ?.currentDestination?.id != R.id.finish_workout_fragment) {
             childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.navigate(R.id.action_startToFinish)
         }
