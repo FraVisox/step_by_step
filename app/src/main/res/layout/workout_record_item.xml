@@ -37,7 +37,7 @@
             android:divider="@drawable/dividervertical"
             android:showDividers="middle">
 
-            <!-- Info sui km percorsi -->
+            <!-- Info sui metri percorsi -->
             <TextView
                 android:text="@string/meters"
                 android:layout_width="0dp"
@@ -74,9 +74,9 @@
             android:divider="@drawable/dividervertical"
             android:showDividers="middle">
 
-            <!-- Info sui km percorsi -->
+            <!-- Info sui metri percorsi -->
             <TextView
-                android:id="@+id/kms"
+                android:id="@+id/meters"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

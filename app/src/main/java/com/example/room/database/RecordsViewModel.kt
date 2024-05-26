@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
     companion object {
-        val positionPlaceholder = LatLng(-1.0, -1.0)
+        val coordinatePlaceholder = -1.0
+        val positionPlaceholder = LatLng(coordinatePlaceholder, coordinatePlaceholder)
     }
 
     val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()

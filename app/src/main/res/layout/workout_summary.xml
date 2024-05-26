@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/summary_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        tools:context=".fragments.workouts.MapsWorkoutSummary"
+        map:uiCompass="true"
+        map:uiScrollGestures="true"
+        map:uiZoomGestures="true"
+        map:uiRotateGestures="true"
+        map:uiTiltGestures="false"
+        map:mapType="normal"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:id="@+id/summary_time_tv"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/initial_time" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/back_button"
+            android:id="@+id/back_button"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:id="@+id/summary_distance_tv"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/initial_km" />
+    </LinearLayout>
+</LinearLayout>

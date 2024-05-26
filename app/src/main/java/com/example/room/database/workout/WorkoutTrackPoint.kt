@@ -2,6 +2,7 @@ package com.example.room.database.workout
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import java.io.Serializable
 
 @Entity(tableName = "point_table", primaryKeys = ["pointId","workoutId"])
 data class WorkoutTrackPoint(
@@ -13,4 +14,4 @@ data class WorkoutTrackPoint(
     val lat: Double,
     @ColumnInfo(name = "lng")
     val lng: Double
-)
+) : Serializable

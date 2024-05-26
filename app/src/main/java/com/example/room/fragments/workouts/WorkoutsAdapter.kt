@@ -1,6 +1,8 @@
 package com.example.room.fragments.workouts
 
-import android.util.Log
+import android.content.Intent
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,8 @@ import com.example.room.MainActivity
 import com.example.room.R
 import com.example.room.database.workout.Workout
 import com.example.room.database.workout.WorkoutTrackPoint
+import java.io.Serializable
+
 
 // cosi è per farla come il laboratorio di room Sotto è presente una classe Adapter normale come la abbiamo vista in classe
 class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, WorkoutsAdapter.WorkoutViewHolder>(WORKOUT_COMPARATOR) {
@@ -48,18 +52,21 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
-        Log.d("AAA", "nana")
         val record = getItem(position)
         val dateOfRecords= record.date
-        val kms= record.meters.toString()
-        val time= record.time.toString()
+        val meters= "${record.meters}m"
+        var seconds = record.time
+        var minutes: Long = (seconds / 60)
+        val hours: Long = (minutes/60)
+        minutes %= 60
+        seconds %= 60
+        val timeText = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}"
         val name= record.name
-        /*val p = points.filter {
+        val p = points.filter {
             it.workoutId == record.workoutId
         }
 
-         */
-        holder.bind(dateOfRecords.toString(), kms, time, name)
+        holder.bind(dateOfRecords.toString(), meters, timeText, name, p)
 
     }
     // Describes an item view and its place within the RecyclerView
@@ -75,17 +82,24 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         private val date: TextView = itemView.findViewById(R.id.date)
 
-        private val kms = itemView.findViewById<TextView>(R.id.kms)
+        private val meters = itemView.findViewById<TextView>(R.id.meters)
 
         private val time = itemView.findViewById<TextView>(R.id.time)
 
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: String, km: String, tim: String, nam:String, /*points: List<WorkoutTrackPoint> */) {
+        fun bind(dat: String, m: String, tim: String, nam:String, points: List<WorkoutTrackPoint>) {
             date.text = dat
-            kms.text = km
+            meters.text = m
             time.text = tim
             name.text = nam
+            itemView.setOnClickListener {
+                val intent = Intent(it.context, MapsWorkoutSummary::class.java)
+                intent.putExtra(MapsWorkoutSummary.pointsKey, points as Serializable)
+                intent.putExtra(MapsWorkoutSummary.timeKey, tim)
+                intent.putExtra(MapsWorkoutSummary.distanceKey, m)
+                it.context.startActivity(intent)
+            }
         }
     }
 
