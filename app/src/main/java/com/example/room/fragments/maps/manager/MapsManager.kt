@@ -122,6 +122,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         workoutTracker.restartWorkout(timeView, distanceView)
     }
 
+    fun restartWorkout() {
+        workoutTracker.restartWorkout()
+    }
+
     /*
      * Functions used to draw the track of the workout
      */

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -23,6 +24,19 @@ class FinishWorkoutFragment : Fragment() {
     private lateinit var timeView : TextView
     private lateinit var distanceView : TextView
 
+    private var paused = false
+
+    private val pauseListener = OnClickListener { v ->
+        if (paused) {
+            fragment.manager.restartWorkout()
+            (v as Button).text = getString(R.string.pause_workout)
+            paused = false
+        } else {
+            fragment.manager.pauseWorkout()
+            (v as Button).text = getString(R.string.restart_workout)
+            paused = true
+        }
+    }
 
     //Create the fragment
     override fun onCreateView(
@@ -55,6 +69,9 @@ class FinishWorkoutFragment : Fragment() {
             view.findNavController()
                 .navigate(R.id.action_finishToStart)
         }
+
+        val pause = view.findViewById<Button>(R.id.pause_button)
+        pause.setOnClickListener(pauseListener)
 
         return view
     }

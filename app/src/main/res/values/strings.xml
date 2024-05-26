@@ -7,6 +7,7 @@
     <string name="start_workout">Start</string>
     <string name="finish_workout">Finish</string>
     <string name="pause_workout">Pause</string>
+    <string name="restart_workout">Restart</string>
     <string name="initial_time">00:00:00</string>
     <string name="initial_km">0m</string>
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it now but want to update it later, please go to your device settings</string>
@@ -14,10 +15,10 @@
     <string name="update_permissions">Update permissions</string>
 
     <!-- Service of location -->
-    <string name="notification_title">Attività</string>
-    <string name="notification_content">Attività</string>
-    <string name="notification_channel_name">Attività</string>
-    <string name="notification_channel_description">Attività</string>
+    <string name="notification_title">Workout in progress</string>
+    <string name="notification_content">Your workout is in progress</string>
+    <string name="notification_channel_name">Workout channel</string>
+    <string name="notification_channel_description">The channel where workouts are displayed</string>
 
 
     <!-- nav_menu -->

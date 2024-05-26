@@ -58,8 +58,8 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     private fun setTracker() {
-        startTime = mService.startTime
-        manager.drawCurrentTrack(mService.locations)
+        startTime = mService.getStartTime()
+        manager.drawCurrentTrack(mService.getLocations())
     }
 
     fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
@@ -83,6 +83,9 @@ class WorkoutTracker(private val manager: MapsManager) {
     fun pauseWorkout() {
         //Cancel the updating of the timeView
         coroutine?.cancel()
+        if (mBound) {
+            mService.pause()
+        }
     }
 
     private fun updateTimeView() {
@@ -115,6 +118,13 @@ class WorkoutTracker(private val manager: MapsManager) {
         updateTimeView()
     }
 
+    fun restartWorkout() {
+        if (mBound) {
+            mService.restart()
+            updateTimeView()
+        }
+    }
+
     fun finishWorkout(loc : Location?) {
         //Cancel the updating of the timeView
         coroutine?.cancel()
@@ -122,7 +132,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         var distance = 0
 
         if (mBound) {
-            distance = mService.distance.toInt()
+            distance = mService.getDistance().toInt()
             mService.endTracking()
             manager.context.applicationContext.unbindService(connection)
             mBound = false
@@ -163,7 +173,7 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     private fun updateDistance() {
         distanceView.post {
-            distanceView.text = "${mService.distance.toInt()}m"
+            distanceView.text = "${mService.getDistance().toInt()}m"
         }
     }
 }

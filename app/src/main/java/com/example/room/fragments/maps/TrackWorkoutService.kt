@@ -13,7 +13,7 @@ import com.example.room.R
 import com.example.room.fragments.maps.manager.PositionLocationObserver
 import com.example.room.fragments.maps.manager.PositionTracker
 import com.google.android.gms.maps.model.LatLng
-
+import java.util.Calendar
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
@@ -26,9 +26,25 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     private val binder = MyBinder()
     private lateinit var positionTracker : PositionTracker
 
-    var startTime : Long = 0
-    var distance : Float = 0F
-    var locations : MutableList<LatLng> = mutableListOf()
+    private var startTime : Long = 0
+    private var distance : Float = 0F
+    private var locations : MutableList<LatLng> = mutableListOf()
+    private var previousTime : Long = 0
+    private var previousDistance : Float = 0F
+    private var previousLocations : MutableList<LatLng> = mutableListOf()
+
+    fun getStartTime(): Long {
+        return startTime - previousTime
+    }
+    fun getDistance(): Float {
+        return distance + previousDistance
+    }
+    fun getLocations(): MutableList<LatLng>  {
+        val locs = locations
+        locs.addAll(previousLocations)
+        return locs
+    }
+
 
     inner class MyBinder: Binder() {
         val service: TrackWorkoutService
@@ -63,7 +79,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         val notificationBuilder: Notification.Builder = Notification.Builder(applicationContext, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.notification_title))
         notificationBuilder.setContentText(getString(R.string.notification_content))
-        notificationBuilder.setSmallIcon(R.drawable.baseline_account_circle_24) //TODO: metti icona di notifica
+        notificationBuilder.setSmallIcon(R.drawable.baseline_directions_run_24)
 
         val notification = notificationBuilder.build()
         startForeground(serviceId, notification)
@@ -82,6 +98,27 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         positionTracker.removeObserver(this)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
+    }
+
+    fun pause() {
+        previousTime += (Calendar.getInstance().timeInMillis-startTime)
+        previousDistance += distance
+        previousLocations.addAll(locations)
+        locations.clear()
+        startTime = 0
+        distance = 0F
+        positionTracker.removeObserver(this)
+    }
+
+    fun restart() {
+        startTime = Calendar.getInstance().timeInMillis
+
+        val current = positionTracker.getCurrent()
+        if (current!= null) {
+            locations.add(LatLng(current.latitude, current.longitude))
+        }
+
+        positionTracker.addObserver(this)
     }
 
     override fun locationUpdated(loc: Location) {
