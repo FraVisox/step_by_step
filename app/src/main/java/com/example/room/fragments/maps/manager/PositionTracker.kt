@@ -50,7 +50,6 @@ class PositionTracker(private val manager: MapsManager) {
     //Function to start the tracking of the position, called by the manager
     fun startLocationTrack() {
         if (mCurrentLocation != null) {
-            //It is already tracking
             return
         }
         //Create a request that asks for the position every second
@@ -99,7 +98,7 @@ class PositionTracker(private val manager: MapsManager) {
                         mCurrentLocation = task.result
                         manager.focusPosition(task.result)
                         for (obs in observers) {
-                            obs.locationUpdated(it.result)
+                            obs.locationUpdated(task.result)
                         }
                     } else {
                         //Else, show the user a toast

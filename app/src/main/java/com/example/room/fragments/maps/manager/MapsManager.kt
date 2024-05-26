@@ -103,6 +103,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      */
     //Start a new workout
     fun startWorkout(timeView : TextView, distanceView: TextView): Boolean {
+        startLocationTrack()
+        Log.d("AAA", positionTracker.getCurrent().toString())
         if (positionTracker.getCurrent() == null) {
             //In this case, no workout could be initialized
             return false
@@ -124,10 +126,12 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     }
     //Restart the workout
     fun restartWorkoutInDifferentFragment(timeView: TextView, distanceView: TextView) {
+        startLocationTrack()
         workoutTracker.restartWorkoutInDifferentFragment(timeView, distanceView)
     }
     //Restart the workout
     fun restartWorkout() {
+        startLocationTrack()
         workoutTracker.restartWorkout()
     }
 
