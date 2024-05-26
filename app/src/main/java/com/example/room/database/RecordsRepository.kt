@@ -131,7 +131,7 @@ class RecordsRepository(
 
     // Inserisci una nuova attività
     @WorkerThread
-    suspend fun insertWorkout(workout: Workout, points: List<LatLng>) {
+    suspend fun insertWorkout(workout: Workout, points: MutableList<LatLng>) {
         workoutDao.insert(workout)
         points.forEach {
             workoutDao.insert(WorkoutTrackPoint(points.indexOf(it), workout.workoutId, it.latitude, it.longitude))

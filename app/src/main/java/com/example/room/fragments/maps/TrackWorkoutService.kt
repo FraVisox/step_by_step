@@ -17,22 +17,35 @@ import java.util.Calendar
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
+    //Way to bind to external user
+    inner class MyBinder(val firstUse: Boolean): Binder() {
+        val service: TrackWorkoutService
+            get() = this@TrackWorkoutService
+    }
+
     companion object {
+        //Way to pass start time to this object
         const val timeKey = "startTime"
+
+        //Notification channel
         const val serviceId = 1
         private const val CHANNEL_ID = "Workout tracking"
     }
 
-    private val binder = MyBinder()
+    //Way to receive updates of position
     private lateinit var positionTracker : PositionTracker
 
+    //Current startTime and distances
     private var startTime : Long = 0
     private var distance : Float = 0F
     private var locations : MutableList<LatLng> = mutableListOf()
+
+    //Utilities used for pausing the workout
     private var previousTime : Long = 0
     private var previousDistance : Float = 0F
     private var previousLocations : MutableList<LatLng> = mutableListOf()
 
+    //Used to update views
     fun getStartTime(): Long {
         return startTime - previousTime
     }
@@ -45,16 +58,10 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         return locs
     }
 
-
-    inner class MyBinder: Binder() {
-        val service: TrackWorkoutService
-            get() = this@TrackWorkoutService
-    }
-
+    //When the service is created, we create the notification channel
     override fun onCreate() {
         super.onCreate()
 
-        //Create notification channel
         val channel = NotificationChannel(
             CHANNEL_ID,
             getString(R.string.notification_channel_name),
@@ -63,19 +70,20 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         channel.description = getString(R.string.notification_channel_description)
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(channel)
-        Log.d("AAA", "creato")
     }
 
+    //When an external user binds to this service
     override fun onBind(intent: Intent?): IBinder {
-        if (startTime == 0L) {
-            startTime = intent?.getLongExtra(timeKey, 0) ?: 0
+        return if (startTime == 0L) {
+            startTime = Calendar.getInstance().timeInMillis
+            MyBinder(true)
+        } else {
+            MyBinder(false)
         }
-        Log.d("AAA", startTime.toString())
-        return binder
     }
 
     fun startTracking(positionTracker: PositionTracker) {
-        // Build a notification with basic info
+        // Build a notification
         val notificationBuilder: Notification.Builder = Notification.Builder(applicationContext, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.notification_title))
         notificationBuilder.setContentText(getString(R.string.notification_content))
@@ -84,8 +92,10 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         val notification = notificationBuilder.build()
         startForeground(serviceId, notification)
 
+        //Start using the position
         positionTracker.addObserver(this)
 
+        //Start this workout
         val current = positionTracker.getCurrent()
         if (current!= null) {
             locations.add(LatLng(current.latitude, current.longitude))
@@ -100,17 +110,23 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         stopSelf()
     }
 
-    fun pause() {
+    fun pauseWorkout() {
         previousTime += (Calendar.getInstance().timeInMillis-startTime)
         previousDistance += distance
-        previousLocations.addAll(locations)
-        locations.clear()
-        startTime = 0
-        distance = 0F
         positionTracker.removeObserver(this)
+
+        val curr = positionTracker.getCurrent()
+        if (curr != null) {
+            locations.add(LatLng(curr.latitude, curr.longitude))
+        }
+        previousLocations.addAll(locations)
+
+        //Clear everything but the startTime, as this workout hasn't finished yet
+        distance = 0F
+        locations.clear()
     }
 
-    fun restart() {
+    fun restartWorkout() {
         startTime = Calendar.getInstance().timeInMillis
 
         val current = positionTracker.getCurrent()
@@ -121,18 +137,16 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         positionTracker.addObserver(this)
     }
 
+    //When we receive a new position
     override fun locationUpdated(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
-
         updateDistance(loc)
-
         locations.add(pos)
     }
 
     private fun updateDistance(current: Location) {
         if (locations.isNotEmpty()) {
             val last = locations.last()
-
             val result = FloatArray(1)
             Location.distanceBetween(
                 last.latitude,

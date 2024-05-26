@@ -49,6 +49,10 @@ class PositionTracker(private val manager: MapsManager) {
 
     //Function to start the tracking of the position, called by the manager
     fun startLocationTrack() {
+        if (mCurrentLocation != null) {
+            //It is already tracking
+            return
+        }
         //Create a request that asks for the position every second
         val request = LocationRequest.Builder(1000).build()
 

@@ -54,7 +54,7 @@ class FinishWorkoutFragment : Fragment() {
 
         //Start the activity
         if (activity?.getPreferences(Context.MODE_PRIVATE)?.getBoolean(workoutStarted, false) == true) {
-            fragment.manager.restartWorkout(timeView, distanceView)
+            fragment.manager.restartWorkoutInDifferentFragment(timeView, distanceView)
         } else {
             if (!fragment.manager.startWorkout(timeView, distanceView)) {
                 Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()

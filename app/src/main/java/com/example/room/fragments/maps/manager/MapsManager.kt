@@ -5,10 +5,9 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.example.room.fragments.maps.MapsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -49,9 +48,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      * Polyline and its options
      */
     //Polyline drawn
-    var polyline : Polyline? = null
+    var currPolyline : Polyline? = null
+    var otherPolylines : MutableList<Polyline> = mutableListOf()
     //Options of the line to draw
-    private var positions: PolylineOptions = defaultOptions
+    private var positions: PolylineOptions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -116,12 +116,17 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Pause the current workout
     fun pauseWorkout() {
         workoutTracker.pauseWorkout()
+        if (currPolyline != null) {
+            otherPolylines.add(currPolyline!!) //todo
+            currPolyline = null
+            positions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
+        }
     }
     //Restart the workout
-    fun restartWorkout(timeView: TextView, distanceView: TextView) {
-        workoutTracker.restartWorkout(timeView, distanceView)
+    fun restartWorkoutInDifferentFragment(timeView: TextView, distanceView: TextView) {
+        workoutTracker.restartWorkoutInDifferentFragment(timeView, distanceView)
     }
-
+    //Restart the workout
     fun restartWorkout() {
         workoutTracker.restartWorkout()
     }
@@ -131,9 +136,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      */
     //Adds a point to the line that is drawn
     fun addPointToLine(loc: Location) {
+        Log.d("AAA", "un solo punto ${loc}")
         val pos = LatLng(loc.latitude, loc.longitude)
-        val old = polyline
-        polyline = map.addPolyline(positions.add(pos))
+        val old = currPolyline
+        currPolyline = map.addPolyline(positions.add(pos))
         old?.remove()
     }
     //Draw all current line
@@ -141,13 +147,18 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         if (locs.isEmpty()) {
             return
         }
-        val old = polyline
-        polyline = map.addPolyline(positions.addAll(locs))
+        Log.d("AAA", "tanti punti ${locs}")
+        val old = currPolyline
+        currPolyline = map.addPolyline(positions.addAll(locs))
         old?.remove()
     }
     //Deletes the line drawn
     fun clearLine() {
-        positions = defaultOptions
-        polyline?.remove()
+        positions = PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap())
+        currPolyline?.remove()
+        for (p in otherPolylines) {
+            p.remove()
+        }
+        otherPolylines.clear()
     }
 }

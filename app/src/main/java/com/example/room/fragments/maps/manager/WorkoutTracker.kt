@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.TextView
 import com.example.room.MainActivity
 import com.example.room.RecordsApplication
+import com.example.room.database.RecordsViewModel
 import com.example.room.database.workout.Workout
 import com.example.room.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
@@ -36,12 +37,12 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     private lateinit var mService: TrackWorkoutService
     private var mBound = false
+    private var track = false
 
     // Callbacks for service binding (ServiceConnection interface)
     private val connection = object : ServiceConnection
     {
-        override fun onServiceConnected(className: ComponentName, service: IBinder)
-        {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as TrackWorkoutService.MyBinder
             mService = binder.service
             mBound = true
@@ -49,7 +50,6 @@ class WorkoutTracker(private val manager: MapsManager) {
             mService.startTracking(manager.positionTracker)
 
             setTracker()
-
             updateTimeView()
         }
         override fun onServiceDisconnected(name: ComponentName) {
@@ -72,9 +72,10 @@ class WorkoutTracker(private val manager: MapsManager) {
         this.timeView = timeView
         this.distanceView = distanceView
 
+        track = true
+
         //Create the service that will be used to track the workout
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
-        intent.putExtra(TrackWorkoutService.timeKey, Calendar.getInstance().timeInMillis)
         manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
         return true
@@ -84,7 +85,73 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Cancel the updating of the timeView
         coroutine?.cancel()
         if (mBound) {
-            mService.pause()
+            mService.pauseWorkout()
+        }
+        track = false
+    }
+
+    fun restartWorkout() {
+        if (mBound) {
+            mService.restartWorkout()
+            startTime = mService.getStartTime()
+            updateTimeView()
+        }
+        track = true
+    }
+
+    fun restartWorkoutInDifferentFragment(timeView: TextView, distanceView: TextView) {
+        //Connect the views
+        this.timeView = timeView
+        this.distanceView = distanceView
+
+        //Bind to the service that is tracking the workout
+        val intent = Intent(manager.context, TrackWorkoutService::class.java)
+        manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+
+        track = true
+    }
+
+    fun finishWorkout(loc : Location?) {
+        //Cancel the updating of the timeView
+        coroutine?.cancel()
+        track = false
+
+        var distance = 0
+
+        if (mBound) {
+            distance = mService.getDistance().toInt()
+            mService.endTracking()
+            manager.context.applicationContext.unbindService(connection)
+        }
+
+        //If the location was never taken, return
+        if (loc == null || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
+            return
+        }
+
+        //Take time and points and workout ID
+        val time = Calendar.getInstance().timeInMillis-startTime
+        val positions : MutableList<LatLng> = manager.currPolyline?.points?.toMutableList() ?: mutableListOf()
+        manager.otherPolylines.forEach {
+            positions.add(RecordsViewModel.positionPlaceholder)
+            positions.addAll(it.points)
+        }
+        val thisID = (manager.context.application as RecordsApplication).workoutId
+
+        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance, Date()), positions)
+        (manager.context.application as RecordsApplication).workoutId++
+
+        //Reset
+        startTime = 0
+        manager.clearLine()
+    }
+
+    fun updatePolyline(current : Location) {
+        if (track) {
+            if (mBound) {
+                updateDistance()
+            }
+            manager.addPointToLine(current)
         }
     }
 
@@ -103,71 +170,6 @@ class WorkoutTracker(private val manager: MapsManager) {
                 }
                 delay(500)
             }
-        }
-    }
-
-    fun restartWorkout(timeView: TextView, distanceView: TextView) {
-        //Connect the views
-        this.timeView = timeView
-        this.distanceView = distanceView
-
-        //Bind to the service that is tracking the workout
-        val intent = Intent(manager.context, TrackWorkoutService::class.java)
-        manager.context.applicationContext.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-
-        updateTimeView()
-    }
-
-    fun restartWorkout() {
-        if (mBound) {
-            mService.restart()
-            updateTimeView()
-        }
-    }
-
-    fun finishWorkout(loc : Location?) {
-        //Cancel the updating of the timeView
-        coroutine?.cancel()
-
-        var distance = 0
-
-        if (mBound) {
-            distance = mService.getDistance().toInt()
-            mService.endTracking()
-            manager.context.applicationContext.unbindService(connection)
-            mBound = false
-        }
-
-        //If the location was never taken, return
-        if (loc == null || manager.polyline == null) {
-            return
-        }
-
-
-        //Take endingTime
-        val endTime = Calendar.getInstance().timeInMillis
-
-        //Add this point to location and update the distance
-        manager.addPointToLine(loc)
-        updateDistance()
-
-        //Take time and points
-        val time = endTime-startTime
-        val positions : List<LatLng> = manager.polyline?.points?.toList() ?: listOf()
-
-        val thisID = (manager.context.application as RecordsApplication).workoutId
-        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance, Date()), positions)
-        (manager.context.application as RecordsApplication).workoutId++
-
-        //Reset
-        startTime = 0
-        manager.clearLine()
-    }
-
-    fun updatePolyline(current : Location) {
-        if (mBound) {
-            updateDistance()
-            manager.addPointToLine(current)
         }
     }
 
