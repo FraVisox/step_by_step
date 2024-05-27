@@ -147,6 +147,12 @@ class RecordsRepository(
     }
 
     @WorkerThread
+    suspend fun deleteWorkout(workoutID: Int) {
+        workoutDao.deleteWorkout(workoutID)
+        workoutDao.deleteWorkoutPoints(workoutID)
+    }
+
+    @WorkerThread
     fun getWorkoutPoints(workout: Workout) : Flow<List<WorkoutTrackPoint>> {
         return workoutDao.getPointsOfWorkout(workout.workoutId)
     }

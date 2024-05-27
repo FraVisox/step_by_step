@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".fragments.goals.GoalsFragment">
+    tools:context=".fragments.goals.GoalsFragment"
+    style="@style/Background">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/GoalCardSteps"

@@ -21,7 +21,6 @@ class WorkoutsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.workout_fragment, container, false)
         // Initialize the RecyclerView
-        Log.d("AAA", "workouts fragment created")
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)
         val adapter = WorkoutsAdapter(activity as MainActivity)
         recyclerView.adapter = adapter

@@ -16,4 +16,5 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textAlignment">center</item>
     </style>
+
 </resources>

@@ -184,7 +184,6 @@ class GoalsFragment : Fragment() {
         savedInstanceState.putInt(STEPS_GOAL, stepsGoal.text.toString().toInt())
         savedInstanceState.putInt(CALORIES_GOAL, caloriesGoal.text.toString().toInt())
         savedInstanceState.putInt(DISTANCE_GOAL, distanceGoal.text.toString().toInt())
-
     }
 
     private fun incrementGoal(textView: TextView) {

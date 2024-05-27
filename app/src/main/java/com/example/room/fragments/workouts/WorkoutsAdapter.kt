@@ -1,8 +1,6 @@
 package com.example.room.fragments.workouts
 
 import android.content.Intent
-import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,8 +66,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         val p = points.filter {
             it.workoutId == record.workoutId
         }
+        val sp = "${if (record.time != 0L) record.meters/record.time else 0}m/s"
 
-        holder.bind(dateOfRecords, meters, timeText, name, p)
+        holder.bind(dateOfRecords, meters, timeText, sp, name, p, record.workoutId)
 
     }
     // Describes an item view and its place within the RecyclerView
@@ -87,20 +86,25 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         private val meters = itemView.findViewById<TextView>(R.id.meters)
 
+        private val speed = itemView.findViewById<TextView>(R.id.speed)
+
         private val time = itemView.findViewById<TextView>(R.id.time)
 
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: Date, m: String, tim: String, nam:String, points: List<WorkoutTrackPoint>) {
-            date.text = "${SimpleDateFormat(getString(itemView.context, R.string.date_format)).format(dat)}"
+        fun bind(dat: Date, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+            date.text = SimpleDateFormat(getString(itemView.context, R.string.date_format)).format(dat)
             meters.text = m
             time.text = tim
             name.text = nam
+            speed.text = v
             itemView.setOnClickListener {
-                val intent = Intent(it.context, MapsWorkoutSummary::class.java)
-                intent.putExtra(MapsWorkoutSummary.pointsKey, points as Serializable)
-                intent.putExtra(MapsWorkoutSummary.timeKey, tim)
-                intent.putExtra(MapsWorkoutSummary.distanceKey, m)
+                val intent = Intent(it.context, MapsWorkoutSummaryActivity::class.java)
+                intent.putExtra(MapsWorkoutSummaryActivity.pointsKey, points as Serializable)
+                intent.putExtra(MapsWorkoutSummaryActivity.timeKey, tim)
+                intent.putExtra(MapsWorkoutSummaryActivity.distanceKey, m)
+                intent.putExtra(MapsWorkoutSummaryActivity.nameKey, nam)
+                intent.putExtra(MapsWorkoutSummaryActivity.idKey, id)
                 it.context.startActivity(intent)
             }
         }

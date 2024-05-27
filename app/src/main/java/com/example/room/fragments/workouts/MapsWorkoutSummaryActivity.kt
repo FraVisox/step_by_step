@@ -2,12 +2,14 @@ package com.example.room.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.room.R
+import com.example.room.RecordsApplication
 import com.example.room.database.RecordsViewModel
+import com.example.room.database.RecordsViewModelFactory
 import com.example.room.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,11 +20,19 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.RoundCap
 
-class MapsWorkoutSummary : AppCompatActivity(), OnMapReadyCallback {
+class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         const val pointsKey = "points"
         const val timeKey = "time"
         const val distanceKey = "distance"
+        const val nameKey = "name"
+        const val idKey = "id"
+    }
+
+    //TODO: merge this with the one in mainactivity
+
+    private val recordsViewModel : RecordsViewModel by viewModels{
+        RecordsViewModelFactory((application as RecordsApplication).repository)
     }
 
     private lateinit var points: List<WorkoutTrackPoint>
@@ -45,6 +55,14 @@ class MapsWorkoutSummary : AppCompatActivity(), OnMapReadyCallback {
         time.text = intent.getStringExtra(timeKey)
         val distance = findViewById<TextView>(R.id.summary_distance_tv)
         distance.text = intent.getStringExtra(distanceKey)
+        val name = findViewById<TextView>(R.id.activity_name_summary)
+        name.text = intent.getStringExtra(nameKey)
+
+        val del = findViewById<Button>(R.id.delete_workout)
+        del.setOnClickListener {
+            recordsViewModel.deleteWorkout(intent.getIntExtra(idKey, RecordsViewModel.invalidID))
+            finish()
+        }
     }
 
     //Map

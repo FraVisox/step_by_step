@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
 
+    //TODO: fixa il service
     companion object {
         const val workoutStarted : String = "workoutStarted"
     }

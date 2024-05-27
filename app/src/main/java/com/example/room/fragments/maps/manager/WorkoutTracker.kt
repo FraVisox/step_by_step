@@ -12,6 +12,7 @@ import com.example.room.MainActivity
 import com.example.room.RecordsApplication
 import com.example.room.database.RecordsViewModel
 import com.example.room.database.workout.Workout
+import com.example.room.fragments.maps.SaveWorkoutActivity
 import com.example.room.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.util.Calendar
 import java.util.Date
 
@@ -64,7 +66,7 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     fun startWorkout(loc: Location?, timeView: TextView, distanceView: TextView): Boolean {
         //If there is no location or the track is already going on, return false
-        if (mBound || loc == null) {
+        if (track || loc == null) {
             return false
         }
 
@@ -136,14 +138,17 @@ class WorkoutTracker(private val manager: MapsManager) {
             positions.add(null)
             positions.addAll(it.points)
         }
-        val thisID = (manager.context.application as RecordsApplication).workoutId
-
-        (manager.context as MainActivity).recordsViewModel.insertWorkout(Workout(thisID, 1,"Activity $thisID", time/1000, distance, Date()), positions)
-        (manager.context.application as RecordsApplication).workoutId++
 
         //Reset
         startTime = 0
         manager.clearLine()
+
+        //Start activity
+        val intent = Intent(manager.context, SaveWorkoutActivity::class.java)
+        intent.putExtra(SaveWorkoutActivity.timeKey, time/1000)
+        intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
+        intent.putExtra(SaveWorkoutActivity.positionsKey, positions as Serializable)
+        manager.context.startActivity(intent)
     }
 
     fun updatePolyline(current : Location) {

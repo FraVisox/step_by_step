@@ -1,5 +1,6 @@
 package com.example.room.database
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,10 @@ import kotlinx.coroutines.launch
 
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
+
+    companion object {
+        const val invalidID = -1
+    }
 
     val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()
     val last7Distances : LiveData<List<Distance>> = repository.last7Distances.asLiveData()
@@ -67,6 +72,15 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         viewModelScope.launch {
             repository.insertWorkout(workout, points)
         }
+
+    fun deleteWorkout(workoutId: Int) {
+        Log.d("AAA", "delete ${workoutId.toString()}")
+        if (workoutId != invalidID) {
+            viewModelScope.launch {
+                repository.deleteWorkout(workoutId)
+            }
+        }
+    }
 
 
     fun getActivityPoints(workout: Workout): LiveData<List<WorkoutTrackPoint>> {

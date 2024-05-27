@@ -20,7 +20,7 @@ interface WorkoutDao { //TODO: replace o ignore?
     suspend fun deleteAllActivities()
 
     @Query("DELETE FROM workout_table WHERE workoutId = :id")
-    fun deleteWorkout(id: Int)
+    suspend fun deleteWorkout(id: Int)
 
     //POINTS OF WORKOUTS
     @Query("SELECT * FROM point_table WHERE workoutId = :id")
@@ -36,5 +36,5 @@ interface WorkoutDao { //TODO: replace o ignore?
     suspend fun deleteAllPoints()
 
     @Query("DELETE FROM point_table WHERE workoutId = :id")
-    fun deleteWorkoutPoints(id: Int)
+    suspend fun deleteWorkoutPoints(id: Int)
 }

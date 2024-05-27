@@ -14,6 +14,11 @@
     <string name="go_to_settings">The access to the position is required.</string>
     <string name="update_permissions">Update permissions</string>
 
+    <!-- Save activity -->
+    <string name="save_title">Save workout</string>
+    <string name="instructions_to_save">Give a name to the current workout</string>
+    <string name="save">SAVE</string>
+
     <!-- Service of location -->
     <string name="notification_title">Workout in progress</string>
     <string name="notification_content">Your workout is in progress</string>
@@ -22,10 +27,14 @@
 
     <!-- Workouts descriptions -->
     <string name="time">TIME</string>
-    <string name="meters">METERS</string>
+    <string name="meters">DISTANCE</string>
+    <string name="speed">SPEED</string>
     <string name="date">DATE</string>
     <string name="back_button">BACK</string>
     <string name="date_format">dd.MM.yyyy\nhh:mm</string>
+    <string name="activity_name">Activity</string>
+    <string name="delete">DELETE</string>
+
 
     <!-- nav_menu -->
     <string name="maps">Attività</string>

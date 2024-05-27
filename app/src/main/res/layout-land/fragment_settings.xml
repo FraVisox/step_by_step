@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/Background">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/nameCard"
@@ -95,14 +96,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/BirthDayImage" />
 
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/dateText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:calendarViewShown="false"
-                android:datePickerMode= "spinner"
-                android:spinnersShown="true"
+                android:backgroundTint="@color/white"
+                android:inputType="date"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/BirthDayImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

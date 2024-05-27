@@ -2,8 +2,11 @@ package com.example.room
 
 import android.app.Application
 import android.util.Log
+import androidx.activity.viewModels
 import com.example.room.database.RecordsRepository
 import com.example.room.database.RecordsRoomDatabase
+import com.example.room.database.RecordsViewModel
+import com.example.room.database.RecordsViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
