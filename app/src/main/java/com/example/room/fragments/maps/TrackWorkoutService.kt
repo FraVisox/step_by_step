@@ -8,62 +8,49 @@ import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
+import android.os.SystemClock
 import com.example.room.R
 import com.example.room.fragments.maps.manager.PositionLocationObserver
 import com.example.room.fragments.maps.manager.PositionTracker
 import com.google.android.gms.maps.model.LatLng
-import java.util.Calendar
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
-    //Way to bind to external user
-    inner class MyBinder(val firstUse: Boolean): Binder() {
+    companion object {
+        //Notification channel
+        const val serviceId = 1
+
+        //Booleans that tell if the workout is in progress or not: the setter is private
+        var running = false
+            private set
+        var paused = false
+            private set
+    }
+
+    //Binder used to bind to external user
+    inner class TrackServiceBinder: Binder() {
         val service: TrackWorkoutService
             get() = this@TrackWorkoutService
     }
-
-    companion object {
-        //Way to pass start time to this object
-        const val timeKey = "startTime"
-
-        //Notification channel
-        const val serviceId = 1
-        private const val CHANNEL_ID = "Workout tracking"
+    //When an external user binds to this service
+    override fun onBind(intent: Intent?): IBinder {
+        return TrackServiceBinder()
     }
 
-    //Way to receive updates of position
-    private lateinit var positionTracker : PositionTracker
+    //Current startTime, distance and locations covered
+    var startTime : Long = 0
+    var distance : Float = 0F
+    var locations : MutableList<LatLng?> = mutableListOf()
 
-    //Current startTime and distances
-    private var startTime : Long = 0
-    private var distance : Float = 0F
-    private var locations : MutableList<LatLng> = mutableListOf()
+    //Used for pausing the workout
+    private var offset : Long = 0
 
-    //Utilities used for pausing the workout
-    private var previousTime : Long = 0
-    private var previousDistance : Float = 0F
-    private var previousLocations : MutableList<LatLng> = mutableListOf()
-
-    //Used to update views
-    fun getStartTime(): Long {
-        return startTime - previousTime
-    }
-    fun getDistance(): Float {
-        return distance + previousDistance
-    }
-    fun getLocations(): MutableList<LatLng>  {
-        val locs = locations
-        locs.addAll(previousLocations)
-        return locs
-    }
-
-    //When the service is created, we create the notification channel
+    //When the service is created, the notification channel is created
     override fun onCreate() {
         super.onCreate()
 
         val channel = NotificationChannel(
-            CHANNEL_ID,
+            getString(R.string.channel_id),
             getString(R.string.notification_channel_name),
             NotificationManager.IMPORTANCE_DEFAULT
         )
@@ -72,84 +59,103 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         notificationManager.createNotificationChannel(channel)
     }
 
-    //When an external user binds to this service
-    override fun onBind(intent: Intent?): IBinder {
-        return if (startTime == 0L) {
-            startTime = Calendar.getInstance().timeInMillis
-            MyBinder(true)
-        } else {
-            MyBinder(false)
+    //If the component is paused, we don't allow to start another workout
+    fun startWorkout() {
+        if (!running) {
+            startTime = SystemClock.elapsedRealtime()
+            running = true
+
+            // Build a notification
+            val notificationBuilder: Notification.Builder =
+                Notification.Builder(this, getString(R.string.channel_id))
+            notificationBuilder.setContentTitle(getString(R.string.notification_title))
+            notificationBuilder.setContentText(getString(R.string.notification_content))
+            notificationBuilder.setSmallIcon(R.drawable.baseline_directions_run_24)
+
+            //Start foreground
+            val notification = notificationBuilder.build()
+            startForeground(serviceId, notification)
+
+            //Start using the position
+            PositionTracker.addObserver(this)
+            PositionTracker.startLocationTrack(applicationContext)
+
+            //Start this workout
+            addThisLocation()
         }
-    }
-
-    fun startTracking(positionTracker: PositionTracker) {
-        // Build a notification
-        val notificationBuilder: Notification.Builder = Notification.Builder(applicationContext, CHANNEL_ID)
-        notificationBuilder.setContentTitle(getString(R.string.notification_title))
-        notificationBuilder.setContentText(getString(R.string.notification_content))
-        notificationBuilder.setSmallIcon(R.drawable.baseline_directions_run_24)
-
-        val notification = notificationBuilder.build()
-        startForeground(serviceId, notification)
-
-        //Start using the position
-        positionTracker.addObserver(this)
-
-        //Start this workout
-        val current = positionTracker.getCurrent()
-        if (current!= null) {
-            locations.add(LatLng(current.latitude, current.longitude))
-        }
-
-        this.positionTracker = positionTracker
-    }
-
-    fun endTracking() {
-        positionTracker.removeObserver(this)
-        stopForeground(STOP_FOREGROUND_REMOVE)
-        stopSelf()
     }
 
     fun pauseWorkout() {
-        previousTime += (Calendar.getInstance().timeInMillis-startTime)
-        previousDistance += distance
-        positionTracker.removeObserver(this)
+        if (running && !paused) {
+            paused = true
+            offset = SystemClock.elapsedRealtime() - startTime
 
-        val curr = positionTracker.getCurrent()
-        if (curr != null) {
-            locations.add(LatLng(curr.latitude, curr.longitude))
+            //Remove the observation of positions
+            PositionTracker.removeObserver(this)
+
+            addThisLocation()
+            locations.add(null)
         }
-        previousLocations.addAll(locations)
+    }
 
-        //Clear everything but the startTime, as this workout hasn't finished yet
+    fun resumeWorkout() {
+        if (paused && running) {
+            paused = false
+            startTime = SystemClock.elapsedRealtime() - offset
+            addThisLocation()
+            PositionTracker.addObserver(this)
+        }
+    }
+
+    fun endWorkout() {
+        if (running) {
+            addThisLocation()
+            PositionTracker.removeObserver(this)
+            stopForeground(STOP_FOREGROUND_REMOVE)
+            running = false
+            paused = false
+        }
+    }
+
+    //When it receives a new position, it updates the locations and the distance, if it isn't paused
+    override fun locationUpdated(loc: Location) {
+        if (running && !paused) {
+            val pos = LatLng(loc.latitude, loc.longitude)
+            updateDistance(loc)
+            locations.add(pos)
+        }
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        clearWorkout()
+        PositionTracker.removeObserver(this)
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        running = false
+        paused = false
+        stopSelf()
+        return super.onUnbind(intent)
+    }
+
+    private fun addThisLocation() {
+        val current = PositionTracker.currentLocation
+        if (current != null) {
+            locations.add(LatLng(current.latitude, current.longitude))
+        }
+    }
+
+    private fun clearWorkout() {
         distance = 0F
+        startTime = 0
+        offset = 0
         locations.clear()
     }
 
-    fun restartWorkout() {
-        startTime = Calendar.getInstance().timeInMillis
-
-        val current = positionTracker.getCurrent()
-        if (current!= null) {
-            locations.add(LatLng(current.latitude, current.longitude))
-        }
-
-        positionTracker.addObserver(this)
-    }
-
-    //When we receive a new position
-    override fun locationUpdated(loc: Location) {
-        val pos = LatLng(loc.latitude, loc.longitude)
-        updateDistance(loc)
-        locations.add(pos)
-    }
-
     private fun updateDistance(current: Location) {
-        if (locations.isNotEmpty()) {
+        if (locations.isNotEmpty() && locations.last() != null) {
             val last = locations.last()
             val result = FloatArray(1)
             Location.distanceBetween(
-                last.latitude,
+                last!!.latitude,
                 last.longitude,
                 current.latitude,
                 current.longitude,

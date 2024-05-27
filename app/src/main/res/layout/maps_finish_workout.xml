@@ -8,14 +8,13 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     style="@style/Background">
-        <TextView
+        <Chronometer
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:id="@+id/time_tv"
-            style="?android:attr/buttonBarButtonStyle"
-            android:text="@string/initial_time" />
+            android:id="@+id/time_chrono"
+            style="?android:attr/buttonBarButtonStyle"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

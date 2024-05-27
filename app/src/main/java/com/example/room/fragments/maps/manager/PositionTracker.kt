@@ -1,6 +1,7 @@
 package com.example.room.fragments.maps.manager
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
@@ -17,23 +18,25 @@ import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
 
-class PositionTracker(private val manager: MapsManager) {
+//Singleton design pattern
+object PositionTracker {
 
     //Client to ask location to
-    private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(manager.context)
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     //Current location
-    private var mCurrentLocation : Location? = null
+    var currentLocation : Location? = null
+        private set
 
+    //It is observed by other objects
     private val observers : MutableList<PositionLocationObserver>  = mutableListOf()
 
     //The callback that updates the position every second
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations){
-                mCurrentLocation = location
-                for (obs in observers) {
-                    obs.locationUpdated(location)
+                if (location != null) {
+                    updateLocation(location)
                 }
             }
         }
@@ -43,36 +46,40 @@ class PositionTracker(private val manager: MapsManager) {
         observers.add(obs)
     }
 
+    //There is no need to check if the element was present
     fun removeObserver(obs: PositionLocationObserver) {
         observers.remove(obs)
     }
 
-    //Function to start the tracking of the position, called by the manager
-    fun startLocationTrack() {
-        if (mCurrentLocation != null) {
+    //Function to start the tracking of the position, called by the object that starts using it
+    fun startLocationTrack(context: Context) {
+        if (currentLocation != null) {
             return
         }
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
         //Create a request that asks for the position every second
         val request = LocationRequest.Builder(1000).build()
 
         //Add the request to the location settings
-        val client: SettingsClient = LocationServices.getSettingsClient(manager.context.applicationContext)
+        val client: SettingsClient = LocationServices.getSettingsClient(context)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(LocationSettingsRequest.Builder()
             .addLocationRequest(request).build())
 
         //If the task has success, we now can initialize the location requests
         task.addOnSuccessListener {
-            startLocationUpdates(request)
+            startLocationUpdates(request, context)
         }
     }
 
-    private fun startLocationUpdates(rr : LocationRequest) {
+    private fun startLocationUpdates(request: LocationRequest, context: Context) {
         //Check if permissions are granted
         if (ActivityCompat.checkSelfPermission(
-                manager.context,
+                context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                manager.context,
+                context,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -83,27 +90,20 @@ class PositionTracker(private val manager: MapsManager) {
         val result = fusedLocationClient.lastLocation
         result.addOnCompleteListener {
             if (it.isSuccessful && it.result != null) {
-                mCurrentLocation = it.result
-                manager.focusPosition(it.result)
-                for (obs in observers) {
-                    obs.locationUpdated(it.result)
-                }
+                //If it's successful, update the position
+                updateLocation(it.result)
             } else {
-                //If it's not successful, get current location with the priority of the request
+                //If it's not successful, get current location
                 fusedLocationClient.getCurrentLocation(
-                    CurrentLocationRequest.Builder().setPriority(rr.priority).build(), null
+                    CurrentLocationRequest.Builder().build(), null
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful && task.result != null) {
                         //If it's successful, update the position
-                        mCurrentLocation = task.result
-                        manager.focusPosition(task.result)
-                        for (obs in observers) {
-                            obs.locationUpdated(task.result)
-                        }
+                        updateLocation(task.result)
                     } else {
                         //Else, show the user a toast
                         val toast =
-                            Toast.makeText(manager.context, "Position not found", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT)
                         toast.show()
                     }
                 }
@@ -112,13 +112,16 @@ class PositionTracker(private val manager: MapsManager) {
 
         //Create a series of requests
         fusedLocationClient.requestLocationUpdates(
-            rr,
+            request,
             locationCallback,
             Looper.getMainLooper()
         )
     }
 
-    fun getCurrent() : Location? {
-        return mCurrentLocation
+    private fun updateLocation(loc: Location) {
+        currentLocation = loc
+        for (obs in observers) {
+            obs.locationUpdated(loc)
+        }
     }
 }

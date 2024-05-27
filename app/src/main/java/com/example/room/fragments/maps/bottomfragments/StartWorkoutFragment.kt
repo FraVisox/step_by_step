@@ -1,7 +1,6 @@
 package com.example.room.fragments.maps.bottomfragments
 
 import android.Manifest
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.navigation.findNavController
 import com.example.room.R
-import com.example.room.fragments.maps.MapsFragment
 
 class StartWorkoutFragment : Fragment() {
 
@@ -38,14 +36,5 @@ class StartWorkoutFragment : Fragment() {
         }
 
         return view
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //As the workout could work between different stages of the application, we save it in shared preferences
-        val preferences = activity?.getPreferences(Context.MODE_PRIVATE)
-        val editor = preferences?.edit()
-        editor?.putBoolean(MapsFragment.workoutStarted, false)
-        editor?.apply()
     }
 }

@@ -3,19 +3,14 @@ package com.example.room.fragments.maps
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.room.R
 import com.example.room.fragments.maps.manager.MapsManager
@@ -23,10 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
 
-    //TODO: fixa il service
-    companion object {
-        const val workoutStarted : String = "workoutStarted"
-    }
+    //TODO: per qualche motivo il tempo preso aumenta spesso e volentieri. Inoltre se chiudo il processo e torno viene tracciata una track che comprende tutti i punti. Inoltre se cambio fragment mi elimina la track
 
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
@@ -36,12 +28,12 @@ class MapsFragment : Fragment() {
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted
-                manager.startLocationTrack()
+                manager.startUpdateMap()
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
-                manager.startLocationTrack()
+                manager.startUpdateMap()
             }
 
             else -> {
@@ -56,7 +48,7 @@ class MapsFragment : Fragment() {
 
         manager = MapsManager(this.activity as Activity)
 
-        if (activity?.getPreferences(MODE_PRIVATE)?.getBoolean(workoutStarted, false) == true && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
+        if (TrackWorkoutService.running && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.currentDestination?.id != R.id.finish_workout_fragment) {
             childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.navigate(R.id.action_startToFinish)
@@ -81,7 +73,7 @@ class MapsFragment : Fragment() {
     private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position
-            manager.startLocationTrack()
+            manager.startUpdateMap()
 
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
             //Show permissions dialog
