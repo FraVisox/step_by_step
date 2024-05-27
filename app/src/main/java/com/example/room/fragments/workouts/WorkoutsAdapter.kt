@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ import com.example.room.R
 import com.example.room.database.workout.Workout
 import com.example.room.database.workout.WorkoutTrackPoint
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 // cosi è per farla come il laboratorio di room Sotto è presente una classe Adapter normale come la abbiamo vista in classe
@@ -66,7 +69,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
             it.workoutId == record.workoutId
         }
 
-        holder.bind(dateOfRecords.toString(), meters, timeText, name, p)
+        holder.bind(dateOfRecords, meters, timeText, name, p)
 
     }
     // Describes an item view and its place within the RecyclerView
@@ -88,8 +91,8 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: String, m: String, tim: String, nam:String, points: List<WorkoutTrackPoint>) {
-            date.text = dat
+        fun bind(dat: Date, m: String, tim: String, nam:String, points: List<WorkoutTrackPoint>) {
+            date.text = "${SimpleDateFormat(getString(itemView.context, R.string.date_format)).format(dat)}"
             meters.text = m
             time.text = tim
             name.text = nam

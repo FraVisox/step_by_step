@@ -19,11 +19,6 @@ import kotlinx.coroutines.launch
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
-    companion object {
-        val coordinatePlaceholder = -1.0
-        val positionPlaceholder = LatLng(coordinatePlaceholder, coordinatePlaceholder)
-    }
-
     val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()
     val last7Distances : LiveData<List<Distance>> = repository.last7Distances.asLiveData()
     val last30Distances : LiveData<List<Distance>> = repository.last30Distances.asLiveData()
@@ -68,7 +63,7 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         repository.insertDayRecord(step, distance, calorie)
     }
 
-    fun insertWorkout(workout: Workout, points: MutableList<LatLng>) =
+    fun insertWorkout(workout: Workout, points: MutableList<LatLng?>) =
         viewModelScope.launch {
             repository.insertWorkout(workout, points)
         }

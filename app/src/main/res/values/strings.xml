@@ -25,6 +25,7 @@
     <string name="meters">METERS</string>
     <string name="date">DATE</string>
     <string name="back_button">BACK</string>
+    <string name="date_format">dd.MM.yyyy\nhh:mm</string>
 
     <!-- nav_menu -->
     <string name="maps">Attività</string>

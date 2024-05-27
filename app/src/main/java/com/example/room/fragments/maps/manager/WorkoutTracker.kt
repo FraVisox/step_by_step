@@ -131,9 +131,9 @@ class WorkoutTracker(private val manager: MapsManager) {
 
         //Take time and points and workout ID
         val time = Calendar.getInstance().timeInMillis-startTime
-        val positions : MutableList<LatLng> = manager.currPolyline?.points?.toMutableList() ?: mutableListOf()
+        val positions : MutableList<LatLng?> = manager.currPolyline?.points?.toMutableList() ?: mutableListOf()
         manager.otherPolylines.forEach {
-            positions.add(RecordsViewModel.positionPlaceholder)
+            positions.add(null)
             positions.addAll(it.points)
         }
         val thisID = (manager.context.application as RecordsApplication).workoutId

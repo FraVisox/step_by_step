@@ -2,6 +2,7 @@ package com.example.room.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -66,22 +67,19 @@ class MapsWorkoutSummary : AppCompatActivity(), OnMapReadyCallback {
     private fun drawAllLines() {
         if (points.isEmpty())
             return
-        var i = 0
-        var first = true
+        var i = -1
+        var first : WorkoutTrackPoint? = null
         for (p in points) {
-            if (first) {
-                polylines.add(map.addPolyline(positions.add(LatLng(p.lat, p.lng))))
-                first = false
-            }
-            if (p.lat == RecordsViewModel.coordinatePlaceholder) {
-                i++
-                positions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
-                first = true
+            if (p.trackList == first?.trackList) {
+                val old = polylines[i]
+                polylines[i] = map.addPolyline(positions.add(LatLng(p.lat, p.lng)))
+                old.remove()
                 continue
             }
-            val old = polylines[i]
-            polylines[i] = map.addPolyline(positions.add(LatLng(p.lat, p.lng)))
-            old.remove()
+            first = p
+            positions = PolylineOptions().color(Color.parseColor("#FF0000")).startCap(RoundCap()).endCap(RoundCap())
+            polylines.add(map.addPolyline(positions.add(LatLng(p.lat, p.lng))))
+            i++
         }
         focusPosition(LatLng(points[0].lat, points[0].lng))
     }
