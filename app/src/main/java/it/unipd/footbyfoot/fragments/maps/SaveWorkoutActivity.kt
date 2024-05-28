@@ -17,29 +17,35 @@ import java.util.Date
 class SaveWorkoutActivity: AppCompatActivity() {
 
     //TODO: merge this with the one in mainactivity
-
     private val recordsViewModel : RecordsViewModel by viewModels{
         RecordsViewModelFactory((application as RecordsApplication).repository)
     }
 
+    //Keys to pass to the intent
     companion object {
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val positionsKey = "positions"
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_workout)
 
+        //Take current ID
         val thisID = (application as RecordsApplication).workoutId
 
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
         val vel = findViewById<TextView>(R.id.save_velocity)
+
+        //Set the name
         val name = findViewById<EditText>(R.id.save_name)
         name.setText(getString(R.string.workout_name_default, thisID), TextView.BufferType.EDITABLE)
 
-        var totTime: Long = intent.getLongExtra(timeKey, 0)
+        //Set time
+        val totTime: Long = intent.getLongExtra(timeKey, 0)
         var seconds = totTime.toInt()
         var minutes: Int = (seconds / 60)
         val hours: Int = (minutes/60)
@@ -47,14 +53,17 @@ class SaveWorkoutActivity: AppCompatActivity() {
         seconds %= 60
         time.text = getString(R.string.workout_time, getString(R.string.time_format, hours, minutes, seconds))
 
+        //Set distance
         val dist = intent.getIntExtra(distanceKey, 0)
         distance.text = getString(R.string.workout_distance, getString(R.string.distance_format, dist))
 
+        //Set speed
         val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
+            //getSerializableExtra is used as the tests were made on Android API 32
             recordsViewModel.insertWorkout(Workout(thisID, 1, name.text.toString(), totTime, dist, Date()), intent.getSerializableExtra(
                 positionsKey) as MutableList<LatLng?>)
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, thisID))) {

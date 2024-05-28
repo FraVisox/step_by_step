@@ -52,7 +52,8 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
 
     // Displays data at a certain position
-    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) { //TODO: cambia tutte le stringhe
+        //TODO: metti l'ora con AM, PM
         val record = getItem(position)
         val dateOfRecords= record.date
         val meters= "${record.meters}m"

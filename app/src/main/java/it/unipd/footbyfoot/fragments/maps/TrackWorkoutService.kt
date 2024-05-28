@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
@@ -78,9 +79,14 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             // Build a notification
             val notificationBuilder: Notification.Builder =
                 Notification.Builder(this, getString(R.string.channel_id))
-            notificationBuilder.setContentTitle(getString(R.string.notification_title))
-            notificationBuilder.setContentText(getString(R.string.notification_content))
-            notificationBuilder.setSmallIcon(R.drawable.baseline_directions_run_24)
+            notificationBuilder
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_content))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        resources,
+                        R.mipmap.ic_launcher)) //TODO: icon not found
 
             //Make an intent if the user taps the notification
             val intent = Intent(this, MainActivity::class.java)

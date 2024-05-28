@@ -80,7 +80,7 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun stopWorkout() {
-        if (!mBound || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
+        if (!mBound) { //TODO || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
             return
         }
         mService.stopWorkout()
@@ -107,7 +107,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         manager.context.startActivity(intent)
     }
 
-    fun updatePolyline(current : Location) { //TODO: forse migliora qua
+    fun updatePolyline(current : Location) {
         if (TrackWorkoutService.running && !TrackWorkoutService.paused) {
             manager.addPointToLine(current)
             updateDistance()
