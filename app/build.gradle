@@ -4,6 +4,11 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'kotlin-android'
     id 'kotlin-kapt'
+
+    // FIrebase
+    id("com.google.gms.google-services")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -93,6 +98,12 @@ dependencies {
     //Material
     implementation libs.androidx.viewpager2
     implementation libs.material.v121
+
+    // FIrebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
 }
 
 secrets {
