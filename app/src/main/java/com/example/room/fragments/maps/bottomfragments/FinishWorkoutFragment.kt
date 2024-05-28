@@ -52,11 +52,7 @@ class FinishWorkoutFragment : Fragment() {
 
         //Start the workout
         fragment.manager.setViews(timeView, distanceView)
-        if (!fragment.manager.startWorkout()) {
-            Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
-            findNavController()
-                .navigate(R.id.action_finishToStart)
-        }
+        fragment.manager.startWorkout()
 
         val finish = view.findViewById<Button>(R.id.finish_button)
         finish.setOnClickListener {

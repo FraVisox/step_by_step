@@ -1,12 +1,17 @@
 package com.example.room.fragments.maps.manager
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.example.room.MainActivity
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -56,20 +61,42 @@ object PositionTracker {
         if (currentLocation != null) {
             return
         }
+        Log.d("AAA", "start location track")
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+        Log.d("AAA", "trovato fused")
 
         //Create a request that asks for the position every second
         val request = LocationRequest.Builder(1000).build()
 
-        //Add the request to the location settings
+        //Check the settings to see if location is enabled
         val client: SettingsClient = LocationServices.getSettingsClient(context)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(LocationSettingsRequest.Builder()
             .addLocationRequest(request).build())
 
+        Log.d("AAA", "buildato")
+
+
         //If the task has success, we now can initialize the location requests
         task.addOnSuccessListener {
+            Log.d("AAA", "successoooo")
             startLocationUpdates(request, context)
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException){
+                try {
+                    // Show the dialog by calling startResolutionForResult(),
+                    // and check the result in onActivityResult(): the result is taken in MapsManager //TODO
+                    if (context is Activity) {
+                        (context as MainActivity).showLocationDialog(exception)
+                    }
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error.
+                }
+            }
         }
     }
 
@@ -83,8 +110,10 @@ object PositionTracker {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            Log.d("AAA", "returning because no access to position")
             return
         }
+        Log.d("AAA", "teee possiamo accedere")
 
         //Try to get last known location //TODO: casini se non attivo la posizione
         val result = fusedLocationClient.lastLocation
@@ -119,6 +148,7 @@ object PositionTracker {
     }
 
     private fun updateLocation(loc: Location) {
+        Log.d("AAA", "location updated")
         currentLocation = loc
         for (obs in observers) {
             obs.locationUpdated(loc)

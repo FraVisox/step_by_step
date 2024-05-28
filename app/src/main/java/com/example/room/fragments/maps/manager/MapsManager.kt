@@ -42,8 +42,6 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private var requestMade = false
     //Boolean to check if it has already been zoomed the area that we need
     private var first = true //TODO: salva first e fai in modo che si faccia il focus appena ho la posizione
-    //
-    private var updateEnabled = true
 
     /*
      * Tracker that manages the binding to the service
@@ -84,16 +82,16 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            Log.d("AAA", "permessi garantiti")
             map.isMyLocationEnabled = true
-            PositionTracker.startLocationTrack(context.applicationContext)
+            PositionTracker.startLocationTrack(context)
         }
+        Log.d("AAA", "permessi non garantiti")
     }
 
     //Function called by PositionTracker: update the polyline, if needed
     override fun locationUpdated(loc: Location) {
-        if (!updateEnabled) {
-            return
-        }
+        Log.d("AAA", "first $first")
         if (first) {
             focusPosition(loc)
             first = false
@@ -104,6 +102,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Used to focus on initial position
     private fun focusPosition(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
+        Log.d("AAA", "${map.cameraPosition.zoom}")
         if (map.cameraPosition.zoom == 5F)
             map.moveCamera(CameraUpdateFactory.zoomTo(17F)) //TODO: prendi 17 da qualche altra parte
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
@@ -117,14 +116,14 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      * Functions used to manage the workouts
      */
     //Start a new workout, returns false if the position was not found
-    fun startWorkout(): Boolean {
+    fun startWorkout() {
         if (PositionTracker.currentLocation == null) {
             //In this case, no workout could be initialized
-            return false
+            PositionTracker.startLocationTrack(context)
+        } else {
+            addPointToLine(PositionTracker.currentLocation!!)
         }
-        addPointToLine(PositionTracker.currentLocation!!)
         workoutTracker.startWorkout()
-        return true
     }
     //End the current workout
     fun finishWorkout() {
@@ -158,11 +157,9 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     }
     //Draw all current line
     fun drawCurrentTrack(locs: List<LatLng?>) {
-        //TODO: problema con questa funzione
         if (locs.isEmpty()) {
             return
         }
-        updateEnabled = false //TODO: rimuovere?
         currPolyline?.remove()
         options = defaultOptions()
         otherPolylines.forEach {
@@ -183,7 +180,6 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             currPolyline = map.addPolyline(options.add(p))
             Log.d("AAA", "drawing $currPolyline")
         }
-        updateEnabled = true
     }
     //Deletes the lines drawn
     fun clearLine() {

@@ -1,6 +1,8 @@
 package com.example.room
 
 
+import android.Manifest
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -16,6 +18,7 @@ import com.example.room.fragments.maps.MapsFragment
 import com.example.room.fragments.settings.SettingsFragment
 import com.example.room.fragments.steps.StepsFragment
 import com.example.room.fragments.workouts.WorkoutsFragment
+import com.google.android.gms.common.api.ResolvableApiException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,6 +34,23 @@ class MainActivity : AppCompatActivity() {
 
     val recordsViewModel : RecordsViewModel by viewModels{
         RecordsViewModelFactory((application as RecordsApplication).repository)
+    }
+
+    fun showLocationDialog(exception: ResolvableApiException) {
+        //Show permissions dialog
+        AlertDialog.Builder(this)
+            .setMessage(
+                R.string.reason_to_update_permissions
+            )
+            .setPositiveButton(
+                "Update"
+            ) { _,_ ->
+                exception.startResolutionForResult(this, 1)
+            }.setNegativeButton(
+                "Ignore"
+            ) { _, _ ->
+            }
+            .create().show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

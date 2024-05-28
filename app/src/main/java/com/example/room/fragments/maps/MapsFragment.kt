@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.example.room.fragments.maps.manager.MapsManager
 import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
+
+    //TODO: come fare se la posizione viene impostata dopo il fragment viene creato
 
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
@@ -65,14 +68,15 @@ class MapsFragment : Fragment() {
     }
 
     //Everytime it's started, check permissions
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         requirePermissions()
     }
 
     private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position
+            Log.d("AAA", "lessgooo")
             manager.startUpdateMap()
 
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
