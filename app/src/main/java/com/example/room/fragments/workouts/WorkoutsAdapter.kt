@@ -66,9 +66,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         val p = points.filter {
             it.workoutId == record.workoutId
         }
-        val sp = "${if (record.time != 0L) record.meters/record.time else 0}m/s"
+        val sp = if (record.time != 0L) record.meters.toDouble()/record.time else 0
 
-        holder.bind(dateOfRecords, meters, timeText, sp, name, p, record.workoutId)
+        holder.bind(dateOfRecords, meters, timeText, "${"%.2f".format(sp)}m/s", name, p, record.workoutId)
 
     }
     // Describes an item view and its place within the RecyclerView

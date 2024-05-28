@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import com.example.room.fragments.maps.SaveWorkoutActivity
@@ -37,18 +38,17 @@ class WorkoutTracker(private val manager: MapsManager) {
             } else {
                 mService.startWorkout()
             }
-            updateChronometer()
+            timeChronometer.base = mService.startTime
+            if (!TrackWorkoutService.paused) {
+                timeChronometer.start()
+            }
         }
         override fun onServiceDisconnected(name: ComponentName) {
             mBound = false
         }
     }
 
-    fun startWorkout(time: Chronometer, distanceView: TextView) {
-        //Connect the views
-        this.timeChronometer = time
-        this.distanceView = distanceView
-
+    fun startWorkout() {
         //Create the service that will be used to track the workout: the chronometer will be updated when we receive the callback
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
         manager.context.applicationContext.bindService(
@@ -56,6 +56,12 @@ class WorkoutTracker(private val manager: MapsManager) {
             connection,
             Context.BIND_AUTO_CREATE
         )
+    }
+
+    fun setViews(time: Chronometer, distanceView: TextView) {
+        //Connect the views
+        this.timeChronometer = time
+        this.distanceView = distanceView
     }
 
     fun pauseWorkout() {
@@ -68,7 +74,8 @@ class WorkoutTracker(private val manager: MapsManager) {
     fun resumeWorkout() {
         if (mBound) {
             mService.resumeWorkout()
-            updateChronometer()
+            timeChronometer.base = mService.startTime
+            timeChronometer.start()
         }
     }
 
@@ -79,6 +86,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         mService.endWorkout()
 
         //Cancel the updating of the chronometer
+        timeChronometer.base = SystemClock.elapsedRealtime()
         timeChronometer.stop()
 
         //Take time, distance and points
@@ -87,7 +95,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         val positions : MutableList<LatLng?> = mService.locations
 
         //Reset
-        mService.endWorkout()
+        mService.clearWorkout()
         manager.context.applicationContext.unbindService(connection)
         manager.clearLine()
 
@@ -104,11 +112,6 @@ class WorkoutTracker(private val manager: MapsManager) {
             manager.addPointToLine(current)
             updateDistance()
         }
-    }
-
-    private fun updateChronometer() {
-        timeChronometer.base = mService.startTime
-        timeChronometer.start()
     }
 
     private fun updateDistance() {

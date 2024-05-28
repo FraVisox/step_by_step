@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
@@ -17,8 +18,6 @@ import com.example.room.fragments.maps.manager.MapsManager
 import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
-
-    //TODO: per qualche motivo il tempo preso aumenta spesso e volentieri. Inoltre se chiudo il processo e torno viene tracciata una track che comprende tutti i punti. Inoltre se cambio fragment mi elimina la track
 
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
@@ -37,7 +36,8 @@ class MapsFragment : Fragment() {
             }
 
             else -> {
-                //Nothing happens TODO: mostra un dialog
+                //Nothing happens
+                Toast.makeText(context, "Access to position not allowed", Toast.LENGTH_SHORT).show()
             }
         }
     }

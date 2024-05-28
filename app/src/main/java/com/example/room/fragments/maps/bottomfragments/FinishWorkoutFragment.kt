@@ -1,6 +1,7 @@
 package com.example.room.fragments.maps.bottomfragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,8 +50,9 @@ class FinishWorkoutFragment : Fragment() {
         timeView = view.findViewById(R.id.time_chrono)
         distanceView = view.findViewById(R.id.km_tv)
 
-        //Start the activity
-        if (!fragment.manager.startWorkout(timeView, distanceView)) {
+        //Start the workout
+        fragment.manager.setViews(timeView, distanceView)
+        if (!fragment.manager.startWorkout()) {
             Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
             findNavController()
                 .navigate(R.id.action_finishToStart)
@@ -66,11 +68,15 @@ class FinishWorkoutFragment : Fragment() {
         val pause = view.findViewById<Button>(R.id.pause_button)
         pause.setOnClickListener(pauseListener)
 
+        if (TrackWorkoutService.paused) {
+            pause.text = getString(R.string.resume_workout)
+        }
+
         return view
     }
 
     override fun onPause() {
         super.onPause()
-        fragment.manager.pauseWorkout()
+        fragment.manager.clearLine()
     }
 }

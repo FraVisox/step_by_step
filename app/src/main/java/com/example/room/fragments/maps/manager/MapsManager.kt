@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -88,7 +89,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Function called by PositionTracker: update the polyline, if needed
     override fun locationUpdated(loc: Location) {
-        if (first) { //TODO: teniamo anche first?
+        if (first) {
             focusPosition(loc)
             first = false
         }
@@ -98,22 +99,26 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Used to focus on initial position
     private fun focusPosition(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
+        if (map.cameraPosition.zoom == 5F)
+            map.moveCamera(CameraUpdateFactory.zoomTo(17F)) //TODO: prendi 17 da qualche altra parte
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
-        map.moveCamera(CameraUpdateFactory.zoomTo(17F)) //TODO: prendi 17 da qualche altra parte
     }
 
+    fun setViews(time: Chronometer, distanceView: TextView) {
+        workoutTracker.setViews(time, distanceView)
+    }
 
     /*
      * Functions used to manage the workouts
      */
     //Start a new workout, returns false if the position was not found
-    fun startWorkout(timeChrono : Chronometer, distanceView: TextView): Boolean {
-        startUpdateMap() //TODO: perche' lo devo mettere?
+    fun startWorkout(): Boolean {
         if (PositionTracker.currentLocation == null) {
             //In this case, no workout could be initialized
             return false
         }
-        workoutTracker.startWorkout(timeChrono, distanceView)
+        addPointToLine(PositionTracker.currentLocation!!)
+        workoutTracker.startWorkout()
         return true
     }
     //End the current workout
@@ -131,7 +136,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     }
     //Resume the workout
     fun resumeWorkout() {
-        startUpdateMap() //TODO: perche' lo devo mettere?
+        addPointToLine(PositionTracker.currentLocation!!)
         workoutTracker.resumeWorkout()
     }
 
@@ -141,16 +146,22 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Adds a point to the line that is drawn
     fun addPointToLine(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
-        val old = currPolyline
-        currPolyline = map.addPolyline(options.add(pos))
-        old?.remove()
+        currPolyline?.remove()
+        options.add(pos)
+        if (mapInitialized)
+            currPolyline = map.addPolyline(options)
     }
     //Draw all current line
     fun drawCurrentTrack(locs: List<LatLng?>) {
+        //TODO: problema con questa funzione
         if (locs.isEmpty()) {
             return
         }
         currPolyline?.remove()
+        otherPolylines.forEach {
+            it.remove()
+        }
+        Log.d("AAA", locs.toString())
         for (p in locs) {
             if (p == null) {
                 if (currPolyline != null) {
@@ -158,11 +169,12 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
                 }
                 currPolyline = null
                 options = defaultOptions()
+                Log.d("AAA", "resetting $currPolyline")
                 continue
             }
-            val old = currPolyline
+            currPolyline?.remove()
             currPolyline = map.addPolyline(options.add(p))
-            old?.remove()
+            Log.d("AAA", "drawing $currPolyline")
         }
     }
     //Deletes the lines drawn

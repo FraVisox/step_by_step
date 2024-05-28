@@ -29,6 +29,7 @@
         map:mapType="normal"
         map:cameraTargetLat="41.9"
         map:cameraTargetLng="12.5"
+        map:cameraZoom="5"
         />
 
 

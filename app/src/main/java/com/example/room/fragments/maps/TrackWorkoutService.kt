@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Binder
 import android.os.IBinder
 import android.os.SystemClock
+import android.util.Log
 import com.example.room.R
 import com.example.room.fragments.maps.manager.PositionLocationObserver
 import com.example.room.fragments.maps.manager.PositionTracker
@@ -39,6 +40,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
 
     //Current startTime, distance and locations covered
     var startTime : Long = 0
+        get() {
+            if (paused) {
+                return SystemClock.elapsedRealtime() - offset
+            }
+            return field
+        }
     var distance : Float = 0F
     var locations : MutableList<LatLng?> = mutableListOf()
 
@@ -65,7 +72,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             startTime = SystemClock.elapsedRealtime()
             running = true
 
-            // Build a notification
+            // Build a notification //TODO: fai notifica meglio
             val notificationBuilder: Notification.Builder =
                 Notification.Builder(this, getString(R.string.channel_id))
             notificationBuilder.setContentTitle(getString(R.string.notification_title))
@@ -87,8 +94,8 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
 
     fun pauseWorkout() {
         if (running && !paused) {
-            paused = true
             offset = SystemClock.elapsedRealtime() - startTime
+            paused = true
 
             //Remove the observation of positions
             PositionTracker.removeObserver(this)
@@ -127,11 +134,8 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-        clearWorkout()
         PositionTracker.removeObserver(this)
         stopForeground(STOP_FOREGROUND_REMOVE)
-        running = false
-        paused = false
         stopSelf()
         return super.onUnbind(intent)
     }
@@ -143,7 +147,9 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         }
     }
 
-    private fun clearWorkout() {
+    fun clearWorkout() {
+        running = false
+        paused = false
         distance = 0F
         startTime = 0
         offset = 0
