@@ -103,7 +103,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private fun focusPosition(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
         Log.d("AAA", "${map.cameraPosition.zoom}")
-        if (map.cameraPosition.zoom == 5F)
+        if (map.cameraPosition.zoom <= 10F)
             map.moveCamera(CameraUpdateFactory.zoomTo(17F)) //TODO: prendi 17 da qualche altra parte
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
     }

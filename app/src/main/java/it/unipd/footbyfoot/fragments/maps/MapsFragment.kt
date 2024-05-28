@@ -46,6 +46,7 @@ class MapsFragment : Fragment() {
 
         manager = MapsManager(this.activity as Activity)
 
+        //If the service is running and we aren't on the finish view, go to finish view
         if (TrackWorkoutService.running && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.currentDestination?.id != R.id.finish_workout_fragment) {
             childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
@@ -70,17 +71,17 @@ class MapsFragment : Fragment() {
 
     private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
-            // Application can use position
+            // Application can use position: start updating the map
             manager.startUpdateMap()
 
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            //Show permissions dialog
+            //If we should show a dialog to request permissions
             AlertDialog.Builder(requireActivity())
                 .setMessage(
                     R.string.reason_to_update_permissions
                 )
                 .setPositiveButton(
-                    "OK"
+                    R.string.request_permission_positive_button
                 ) { _, _ ->
                     permissions.launch(
                         arrayOf(
@@ -91,7 +92,7 @@ class MapsFragment : Fragment() {
                 }
                 .create().show()
         } else {
-            //Launch the requests of permissions
+            //If it's the first time, so we don't have to show a permission dialog
             permissions.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
