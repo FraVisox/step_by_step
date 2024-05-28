@@ -17,6 +17,7 @@ class StartWorkoutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.maps_start_workout, container, false)
 
+        //Set listener
         val start = view.findViewById<Button>(R.id.start_button)
         start.setOnClickListener {
             if (PermissionChecker.checkSelfPermission(
@@ -26,8 +27,7 @@ class StartWorkoutFragment : Fragment() {
                     requireContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PermissionChecker.PERMISSION_GRANTED) {
-                val toast = Toast.makeText(requireContext(), R.string.go_to_settings, Toast.LENGTH_SHORT)
-                toast.show() //TODO: why if position is not present this shows?
+                Toast.makeText(requireContext(), R.string.go_to_settings, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

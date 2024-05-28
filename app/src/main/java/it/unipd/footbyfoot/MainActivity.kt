@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         RecordsViewModelFactory((application as RecordsApplication).repository)
     }
 
+
     fun showLocationDialog(exception: ResolvableApiException) {
         //Show permissions dialog
         AlertDialog.Builder(this)
@@ -43,11 +44,11 @@ class MainActivity : AppCompatActivity() {
                 R.string.enable_location
             )
             .setPositiveButton(
-                "Update"
+                getString(R.string.show_dialog)
             ) { _,_ ->
                 exception.startResolutionForResult(this, 1)
             }.setNegativeButton(
-                "Ignore"
+                getString(R.string.ignore_dialog)
             ) { _, _ ->
             }
             .create().show()

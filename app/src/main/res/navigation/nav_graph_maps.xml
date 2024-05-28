@@ -11,8 +11,10 @@
         android:label="fragment_start"
         tools:layout="@layout/maps_start_workout" >
         <action
-        android:id="@+id/action_startToFinish"
-        app:destination="@id/finish_workout_fragment" />
+            android:id="@+id/action_startToFinish"
+            app:destination="@id/finish_workout_fragment"
+            app:popUpTo="@id/start_workout_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/finish_workout_fragment"
@@ -21,6 +23,8 @@
         tools:layout="@layout/maps_finish_workout" >
         <action
             android:id="@+id/action_finishToStart"
-            app:destination="@id/start_workout_fragment" />
+            app:destination="@id/start_workout_fragment"
+            app:popUpTo="@id/finish_workout_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -37,7 +37,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val distance = findViewById<TextView>(R.id.save_distance)
         val vel = findViewById<TextView>(R.id.save_velocity)
         val name = findViewById<EditText>(R.id.save_name)
-        name.setText("Activity ${thisID}", TextView.BufferType.EDITABLE)
+        name.setText(getString(R.string.workout_name_default, thisID), TextView.BufferType.EDITABLE)
 
         var totTime: Long = intent.getLongExtra(timeKey, 0)
         var seconds = totTime.toInt()
@@ -45,19 +45,19 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val hours: Int = (minutes/60)
         minutes %= 60
         seconds %= 60
-        time.text = "TIME: ${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}"
+        time.text = getString(R.string.workout_time, getString(R.string.time_format, hours, minutes, seconds))
 
         val dist = intent.getIntExtra(distanceKey, 0)
-        distance.text = "DISTANCE: ${dist}m"
+        distance.text = getString(R.string.workout_distance, getString(R.string.distance_format, dist))
 
-        var speed = if (totTime != 0L) dist/seconds else 0
-        vel.text = "SPEED: ${speed}m/s"
+        val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
+        vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             recordsViewModel.insertWorkout(Workout(thisID, 1, name.text.toString(), totTime, dist, Date()), intent.getSerializableExtra(
                 positionsKey) as MutableList<LatLng?>)
-            if (name.text.toString().contentEquals("Activity ${thisID}")) {
+            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, thisID))) {
                 (application as RecordsApplication).workoutId++
             }
             finish()

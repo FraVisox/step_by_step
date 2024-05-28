@@ -5,22 +5,33 @@
 
     <!-- Dialogs to show to the user for the location permissions -->
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>
-    <string name="request_permission_positive_button">Foot By Foot</string>
+    <string name="request_permission_positive_button">Ask for position</string>
+    <string name="position_not_found">Position not found</string>
+    <string name="show_dialog">Update</string>
+    <string name="ignore_dialog">Ignore</string>
+
+    <!-- Common formats -->
+    <string name="time_format">%1$02d:%2$02d:%3$02d</string>
+    <string name="distance_format">%1$dm</string>
+    <string name="speed_format">%1$.2fm/s</string>
 
     <!-- Maps strings -->
     <string name="start_workout">Start</string>
     <string name="finish_workout">Finish</string>
     <string name="pause_workout">Pause</string>
     <string name="resume_workout">Resume</string>
-    <string name="initial_time">00:00:00</string>
-    <string name="initial_km">0m</string>
+    <string name="initial_meters">0m</string>
     <string name="go_to_settings">The access to the position is required.</string>
     <string name="update_permissions">Update permissions</string>
     <string name="enable_location">To track your workouts, you need to enable the location setting on your device. Click Update to update it</string>
 
-    <!-- Save activity -->
+    <!-- Save workout activity -->
     <string name="save_title">Save workout</string>
     <string name="instructions_to_save">Give a name to the current workout</string>
+    <string name="workout_name_default">Workout %1$d</string>
+    <string name="workout_time">TIME: %1$s</string>
+    <string name="workout_distance">DISTANCE: %1$s</string>
+    <string name="workout_speed">SPEED: %1$s</string>
     <string name="save">SAVE</string>
 
     <!-- Notification of service -->

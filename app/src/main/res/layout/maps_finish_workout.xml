@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:id="@+id/time_chrono"
+            android:text=""
             style="?android:attr/buttonBarButtonStyle"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +52,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/km_tv"
-            android:text="@string/initial_km"
+            android:text="@string/initial_meters"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_gravity="center_vertical"
             />

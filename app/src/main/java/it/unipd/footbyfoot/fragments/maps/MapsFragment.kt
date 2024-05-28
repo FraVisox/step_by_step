@@ -18,11 +18,12 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
 
-    //The tracker of the position: used to display the map and the current position
+    //The manager of the map, that also manages all the workouts updates
     lateinit var manager: MapsManager
 
     //Permissions to ask
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        //What to do when we have a result from activity
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted
@@ -46,7 +47,7 @@ class MapsFragment : Fragment() {
 
         manager = MapsManager(this.activity as Activity)
 
-        //If the service is running and we aren't on the finish view, go to finish view
+        //If the service is running and we aren't on the finish view, go to finish view: the service has the state that defines what to do
         if (TrackWorkoutService.running && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.currentDestination?.id != R.id.finish_workout_fragment) {
             childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()

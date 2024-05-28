@@ -44,7 +44,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     //Current startTime, distance and locations covered
     var startTime : Long = 0
         get() {
-            if (paused) {
+            if (paused || !running) {
                 //If it's paused, the startTime is only asked to get the current time, so we return a correct way
                 return SystemClock.elapsedRealtime() - offset
             }
@@ -128,8 +128,10 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     }
 
     //End the workout: it doesn't clear the values of locations, distance and startTime
-    fun endWorkout() {
+    fun stopWorkout() {
         if (running) {
+            //Save the current time in the offset, as this will be used when we will ask the startTime after this function
+            offset = SystemClock.elapsedRealtime() - startTime
             PositionTracker.removeObserver(this)
             addThisLocation()
             stopForeground(STOP_FOREGROUND_REMOVE)
