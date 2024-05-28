@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         //Show permissions dialog
         AlertDialog.Builder(this)
             .setMessage(
-                R.string.reason_to_update_permissions
+                R.string.enable_location
             )
             .setPositiveButton(
                 "Update"

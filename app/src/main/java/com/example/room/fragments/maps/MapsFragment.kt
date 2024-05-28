@@ -20,8 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsFragment : Fragment() {
 
-    //TODO: come fare se la posizione viene impostata dopo il fragment viene creato
-
     //The tracker of the position: used to display the map and the current position
     lateinit var manager: MapsManager
 
@@ -40,7 +38,6 @@ class MapsFragment : Fragment() {
 
             else -> {
                 //Nothing happens
-                Toast.makeText(context, "Access to position not allowed", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -68,15 +65,14 @@ class MapsFragment : Fragment() {
     }
 
     //Everytime it's started, check permissions
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         requirePermissions()
     }
 
     private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position
-            Log.d("AAA", "lessgooo")
             manager.startUpdateMap()
 
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {

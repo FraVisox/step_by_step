@@ -13,6 +13,7 @@
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it now but want to update it later, please go to your device settings</string>
     <string name="go_to_settings">The access to the position is required.</string>
     <string name="update_permissions">Update permissions</string>
+    <string name="enable_location">To track your workouts, you need to enable the location setting on your device. Click Update to update it</string>
 
     <!-- Save activity -->
     <string name="save_title">Save workout</string>
