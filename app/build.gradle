@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.room'
+    namespace 'it.unipd.footbyfoot'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.room"
+        applicationId "it.unipd.footbyfoot"
         minSdk 26
         targetSdk 34
         versionCode 1

@@ -6,27 +6,27 @@
     app:startDestination="@id/stepsFragment">
     <fragment
         android:id="@+id/stepsFragment"
-        android:name="com.example.room.fragments.steps.StepsFragment"
+        android:name="it.unipd.footbyfoot.fragments.steps.StepsFragment"
         android:label="fragment_steps"
         tools:layout="@layout/fragment_steps" />
     <fragment
         android:id="@+id/allenamentiFragment"
-        android:name="com.example.room.fragments.workouts.WorkoutsFragment"
+        android:name="it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment"
         android:label="fragment_allenamenti"
         tools:layout="@layout/workout_fragment" />
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.room.fragments.maps.MapsFragment"
+        android:name="it.unipd.footbyfoot.fragments.maps.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/maps_fragment" />
     <fragment
         android:id="@+id/goalsFragment"
-        android:name="com.example.room.fragments.goals.GoalsFragment"
+        android:name="it.unipd.footbyfoot.fragments.goals.GoalsFragment"
         android:label="fragment_goals"
         tools:layout="@layout/fragment_goals" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.room.fragments.settings.SettingsFragment"
+        android:name="it.unipd.footbyfoot.fragments.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

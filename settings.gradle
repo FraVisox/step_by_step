@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Room"
+rootProject.name = "it.unipd.footbyfoot"
 include ':app'
