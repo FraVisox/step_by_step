@@ -42,6 +42,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private var requestMade = false
     //Boolean to check if it has already been zoomed the area that we need
     private var first = true //TODO: salva first e fai in modo che si faccia il focus appena ho la posizione
+    //
+    private var updateEnabled = true
 
     /*
      * Tracker that manages the binding to the service
@@ -89,6 +91,9 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Function called by PositionTracker: update the polyline, if needed
     override fun locationUpdated(loc: Location) {
+        if (!updateEnabled) {
+            return
+        }
         if (first) {
             focusPosition(loc)
             first = false
@@ -157,7 +162,9 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         if (locs.isEmpty()) {
             return
         }
+        updateEnabled = false //TODO: rimuovere?
         currPolyline?.remove()
+        options = defaultOptions()
         otherPolylines.forEach {
             it.remove()
         }
@@ -176,6 +183,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             currPolyline = map.addPolyline(options.add(p))
             Log.d("AAA", "drawing $currPolyline")
         }
+        updateEnabled = true
     }
     //Deletes the lines drawn
     fun clearLine() {
