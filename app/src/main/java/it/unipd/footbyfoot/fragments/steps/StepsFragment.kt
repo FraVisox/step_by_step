@@ -38,10 +38,10 @@ class StepsFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             // Assegna i nomi alle tabs in base alla posizione
             when (position) {
-                0 -> tab.text = "Giorno"
-                1 -> tab.text = "Settimana"
-                2 -> tab.text = "Mese"  // Corretto da 3 a 2, presumendo che sia l'ultima posizione
-                else -> tab.text = "Giorno"
+                0 -> tab.text = "Last"
+                1 -> tab.text = "Last 7"
+                2 -> tab.text = "Last 30"
+                else -> tab.text = "Last"
             }
         }.attach()
 

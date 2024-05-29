@@ -17,4 +17,10 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="MyMaterialCardView">
+        <item name="android:background">@color/progressBar</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="iconTint">@android:color/black</item>
+    </style>
+
 </resources>

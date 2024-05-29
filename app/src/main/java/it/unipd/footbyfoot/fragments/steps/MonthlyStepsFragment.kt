@@ -27,7 +27,7 @@ class MonthlyStepsFragment : Fragment() {
             val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
             if(currentUser != null && currentGoal != null){
-                val adapter = RecordsAdapter2(currentGoal, currentUser, distances.reversed())
+                val adapter = RecordsAdapter(currentGoal, currentUser, distances.reversed())
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }

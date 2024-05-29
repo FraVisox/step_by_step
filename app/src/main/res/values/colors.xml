@@ -8,7 +8,7 @@
     <color name="buttonLabel">#FFFFFF</color>
     <color name="progressBar">#007FFF</color>
     <color name="progressBarUnfinished">#E0E0E0</color>
-    <color name="navigation_bar">#F0F8FF</color> <!-- Imposta il colore grigio scuro -->
+    <color name="navigation_bar">#F0F8FF</color>
     <color name="card_dark_gray">#424242</color>
     <color name="custom_blue">#0000FF</color>
 </resources>

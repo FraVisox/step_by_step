@@ -8,6 +8,51 @@
     tools:context=".fragments.workouts.WorkoutsFragment"
     style="@style/Background">
 
+    <LinearLayout
+        android:id = "@+id/layout_title_workout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/workout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/workout_title"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/WorkoutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/workout"
+            android:contentDescription="@string/workoutImage"/>
+
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/workout_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="@string/instructions_workout"
+        android:textSize="15sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_title_workout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_workouts"
         android:layout_width="0dp"
@@ -17,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workout_instructions"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/workout_record_item" />
 

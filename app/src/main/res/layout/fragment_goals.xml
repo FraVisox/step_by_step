@@ -76,7 +76,7 @@
                     android:id="@+id/stepsGoalImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/allenamenti"
+                    android:contentDescription="@string/Workouts"
                     android:src="@drawable/baseline_directions_run_24" />
 
                 <TextView
@@ -160,7 +160,7 @@
                     android:id="@+id/caloriesGoalImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/allenamenti"
+                    android:contentDescription="@string/Workouts"
                     android:src="@drawable/calories" />
 
                 <TextView
@@ -245,7 +245,7 @@
                     android:id="@+id/distanceGoalImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/allenamenti"
+                    android:contentDescription="@string/Workouts"
                     android:src="@drawable/distance" />
 
                 <!-- Testo -->

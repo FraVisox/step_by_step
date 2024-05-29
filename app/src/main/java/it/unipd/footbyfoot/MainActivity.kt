@@ -18,7 +18,6 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import it.unipd.footbyfoot.fragments.steps.StepsFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.android.gms.common.api.ResolvableApiException
-import it.unipd.footbyfoot.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -73,18 +72,18 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             binding.bottomNavigationView.post {
-                binding.bottomNavigationView.selectedItemId = R.id.passi
+                binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
             }
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
-                R.id.passi -> replaceFragment(R.id.stepsFragment, StepsFragment::class.qualifiedName)
-                R.id.attività -> replaceFragment(R.id.mapsFragment, MapsFragment::class.qualifiedName)
-                R.id.allenementi -> replaceFragment(R.id.allenamentiFragment, WorkoutsFragment::class.qualifiedName)
-                R.id.Obiettivi -> replaceFragment(R.id.goalsFragment, GoalsFragment::class.qualifiedName)
-                R.id.UserSettings -> replaceFragment(R.id.settingsFragment, SettingsFragment::class.qualifiedName)
+                R.id.BottomBarSummary -> replaceFragment(R.id.stepsFragment, StepsFragment::class.qualifiedName)
+                R.id.BottomBarActivity -> replaceFragment(R.id.mapsFragment, MapsFragment::class.qualifiedName)
+                R.id.BottomBarWorkouts -> replaceFragment(R.id.allenamentiFragment, WorkoutsFragment::class.qualifiedName)
+                R.id.BottomBarGoals -> replaceFragment(R.id.goalsFragment, GoalsFragment::class.qualifiedName)
+                R.id.BottomBartUserSettings -> replaceFragment(R.id.settingsFragment, SettingsFragment::class.qualifiedName)
                 else ->{
 
                 }
