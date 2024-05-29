@@ -81,7 +81,8 @@ class WorkoutTracker(private val manager: MapsManager) {
     }
 
     fun stopWorkout() {
-        if (!mBound) { //TODO || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
+        //If the workout only has one point, we save it anyway
+        if (!mBound) {
             return
         }
         mService.stopWorkout()
