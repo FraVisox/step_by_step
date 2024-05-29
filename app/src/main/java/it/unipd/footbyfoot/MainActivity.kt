@@ -15,7 +15,7 @@ import it.unipd.footbyfoot.databinding.ActivityMainBinding
 import it.unipd.footbyfoot.fragments.goals.GoalsFragment
 import it.unipd.footbyfoot.fragments.maps.MapsFragment
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
-import it.unipd.footbyfoot.fragments.steps.StepsFragment
+import it.unipd.footbyfoot.fragments.summary.SummaryFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.android.gms.common.api.ResolvableApiException
 import kotlinx.coroutines.Dispatchers
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
-                R.id.BottomBarSummary -> replaceFragment(R.id.stepsFragment, StepsFragment::class.qualifiedName)
+                R.id.BottomBarSummary -> replaceFragment(R.id.stepsFragment, SummaryFragment::class.qualifiedName)
                 R.id.BottomBarActivity -> replaceFragment(R.id.mapsFragment, MapsFragment::class.qualifiedName)
                 R.id.BottomBarWorkouts -> replaceFragment(R.id.allenamentiFragment, WorkoutsFragment::class.qualifiedName)
                 R.id.BottomBarGoals -> replaceFragment(R.id.goalsFragment, GoalsFragment::class.qualifiedName)

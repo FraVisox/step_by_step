@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
-class WeeklyStepsFragment : Fragment() {
+class Last7SummariesFragment : Fragment() {
 
 
     private lateinit var StepsProgressBar1: ProgressBar
@@ -51,7 +51,7 @@ class WeeklyStepsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_7_summaries, container, false)
 
         StepsProgressBar1 = view.findViewById(R.id.progressbarSteps1)
         StepsProgressBar2 = view.findViewById(R.id.progressbarSteps2)

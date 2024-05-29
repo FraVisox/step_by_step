@@ -41,6 +41,7 @@
         android:text="@string/GoalsDescription"
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
+        android:layout_margin="10dp"
         android:layout_marginBottom="16dp"/>
 
 

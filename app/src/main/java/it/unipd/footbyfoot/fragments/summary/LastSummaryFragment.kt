@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +11,8 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
-import it.unipd.footbyfoot.database.goal.Goal
 
-class TodayStepsFragment : Fragment() {
+class LastSummaryFragment : Fragment() {
 
     private lateinit var progressBarSteps  : ProgressBar
     private lateinit var countSteps: TextView
@@ -33,7 +32,7 @@ class TodayStepsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_today_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_last_summaries, container, false)
 
         progressBarSteps = view.findViewById(R.id.progressbarStepsToday)
         countSteps = view.findViewById(R.id.countStepsToday)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="horizontal"
-    tools:context=".fragments.steps.WeeklyStepsFragment">
+    tools:context=".fragments.summary.Last7SummariesFragment">
 
     <include layout="@layout/graph_weekly_steps"
         android:layout_margin="10dp"
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.7"/>
 
-    <include layout="@layout/show_records2"
+    <include layout="@layout/summary_item"
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"

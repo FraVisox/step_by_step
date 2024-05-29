@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import it.unipd.footbyfoot.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class StepsFragment : Fragment() {
+class SummaryFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -22,7 +22,7 @@ class StepsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         Log.d("AAA", "steps fragment created")
-        return inflater.inflate(R.layout.fragment_steps, container, false)
+        return inflater.inflate(R.layout.fragment_summary, container, false)
     }
     // todo mettere i settings e i goals di default
 
