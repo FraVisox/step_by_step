@@ -38,6 +38,8 @@ class Helpers {
             return dateFormat.format(date)
         }
 
+
+
         fun getDayOfWeek(date: Date): String {
             val calendar = Calendar.getInstance()
             calendar.time = date

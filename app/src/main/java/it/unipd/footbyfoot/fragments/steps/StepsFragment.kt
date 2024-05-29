@@ -24,6 +24,7 @@ class StepsFragment : Fragment() {
         Log.d("AAA", "steps fragment created")
         return inflater.inflate(R.layout.fragment_steps, container, false)
     }
+    // todo mettere i settings e i goals di default
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +44,6 @@ class StepsFragment : Fragment() {
                 else -> tab.text = "Giorno"
             }
         }.attach()
-
 
     }
 }

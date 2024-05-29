@@ -44,6 +44,10 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         repository.updateGoal(goal)
     }
 
+    fun updateUser(user: User) = viewModelScope.launch {
+        repository.updateUser(user)
+    }
+
     fun updateUserInfo(user: User) = viewModelScope.launch {
         repository.updateUser(user)
     }

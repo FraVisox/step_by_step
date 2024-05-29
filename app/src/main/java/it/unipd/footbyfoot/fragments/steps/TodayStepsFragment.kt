@@ -28,9 +28,6 @@ class TodayStepsFragment : Fragment() {
     private lateinit var goalsDistance : TextView
 
 
-     var ListGoals : List<Goal>? = null
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +44,7 @@ class TodayStepsFragment : Fragment() {
         progressBarDistance = view.findViewById(R.id.progressbarDistanceToday)
         countDistance = view.findViewById(R.id.countDistanceToday)
         goalsDistance = view.findViewById(R.id.goalsDistanceToday)
+
 
         Log.d("RecordsRoomDatabase", "todaystepsfragment")
 

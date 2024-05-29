@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".fragments.steps.TodayStepsFragment">
 
+
     <RelativeLayout
         android:id="@+id/progress_steps_layout"
         android:layout_width="match_parent"
@@ -185,9 +186,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/countDistanceToday"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
-                android:text="0"
+                android:text="@string/zero"
                 android:textSize="15sp"/>
 
             <ImageView

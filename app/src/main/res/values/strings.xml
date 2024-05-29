@@ -70,17 +70,23 @@
     <string name="Fri">V</string>
     <string name="Sat">S</string>
     <string name="Sun">D</string>
-    <string name="ObjectiveDescription">Imposta i tuoi obiettivi giornalieri</string>
-    <string name="obiettiviTitle">Obiettivi</string>
-    <string name="Impostazioni">Impostazioni</string>
-    <string name="UserSettings">Impostazioni Utente</string>
+
+
+    <!-- Settings -->
+    <string name="UserSettings">User Settings</string>
     <string name="settingsDescription">Imposta il tuo profilo correttamente per consultare modo più preciso i tuoi passi e le tue calorie bruciate</string>
-    <string name="BirthDay">Data di nascita</string>
-    <string name="weight">Peso (kg)</string>
+
     <string name="name">nome</string>
+    <string name="weight">Peso (kg)</string>
     <string name="height">Altezza (cm)</string>
+    <string name="age">Età</string>
+
+    <!-- Goals -->
+    <string name="GoalsDescription">Imposta i tuoi obiettivi giornalieri</string>
+    <string name="goalsTitle">Obiettivi</string>
     <string name="steps">Passi</string>
     <string name="calories">Calorie</string>
     <string name="distance">Km</string>
     <string name="zero">0</string>
+
 </resources>
