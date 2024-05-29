@@ -12,6 +12,7 @@ import android.widget.TextView
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.R
 import java.io.Serializable
 
 class WorkoutTracker(private val manager: MapsManager) {
@@ -47,6 +48,12 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    fun setViews(time: Chronometer, distanceView: TextView) {
+        //Connect the views
+        this.timeChronometer = time
+        this.distanceView = distanceView
+    }
+
     fun startWorkout() {
         //Create the service that will be used to track the workout: the chronometer will be updated when we receive the callback
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
@@ -55,12 +62,6 @@ class WorkoutTracker(private val manager: MapsManager) {
             connection,
             Context.BIND_AUTO_CREATE
         )
-    }
-
-    fun setViews(time: Chronometer, distanceView: TextView) {
-        //Connect the views
-        this.timeChronometer = time
-        this.distanceView = distanceView
     }
 
     fun pauseWorkout() {
@@ -78,11 +79,11 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
-    fun finishWorkout() {
-        if (!mBound || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
+    fun stopWorkout() {
+        if (!mBound) { //TODO || (manager.currPolyline == null && manager.otherPolylines.isEmpty())) {
             return
         }
-        mService.endWorkout()
+        mService.stopWorkout()
 
         //Cancel the updating of the chronometer
         timeChronometer.base = SystemClock.elapsedRealtime()
@@ -106,7 +107,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         manager.context.startActivity(intent)
     }
 
-    fun updatePolyline(current : Location) { //TODO: forse migliora qua
+    fun updatePolyline(current : Location) {
         if (TrackWorkoutService.running && !TrackWorkoutService.paused) {
             manager.addPointToLine(current)
             updateDistance()
@@ -115,7 +116,10 @@ class WorkoutTracker(private val manager: MapsManager) {
 
     private fun updateDistance() {
         distanceView?.post {
-            distanceView?.text = "${mService.distance.toInt()}m" //TODO: prendi da stringhe
+            distanceView?.text = manager.context.getString(
+                R.string.distance_format,
+                mService.distance.toInt()
+            )
         }
     }
 }

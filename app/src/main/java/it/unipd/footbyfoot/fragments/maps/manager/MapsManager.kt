@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
-import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -17,17 +16,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.maps.model.RoundCap
 
-//The class that manages all the interactions and updates to the map
+//The class that manages and updates the map
 class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationObserver {
 
     //Color of the polyline
-    private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary)) //TODO: prendi da stringa
+    private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
 
-    //Returns the options to construct the polyline
+    //Values of zoom
+    private val firstZoom = 17F
+    private val maxZoomToUpdate = 10F
+
+    //Returns the clear options to construct the polyline
     private fun defaultOptions(): PolylineOptions {
-        return PolylineOptions().color(trackColor).startCap(RoundCap()).endCap(RoundCap()) //TODO: cambia start e end cap
+        return PolylineOptions().color(trackColor)
     }
 
     //Map
@@ -40,12 +42,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private var mapInitialized = false
     //Boolean to check if has been made a request while the map was not initialized
     private var requestMade = false
-    //Boolean to check if it has already been zoomed the area that we need
-    private var first = true //TODO: salva first e fai in modo che si faccia il focus appena ho la posizione
+    //Boolean to check if it has already been zoomed the area of the current position
+    private var first = true
 
-    /*
-     * Tracker that manages the binding to the service
-     */
+    //Tracker that manages the binding to the service
     private val workoutTracker = WorkoutTracker(this)
 
     /*
@@ -53,7 +53,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      */
     var currPolyline : Polyline? = null
     var otherPolylines : MutableList<Polyline> = mutableListOf()
-    //Options of current polyline
+
+    //Options of current polyline (containing the points)
     private var options = defaultOptions()
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
@@ -68,7 +69,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Start tracking of the position
     fun startUpdateMap() {
-        //If the map has not been initialized, save the asking
+        //If the map has not been initialized, save the request
         if (!mapInitialized) {
             requestMade = true
             return
@@ -82,16 +83,14 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            Log.d("AAA", "permessi garantiti")
             map.isMyLocationEnabled = true
             PositionTracker.startLocationTrack(context)
         }
-        Log.d("AAA", "permessi non garantiti")
     }
 
-    //Function called by PositionTracker: update the polyline, if needed
+    //Function called by PositionTracker as this class implements PositionLocationObserver:
+    //updates the polyline, if needed
     override fun locationUpdated(loc: Location) {
-        Log.d("AAA", "first $first")
         if (first) {
             focusPosition(loc)
             first = false
@@ -102,21 +101,17 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Used to focus on initial position
     private fun focusPosition(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
-        Log.d("AAA", "${map.cameraPosition.zoom}")
-        if (map.cameraPosition.zoom == 5F)
-            map.moveCamera(CameraUpdateFactory.zoomTo(17F)) //TODO: prendi 17 da qualche altra parte
+        if (map.cameraPosition.zoom <= maxZoomToUpdate)
+            map.moveCamera(CameraUpdateFactory.zoomTo(firstZoom))
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
-    }
-
-    fun setViews(time: Chronometer, distanceView: TextView) {
-        workoutTracker.setViews(time, distanceView)
     }
 
     /*
      * Functions used to manage the workouts
      */
-    //Start a new workout, returns false if the position was not found
-    fun startWorkout() {
+    //Start a new workout and set the views
+    fun startWorkout(time: Chronometer, distanceView: TextView) {
+        workoutTracker.setViews(time, distanceView)
         if (PositionTracker.currentLocation == null) {
             //In this case, no workout could be initialized
             PositionTracker.startLocationTrack(context)
@@ -126,8 +121,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         workoutTracker.startWorkout()
     }
     //End the current workout
-    fun finishWorkout() {
-        workoutTracker.finishWorkout()
+    fun stopWorkout() {
+        workoutTracker.stopWorkout()
     }
     //Pause the current workout
     fun pauseWorkout() {
@@ -155,30 +150,23 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         if (mapInitialized)
             currPolyline = map.addPolyline(options)
     }
-    //Draw all current line
+    //Draw all current lines
     fun drawCurrentTrack(locs: List<LatLng?>) {
         if (locs.isEmpty()) {
             return
         }
-        currPolyline?.remove()
-        options = defaultOptions()
-        otherPolylines.forEach {
-            it.remove()
-        }
-        Log.d("AAA", locs.toString())
-        for (p in locs) {
-            if (p == null) {
+        clearLine()
+        locs.forEach {
+            if (it == null) {
                 if (currPolyline != null) {
                     otherPolylines.add(currPolyline!!)
                 }
                 currPolyline = null
                 options = defaultOptions()
-                Log.d("AAA", "resetting $currPolyline")
-                continue
+            } else {
+                currPolyline?.remove()
+                currPolyline = map.addPolyline(options.add(it))
             }
-            currPolyline?.remove()
-            currPolyline = map.addPolyline(options.add(p))
-            Log.d("AAA", "drawing $currPolyline")
         }
     }
     //Deletes the lines drawn

@@ -16,22 +16,11 @@ import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 
 class FinishWorkoutFragment : Fragment() {
 
+    //References to the parent fragment and the views to update
     private lateinit var fragment: MapsFragment
     private lateinit var timeView : Chronometer
     private lateinit var distanceView : TextView
 
-
-    private val pauseListener = OnClickListener { v ->
-        if (!TrackWorkoutService.running)
-            return@OnClickListener
-        if (TrackWorkoutService.paused) {
-            fragment.manager.resumeWorkout()
-            (v as Button).text = getString(R.string.pause_workout)
-        } else {
-            fragment.manager.pauseWorkout()
-            (v as Button).text = getString(R.string.resume_workout)
-        }
-    }
 
     //Create the fragment
     override fun onCreateView(
@@ -41,35 +30,44 @@ class FinishWorkoutFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.maps_finish_workout, container, false)
 
+        //Initialize the properties
         fragment = (parentFragment?.parentFragment as MapsFragment)
-
-        //Initialize the text views
         timeView = view.findViewById(R.id.time_chrono)
         distanceView = view.findViewById(R.id.km_tv)
 
-        //Start the workout
-        fragment.manager.setViews(timeView, distanceView)
-        fragment.manager.startWorkout()
+        //Start the workout and set the views
+        fragment.manager.startWorkout(timeView, distanceView)
 
+        //Set listeners
         val finish = view.findViewById<Button>(R.id.finish_button)
         finish.setOnClickListener {
-            fragment.manager.finishWorkout()
+            fragment.manager.stopWorkout()
             view.findNavController()
                 .navigate(R.id.action_finishToStart)
         }
 
         val pause = view.findViewById<Button>(R.id.pause_button)
-        pause.setOnClickListener(pauseListener)
+        pause.setOnClickListener{ v ->
+            if (TrackWorkoutService.running && TrackWorkoutService.paused) {
+                fragment.manager.resumeWorkout()
+                (v as Button).text = getString(R.string.pause_workout)
+            } else if (TrackWorkoutService.running) {
+                fragment.manager.pauseWorkout()
+                (v as Button).text = getString(R.string.resume_workout)
+            }
+        }
 
-        if (TrackWorkoutService.paused) {
+        //Restore state: as the service is running if the workout is in progress, it's his state that defines the state
+        if (TrackWorkoutService.running && TrackWorkoutService.paused) {
             pause.text = getString(R.string.resume_workout)
         }
 
         return view
     }
 
-    override fun onPause() {
-        super.onPause()
+    //On stop, clears the lines drawn
+    override fun onStop() {
+        super.onStop()
         fragment.manager.clearLine()
     }
 }

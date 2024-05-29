@@ -40,6 +40,7 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.workout_summary)
 
+        //TODO: non si vedono i punti mannaggia
         //This is deprecated from API level 33, but our test was on API level 32
         points = intent.getSerializableExtra(pointsKey) as List<WorkoutTrackPoint>
 

@@ -3,8 +3,10 @@ package it.unipd.footbyfoot.fragments.maps
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
@@ -13,12 +15,15 @@ import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.manager.PositionLocationObserver
 import it.unipd.footbyfoot.fragments.maps.manager.PositionTracker
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.MainActivity
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
     companion object {
         //Notification channel
         const val serviceId = 1
+        //Pending intent request code
+        const val requestCode = 0
 
         //Booleans that tell if the workout is in progress or not: the setter is private
         var running = false
@@ -40,7 +45,8 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     //Current startTime, distance and locations covered
     var startTime : Long = 0
         get() {
-            if (paused) {
+            if (paused || !running) {
+                //If it's paused, the startTime is only asked to get the current time, so we return a correct way
                 return SystemClock.elapsedRealtime() - offset
             }
             return field
@@ -48,13 +54,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     var distance : Float = 0F
     var locations : MutableList<LatLng?> = mutableListOf()
 
-    //Used for pausing the workout
+    //Used when the workout is paused
     private var offset : Long = 0
 
-    //When the service is created, the notification channel is created
+    //When the service is created, the notification channel is created (it's a safe operation, as if the channel already exists, no operation is performed)
     override fun onCreate() {
         super.onCreate()
-
         val channel = NotificationChannel(
             getString(R.string.channel_id),
             getString(R.string.notification_channel_name),
@@ -65,18 +70,28 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         notificationManager.createNotificationChannel(channel)
     }
 
-    //If the component is paused, we don't allow to start another workout
+    //Start a workout, if not already in progress
     fun startWorkout() {
         if (!running) {
             startTime = SystemClock.elapsedRealtime()
             running = true
 
-            // Build a notification //TODO: fai notifica meglio
+            // Build a notification
             val notificationBuilder: Notification.Builder =
                 Notification.Builder(this, getString(R.string.channel_id))
-            notificationBuilder.setContentTitle(getString(R.string.notification_title))
-            notificationBuilder.setContentText(getString(R.string.notification_content))
-            notificationBuilder.setSmallIcon(R.drawable.baseline_directions_run_24)
+            notificationBuilder
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_content))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        resources,
+                        R.mipmap.ic_launcher)) //TODO: icon not found
+
+            //Make an intent if the user taps the notification
+            val intent = Intent(this, MainActivity::class.java)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
+            notificationBuilder.setContentIntent(pendingIntent)
 
             //Start foreground
             val notification = notificationBuilder.build()
@@ -86,11 +101,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             PositionTracker.addObserver(this)
             PositionTracker.startLocationTrack(applicationContext)
 
-            //Start this workout
+            //Add the current location
             addThisLocation()
         }
     }
 
+    //It can be paused only if it is running and not already paused
     fun pauseWorkout() {
         if (running && !paused) {
             offset = SystemClock.elapsedRealtime() - startTime
@@ -99,24 +115,31 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             //Remove the observation of positions
             PositionTracker.removeObserver(this)
 
+            //Add the current location, and then null as a placeholder
             addThisLocation()
             locations.add(null)
         }
     }
 
+    //It can be resumed only if it is running and paused
     fun resumeWorkout() {
         if (paused && running) {
             paused = false
             startTime = SystemClock.elapsedRealtime() - offset
+
+            //Add the current location and start tracking
             addThisLocation()
             PositionTracker.addObserver(this)
         }
     }
 
-    fun endWorkout() {
+    //End the workout: it doesn't clear the values of locations, distance and startTime
+    fun stopWorkout() {
         if (running) {
-            addThisLocation()
+            //Save the current time in the offset, as this will be used when we will ask the startTime after this function
+            offset = SystemClock.elapsedRealtime() - startTime
             PositionTracker.removeObserver(this)
+            addThisLocation()
             stopForeground(STOP_FOREGROUND_REMOVE)
             running = false
             paused = false
@@ -132,6 +155,17 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         }
     }
 
+    //Clear the values of the workout
+    fun clearWorkout() {
+        if (!running) {
+            distance = 0F
+            startTime = 0
+            offset = 0
+            locations.clear()
+        }
+    }
+
+    //If every user unbinds, stops itself
     override fun onUnbind(intent: Intent?): Boolean {
         PositionTracker.removeObserver(this)
         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -139,6 +173,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         return super.onUnbind(intent)
     }
 
+    //Add the current location to the tracked locations
     private fun addThisLocation() {
         val current = PositionTracker.currentLocation
         if (current != null) {
@@ -146,15 +181,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         }
     }
 
-    fun clearWorkout() {
-        running = false
-        paused = false
-        distance = 0F
-        startTime = 0
-        offset = 0
-        locations.clear()
-    }
-
+    //Updates the distance using the last two locations
     private fun updateDistance(current: Location) {
         if (locations.isNotEmpty() && locations.last() != null) {
             val last = locations.last()
