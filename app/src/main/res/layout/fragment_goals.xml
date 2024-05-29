@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/GoalTitle"
@@ -41,8 +40,9 @@
         android:text="@string/GoalsDescription"
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
 
 
     <com.google.android.material.card.MaterialCardView

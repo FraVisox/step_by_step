@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/progress_steps_layout"
+        android:id="@+id/progress_summary_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -14,7 +14,7 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarStepsToday"
+            android:id="@+id/progressbarLastSteps"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,15 +24,15 @@
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageStepsToday"
+            android:id="@+id/imageLastSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/countStepsToday"
+            android:layout_above="@id/countLastSteps"
             android:src="@drawable/baseline_directions_run_24" />
 
         <TextView
-            android:id="@+id/countStepsToday"
+            android:id="@+id/countLastSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -52,7 +52,7 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarCaloriesToday"
+            android:id="@+id/progressbarLastCalories"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,15 +62,15 @@
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageCaloriesToday"
+            android:id="@+id/imageLastCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countCaloriesToday"
+            android:layout_above="@id/countLastCalories"
             android:layout_centerHorizontal="true"
             android:src="@drawable/calories" />
 
         <TextView
-            android:id="@+id/countCaloriesToday"
+            android:id="@+id/countLastCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -90,7 +90,7 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarDistanceToday"
+            android:id="@+id/progressbarLastDistance"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,15 +100,15 @@
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageDistanceToday"
+            android:id="@+id/imageLastDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countDistanceToday"
+            android:layout_above="@id/countLastDistance"
             android:layout_centerHorizontal="true"
             android:src="@drawable/distance" />
 
         <TextView
-            android:id="@+id/countDistanceToday"
+            android:id="@+id/countLastDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

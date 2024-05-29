@@ -22,8 +22,6 @@ class Last7SummariesFragment : Fragment() {
     private lateinit var StepsProgressBar6: ProgressBar
     private lateinit var StepsProgressBar7: ProgressBar
 
-
-
     private lateinit var countSteps1: TextView
     private lateinit var countSteps2: TextView
     private lateinit var countSteps3: TextView
@@ -51,7 +49,7 @@ class Last7SummariesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_7_summaries, container, false)
+        val view = inflater.inflate(R.layout.fragment_last_7_summaries, container, false)
 
         StepsProgressBar1 = view.findViewById(R.id.progressbarSteps1)
         StepsProgressBar2 = view.findViewById(R.id.progressbarSteps2)
@@ -72,13 +70,13 @@ class Last7SummariesFragment : Fragment() {
 
         date = view.findViewById(R.id.Date)
 
-        CircularProgressBarSteps = view.findViewById(R.id.progressbarStepsToday)
-        CircularProgressBarCalories = view.findViewById(R.id.progressbarCaloriesToday)
-        CircularProgressBarDistance = view.findViewById(R.id.progressbarDistanceToday)
+        CircularProgressBarSteps = view.findViewById(R.id.progressbarLastSteps)
+        CircularProgressBarCalories = view.findViewById(R.id.progressbarLastCalories)
+        CircularProgressBarDistance = view.findViewById(R.id.progressbarLastDistance)
 
-        CircularCountSteps = view.findViewById(R.id.countStepsToday)
-        CircularCountDistance = view.findViewById(R.id.countDistanceToday)
-        CircularCountCalories = view.findViewById(R.id.countCaloriesToday)
+        CircularCountSteps = view.findViewById(R.id.countLastSteps)
+        CircularCountDistance = view.findViewById(R.id.countLastDistance)
+        CircularCountCalories = view.findViewById(R.id.countLastCalories)
 
         // todo c'e un bug per cui se giro lo schermo tutte le bar hanno lo stesso valore
 
@@ -130,7 +128,6 @@ class Last7SummariesFragment : Fragment() {
                         StepsProgressBar7.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
                         countSteps7.text = countS.toString()
                     }
-
 
                 }
             }
@@ -195,9 +192,8 @@ class Last7SummariesFragment : Fragment() {
 
     }
 
-
-
 }
+
 
 /*
  if (savedInstanceState != null) {

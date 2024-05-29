@@ -18,7 +18,7 @@ class Last30SummariesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_30_summaries, container, false)
+        val view = inflater.inflate(R.layout.fragment_last_30_summaries, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
         (activity as MainActivity).recordsViewModel.last30Distances.observe(viewLifecycleOwner, Observer { distances ->

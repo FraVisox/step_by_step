@@ -17,7 +17,8 @@ class Helpers {
         }
 
         fun calculateCalories(weight: Double, distance: Double): Double {
-            return weight * distance * 0.9
+            val result = weight * distance * 0.9
+            return "%.1f".format(result).toDouble()
         }
         fun calculateSteps(height: Double, distance: Double): Int {
             // Convert height from centimeters to meters
@@ -38,22 +39,6 @@ class Helpers {
             return dateFormat.format(date)
         }
 
-
-
-        fun getDayOfWeek(date: Date): String {
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            return when (calendar.get(Calendar.DAY_OF_WEEK)) {
-                Calendar.MONDAY -> "Monday"
-                Calendar.TUESDAY -> "Tuesday"
-                Calendar.WEDNESDAY -> "Wednesday"
-                Calendar.THURSDAY -> "Thursday"
-                Calendar.FRIDAY -> "Friday"
-                Calendar.SATURDAY -> "Saturday"
-                Calendar.SUNDAY -> "Sunday"
-                else -> throw IllegalStateException("Invalid day of the week")
-            }
-        }
     }
 
 }

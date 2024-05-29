@@ -31,22 +31,18 @@ class LastSummaryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_last_summaries, container, false)
 
-        progressBarSteps = view.findViewById(R.id.progressbarStepsToday)
-        countSteps = view.findViewById(R.id.countStepsToday)
-        goalsSteps = view.findViewById(R.id.goalsStepsToday)
-        progressBarCalories = view.findViewById(R.id.progressbarCaloriesToday)
-        countCalories = view.findViewById(R.id.countCaloriesToday)
-        goalsCalories= view.findViewById(R.id.goalsCaloriesToday)
-        progressBarDistance = view.findViewById(R.id.progressbarDistanceToday)
-        countDistance = view.findViewById(R.id.countDistanceToday)
-        goalsDistance = view.findViewById(R.id.goalsDistanceToday)
-
-
-        Log.d("RecordsRoomDatabase", "todaystepsfragment")
-
+        progressBarSteps = view.findViewById(R.id.progressbarLastSteps)
+        countSteps = view.findViewById(R.id.countLastSteps)
+        goalsSteps = view.findViewById(R.id.goalsLastSteps)
+        progressBarCalories = view.findViewById(R.id.progressbarLastCalories)
+        countCalories = view.findViewById(R.id.countLastCalories)
+        goalsCalories= view.findViewById(R.id.goalsLastCalories)
+        progressBarDistance = view.findViewById(R.id.progressbarLastDistance)
+        countDistance = view.findViewById(R.id.countLastDistance)
+        goalsDistance = view.findViewById(R.id.goalsLastDistance)
 
 
 
@@ -75,6 +71,8 @@ class LastSummaryFragment : Fragment() {
                 Log.d("oggi", "La lista dei Users di oggi è vuota")
             }
         })
+
+
         (activity as MainActivity).recordsViewModel.lastDistance.observe(viewLifecycleOwner, Observer { distance ->
 
             if (distance.isNotEmpty() && distance.size == 1) {
