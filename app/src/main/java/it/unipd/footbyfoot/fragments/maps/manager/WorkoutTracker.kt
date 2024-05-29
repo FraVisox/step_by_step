@@ -93,7 +93,13 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Take time, distance and points
         val distance = mService.distance.toInt()
         val time = SystemClock.elapsedRealtime() - mService.startTime
-        val positions : MutableList<LatLng?> = mService.locations
+        val positions : MutableList<LatLng?> = mutableListOf()
+        positions.addAll(mService.locations)
+
+        //Reset
+        mService.clearWorkout()
+        manager.context.applicationContext.unbindService(connection)
+        manager.clearLine()
 
         //Start activity to save the workout
         val intent = Intent(manager.context, SaveWorkoutActivity::class.java)
@@ -101,11 +107,6 @@ class WorkoutTracker(private val manager: MapsManager) {
         intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
         intent.putExtra(SaveWorkoutActivity.positionsKey, positions as Serializable)
         manager.context.startActivity(intent)
-
-        //Reset
-        mService.clearWorkout()
-        manager.context.applicationContext.unbindService(connection)
-        manager.clearLine()
     }
 
     fun updatePolyline(current : Location) {
