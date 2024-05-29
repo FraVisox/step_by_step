@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,87 +19,89 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-// cosi è per farla come il laboratorio di room Sotto è presente una classe Adapter normale come la abbiamo vista in classe
+//Adapter for a single Workout
 class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, WorkoutsAdapter.WorkoutViewHolder>(WORKOUT_COMPARATOR) {
 
+    //List of points of the workouts: we keep all the points and then filter them later
     private var points : List<WorkoutTrackPoint> = listOf()
 
+    //Update the list of points, used by the WorkoutsFragment when it observes live data
     fun updatePoints(new: List<WorkoutTrackPoint>) {
         points = new
     }
 
-    // Devo farlo da ciò che ho capito per usare ListAdapter
+    //ListAdapters need a comparator
     companion object {
         private val WORKOUT_COMPARATOR = object : DiffUtil.ItemCallback<Workout>() {
+            //Tells if two items are the same
             override fun areItemsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-
-                // Logica per determinare se due elementi rappresentano lo stesso oggetto
                 return oldItem.workoutId == newItem.workoutId
             }
 
-
+            //Tells if two items have the same content
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-                // Confronta se il contenuto di due oggetti è lo stesso
-                // Potresti confrontare ogni campo o fare un confronto basato su una versione hash
-                return oldItem.date == newItem.date //TODO:
+                //We check the dates and the user: one user can't have done two activities simultaneously
+                return (oldItem.date == newItem.date) && (oldItem.userId == newItem.userId)
             }
         }
     }
 
     // Returns a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
-        return WorkoutViewHolder.create(parent)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.workout_record_item, parent, false)
+        return WorkoutViewHolder(view)
     }
 
 
     // Displays data at a certain position
-    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) { //TODO: cambia tutte le stringhe
+    override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
         //TODO: metti l'ora con AM, PM
+        //Take the workout at that position
         val record = getItem(position)
-        val dateOfRecords= record.date
-        val meters= "${record.meters}m"
+
+        //Make a string out of time, meters, speed, and take the points
+        val meters= activity.getString(R.string.distance_format, record.meters)
+
         var seconds = record.time
         var minutes: Long = (seconds / 60)
         val hours: Long = (minutes/60)
         minutes %= 60
         seconds %= 60
-        val timeText = "${"%02d".format(hours)}:${"%02d".format(minutes)}:${"%02d".format(seconds)}"
-        val name= record.name
+        //TODO: long da problemi?
+        val timeText = activity.getString(R.string.time_format, hours, minutes, seconds)
+
         val p = points.filter {
             it.workoutId == record.workoutId
         }
-        val sp = if (record.time != 0L) record.meters.toDouble()/record.time else 0
 
-        holder.bind(dateOfRecords, meters, timeText, "${"%.2f".format(sp)}m/s", name, p, record.workoutId)
+        Log.d("AAA", points.toString())
+        Log.d("AAA", p.toString())
 
+        val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
+
+        holder.bind(record.date, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
-    // Describes an item view and its place within the RecyclerView
+
+    //The holder of the data of a workout
     class WorkoutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        companion object {
-            fun create(parent: ViewGroup): WorkoutViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.workout_record_item, parent, false)
-                return WorkoutViewHolder(view)
-            }
-        }
-
-        private val date: TextView = itemView.findViewById(R.id.date)
-
+        //Text views to display data
+        private val date = itemView.findViewById<TextView>(R.id.date)
         private val meters = itemView.findViewById<TextView>(R.id.meters)
-
         private val speed = itemView.findViewById<TextView>(R.id.speed)
-
         private val time = itemView.findViewById<TextView>(R.id.time)
-
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
         fun bind(dat: Date, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+            //Set text
             date.text = SimpleDateFormat(getString(itemView.context, R.string.date_format)).format(dat)
             meters.text = m
             time.text = tim
             name.text = nam
             speed.text = v
+
+            //Set a listener on the entire view that displays the track
             itemView.setOnClickListener {
                 val intent = Intent(it.context, MapsWorkoutSummaryActivity::class.java)
                 intent.putExtra(MapsWorkoutSummaryActivity.pointsKey, points as Serializable)

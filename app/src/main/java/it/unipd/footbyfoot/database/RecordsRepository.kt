@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.database
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -33,12 +34,8 @@ class RecordsRepository(
 
     // tutti i records
     val allUsers: Flow<List<User>> = userDao.getAllUsers()
-    val allWorkouts: Flow<List<Workout>> = workoutDao.getAllActivitiesOrderedByDate()
+    val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
     val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
-
-    val allSteps: Flow<List<Steps>> = stepsDao.getAllStepsOrderedByDate()
-    val allCalories: Flow<List<Calories>> = caloriesDao.getAllCaloriesOrderedByDate()
-    val allDistances: Flow<List<Distance>> = distanceDao.getAllDistancesOrderedByDate()
 
     // Records giornalieri
     val dailySteps: Flow<List<Steps>> = getLastXSteps(stepsDao.getAllStepsOrderedByDate(),1)
@@ -129,12 +126,13 @@ class RecordsRepository(
         distanceDao.insert(distance)
     }
 
-    // Inserisci una nuova attività
+    //Insert a new workout, with the points associated
     @WorkerThread
     suspend fun insertWorkout(workout: Workout, points: MutableList<LatLng?>) {
         workoutDao.insert(workout)
         var list = 0
         var index = 0
+        Log.d("AAA", points.toString())
         for (p in points) {
             if (p == null) {
                 list++
@@ -146,15 +144,11 @@ class RecordsRepository(
         }
     }
 
+    //Delete the workout and all the points associated
     @WorkerThread
     suspend fun deleteWorkout(workoutID: Int) {
         workoutDao.deleteWorkout(workoutID)
         workoutDao.deleteWorkoutPoints(workoutID)
-    }
-
-    @WorkerThread
-    fun getWorkoutPoints(workout: Workout) : Flow<List<WorkoutTrackPoint>> {
-        return workoutDao.getPointsOfWorkout(workout.workoutId)
     }
 
     @WorkerThread

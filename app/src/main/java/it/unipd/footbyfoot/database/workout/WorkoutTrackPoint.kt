@@ -9,11 +9,11 @@ data class WorkoutTrackPoint(
     @ColumnInfo(name = "pointId")
     val pointId: Int,
     @ColumnInfo(name = "workoutId")
-    val workoutId: Int, // Chiave esterna che collega a Activity
+    val workoutId: Int, //External key to workout
     @ColumnInfo(name = "trackList")
     val trackList: Int,
     @ColumnInfo(name = "lat")
     val lat: Double,
     @ColumnInfo(name = "lng")
     val lng: Double
-) : Serializable
+) : Serializable //Implements Serializable to be passed in Intents

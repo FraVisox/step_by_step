@@ -1,15 +1,12 @@
 package it.unipd.footbyfoot.database
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import it.unipd.footbyfoot.database.goal.Goal
-import it.unipd.footbyfoot.database.records.calories.Calories
 import it.unipd.footbyfoot.database.records.distance.Distance
-import it.unipd.footbyfoot.database.records.steps.Steps
 import it.unipd.footbyfoot.database.user.User
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
@@ -39,18 +36,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         repository.insertUser(user)
     }
 
-    fun insertSteps(step: Steps) = viewModelScope.launch {
-        repository.insertStep(step)
-    }
-
-    fun insertCalories(calorie: Calories) = viewModelScope.launch {
-        repository.insertCalorie(calorie)
-    }
-
-    fun insertDistance(distance: Distance) = viewModelScope.launch {
-        repository.insertDistance(distance)
-    }
-
     fun insertGoal(goal: Goal) = viewModelScope.launch {
         repository.insertGoal(goal)
     }
@@ -63,27 +48,19 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         repository.updateUser(user)
     }
 
-    fun insertTodayRecords(step: Steps, distance: Distance, calorie: Calories) = viewModelScope.launch {
-        repository.insertDayRecord(step, distance, calorie)
-    }
-
+    //Insert a new workout, with the corresponding points
     fun insertWorkout(workout: Workout, points: MutableList<LatLng?>) =
         viewModelScope.launch {
             repository.insertWorkout(workout, points)
         }
 
+    //Delete the workout, with the points associated
     fun deleteWorkout(workoutId: Int) {
-        Log.d("AAA", "delete ${workoutId.toString()}")
         if (workoutId != invalidID) {
             viewModelScope.launch {
                 repository.deleteWorkout(workoutId)
             }
         }
-    }
-
-
-    fun getActivityPoints(workout: Workout): LiveData<List<WorkoutTrackPoint>> {
-        return repository.getWorkoutPoints(workout).asLiveData()
     }
 }
 

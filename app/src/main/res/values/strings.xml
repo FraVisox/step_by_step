@@ -14,6 +14,7 @@
     <string name="time_format">%1$02d:%2$02d:%3$02d</string>
     <string name="distance_format">%1$dm</string>
     <string name="speed_format">%1$.2fm/s</string>
+    <string name="date_format">dd.MM.yyyy\nhh:mm a</string>
 
     <!-- Maps strings -->
     <string name="start_workout">Start</string>
@@ -47,7 +48,6 @@
     <string name="speed">SPEED</string>
     <string name="date">DATE</string>
     <string name="back_button">BACK</string>
-    <string name="date_format">dd.MM.yyyy\nhh:mm</string>
     <string name="activity_name">Activity</string>
     <string name="delete">DELETE</string>
 

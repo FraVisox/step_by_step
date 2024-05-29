@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
@@ -94,17 +95,17 @@ class WorkoutTracker(private val manager: MapsManager) {
         val time = SystemClock.elapsedRealtime() - mService.startTime
         val positions : MutableList<LatLng?> = mService.locations
 
-        //Reset
-        mService.clearWorkout()
-        manager.context.applicationContext.unbindService(connection)
-        manager.clearLine()
-
         //Start activity to save the workout
         val intent = Intent(manager.context, SaveWorkoutActivity::class.java)
         intent.putExtra(SaveWorkoutActivity.timeKey, time/1000)
         intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
         intent.putExtra(SaveWorkoutActivity.positionsKey, positions as Serializable)
         manager.context.startActivity(intent)
+
+        //Reset
+        mService.clearWorkout()
+        manager.context.applicationContext.unbindService(connection)
+        manager.clearLine()
     }
 
     fun updatePolyline(current : Location) {

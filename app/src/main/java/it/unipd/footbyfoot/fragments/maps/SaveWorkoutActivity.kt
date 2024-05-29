@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -60,6 +61,9 @@ class SaveWorkoutActivity: AppCompatActivity() {
         //Set speed
         val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
+
+        Log.d("AAA", (intent.getSerializableExtra(
+            positionsKey) as MutableList<LatLng?>).toString())
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {

@@ -7,10 +7,10 @@ import java.util.Date
 
 @Entity(tableName = "workout_table")
 data class Workout(
-    @PrimaryKey(/*autoGenerate = true*/) @ColumnInfo(name = "workoutId")
+    @PrimaryKey @ColumnInfo(name = "workoutId")
     val workoutId: Int,
     @ColumnInfo(name = "userId")
-    val userId: Int, // Chiave esterna che collega a User
+    val userId: Int, //External key to user
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "time")

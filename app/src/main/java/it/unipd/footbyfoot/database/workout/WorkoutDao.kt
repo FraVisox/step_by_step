@@ -7,34 +7,29 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface WorkoutDao { //TODO: replace o ignore?
+interface WorkoutDao {
 
-    //WORKOUTS
+    //Get all workouts
     @Query("SELECT * FROM workout_table ORDER BY date ASC")
-    fun getAllActivitiesOrderedByDate(): Flow<List<Workout>>
+    fun getAllWorkoutsOrderedByDate(): Flow<List<Workout>>
 
+    //Insert a workout
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workout: Workout)
 
-    @Query("DELETE FROM workout_table")
-    suspend fun deleteAllActivities()
-
+    //Delete a workout
     @Query("DELETE FROM workout_table WHERE workoutId = :id")
     suspend fun deleteWorkout(id: Int)
 
-    //POINTS OF WORKOUTS
-    @Query("SELECT * FROM point_table WHERE workoutId = :id")
-    fun getPointsOfWorkout(id : Int): Flow<List<WorkoutTrackPoint>>
-
+    //Get all the points of all workouts
     @Query("SELECT * FROM point_table")
     fun getAllPoints(): Flow<List<WorkoutTrackPoint>>
 
+    //Insert a point of a workout
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(track: WorkoutTrackPoint)
 
-    @Query("DELETE FROM point_table")
-    suspend fun deleteAllPoints()
-
+    //Delete the points of a workout
     @Query("DELETE FROM point_table WHERE workoutId = :id")
     suspend fun deleteWorkoutPoints(id: Int)
 }

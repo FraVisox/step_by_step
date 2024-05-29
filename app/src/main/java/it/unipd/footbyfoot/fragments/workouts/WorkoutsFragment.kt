@@ -17,21 +17,20 @@ class WorkoutsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.workout_fragment, container, false)
+
         // Initialize the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)
         val adapter = WorkoutsAdapter(activity as MainActivity)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        // Observe LiveData from ViewModel
+        // Observe LiveData from ViewModel and submit them to the adapter: this is done both for the workouts list and for the points list
         (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity, Observer { records ->
             records?.let {
                 adapter.submitList(it)
             }
         })
-
         (activity as MainActivity).recordsViewModel.allPoints.observe(activity as MainActivity, Observer { records ->
             records?.let {
                 adapter.updatePoints(it)

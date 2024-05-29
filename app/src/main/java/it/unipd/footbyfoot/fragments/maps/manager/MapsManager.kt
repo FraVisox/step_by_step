@@ -23,9 +23,11 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Color of the polyline
     private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
 
-    //Values of zoom
-    private val firstZoom = 17F
-    private val maxZoomToUpdate = 10F
+    companion object {
+        //Values of zoom
+        const val firstZoom = 17F
+        const val maxZoomToUpdate = 10F
+    }
 
     //Returns the clear options to construct the polyline
     private fun defaultOptions(): PolylineOptions {
