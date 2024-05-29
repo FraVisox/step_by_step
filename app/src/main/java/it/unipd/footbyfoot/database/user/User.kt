@@ -8,7 +8,7 @@ data class User(
     @PrimaryKey(autoGenerate = true)
     val userId: Int,  // Identificativo unico dell'utente
     val userName: String, // Nome dell'utente
-    val dateOfBirth: Date, // Data di nascita dell'utente
+    val age: Int, // Data di nascita dell'utente
     val weight: Int,
     val height: Int
 )

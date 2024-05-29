@@ -19,7 +19,7 @@
             android:id="@+id/GoalTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/obiettiviTitle"
+            android:text="@string/goalsTitle"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/ObjectiveDescription"
+        android:text="@string/GoalsDescription"
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
         android:layout_marginBottom="16dp"/>

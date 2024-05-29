@@ -25,7 +25,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 //TODO: elimina tutto il codice commentato
-
+// TODO: No service published for: ethernet (Ask Gemini)
+//                                                                                                    android.os.ServiceManager$ServiceNotFoundException: No service published for: ethernet
+//                                                                                                    	at android.os.ServiceManager.getServiceOrThrow(ServiceManager.java:166)
+//                                                                                                    	at android.app.SystemServiceRegistry$139.createService(SystemServiceRegistry.java:1872) 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding

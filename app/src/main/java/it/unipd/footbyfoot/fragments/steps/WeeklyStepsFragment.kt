@@ -81,50 +81,10 @@ class WeeklyStepsFragment : Fragment() {
         CircularCountCalories = view.findViewById(R.id.countCaloriesToday)
 
         // todo c'e un bug per cui se giro lo schermo tutte le bar hanno lo stesso valore
-        if (savedInstanceState != null) {
-            StepsProgressBar1.progress = savedInstanceState.getInt("1Bar")
-            StepsProgressBar2.progress = savedInstanceState.getInt("2Bar")
-            StepsProgressBar3.progress = savedInstanceState.getInt("3Bar")
-            StepsProgressBar4.progress = savedInstanceState.getInt("4Bar")
-            StepsProgressBar5.progress = savedInstanceState.getInt("5Bar")
-            StepsProgressBar6.progress = savedInstanceState.getInt("6Bar")
-            StepsProgressBar7.progress = savedInstanceState.getInt("7Bar")
-
-            date.text = savedInstanceState.getString("date")
-
-            val countS1 = savedInstanceState.getString("1Count")
-            if (countS1 != null) countSteps1.text = countS1
-            val countS2 = savedInstanceState.getString("2Count")
-            if (countS2 != null) countSteps2.text = countS2
-            val countS3 = savedInstanceState.getString("3Count")
-            if (countS3 != null) countSteps3.text = countS3
-            val countS4 = savedInstanceState.getString("4Count")
-            if (countS4 != null) countSteps4.text = countS4
-            val countS5 = savedInstanceState.getString("5Count")
-            if (countS5 != null) countSteps5.text = countS5
-            val countS6 = savedInstanceState.getString("6Count")
-            if (countS6 != null) countSteps6.text = countS6
-            val countS7 = savedInstanceState.getString("7Count")
-            if (countS7 != null) countSteps7.text = countS7
-
-            CircularProgressBarSteps.progress = savedInstanceState.getInt("stepsCircular")
-            CircularProgressBarCalories.progress = savedInstanceState.getInt("caloriesCircular")
-            CircularProgressBarDistance.progress = savedInstanceState.getInt("distanceCircular")
-
-            val stepsCircularCount = savedInstanceState.getString("stepsCircularCount")
-            if (stepsCircularCount!= null) CircularCountSteps.text = stepsCircularCount
-            val caloriesCircularCount = savedInstanceState.getString("caloriesCircularCount")
-            if (caloriesCircularCount!= null) CircularCountCalories.text = caloriesCircularCount
-            val distanceCircularCount = savedInstanceState.getString("distanceCircularCount")
-            if (distanceCircularCount!= null) CircularCountDistance.text = distanceCircularCount
-
-        }
-
 
         (activity as MainActivity).recordsViewModel.last7Distances.observe(viewLifecycleOwner, Observer { distanceList ->
 
             if (distanceList.isNotEmpty()) {
-
 
                 handleProgressBarClick(1)
 
@@ -198,7 +158,6 @@ class WeeklyStepsFragment : Fragment() {
             handleProgressBarClick(7)
         }
         return view
-
     }
 
     private fun handleProgressBarClick(num : Int) {
@@ -236,7 +195,51 @@ class WeeklyStepsFragment : Fragment() {
 
     }
 
-    override fun onSaveInstanceState(savedInstanceState: Bundle)
+
+
+}
+
+/*
+ if (savedInstanceState != null) {
+            StepsProgressBar1.progress = savedInstanceState.getInt("1Bar")
+            StepsProgressBar2.progress = savedInstanceState.getInt("2Bar")
+            StepsProgressBar3.progress = savedInstanceState.getInt("3Bar")
+            StepsProgressBar4.progress = savedInstanceState.getInt("4Bar")
+            StepsProgressBar5.progress = savedInstanceState.getInt("5Bar")
+            StepsProgressBar6.progress = savedInstanceState.getInt("6Bar")
+            StepsProgressBar7.progress = savedInstanceState.getInt("7Bar")
+
+            date.text = savedInstanceState.getString("date")
+
+            val countS1 = savedInstanceState.getString("1Count")
+            if (countS1 != null) countSteps1.text = countS1
+            val countS2 = savedInstanceState.getString("2Count")
+            if (countS2 != null) countSteps2.text = countS2
+            val countS3 = savedInstanceState.getString("3Count")
+            if (countS3 != null) countSteps3.text = countS3
+            val countS4 = savedInstanceState.getString("4Count")
+            if (countS4 != null) countSteps4.text = countS4
+            val countS5 = savedInstanceState.getString("5Count")
+            if (countS5 != null) countSteps5.text = countS5
+            val countS6 = savedInstanceState.getString("6Count")
+            if (countS6 != null) countSteps6.text = countS6
+            val countS7 = savedInstanceState.getString("7Count")
+            if (countS7 != null) countSteps7.text = countS7
+
+            CircularProgressBarSteps.progress = savedInstanceState.getInt("stepsCircular")
+            CircularProgressBarCalories.progress = savedInstanceState.getInt("caloriesCircular")
+            CircularProgressBarDistance.progress = savedInstanceState.getInt("distanceCircular")
+
+            val stepsCircularCount = savedInstanceState.getString("stepsCircularCount")
+            if (stepsCircularCount!= null) CircularCountSteps.text = stepsCircularCount
+            val caloriesCircularCount = savedInstanceState.getString("caloriesCircularCount")
+            if (caloriesCircularCount!= null) CircularCountCalories.text = caloriesCircularCount
+            val distanceCircularCount = savedInstanceState.getString("distanceCircularCount")
+            if (distanceCircularCount!= null) CircularCountDistance.text = distanceCircularCount
+
+        }
+
+        override fun onSaveInstanceState(savedInstanceState: Bundle)
     {
         super.onSaveInstanceState(savedInstanceState)
         savedInstanceState.putString("date", date.text.toString())
@@ -266,6 +269,4 @@ class WeeklyStepsFragment : Fragment() {
         savedInstanceState.putString("distanceCircularCount", CircularCountDistance.text.toString())
 
     }
-
-}
-
+ */
