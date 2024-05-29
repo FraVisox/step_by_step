@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1008661556522",
+    "project_id": "provafootbyfoot",
+    "storage_bucket": "provafootbyfoot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008661556522:android:bceb7e4e8a5a39c39dc253",
+        "android_client_info": {
+          "package_name": "com.example.room"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdUBbFeprj50uvJCSyLkP3xcCmcLixnNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008661556522:android:5c16a2820fa217259dc253",
+        "android_client_info": {
+          "package_name": "it.unipd.footbyfoot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdUBbFeprj50uvJCSyLkP3xcCmcLixnNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
