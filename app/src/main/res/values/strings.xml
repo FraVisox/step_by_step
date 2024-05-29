@@ -1,6 +1,6 @@
 <resources>
     <!-- Global strings -->
-    <string name="app_name">Foot By Foot</string>
+    <string name="app_name">Step By Step</string>
     <string name="action_settings">Settings</string>
 
     <!-- Dialogs to show to the user for the location permissions -->
