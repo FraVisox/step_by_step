@@ -6,9 +6,9 @@
     app:startDestination="@id/stepsFragment">
     <fragment
         android:id="@+id/stepsFragment"
-        android:name="it.unipd.footbyfoot.fragments.steps.StepsFragment"
+        android:name="it.unipd.footbyfoot.fragments.summary.SummaryFragment"
         android:label="fragment_steps"
-        tools:layout="@layout/fragment_steps" />
+        tools:layout="@layout/fragment_summary" />
     <fragment
         android:id="@+id/allenamentiFragment"
         android:name="it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment"

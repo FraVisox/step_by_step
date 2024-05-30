@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
-class WeeklyStepsFragment : Fragment() {
+class Last7SummariesFragment : Fragment() {
 
 
     private lateinit var StepsProgressBar1: ProgressBar
@@ -21,8 +21,6 @@ class WeeklyStepsFragment : Fragment() {
     private lateinit var StepsProgressBar5: ProgressBar
     private lateinit var StepsProgressBar6: ProgressBar
     private lateinit var StepsProgressBar7: ProgressBar
-
-
 
     private lateinit var countSteps1: TextView
     private lateinit var countSteps2: TextView
@@ -51,7 +49,7 @@ class WeeklyStepsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_weekly_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_last_7_summaries, container, false)
 
         StepsProgressBar1 = view.findViewById(R.id.progressbarSteps1)
         StepsProgressBar2 = view.findViewById(R.id.progressbarSteps2)
@@ -72,13 +70,13 @@ class WeeklyStepsFragment : Fragment() {
 
         date = view.findViewById(R.id.Date)
 
-        CircularProgressBarSteps = view.findViewById(R.id.progressbarStepsToday)
-        CircularProgressBarCalories = view.findViewById(R.id.progressbarCaloriesToday)
-        CircularProgressBarDistance = view.findViewById(R.id.progressbarDistanceToday)
+        CircularProgressBarSteps = view.findViewById(R.id.progressbarLastSteps)
+        CircularProgressBarCalories = view.findViewById(R.id.progressbarLastCalories)
+        CircularProgressBarDistance = view.findViewById(R.id.progressbarLastDistance)
 
-        CircularCountSteps = view.findViewById(R.id.countStepsToday)
-        CircularCountDistance = view.findViewById(R.id.countDistanceToday)
-        CircularCountCalories = view.findViewById(R.id.countCaloriesToday)
+        CircularCountSteps = view.findViewById(R.id.countLastSteps)
+        CircularCountDistance = view.findViewById(R.id.countLastDistance)
+        CircularCountCalories = view.findViewById(R.id.countLastCalories)
 
         // todo c'e un bug per cui se giro lo schermo tutte le bar hanno lo stesso valore
 
@@ -130,7 +128,6 @@ class WeeklyStepsFragment : Fragment() {
                         StepsProgressBar7.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
                         countSteps7.text = countS.toString()
                     }
-
 
                 }
             }
@@ -195,9 +192,8 @@ class WeeklyStepsFragment : Fragment() {
 
     }
 
-
-
 }
+
 
 /*
  if (savedInstanceState != null) {

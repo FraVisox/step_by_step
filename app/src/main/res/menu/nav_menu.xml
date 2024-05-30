@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/allenementi"
+        android:id="@+id/BottomBarWorkouts"
         android:icon="@drawable/workout"
-        android:title="@string/allenamenti" />
+        android:title="@string/Workouts" />
     <item
-        android:id="@+id/Obiettivi"
+        android:id="@+id/BottomBarGoals"
         android:icon="@drawable/baseline_stars_24"
         android:title="@string/goalsTitle" />
     <item
-        android:id="@+id/passi"
+        android:id="@+id/BottomBarSummary"
         android:icon="@drawable/baseline_directions_run_24"
-        android:title="@string/passi" />
+        android:title="@string/Summary" />
     <item
-        android:id="@+id/attività"
+        android:id="@+id/BottomBarActivity"
         android:icon="@drawable/baseline_map_24"
-        android:title="@string/maps" />
+        android:title="@string/Activity" />
 
     <item
-        android:id="@+id/UserSettings"
+        android:id="@+id/BottomBartUserSettings"
         android:icon="@drawable/baseline_manage_accounts_24"
         android:title="@string/UserSettings" />
 

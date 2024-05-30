@@ -50,40 +50,28 @@
     <string name="back_button">BACK</string>
     <string name="activity_name">Activity</string>
     <string name="delete">DELETE</string>
-
+    <string name="workoutImage">WorkoutImage</string>
+    <string name="workout_title">Workout</string>
+    <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activities section</string>
 
     <!-- nav_menu -->
-    <string name="maps">Attività</string>
-    <string name="passi">Passi</string>
-    <string name="allenamenti">Allenamenti</string>
-
-    <!-- nav_graph tabs/ non servono piu -->
-    <string name="Giorno">Giorno</string>
-    <string name="Settimana">Settimana</string>
-    <string name="Mese">Mese</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="Mon">L</string>
-    <string name="Tue">M</string>
-    <string name="Wed">M</string>
-    <string name="Thur">G</string>
-    <string name="Fri">V</string>
-    <string name="Sat">S</string>
-    <string name="Sun">D</string>
+    <string name="Activity">Activity</string>
+    <string name="Summary">Summary</string>
+    <string name="Workouts">Workouts</string>
+    <string name="UserSettings">User Settings</string>
+    <string name="goalsTitle">Goals</string>
 
 
     <!-- Settings -->
-    <string name="UserSettings">User Settings</string>
-    <string name="settingsDescription">Imposta il tuo profilo correttamente per consultare modo più preciso i tuoi passi e le tue calorie bruciate</string>
-
-    <string name="name">nome</string>
-    <string name="weight">Peso (kg)</string>
-    <string name="height">Altezza (cm)</string>
-    <string name="age">Età</string>
+    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned</string>
+    <string name="name">name</string>
+    <string name="weight">Weight (kg)</string>
+    <string name="height">Height (cm)</string>
+    <string name="age">Age</string>
 
     <!-- Goals -->
-    <string name="GoalsDescription">Imposta i tuoi obiettivi giornalieri</string>
-    <string name="goalsTitle">Obiettivi</string>
+    <string name="GoalsDescription">Set your daily goals. You can check your progress in the Summary section.
+        Remember, if you do multiple activities in a day, they are summed up</string>
     <string name="steps">Passi</string>
     <string name="calories">Calorie</string>
     <string name="distance">Km</string>

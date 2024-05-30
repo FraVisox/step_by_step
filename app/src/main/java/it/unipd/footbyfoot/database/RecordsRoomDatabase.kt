@@ -138,23 +138,3 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
 }
 
 
-/*
-        suspend fun populateDatabase(database: RecordsRoomDatabase) {
-            .deleteAll()
-
-            // Popola il database con alcuni dati di esempio
-            userDao().insert(User(1, "John Doe", Date()))
-            database.stepsDao().insert(Steps(1, 1, 1000, Date()))
-            database.caloriesDao().insert(Calories(1, 1, 500, Date()))
-            database.distanceDao().insert(Distance(1, 1, 3.5, Date()))
-
-            val users = database.userDao().getAllUsers()
-            val steps = database.stepsDao().getAllStepsOrderedByDate()
-            val calories = database.caloriesDao().getAllCaloriesOrderedByDate()
-            val distances = database.distanceDao().getAllDistancesOrderedByDate()
-
-            Log.d("RecordsRoomDatabase1", "Users: $users")
-            Log.d("RecordsRoomDatabase2", "Steps: $steps")
-            Log.d("RecordsRoomDatabase3", "Calories: $calories")
-            Log.d("RecordsRoomDatabase4", "Distances: $distances")
-        }*/

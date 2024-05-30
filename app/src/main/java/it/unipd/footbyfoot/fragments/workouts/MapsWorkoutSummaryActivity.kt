@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.workouts
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.maps.model.RoundCap
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 
 class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -46,7 +44,7 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.workout_summary)
+        setContentView(R.layout.workout_info)
 
         //This is deprecated from API level 33, but our test was on API level 32
         points = intent.getSerializableExtra(pointsKey) as List<WorkoutTrackPoint>

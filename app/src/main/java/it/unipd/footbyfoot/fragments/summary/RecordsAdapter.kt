@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.records.distance.Distance
 import it.unipd.footbyfoot.database.user.User
 
-class RecordsAdapter2(private val goal : Goal, private val user : User, private val distanceList: List<Distance>) : RecyclerView.Adapter<RecordsAdapter2.RecordsViewHolder>() {
+class RecordsAdapter(private val goal : Goal, private val user : User, private val distanceList: List<Distance>) : RecyclerView.Adapter<RecordsAdapter.RecordsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.show_records, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.summary_card_item, parent, false)
 
         return RecordsViewHolder(view)
     }

@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot.fragments.steps
+package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,13 +12,13 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
 
-class MonthlyStepsFragment : Fragment() {
+class Last30SummariesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_monthly_steps, container, false)
+        val view = inflater.inflate(R.layout.fragment_last_30_summaries, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
         (activity as MainActivity).recordsViewModel.last30Distances.observe(viewLifecycleOwner, Observer { distances ->
@@ -27,7 +27,7 @@ class MonthlyStepsFragment : Fragment() {
             val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
             if(currentUser != null && currentGoal != null){
-                val adapter = RecordsAdapter2(currentGoal, currentUser, distances.reversed())
+                val adapter = RecordsAdapter(currentGoal, currentUser, distances.reversed())
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }

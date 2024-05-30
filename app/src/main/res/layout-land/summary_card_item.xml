@@ -1,7 +1,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="180dp"
     app:cardBackgroundColor="@color/navigation_bar"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -19,16 +20,17 @@
             android:layout_margin="3dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:fontFamily="sans-serif-medium"
             android:textSize="18sp"
-            android:textColor="@color/progressBar" />
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/progressBar"  />
 
         <LinearLayout
             xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="horizontal"
-            tools:context=".fragments.steps.TodayStepsFragment">
+            tools:context=".fragments.summary.LastSummaryFragment">
 
             <RelativeLayout
                 android:id="@+id/steps_layout"
@@ -63,7 +65,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
             </RelativeLayout>
@@ -101,7 +103,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -139,7 +141,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -148,4 +150,3 @@
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
-
