@@ -38,6 +38,8 @@ class Helpers {
             return dateFormat.format(date)
         }
 
+        //TODO: metti un format date and hour per workout summary
+
 
 
         fun getDayOfWeek(date: Date): String {

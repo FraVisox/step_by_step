@@ -160,38 +160,4 @@ class MainActivity : AppCompatActivity() {
         private const val fragment = "currentFragment"
         const val currentID = "workoutID"
     }
-
-
-    private fun populateDatabaseAndPrintContents() {
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                withContext(Dispatchers.IO) {
-                    val database = RecordsRoomDatabase.getDatabase(applicationContext, this)
-                    val allUser = database.userDao().getAllUsers()
-                    // Stampa il contenuto del database nel logcat
-                    allUser.collect { user ->
-                        Log.d("Banana", "user: ${user}")
-                    }
-                    val allSteps = database.stepsDao().getAllStepsOrderedByDate()
-                    // Stampa il contenuto del database nel logcat
-                    allSteps.collect { step ->
-                        Log.d("Banana", "Step: ${step}")
-                    }
-                    val allDistance = database.distanceDao().getAllDistancesOrderedByDate()
-                    // Stampa il contenuto del database nel logcat
-                    allDistance.collect { distance ->
-                        Log.d("Banana", "distance: ${distance}")
-                    }
-                    val allCalories = database.caloriesDao().getAllCaloriesOrderedByDate()
-                    // Stampa il contenuto del database nel logcat
-                    allCalories.collect { calories ->
-                        Log.d("Banana", "calorie: ${calories}")
-                    }
-                }
-            } catch (e: Exception) {
-                // Gestisci eventuali eccezioni
-                e.printStackTrace()
-            }
-        }
-    }
 }
