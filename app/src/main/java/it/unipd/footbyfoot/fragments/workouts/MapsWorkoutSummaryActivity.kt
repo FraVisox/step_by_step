@@ -72,7 +72,7 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         //Delete workout button
         val del = findViewById<Button>(R.id.delete_workout)
         del.setOnClickListener {
-            recordsViewModel.deleteWorkout(intent.getIntExtra(idKey, RecordsViewModel.invalidID))
+            recordsViewModel.deleteWorkout(intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID))
             finish()
         }
     }

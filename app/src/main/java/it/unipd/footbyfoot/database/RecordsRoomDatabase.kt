@@ -4,40 +4,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
-import android.util.Log
-import androidx.room.TypeConverters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.sqlite.db.SupportSQLiteDatabase
+import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
 
-import it.unipd.footbyfoot.database.records.calories.Calories
-import it.unipd.footbyfoot.database.records.calories.CaloriesDao
-import it.unipd.footbyfoot.database.records.distance.Distance
-import it.unipd.footbyfoot.database.records.distance.DistanceDao
-import it.unipd.footbyfoot.database.records.steps.Steps
-import it.unipd.footbyfoot.database.records.steps.StepsDao
-import it.unipd.footbyfoot.database.user.User
-import it.unipd.footbyfoot.database.user.UserDao
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutDao
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
-import java.util.Calendar
-import java.util.Date
+import java.time.LocalDate
 
-@Database(entities = [User::class,Steps::class, Calories::class, Distance::class, Goal::class, Workout::class, WorkoutTrackPoint::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [Goal::class, Workout::class, WorkoutTrackPoint::class], version = 1, exportSchema = false)
 abstract class RecordsRoomDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
-    abstract fun stepsDao(): StepsDao
-    abstract fun caloriesDao(): CaloriesDao
-    abstract fun distanceDao(): DistanceDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun goalDao(): GoalDao
 
     companion object {
+        //Singleton design pattern
         @Volatile
         private var INSTANCE: RecordsRoomDatabase? = null
 
@@ -46,90 +32,46 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     RecordsRoomDatabase::class.java,
-                    "records_database" // Nome del database.
+                    context.getString(R.string.database_name)
                 )
                     .addCallback(RecordsDatabaseCallback(scope))
                     .build()
-                INSTANCE = instance // Salva l'istanza creata nella variabile INSTANCE.
-                instance // Ritorna l'istanza del database.
+                INSTANCE = instance //Save the instance
+                instance //Return the instance
             }
         }
 
+        //Callback called when the database is created, to populate it if needed
         private class RecordsDatabaseCallback(private val scope: CoroutineScope
         ) : Callback() {
 
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                // Se desideri mantenere i dati attraverso i riavvii dell'app,
-                // commenta la seguente riga.
                 INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) { // Avvia una coroutine nel Dispatcher di I/O per eseguire operazioni di database.
-                        populateDatabase(database.userDao(), database.stepsDao(), database.caloriesDao(), database.distanceDao(), database.goalDao(), database.workoutDao()) // Chiama populateDatabase per inserire dati iniziali.
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(database.goalDao(), database.workoutDao())
                     }
                 }
             }
         }
 
-        suspend fun populateDatabase(userDao: UserDao, stepsDao: StepsDao, caloriesDao: CaloriesDao, distanceDao: DistanceDao, goalDao: GoalDao, workoutDao: WorkoutDao) {
+        //TODO: rimuovi
+        suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao) {
+            var currentDate = LocalDate.now()
+            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 500, 240, 3000.0))
+            currentDate = currentDate.minusDays(1L)
+            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 5, 210, 30.0))
+            currentDate = currentDate.minusDays(9L)
+            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 6000, 20, 3.0))
+            currentDate = currentDate.minusDays(31L)
+            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 400, 3, 3.45))
 
-            userDao.deleteAll()
-            stepsDao.deleteAll()
-            caloriesDao.deleteAll()
-            distanceDao.deleteAll()
-            goalDao.deleteAll()
-            Log.d("MainActivity00", "USto effettivamente inizializzando")
-
-
-            userDao.insert(User(1, "John Doe", 18,70,160))
-            stepsDao.insert(Steps(1, 1, 1000, Date()))
-            caloriesDao.insert(Calories(1, 1, 500, Date()))
-            goalDao.insert(Goal(1, 0, 0,0.0))
-
-            val calendar = Calendar.getInstance()
-            // Imposta date diverse usando Calendar
-            calendar.set(2023, Calendar.JANUARY, 1)
-            val date1 = calendar.time
-
-            calendar.set(2023, Calendar.FEBRUARY, 1)
-            val date2 = calendar.time
-
-            calendar.set(2023, Calendar.MARCH, 1)
-            val date3 = calendar.time
-
-            calendar.set(2023, Calendar.APRIL, 1)
-            val date4 = calendar.time
-
-            distanceDao.insert(Distance(1, 1, 3.5, date1))
-            distanceDao.insert(Distance(2, 1, 0.2, date2))
-            distanceDao.insert(Distance(3, 1, 9.0, date3))
-            distanceDao.insert(Distance(4, 1, 2.0, date4))
-
-
-
-            val users = userDao.getAllUsers()
-            val steps = stepsDao.getAllStepsOrderedByDate()
-            val calories = caloriesDao.getAllCaloriesOrderedByDate()
-            val distances = distanceDao.getAllDistancesOrderedByDate()
-
-            Log.d("RecordsRoomDatabase1", "Users: $users")
-            Log.d("RecordsRoomDatabase2", "Steps: $steps")
-            Log.d("RecordsRoomDatabase3", "Calories: $calories")
-            Log.d("RecordsRoomDatabase4", "Distances: $distances")
-
-            users.collect { user ->
-                Log.d("Banana1", "user: $user")
-            }
-            steps.collect { step ->
-                Log.d("Banana2", "Step: $step")
-            }
-
-            calories.collect { distance ->
-                Log.d("Banana3", "distance: $distance")
-            }
-
-            distances.collect { calorie ->
-                Log.d("Banana4", "calorie: $calorie")
-            }
+            val date = LocalDate.now()
+            workoutDao.insert(Workout(1, "1", 10L, 1000, date.year, date.dayOfYear, "11"))
+            workoutDao.insert(Workout(2, "2", 29L, 10, date.year, date.dayOfYear-1, "11"))
+            workoutDao.insert(Workout(3, "3", 1L, 200, date.year, date.dayOfYear-3, "11"))
+            workoutDao.insert(Workout(4, "4", 22L, 5000, date.year, date.dayOfYear-6, "11"))
+            workoutDao.insert(Workout(5, "5", 10L, 100000, date.year, date.dayOfYear-32, "11"))
 
 
         }

@@ -1,8 +1,7 @@
 package it.unipd.footbyfoot.fragments.summary
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class Helpers {
@@ -16,27 +15,29 @@ class Helpers {
             return if (percentage > 100) 100 else percentage.toInt()
         }
 
-        fun calculateCalories(weight: Double, distance: Double): Double {
-            val result = weight * distance * 0.9
-            return "%.1f".format(result).toDouble()
+        fun calculateCalories(weight: Int, distance: Int): Double {
+            val result = weight.toDouble() * distanceToKm(distance) * 0.9
+            return "%.1f".format(Locale.US, result).toDouble()
         }
-        fun calculateSteps(height: Double, distance: Double): Int {
+        fun calculateSteps(height: Int, distance: Int): Int {
             // Convert height from centimeters to meters
-            val heightInMeters = height / 100.0
-            // Distance in kilometers to meters
-            val distanceInMeters = distance * 1000
+            val heightInMeters = height.toDouble() / 100.0
 
             // Approximate step length
             val stepLength = 0.413 * heightInMeters
 
             // Calculate the number of steps
-            val steps = distanceInMeters / stepLength
+            val steps = distance / stepLength
             return steps.toInt()
         }
 
-        fun formatDateToString(date: Date): String {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            return dateFormat.format(date)
+        fun formatDateToString(year: Int, dayOfYear: Int): String {
+            val formatters = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            return LocalDate.ofYearDay(year, dayOfYear).format(formatters)
+        }
+
+        fun distanceToKm(distance: Int): Double {
+            return distance.toDouble()/1000
         }
 
     }

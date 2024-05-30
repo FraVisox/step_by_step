@@ -10,6 +10,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.database.goal.Goal
+import java.time.LocalDate
 
 
 class GoalsFragment : Fragment() {
@@ -64,106 +66,58 @@ class GoalsFragment : Fragment() {
         addStepsButton.setOnClickListener {
 
             increment100Goal(stepsGoal)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
 
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedSteps = stepsGoal.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(steps = updatedSteps)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
 
         subStepsButton.setOnClickListener {
 
             decrement100Goal(stepsGoal)
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
 
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedSteps = stepsGoal.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(steps = updatedSteps)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
         addCaloriesButton.setOnClickListener {
 
             increment100Goal(caloriesGoal)
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
 
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedCalories = caloriesGoal.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal esistente,
-                // ma con il valore del campo calories aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(calories = updatedCalories)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
         subCaloriesButton.setOnClickListener {
 
             decrement100Goal(caloriesGoal)
 
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedCalories = caloriesGoal.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal esistente,
-                // ma con il valore del campo calories aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(calories = updatedCalories)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
         addDistanceButton.setOnClickListener {
 
             incrementGoal(distanceGoal)
 
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedDistance = distanceGoal.text.toString().toDouble()
-                // creo una copia dell'oggetto currentGoal esistente,
-                // ma con il valore del campo distance aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(distance = updatedDistance)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
         subDistanceButton.setOnClickListener {
 
             decrementGoal(distanceGoal)
 
-            val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedDistance = distanceGoal.text.toString().toDouble()
-                // creo una copia dell'oggetto currentGoal esistente,
-                // ma con il valore del campo distance aggiornato al nuovo valore updatedSteps
-                val updatedGoal = currentGoal.copy(distance = updatedDistance)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateGoal(updatedGoal)
-            }
+            insertNewGoal()
         }
 
         return view
+    }
+
+    private fun insertNewGoal() {
+        val updatedSteps = stepsGoal.text.toString().toInt()
+        val updatedDistance = distanceGoal.text.toString().toDouble()
+        val updatedCalories = caloriesGoal.text.toString().toInt()
+
+        val date = LocalDate.now()
+        val updatedGoal = Goal(
+            date.year,
+            date.dayOfYear,
+            updatedSteps,
+            updatedCalories,
+            updatedDistance
+        )
+        (activity as MainActivity).recordsViewModel.insertGoal(updatedGoal)
     }
 
     override fun onPause() {

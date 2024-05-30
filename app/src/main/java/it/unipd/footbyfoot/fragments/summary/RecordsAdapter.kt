@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
-import it.unipd.footbyfoot.database.records.distance.Distance
-import it.unipd.footbyfoot.database.user.User
+import it.unipd.footbyfoot.database.workout.Distance
 
-class RecordsAdapter(private val goal : Goal, private val user : User, private val distanceList: List<Distance>) : RecyclerView.Adapter<RecordsAdapter.RecordsViewHolder>() {
+class RecordsAdapter(private val goals : List<Goal>, private val distanceList: List<Distance>, private val height: Int, private val weight: Int) : RecyclerView.Adapter<RecordsAdapter.RecordsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.summary_card_item, parent, false)
@@ -28,11 +27,23 @@ class RecordsAdapter(private val goal : Goal, private val user : User, private v
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
 
         val dailyDistance = distanceList[position]
-        val dateOfRecords= Helpers.formatDateToString(dailyDistance.date)
 
-        val countDistance = dailyDistance.count
-        val countSteps = Helpers.calculateSteps(user.height.toDouble(), dailyDistance.count)
-        val countCalories = Helpers.calculateCalories(user.weight.toDouble(), dailyDistance.count)
+        var goalPosition = 0
+        for (i in goals.indices) {
+            if (goals[i].year > dailyDistance.year || (goals[i].year == dailyDistance.year && goals[i].dayOfYear >= dailyDistance.dayOfYear)) {
+                goalPosition = i
+            } else {
+                break
+            }
+        }
+
+        val goal = goals[goalPosition]
+
+        val dateOfRecords= Helpers.formatDateToString(dailyDistance.year, dailyDistance.dayOfYear)
+
+        val countDistance = Helpers.distanceToKm(dailyDistance.meters)
+        val countSteps = Helpers.calculateSteps(height, dailyDistance.meters)
+        val countCalories = Helpers.calculateCalories(weight, dailyDistance.meters)
 
         holder.bind(dateOfRecords, countSteps, countCalories,countDistance, goal)
 

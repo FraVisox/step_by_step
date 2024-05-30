@@ -13,6 +13,7 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
+import java.time.LocalDate
 import java.util.Date
 
 class SaveWorkoutActivity: AppCompatActivity() {
@@ -33,6 +34,8 @@ class SaveWorkoutActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_workout)
+
+        //intent.resolveActivity() TODO
 
         //Take current ID
         val thisID = (application as RecordsApplication).workoutId
@@ -68,7 +71,8 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //getSerializableExtra is used as the tests were made on Android API 32
-            recordsViewModel.insertWorkout(Workout(thisID, 1, name.text.toString(), totTime, dist, Date()), intent.getSerializableExtra(
+            val date = LocalDate.now() //TODO: passa l'ora giusta
+            recordsViewModel.insertWorkout(Workout(thisID, name.text.toString(), totTime, dist, date.year, date.dayOfYear, ""), intent.getSerializableExtra(
                 positionsKey) as MutableList<LatLng?>)
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, thisID))) {
                 (application as RecordsApplication).workoutId++

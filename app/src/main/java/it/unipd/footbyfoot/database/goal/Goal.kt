@@ -1,12 +1,18 @@
 package it.unipd.footbyfoot.database.goal
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "goals_table")
+@Entity(tableName = "goals_table", primaryKeys = ["year","dayOfYear"])
 data class Goal(
-    @PrimaryKey val userId: Int,
+    @ColumnInfo(name = "year")
+    val year: Int,
+    @ColumnInfo(name = "dayOfYear")
+    val dayOfYear: Int,
+    @ColumnInfo(name = "steps")
     val steps: Int,
+    @ColumnInfo(name = "calories")
     val calories: Int,
-    val distance: Double,
+    @ColumnInfo(name = "distance")
+    val distance: Double
 )

@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class LastSummaryFragment : Fragment() {
 
@@ -34,6 +36,10 @@ class LastSummaryFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_last_summaries, container, false)
 
+        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val weight = preferences.getInt(SettingsFragment.WEIGHT, 0)
+        val height = preferences.getInt(SettingsFragment.HEIGHT, 0)
+
         progressBarSteps = view.findViewById(R.id.progressbarLastSteps)
         countSteps = view.findViewById(R.id.countLastSteps)
         goalsSteps = view.findViewById(R.id.goalsLastSteps)
@@ -47,55 +53,37 @@ class LastSummaryFragment : Fragment() {
 
 
         // todo bug enorme se lo tolgo non va niente !!
-        (activity as MainActivity).recordsViewModel.userGoal.observe(viewLifecycleOwner, Observer { goals ->
+
+        (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner, Observer { goals ->
             if (goals.isNotEmpty()) {
                 // Converti la lista in una stringa leggibile
-                val goalsString = goals.joinToString(separator = "\n") { goals ->
-                    " UserID: ${goals.userId}, Steps: ${goals.steps}, Date: ${goals.distance}"
-                }
                 // Logga il contenuto della lista
-                Log.d("oggi", goalsString)
             } else {
                 Log.d("oggi", "La lista dei passi di oggi è vuota")
             }
         })
-        (activity as MainActivity).recordsViewModel.allUsers.observe(viewLifecycleOwner, Observer { goals ->
-            if (goals.isNotEmpty()) {
-                // Converti la lista in una stringa leggibile
-                val goalsString = goals.joinToString(separator = "\n") { goals ->
-                    "OK"
-                }
-                // Logga il contenuto della lista
-                Log.d("oggi", goalsString)
-            } else {
-                Log.d("oggi", "La lista dei Users di oggi è vuota")
-            }
-        })
 
+        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner, Observer { distance ->
 
-        (activity as MainActivity).recordsViewModel.lastDistance.observe(viewLifecycleOwner, Observer { distance ->
+            if (distance.size == 1) {
+                val currentGoal = (activity as MainActivity).recordsViewModel.lastGoal.value
 
-            if (distance.isNotEmpty() && distance.size == 1) {
-                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-                val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
+                if( currentGoal != null){
 
-
-                if(currentUser != null && currentGoal != null){
-
-                    val countD = distance.last().count.toString()
+                    val countD = distance.last().meters.toString()
                     countDistance.text = countD
 
-                    val countS = Helpers.calculateSteps(currentUser.height.toDouble(), distance.last().count )
+                    val countS = Helpers.calculateSteps(height, distance.last().meters )
                     countSteps.text = countS.toString()
 
-                    val countC = Helpers.calculateCalories(currentUser.weight.toDouble(), distance.last().count)
+                    val countC = Helpers.calculateCalories(weight, distance.last().meters)
                     countCalories.text = countC.toString()
 
                     goalsCalories.text = currentGoal.calories.toString()
                     goalsSteps.text = currentGoal.steps.toString()
                     goalsDistance.text = currentGoal.distance.toString()
 
-                    progressBarDistance.progress = Helpers.calculatePercentage(distance.last().count, currentGoal.distance)
+                    progressBarDistance.progress = Helpers.calculatePercentage(Helpers.distanceToKm(distance.last().meters), currentGoal.distance)
                     progressBarCalories.progress = Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())
                     progressBarSteps.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
 

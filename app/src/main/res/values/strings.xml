@@ -3,6 +3,9 @@
     <string name="app_name">Step By Step</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Database -->
+    <string name="database_name">workouts_database</string>
+
     <!-- Dialogs to show to the user for the location permissions -->
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>
     <string name="request_permission_positive_button">Ask for position</string>

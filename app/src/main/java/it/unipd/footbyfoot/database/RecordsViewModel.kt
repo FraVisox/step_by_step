@@ -6,50 +6,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import it.unipd.footbyfoot.database.goal.Goal
-import it.unipd.footbyfoot.database.records.distance.Distance
-import it.unipd.footbyfoot.database.user.User
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.database.workout.Distance
 import kotlinx.coroutines.launch
 
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
     companion object {
-        const val invalidID = -1
+        const val invalidWorkoutID = -1
     }
-
-    val lastDistance: LiveData<List<Distance>> = repository.lastDistance.asLiveData()
-    val last7Distances : LiveData<List<Distance>> = repository.last7Distances.asLiveData()
-    val last30Distances : LiveData<List<Distance>> = repository.last30Distances.asLiveData()
-
-    val last30UserRecords: LiveData<List<UserRecords>> = repository.getUserRecords().asLiveData()
-
-    val allUsers : LiveData<List<User>> = repository.allUsers.asLiveData()
-    val userGoal : LiveData<List<Goal>> = repository.userGoals.asLiveData()
 
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
     val allPoints: LiveData<List<WorkoutTrackPoint>> = repository.allPoints.asLiveData()
 
-    fun insertUser(user: User) = viewModelScope.launch {
-        repository.insertUser(user)
-    }
+    val todayDistance: LiveData<List<Distance>> = repository.todayDistance.asLiveData()
+    val lastWeekDistances : LiveData<List<Distance>> = repository.lastWeekDistances.asLiveData()
+    val allDistances : LiveData<List<Distance>> = repository.allDistances.asLiveData()
 
+    val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
+    val lastGoal : LiveData<Goal> = repository.lastGoal.asLiveData()
+
+    //Insert a new goal for a day (if there is already one, delete it)
     fun insertGoal(goal: Goal) = viewModelScope.launch {
         repository.insertGoal(goal)
-    }
-
-    fun updateGoal(goal: Goal) = viewModelScope.launch {
-        repository.updateGoal(goal)
-    }
-
-    fun updateUser(user: User) = viewModelScope.launch {
-        repository.updateUser(user)
-    }
-
-    fun updateUserInfo(user: User) = viewModelScope.launch {
-        repository.updateUser(user)
     }
 
     //Insert a new workout, with the corresponding points
@@ -60,7 +42,7 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
 
     //Delete the workout, with the points associated
     fun deleteWorkout(workoutId: Int) {
-        if (workoutId != invalidID) {
+        if (workoutId != invalidWorkoutID) {
             viewModelScope.launch {
                 repository.deleteWorkout(workoutId)
             }

@@ -14,8 +14,10 @@ import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.io.Serializable
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 
 
@@ -41,7 +43,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
             //Tells if two items have the same content
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
                 //We check the dates and the user: one user can't have done two activities simultaneously
-                return (oldItem.date == newItem.date) && (oldItem.userId == newItem.userId)
+                return oldItem.workoutId == newItem.workoutId //TODO: cambia?
             }
         }
     }
@@ -80,7 +82,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
 
-        holder.bind(record.date, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+
+
+        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -93,9 +97,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: Date, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dat: LocalDate, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
             //Set text
-            date.text = SimpleDateFormat(getString(itemView.context, R.string.date_format)).format(dat)
+            date.text = Helpers.formatDateToString(dat.year, dat.dayOfYear) //TODO: non ha senso fare prima la data e poi di nuovo cosi
             meters.text = m
             time.text = tim
             name.text = nam

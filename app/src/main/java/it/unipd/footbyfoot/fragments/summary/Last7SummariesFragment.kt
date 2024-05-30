@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,9 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.database.workout.Distance
+import it.unipd.footbyfoot.fragments.settings.SettingsFragment
+import java.time.LocalDate
 
 class Last7SummariesFragment : Fragment() {
 
@@ -30,7 +34,7 @@ class Last7SummariesFragment : Fragment() {
     private lateinit var countSteps6: TextView
     private lateinit var countSteps7: TextView
 
-    private lateinit var date: TextView
+    private lateinit var dateView: TextView
 
 
     private lateinit var CircularProgressBarSteps: ProgressBar
@@ -51,24 +55,31 @@ class Last7SummariesFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_last_7_summaries, container, false)
 
-        StepsProgressBar1 = view.findViewById(R.id.progressbarSteps1)
-        StepsProgressBar2 = view.findViewById(R.id.progressbarSteps2)
-        StepsProgressBar3 = view.findViewById(R.id.progressbarSteps3)
-        StepsProgressBar4 = view.findViewById(R.id.progressbarSteps4)
-        StepsProgressBar5 = view.findViewById(R.id.progressbarSteps5)
-        StepsProgressBar6 = view.findViewById(R.id.progressbarSteps6)
-        StepsProgressBar7 = view.findViewById(R.id.progressbarSteps7)
+        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
+        val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
 
+        val listProgressBar: List<ProgressBar> = listOf(
+            view.findViewById(R.id.progressbarSteps1),
+            view.findViewById(R.id.progressbarSteps2),
+            view.findViewById(R.id.progressbarSteps3),
+            view.findViewById(R.id.progressbarSteps4),
+            view.findViewById(R.id.progressbarSteps5),
+            view.findViewById(R.id.progressbarSteps6),
+            view.findViewById(R.id.progressbarSteps7)
+        )
 
-        countSteps1 = view.findViewById(R.id.steps1)
-        countSteps2 = view.findViewById(R.id.steps2)
-        countSteps3 = view.findViewById(R.id.steps3)
-        countSteps4 = view.findViewById(R.id.steps4)
-        countSteps5 = view.findViewById(R.id.steps5)
-        countSteps6 = view.findViewById(R.id.steps6)
-        countSteps7 = view.findViewById(R.id.steps7)
+        val listSteps: List<TextView> = listOf(
+            view.findViewById(R.id.steps1),
+            view.findViewById(R.id.steps2),
+            view.findViewById(R.id.steps3),
+            view.findViewById(R.id.steps4),
+            view.findViewById(R.id.steps5),
+            view.findViewById(R.id.steps6),
+            view.findViewById(R.id.steps7)
+        )
 
-        date = view.findViewById(R.id.Date)
+        dateView = view.findViewById(R.id.Date)
 
         CircularProgressBarSteps = view.findViewById(R.id.progressbarLastSteps)
         CircularProgressBarCalories = view.findViewById(R.id.progressbarLastCalories)
@@ -80,116 +91,67 @@ class Last7SummariesFragment : Fragment() {
 
         // todo c'e un bug per cui se giro lo schermo tutte le bar hanno lo stesso valore
 
-        (activity as MainActivity).recordsViewModel.last7Distances.observe(viewLifecycleOwner, Observer { distanceList ->
+        (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner, Observer { distanceList ->
 
             if (distanceList.isNotEmpty()) {
 
-                handleProgressBarClick(1)
+                val goals = (activity as MainActivity).recordsViewModel.allGoals.value
 
-                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-                val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
+                if(goals != null){
 
-                if(currentUser != null && currentGoal != null){
+                    for (i in 1..7) {
+                        val date = LocalDate.now().minusDays((LocalDate.now().dayOfWeek.value-i).toLong())
+                        var distance = Distance(0, date.year, date.dayOfYear)
+                        for (distanceL in distanceList) {
+                            val dayOfWeek = LocalDate.ofYearDay(distanceL.year, distanceL.dayOfYear).dayOfWeek.value
+                            if (dayOfWeek == i) {
+                                distance = distanceL
+                                break
+                            }
+                        }
 
-                    val size = distanceList.size
+                        //TODO: metti in helpers
+                        var goalPosition = 0
+                        for (j in goals.indices) {
+                            if (goals[j].year > distance.year || (goals[j].year == distance.year && goals[j].dayOfYear >= distance.dayOfYear)) {
+                                goalPosition = j
+                            } else {
+                                break
+                            }
+                        }
 
-                    var countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList.last().count)
-                    countSteps1.text = countS.toString()
-                    StepsProgressBar1.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
+                        val countD = distance.meters
+                        val countS = Helpers.calculateSteps(height, distance.meters)
+                        val countC = Helpers.calculateCalories(weight, distance.meters)
 
+                        listSteps[i-1].text = countS.toString()
+                        listProgressBar[i-1].progress = Helpers.calculatePercentage(countS.toDouble(), goals[goalPosition].steps.toDouble())
 
-                    if(size > 1){
-                        countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList[size-2].count)
-                        StepsProgressBar2.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps2.text = countS.toString()
-                    }
-                    if(size > 2){
-                        countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList[size-3].count)
-                        StepsProgressBar3.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps3.text = countS.toString()
-                    }
-                    if(size > 3){
-                        countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList[size-4].count)
-                        StepsProgressBar4.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps4.text = countS.toString()
-                    }
-                    if(size > 4){
-                        countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList[size-5].count,)
-                        StepsProgressBar5.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps5.text = countS.toString()
-                    }
-                    if(size > 5){
-                        countS = Helpers.calculateSteps( currentUser.height.toDouble(), distanceList[size-6].count)
-                        StepsProgressBar6.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps6.text = countS.toString()
-                    }
-                    if(size > 6){
-                        countS = Helpers.calculateSteps(currentUser.height.toDouble(), distanceList[size-7].count)
-                        StepsProgressBar7.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-                        countSteps7.text = countS.toString()
+                        listProgressBar[i-1].setOnClickListener {
+
+                                        dateView.text = Helpers.formatDateToString(distance.year, distance.dayOfYear)
+
+                                        CircularCountDistance.text = countD.toString()
+
+                                        CircularCountSteps.text = countS.toString()
+
+                                        CircularCountCalories.text = countC.toString()
+
+                                        CircularProgressBarDistance.progress= Helpers.calculatePercentage(countD.toDouble(), goals[goalPosition].distance)
+                                        CircularProgressBarCalories.progress = Helpers.calculatePercentage(countC, goals[goalPosition].calories.toDouble())
+                                        CircularProgressBarSteps.progress = Helpers.calculatePercentage(countS.toDouble(), goals[goalPosition].steps.toDouble())
+
+                        }
+
                     }
 
                 }
             }
         })
 
-        StepsProgressBar1.setOnClickListener{
-            handleProgressBarClick(1)
-        }
-        StepsProgressBar2.setOnClickListener{
-            handleProgressBarClick(2)
-        }
-        StepsProgressBar3.setOnClickListener {
-            handleProgressBarClick(3)
-        }
-        StepsProgressBar4.setOnClickListener {
-            handleProgressBarClick(4)
-        }
-        StepsProgressBar5.setOnClickListener {
-            handleProgressBarClick(5)
-        }
-        StepsProgressBar6.setOnClickListener {
-            handleProgressBarClick(6)
-        }
-        StepsProgressBar7.setOnClickListener {
-            handleProgressBarClick(7)
-        }
+        listProgressBar[LocalDate.now().dayOfWeek.value].performClick()
+
         return view
-    }
-
-    private fun handleProgressBarClick(num : Int) {
-
-        (activity as MainActivity).recordsViewModel.last7Distances.observe( viewLifecycleOwner, Observer { distanceList ->
-
-            val size = distanceList.size
-            if(size >= num && distanceList.isNotEmpty()) {
-
-                val currentGoal = (activity as MainActivity).recordsViewModel.userGoal.value?.find { it.userId == 1 }
-                val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
-
-
-                if(currentUser != null && currentGoal != null){
-
-                    date.text = Helpers.formatDateToString(distanceList[size-num].date)
-
-                    val countD = distanceList[size-num].count.toString()
-                    CircularCountDistance.text = countD
-
-                    val countS = Helpers.calculateSteps(currentUser.height.toDouble(), distanceList[size-num].count)
-                    CircularCountSteps.text = countS.toString()
-
-                    val countC = Helpers.calculateCalories(currentUser.weight.toDouble(),distanceList[size-num].count)
-                    CircularCountCalories.text = countC.toString()
-
-                    CircularProgressBarDistance.progress= Helpers.calculatePercentage(countD.toDouble(), currentGoal.distance)
-                    CircularProgressBarCalories.progress = Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())
-                    CircularProgressBarSteps.progress = Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
-
-                }
-
-            }
-        })
-
     }
 
 }

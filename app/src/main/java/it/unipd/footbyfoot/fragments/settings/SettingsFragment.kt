@@ -7,20 +7,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
 
 class SettingsFragment : Fragment() {
     // Class constants
     companion object {
-        private const val WEIGHT = "weight"
-        private const val HEIGHT = "height"
+        const val WEIGHT = "weight"
+        const val HEIGHT = "height"
         private const val AGE = "age"
+        const val defaultWeight = 60
+        const val defaultHeight = 180
+        const val defaultAge = 30
     }
 
     // Class variables
@@ -54,123 +55,52 @@ class SettingsFragment : Fragment() {
 
 
         // Carica i valori precedenti dai Preferences
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        ageSettings.text = preferences.getInt(AGE, 0).toString()
-        weightSettings.text = preferences.getInt(WEIGHT, 0).toString()
-        heightSettings.text = preferences.getInt(HEIGHT, 0).toString()
+        val preferences = requireActivity().getPreferences(MODE_PRIVATE)
+        ageSettings.text = preferences.getInt(AGE, defaultAge).toString()
+        weightSettings.text = preferences.getInt(WEIGHT, defaultWeight).toString()
+        heightSettings.text = preferences.getInt(HEIGHT, defaultHeight).toString()
 
+        /*
         if (savedInstanceState != null) {
             ageSettings.text = savedInstanceState.getInt(AGE, 0).toString()
             weightSettings.text = savedInstanceState.getInt(WEIGHT, 0).toString()
             heightSettings.text = savedInstanceState.getInt(HEIGHT, 0).toString()
         }
 
+         */
+
         addAgeButton.setOnClickListener {
 
             incrementValue(ageSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentGoal = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
-
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedAge = ageSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentGoal.copy(age = updatedAge)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
         subAgeButton.setOnClickListener {
 
             decrementValue(ageSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentGoal = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
-            if (currentGoal != null) {
-
-                // prendo il valore da aggiornare
-                val updatedAge = ageSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentGoal.copy(age = updatedAge)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
         addWeightButton.setOnClickListener {
 
             incrementValue(weightSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
-            if (currentUser != null) {
-
-                // prendo il valore da aggiornare
-                val updatedWeight = weightSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentUser.copy(weight = updatedWeight)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
         subWeigthButton.setOnClickListener {
 
             decrementValue(weightSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
-            if (currentUser != null) {
-
-                // prendo il valore da aggiornare
-                val updatedWeight = weightSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentUser.copy(weight = updatedWeight)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
         addHeightButton.setOnClickListener {
 
             incrementValue(heightSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
 
-            if (currentUser != null) {
-
-                // prendo il valore da aggiornare
-                val updatedHeight = heightSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentUser.copy(height = updatedHeight)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
         subHeightButton.setOnClickListener {
 
             decrementValue(heightSettings)
-            //todo: mettere una costante al posto dell'utente, noi usiamo solo un utente e quindi ok
-            val currentUser = (activity as MainActivity).recordsViewModel.allUsers.value?.find { it.userId == 1 }
-
-            if (currentUser != null) {
-
-                // prendo il valore da aggiornare
-                val updatedHeight = heightSettings.text.toString().toInt()
-                // creo una copia dell'oggetto currentGoal,
-                // ma con il valore del campo steps aggiornato al nuovo valore updatedSteps
-                val updatedUser = currentUser.copy(height = updatedHeight)
-                // aggiorno l'oggetto poi
-                (activity as MainActivity).recordsViewModel.updateUser(updatedUser)
-            }
         }
 
 
@@ -181,7 +111,6 @@ class SettingsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        // Salva i valori nei Preferences
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putInt(AGE, ageSettings.text.toString().toInt())
@@ -190,6 +119,7 @@ class SettingsFragment : Fragment() {
         editor.apply()
     }
 
+    /*
     override fun onSaveInstanceState(savedInstanceState: Bundle)
     {
         super.onSaveInstanceState(savedInstanceState)
@@ -197,6 +127,8 @@ class SettingsFragment : Fragment() {
         savedInstanceState.putInt(WEIGHT, weightSettings.text.toString().toInt())
         savedInstanceState.putInt(HEIGHT, heightSettings.text.toString().toInt())
     }
+
+     */
 
     private fun incrementValue(textView: TextView) {
         var value = textView.text.toString().toInt()

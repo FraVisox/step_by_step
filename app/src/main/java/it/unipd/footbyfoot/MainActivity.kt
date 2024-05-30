@@ -92,14 +92,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         // todo bug enorme se lo tolgo non va niente !!
-        recordsViewModel.last30UserRecords.observe(this, Observer { records ->
+        recordsViewModel.allDistances.observe(this, Observer { records ->
             if (records.isNotEmpty()) {
                 // Converti la lista in una stringa leggibile
-                val goalsString = records.joinToString(separator = "\n") { records ->
-                    " UserID: ${records.userId}, Steps: ${records.steps}, Date: ${records.distance}"
-                }
                 // Logga il contenuto della lista
-                Log.d("today", goalsString)
             } else {
                 Log.d("today", "La lista dei records di oggi è vuota")
             }
