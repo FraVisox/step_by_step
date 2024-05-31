@@ -16,6 +16,7 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class LastSummaryFragment : Fragment() {
 
+    //TODO: le distanze si dovrebbero vedere anche se i goal non ci sono
     //Lists
     private var distanceList : List<Distance> = listOf()
     private var goalsList : List<Goal> = listOf()

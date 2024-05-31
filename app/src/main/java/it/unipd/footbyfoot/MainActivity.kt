@@ -117,9 +117,9 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commitNow()
 
         thisFragment = fragmentId
-        //fragmentTransaction.commitAllowingStateLoss()
     }
 
+    //TODO: se si killa l'app rimane?
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         outState.putInt(fragment, thisFragment)
