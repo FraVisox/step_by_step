@@ -39,6 +39,7 @@
             android:src="@drawable/workout"
             android:contentDescription="@string/workoutImage"/>
 
+
     </LinearLayout>
 
     <TextView

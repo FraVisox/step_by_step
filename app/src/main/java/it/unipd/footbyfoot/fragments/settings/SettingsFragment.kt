@@ -57,6 +57,8 @@ class SettingsFragment : Fragment() {
         val addHeightButton: ImageButton = view.findViewById(R.id.addHeightButton)
         val subHeightButton: ImageButton = view.findViewById(R.id.subHeightButton)
 
+        val crashButton: ImageButton = view.findViewById(R.id.crashButton)
+
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)
         }
@@ -79,6 +81,10 @@ class SettingsFragment : Fragment() {
 
         subHeightButton.setOnClickListener {
             Helpers.decrementValue(heightSettings)
+        }
+
+        crashButton.setOnClickListener {
+            throw RuntimeException("Crash controllato")   // Solo per debug dei crash
         }
 
         return view

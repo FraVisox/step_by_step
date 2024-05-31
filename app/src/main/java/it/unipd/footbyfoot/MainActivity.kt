@@ -16,12 +16,18 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import it.unipd.footbyfoot.fragments.summary.SummaryFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
     private var thisFragment : Int = R.id.stepsFragment
+
+    // Firebase
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -51,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = Firebase.analytics
+
         if (savedInstanceState != null) {
             //TODO: bug se tolgo le autorizzazioni mentre sono in maps o altra parte
             binding.bottomNavigationView.post {
@@ -78,14 +86,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         // todo bug enorme se lo tolgo non va niente !!
-        recordsViewModel.allDistances.observe(this, Observer { records ->
+        // (???) A me funziona se lo commento
+        /*recordsViewModel.allDistances.observe(this, Observer { records ->
             if (records.isNotEmpty()) {
                 // Converti la lista in una stringa leggibile
                 // Logga il contenuto della lista
             } else {
                 Log.d("today", "La lista dei records di oggi è vuota")
             }
-        })
+        })*/
 
 
     }
