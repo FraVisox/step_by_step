@@ -43,32 +43,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:orientation="horizontal"
             style="@style/WorkoutBackground">
 
-            <TextView
-                android:text="@string/meters"
+            <ImageView
+                android:contentDescription="@string/meters"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:src="@drawable/distance"
                 style="@style/MyTextViewDistanceWorkout"
                 />
 
 
-            <TextView
-                android:text="@string/time"
+            <ImageView
+                android:contentDescription="@string/time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:src="@drawable/baseline_access_time_24"
                 style="@style/MyTextViewTimeWorkout"
                 />
 
-            <TextView
-                android:text="@string/speed"
+            <ImageView
+                android:contentDescription="@string/speed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:src="@drawable/baseline_speed_24"
                 style="@style/MyTextViewSpeedWorkout"
                 />
 
@@ -76,7 +79,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:orientation="horizontal"
             style="@style/WorkoutBackground">
 
