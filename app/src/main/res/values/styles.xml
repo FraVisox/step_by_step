@@ -17,6 +17,18 @@
         <item name="android:tint">@color/OnSurface</item>
     </style>
 
+    <style name="MyTextViewPrimary">
+        <item name="android:textColor">@color/Primary</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/Primary</item>
+    </style>
+
+    <style name="WorkoutBackground">
+        <item name="android:background">@color/progressBarBackground</item>
+    </style>
+
+
     <style name="MyTextViewSubtitle">
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -52,11 +64,15 @@
         <item name="strokeWidth">0dp</item>
     </style>
 
-    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/OnPrimary</item>
         <item name="android:backgroundTint">@color/Primary</item>
         <item name="cornerRadius">4dp</item>
-        <item name="rippleColor">@color/Secondary</item>
+    </style>
+
+    <style name="DeleteButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:tint">@color/Delete</item>
     </style>
 
 </resources>

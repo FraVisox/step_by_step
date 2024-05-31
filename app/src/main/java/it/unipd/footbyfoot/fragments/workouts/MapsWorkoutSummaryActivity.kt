@@ -1,9 +1,11 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -69,7 +71,7 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         name.text = intent.getStringExtra(nameKey)
 
         //Delete workout button
-        val del = findViewById<Button>(R.id.delete_workout)
+        val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
             recordsViewModel.deleteWorkout(intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID))
             finish()

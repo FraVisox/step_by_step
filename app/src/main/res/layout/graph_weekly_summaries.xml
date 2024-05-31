@@ -15,12 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:textColor="@color/Surface"
         android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
-        style="@style/MyTextView"
-        />
+        style="@style/MyTextView"/>
 
     <RelativeLayout
         android:id="@+id/Relativelayout1"

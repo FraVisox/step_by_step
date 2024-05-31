@@ -11,14 +11,14 @@
         android:id="@+id/workout_record"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:divider="@drawable/dividerhorizontal"
         android:showDividers="middle"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:divider="@drawable/dividerhorizontal">
 
             <TextView
                 android:id="@+id/activity_name"
@@ -44,24 +44,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            style="@style/WorkoutBackground">
 
-            <!-- Info sui metri percorsi -->
             <TextView
                 android:text="@string/meters"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView"
+                style="@style/MyTextViewDistance"
                 />
 
-            <!-- Seconda Card -->
+
             <TextView
                 android:text="@string/time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView"
+                style="@style/MyTextViewPrimary"
                 />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView"
+                style="@style/MyTextViewPrimary"
                 />
 
         </LinearLayout>
@@ -77,24 +77,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            style="@style/WorkoutBackground">
 
-            <!-- Info sui metri percorsi -->
+
             <TextView
                 android:id="@+id/meters"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView"
+                style="@style/MyTextViewDistance"
                 />
 
-            <!-- Seconda Card -->
+
             <TextView
                 android:id="@+id/time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView"
+                style="@style/MyTextViewPrimary"
                />
 
             <TextView
@@ -102,9 +103,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextView" />
+                style="@style/MyTextViewPrimary"
+                />
 
-            <!-- Terza Card -->
 
         </LinearLayout>
 
