@@ -16,6 +16,8 @@ import com.google.android.gms.common.api.ResolvableApiException
 
 class MainActivity : AppCompatActivity() {
 
+    //TODO: rimuovi fragment all summaries land
+
     private lateinit var binding : ActivityMainBinding
 
     private var thisFragment : Int = R.id.stepsFragment
