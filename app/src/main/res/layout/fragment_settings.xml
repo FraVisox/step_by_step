@@ -76,7 +76,7 @@
                     android:id="@+id/ageImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    style="@style/MyTextView"
+                    style="@style/MyTextViewAge"
                     android:contentDescription="@string/age"
                     android:src="@drawable/baseline_cake_24" />
 
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
-                    style="@style/MyTextView"
+                    style="@style/MyTextViewAge"
                     android:text="@string/age"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -160,7 +160,7 @@
                     android:id="@+id/heightImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    style="@style/MyTextView"
+                    style="@style/MyTextViewHeight"
                     android:contentDescription="@string/height"
                     android:src="@drawable/baseline_height_24" />
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:layout_marginVertical="5dp"
-                    style="@style/MyTextView"
+                    style="@style/MyTextViewHeight"
                     android:text="@string/height"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -245,18 +245,18 @@
                     android:id="@+id/weightImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    style="@style/MyTextView"
+                    style="@style/MyTextViewWeight"
                     android:contentDescription="@string/weight"
                     android:src="@drawable/baseline_monitor_weight_24" />
 
                 <!-- Testo -->
                 <TextView
                     android:id="@+id/weightTitle"
+                    style="@style/MyTextViewWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
-                    style="@style/MyTextView"
                     android:text="@string/weight"
                     android:textSize="20sp"
                     android:textStyle="bold" />

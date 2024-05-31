@@ -6,10 +6,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Background fragments -->
     <style name="Background">
         <item name="android:background">@color/Background</item>
     </style>
 
+    <!-- General TextView-->
     <style name="MyTextView">
         <item name="android:textColor">@color/OnSurface</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -17,6 +19,13 @@
         <item name="android:tint">@color/OnSurface</item>
     </style>
 
+    <!-- Subtitle in fragments -->
+    <style name="MyTextViewSubtitle">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <!-- Detail TextView: chronometer, time -->
     <style name="MyTextViewPrimary">
         <item name="android:textColor">@color/Primary</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -24,6 +33,7 @@
         <item name="android:tint">@color/Primary</item>
     </style>
 
+    <!-- In Workout and SaveWorkout Distance-->
     <style name="MyTextViewDistanceWorkout">
         <item name="android:textColor">@color/Primary</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -31,6 +41,7 @@
         <item name="android:tint">@color/Primary</item>
     </style>
 
+    <!-- In Workout and SaveWorkout Time-->
     <style name="MyTextViewTimeWorkout">
         <item name="android:textColor">@color/Primary</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -38,6 +49,7 @@
         <item name="android:tint">@color/Primary</item>
     </style>
 
+    <!-- In Workout and SaveWorkout Speed-->
     <style name="MyTextViewSpeedWorkout">
         <item name="android:textColor">@color/Primary</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -45,16 +57,12 @@
         <item name="android:tint">@color/Primary</item>
     </style>
 
+    <!-- In Workout little background for info-->
     <style name="WorkoutBackground">
         <item name="android:background">@color/progressBarBackground</item>
     </style>
 
-
-    <style name="MyTextViewSubtitle">
-        <item name="android:textColor">@android:color/darker_gray</item>
-        <item name="android:layout_gravity">center_vertical</item>
-    </style>
-
+    <!-- Text view for Steps count in Summary-->
     <style name="MyTextViewSteps">
         <item name="android:textColor">@color/progressBarGreen</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -62,6 +70,7 @@
         <item name="android:tint">@color/progressBarGreen</item>
     </style>
 
+    <!-- Text view for Distance count in Summary-->
     <style name="MyTextViewDistance">
         <item name="android:textColor">@color/progressBarBlue</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -69,6 +78,7 @@
         <item name="android:tint">@color/progressBarBlue</item>
     </style>
 
+    <!-- Text view for Calories count in Summary -->
     <style name="MyTextViewCalories">
         <item name="android:textColor">@color/progressBarRed</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -76,6 +86,57 @@
         <item name="android:tint">@color/progressBarRed</item>
     </style>
 
+    <!-- Text view for Steps count in Goals-->
+    <style name="MyTextViewStepsGoals">
+        <item name="android:textColor">@color/progressBarGreen</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/progressBarGreen</item>
+    </style>
+
+    <!-- Text view for Distance count in Goals-->
+    <style name="MyTextViewDistanceGoals">
+        <item name="android:textColor">@color/progressBarBlue</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/progressBarBlue</item>
+    </style>
+
+    <!-- Text view for Calories count in Goals -->
+    <style name="MyTextViewCaloriesGoals">
+        <item name="android:textColor">@color/progressBarRed</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/progressBarRed</item>
+    </style>
+
+
+    <!-- Text view for Calories count -->
+    <style name="MyTextViewAge">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/OnSurface</item>
+    </style>
+
+
+    <!-- General TextVieHeight-->
+    <style name="MyTextViewHeight">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/OnSurface</item>
+    </style>
+
+    <!-- General TextViewWeight-->
+    <style name="MyTextViewWeight">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:tint">@color/OnSurface</item>
+    </style>
+
+    <!-- Cards in fragments -->
     <style name="MyMaterialCardView">
         <item name="cardBackgroundColor">@color/Surface</item>
         <item name="cardCornerRadius">8dp</item>
@@ -85,12 +146,14 @@
         <item name="strokeWidth">0dp</item>
     </style>
 
+    <!-- Buttons: Save, Finish ecc -->
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/OnPrimary</item>
         <item name="android:backgroundTint">@color/Primary</item>
         <item name="cornerRadius">4dp</item>
     </style>
 
+    <!-- Buttons: Save, Finish ecc -->
     <style name="MyAddSubButtonStyle">
         <item name="android:background">@color/progressBarBackground</item>
         <item name="android:radius">8dp</item>
