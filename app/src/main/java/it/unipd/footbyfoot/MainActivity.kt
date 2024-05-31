@@ -13,6 +13,9 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import it.unipd.footbyfoot.fragments.summary.SummaryFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
 
     private var thisFragment : Int = R.id.stepsFragment
+
+    // Firebase
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -49,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAnalytics = Firebase.analytics
 
         if (savedInstanceState != null) {
             binding.bottomNavigationView.post {

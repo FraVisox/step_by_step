@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
+import com.google.firebase.Firebase
+import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
@@ -22,12 +24,19 @@ class GoalsFragment : Fragment() {
     private lateinit var caloriesGoal: TextView
     private lateinit var distanceGoal: TextView
 
+    // Traccia personalizzata
+    val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
+
+        // Inizio traccia
+        goalTrace.putMetric("Increment goals", 0)
+        goalTrace.putMetric("Decrement goals", 0)
+        goalTrace.start()
 
         Log.d("AAA", "goals fragment created")
 
@@ -52,21 +61,27 @@ class GoalsFragment : Fragment() {
 
         addStepsButton.setOnClickListener {
             Helpers.increment100Value(stepsGoal)
+            goalTrace.incrementMetric("Increment goals", 1)
         }
         subStepsButton.setOnClickListener {
             Helpers.decrement100Value(stepsGoal)
+            goalTrace.incrementMetric("Decrement goals", 1)
         }
         addCaloriesButton.setOnClickListener {
             Helpers.increment100Value(caloriesGoal)
+            goalTrace.incrementMetric("Increment goals", 1)
         }
         subCaloriesButton.setOnClickListener {
             Helpers.decrement100Value(caloriesGoal)
+            goalTrace.incrementMetric("Decrement goals", 1)
         }
         addDistanceButton.setOnClickListener {
             Helpers.incrementValue(distanceGoal)
+            goalTrace.incrementMetric("Increment goals", 1)
         }
         subDistanceButton.setOnClickListener {
             Helpers.decrementValue(distanceGoal)
+            goalTrace.incrementMetric("Decrement goals", 1)
         }
 
         return view
@@ -75,6 +90,9 @@ class GoalsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         insertGoal()
+
+        // Fine traccia
+        goalTrace.stop()
     }
 
     private fun insertGoal() {

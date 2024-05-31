@@ -11,6 +11,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.summary.Helpers
 
@@ -30,6 +34,9 @@ class SettingsFragment : Fragment() {
     private lateinit var ageSettings: TextView
     private lateinit var weightSettings: TextView
     private lateinit var heightSettings: TextView
+
+    //TODO da rivadere
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +64,8 @@ class SettingsFragment : Fragment() {
         val addHeightButton: ImageButton = view.findViewById(R.id.addHeightButton)
         val subHeightButton: ImageButton = view.findViewById(R.id.subHeightButton)
 
+        val crashButton: ImageButton = view.findViewById(R.id.crashButton)
+
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)
         }
@@ -81,6 +90,10 @@ class SettingsFragment : Fragment() {
             Helpers.decrementValue(heightSettings)
         }
 
+        crashButton.setOnClickListener {
+            throw RuntimeException("Crash controllato")   // Solo per debug dei crash
+        }
+
         return view
     }
 
@@ -92,5 +105,10 @@ class SettingsFragment : Fragment() {
         editor.putInt(WEIGHT, weightSettings.text.toString().toInt())
         editor.putInt(HEIGHT, heightSettings.text.toString().toInt())
         editor.apply()
+
+        //TODO da rivedere
+        firebaseAnalytics = Firebase.analytics
+        firebaseAnalytics.setUserProperty("height", heightSettings.text.toString())
+        firebaseAnalytics.setUserProperty("weight", weightSettings.text.toString())
     }
 }

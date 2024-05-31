@@ -25,6 +25,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAWXBAlnvR_B7yIFTB5_xOV0XXDonQTARU" />
+        <!-- Firebase per log automatici -->
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"
