@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            style="@style/MyTextViewSteps"
             android:layout_above="@id/countTodaySteps"
             android:src="@drawable/baseline_directions_run_24" />
 
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
+            style="@style/MyTextViewSteps"
             android:textSize="15sp"
             android:textStyle="bold"/>
 
@@ -68,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/countTodayCalories"
             android:layout_centerHorizontal="true"
-            style="@style/MyTextViewDistance"
+            style="@style/MyTextViewCalories"
             android:src="@drawable/calories" />
 
         <TextView
