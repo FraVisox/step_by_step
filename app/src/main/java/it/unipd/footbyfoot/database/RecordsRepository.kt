@@ -56,11 +56,10 @@ class RecordsRepository(
         }
     }
 
-    //Delete the workout and all the points associated
+    //Delete the workout and all the points associated (it is done on cascade)
     @WorkerThread
     suspend fun deleteWorkout(workoutID: Int) {
         workoutDao.deleteWorkout(workoutID)
-        workoutDao.deleteWorkoutPoints(workoutID)
     }
 
     //This function inserts a Goal: if it is already in the database, the goal is replaced
