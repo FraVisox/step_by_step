@@ -2,9 +2,21 @@ package it.unipd.footbyfoot.database.workout
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
 import java.io.Serializable
 
-@Entity(tableName = "point_table", primaryKeys = ["pointId","workoutId", "trackList"])
+@Entity(tableName = "point_table", primaryKeys = ["pointId","workoutId", "trackList"],
+    foreignKeys = [
+        ForeignKey(
+            entity = Workout::class,
+            parentColumns = arrayOf("workoutId"),
+            childColumns = arrayOf("workoutId"),
+            onUpdate = CASCADE,
+            onDelete = CASCADE
+        )
+    ]
+)
 data class WorkoutTrackPoint(
     @ColumnInfo(name = "pointId")
     val pointId: Int,

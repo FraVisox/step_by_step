@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.type.TimeOfDay
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
@@ -16,7 +15,6 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.io.Serializable
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 
 //Adapter for a single Workout
