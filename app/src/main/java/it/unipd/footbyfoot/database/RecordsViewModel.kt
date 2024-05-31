@@ -27,7 +27,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allDistances : LiveData<List<Distance>> = repository.allDistances.asLiveData()
 
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
-    val lastGoal : LiveData<Goal> = repository.lastGoal.asLiveData()
 
     //Insert a new goal for a day (if there is already one, delete it)
     fun insertGoal(goal: Goal) = viewModelScope.launch {

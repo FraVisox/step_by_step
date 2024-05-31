@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ class WorkoutsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.workout_fragment, container, false)
+
+        Log.d("AAA", "workouts fragment created")
 
         // Initialize the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)

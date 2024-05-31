@@ -1,12 +1,10 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +14,7 @@ import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.io.Serializable
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Date
 
 
 //Adapter for a single Workout
@@ -58,7 +54,6 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
-        //TODO: metti l'ora con AM, PM
         //Take the workout at that position
         val record = getItem(position)
 
@@ -76,9 +71,6 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         val p = points.filter {
             it.workoutId == record.workoutId
         }
-
-        Log.d("AAA", points.toString())
-        Log.d("AAA", p.toString())
 
         val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
 
@@ -99,7 +91,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
         fun bind(dat: LocalDate, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
             //Set text
-            date.text = Helpers.formatDateToString(dat.year, dat.dayOfYear) //TODO: non ha senso fare prima la data e poi di nuovo cosi
+            date.text = Helpers.formatDateToString(dat)
             meters.text = m
             time.text = tim
             name.text = nam

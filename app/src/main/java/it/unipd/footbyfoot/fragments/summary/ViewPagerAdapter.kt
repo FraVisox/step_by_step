@@ -5,14 +5,21 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+    companion object {
+        const val numberOfTabs = 3
+    }
+
+
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> LastSummaryFragment()
             1 -> Last7SummariesFragment()
             2 -> Last30SummariesFragment()
-            else -> LastSummaryFragment()  // Default case
+            else -> LastSummaryFragment()
         }
     }
 
-    override fun getItemCount(): Int = 3  // Numero totale di tab
+    //Total number of tabs
+    override fun getItemCount(): Int = numberOfTabs
 }

@@ -19,7 +19,7 @@ class RecordsRepository(
 
     //All workouts and all workouts points
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
-    val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints() //TODO: sarebbe meglio filtrarli per workout?
+    val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
 
     //Sum of distances of all today's workouts
     val todayDistance: Flow<List<Distance>> = getLastXDistances(1)
@@ -32,8 +32,6 @@ class RecordsRepository(
 
     //All goals
     val allGoals : Flow<List<Goal>> = goalDao.getAllGoals()
-
-    val lastGoal : Flow<Goal> = goalDao.getLastGoal() //TODO: Funziona?
 
     //Utility function to get the sum of distances of last x days' workouts, grouped by date
     private fun getLastXDistances(x: Int): Flow<List<Distance>> {

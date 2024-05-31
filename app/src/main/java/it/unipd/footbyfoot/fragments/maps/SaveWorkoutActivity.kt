@@ -13,10 +13,13 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.MainActivity
 import java.time.LocalDate
 import java.util.Date
 
 class SaveWorkoutActivity: AppCompatActivity() {
+
+    private var workoutId = 1
 
     //TODO: merge this with the one in mainactivity
     private val recordsViewModel : RecordsViewModel by viewModels{
@@ -37,8 +40,9 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //intent.resolveActivity() TODO
 
-        //Take current ID
-        val thisID = (application as RecordsApplication).workoutId
+        //Get workout ID
+        val preferences = getPreferences(MODE_PRIVATE)
+        workoutId = preferences.getInt(MainActivity.currentID, 1)
 
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
@@ -46,7 +50,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //Set the name
         val name = findViewById<EditText>(R.id.save_name)
-        name.setText(getString(R.string.workout_name_default, thisID), TextView.BufferType.EDITABLE)
+        name.setText(getString(R.string.workout_name_default, workoutId), TextView.BufferType.EDITABLE)
 
         //Set time
         val totTime: Long = intent.getLongExtra(timeKey, 0)
@@ -72,13 +76,26 @@ class SaveWorkoutActivity: AppCompatActivity() {
         button.setOnClickListener {
             //getSerializableExtra is used as the tests were made on Android API 32
             val date = LocalDate.now() //TODO: passa l'ora giusta
-            recordsViewModel.insertWorkout(Workout(thisID, name.text.toString(), totTime, dist, date.year, date.dayOfYear, ""), intent.getSerializableExtra(
+            recordsViewModel.insertWorkout(Workout(workoutId, name.text.toString(), totTime, dist, date.year, date.dayOfYear, ""), intent.getSerializableExtra(
                 positionsKey) as MutableList<LatLng?>)
-            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, thisID))) {
-                (application as RecordsApplication).workoutId++
+            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, workoutId))) {
+                workoutId++
             }
             finish()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val preferences = getPreferences(MODE_PRIVATE)
+        val editor = preferences.edit()
+
+        // Store relevant status of the widgets that are part of the persistent state
+        editor.putInt(MainActivity.currentID, workoutId)
+
+
+        // Commit to storage synchronously
+        editor.apply()
     }
 
 }

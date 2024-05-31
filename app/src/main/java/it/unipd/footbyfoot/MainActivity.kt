@@ -8,7 +8,6 @@ import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import it.unipd.footbyfoot.database.RecordsRoomDatabase
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -18,16 +17,7 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import it.unipd.footbyfoot.fragments.summary.SummaryFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.android.gms.common.api.ResolvableApiException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-//TODO: elimina tutto il codice commentato
-// TODO: No service published for: ethernet (Ask Gemini)
-//                                                                                                    android.os.ServiceManager$ServiceNotFoundException: No service published for: ethernet
-//                                                                                                    	at android.os.ServiceManager.getServiceOrThrow(ServiceManager.java:166)
-//                                                                                                    	at android.app.SystemServiceRegistry$139.createService(SystemServiceRegistry.java:1872) 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
@@ -61,9 +51,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val preferences = getPreferences(MODE_PRIVATE)
-        (application as RecordsApplication).workoutId = preferences.getInt(currentID, 1)
 
         if (savedInstanceState != null) {
             //TODO: bug se tolgo le autorizzazioni mentre sono in maps o altra parte
@@ -137,18 +124,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         outState.putInt(fragment, thisFragment)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        val preferences = getPreferences(MODE_PRIVATE)
-        val editor = preferences.edit()
-
-        // Store relevant status of the widgets that are part of the persistent state
-        editor.putInt(currentID, (application as RecordsApplication).workoutId)
-
-        // Commit to storage synchronously
-        editor.apply()
     }
 
     companion object {

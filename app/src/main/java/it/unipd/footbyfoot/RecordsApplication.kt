@@ -16,6 +16,4 @@ class RecordsApplication : Application() {
     // invece che all'avvio dell'applicazione. Questo migliora l'efficienza della gestione delle risorse.
     private val database by lazy { RecordsRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { RecordsRepository(database.goalDao(), database.workoutDao()) }
-
-    var workoutId = 1
 }

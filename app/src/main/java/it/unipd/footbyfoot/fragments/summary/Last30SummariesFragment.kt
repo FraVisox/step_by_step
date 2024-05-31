@@ -23,20 +23,24 @@ class Last30SummariesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_last_30_summaries, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
+        //Get preferences
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
         val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
 
-        (activity as MainActivity).recordsViewModel.allDistances.observe(viewLifecycleOwner, Observer { distances ->
+        //Create adapter
+        val adapter = RecordsAdapter(height, weight)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-            val currentGoal = (activity as MainActivity).recordsViewModel.allGoals.value
+        //Observe
+        (activity as MainActivity).recordsViewModel.allDistances.observe(viewLifecycleOwner) { distances ->
+            adapter.submitDistances(distances)
+        }
 
-            if(currentGoal != null){
-                val adapter = RecordsAdapter(currentGoal, distances, height, weight)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(context)
-            }
-        })
+        (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) {goals ->
+            adapter.submitGoals(goals)
+        }
 
         return view
     }
