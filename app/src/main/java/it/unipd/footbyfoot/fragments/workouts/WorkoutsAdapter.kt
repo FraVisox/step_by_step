@@ -38,8 +38,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
             //Tells if two items have the same content
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-                //We check the dates and the user: one user can't have done two activities simultaneously
-                return oldItem.workoutId == newItem.workoutId //TODO: cambia?
+                return areItemsTheSame(oldItem, newItem)
             }
         }
     }

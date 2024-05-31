@@ -18,7 +18,6 @@ class SummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        Log.d("AAA", "summary fragment created")
         return inflater.inflate(R.layout.fragment_summary, container, false)
     }
 

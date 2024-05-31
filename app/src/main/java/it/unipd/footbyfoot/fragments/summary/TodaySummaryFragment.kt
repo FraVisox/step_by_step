@@ -2,6 +2,7 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,7 @@ class TodaySummaryFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner) { distanceList ->
             updateDistances(distanceList)
         }
+
         //Observe the goals
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) { goals ->
             updateGoals(goals)
@@ -73,30 +75,29 @@ class TodaySummaryFragment : Fragment() {
     }
 
     private fun updateGoals(goals: List<Goal>) {
+        Log.d("AAA", goals.toString())
         goalsList = goals
         setViews()
     }
 
     private fun setViews() {
-        if (distanceList.isEmpty() || goalsList.isEmpty()) { //TODO: come facciamo a mettere un goal di default?
-            return
-        }
-
-
         //Get height and weight
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
         val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
 
-        val currentGoal = goalsList.first()
+        //Get current goal (or null if it doesn't exist)
+        val currentGoal = if (goalsList.isNotEmpty()) goalsList.first() else Helpers.defaultGoal
+        //Get today distance (or zero if not present)
+        val distance = if (distanceList.isNotEmpty()) distanceList.first().meters else 0
 
-        val countD = distanceList.first().meters.toString()
+        val countD = distance.toString()
         countDistance.text = countD
 
-        val countS = Helpers.calculateSteps(height, distanceList.first().meters)
+        val countS = Helpers.calculateSteps(height, distance)
         countSteps.text = countS.toString()
 
-        val countC = Helpers.calculateCalories(weight, distanceList.first().meters)
+        val countC = Helpers.calculateCalories(weight, distance)
         countCalories.text = countC.toString()
 
         goalsCalories.text = currentGoal.calories.toString()
@@ -104,7 +105,7 @@ class TodaySummaryFragment : Fragment() {
         goalsDistance.text = currentGoal.distance.toString()
 
         progressBarDistance.progress = Helpers.calculatePercentage(
-            Helpers.distanceToKm(distanceList.first().meters),
+            Helpers.distanceToKm(distance),
             currentGoal.distance.toDouble()
         )
         progressBarCalories.progress =

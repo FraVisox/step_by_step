@@ -1,26 +1,36 @@
 package it.unipd.footbyfoot.fragments.summary
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
 
-class RecordsAdapter(private val height: Int, private val weight: Int) : RecyclerView.Adapter<RecordsAdapter.RecordsViewHolder>() {
+class RecordsAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, RecordsAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
+
+    //ListAdapters need a comparator
+    companion object {
+        private val DISTANCE_COMPARATOR = object : DiffUtil.ItemCallback<Distance>() {
+            //Tells if two items are the same
+            override fun areItemsTheSame(oldItem: Distance, newItem: Distance): Boolean {
+                return (oldItem.year == newItem.year) && (oldItem.dayOfYear == newItem.dayOfYear)
+            }
+
+            //Tells if two items have the same content
+            override fun areContentsTheSame(oldItem: Distance, newItem: Distance): Boolean {
+                return areItemsTheSame(oldItem, newItem)
+            }
+        }
+    }
 
     private var goals : List<Goal> = listOf()
-
-    private var distanceList: List<Distance> = listOf()
-
-    fun submitDistances(dist: List<Distance>) {
-        distanceList = dist
-    }
 
     fun submitGoals(goalsList: List<Goal>) {
         goals = goalsList
@@ -31,14 +41,10 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : Recycle
         return RecordsViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return distanceList.size
-    }
-
 
     override fun onBindViewHolder(holder: RecordsViewHolder, position: Int) {
         //Get the distance
-        val dailyDistance = distanceList[position]
+        val dailyDistance = getItem(position)
 
         //Get the date
         val date = LocalDate.ofYearDay(dailyDistance.year, dailyDistance.dayOfYear)

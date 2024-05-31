@@ -4,10 +4,7 @@ package it.unipd.footbyfoot
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
 import it.unipd.footbyfoot.fragments.goals.GoalsFragment
@@ -52,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            //TODO: bug se tolgo le autorizzazioni mentre sono in maps o altra parte
             binding.bottomNavigationView.post {
                 binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
             }
@@ -76,18 +72,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        // todo bug enorme se lo tolgo non va niente !!
-        recordsViewModel.allDistances.observe(this, Observer { records ->
-            if (records.isNotEmpty()) {
-                // Converti la lista in una stringa leggibile
-                // Logga il contenuto della lista
-            } else {
-                Log.d("today", "La lista dei records di oggi è vuota")
-            }
-        })
-
-
     }
 
     private fun replaceFragment(fragmentId : Int, classname : String?){
@@ -105,7 +89,6 @@ class MainActivity : AppCompatActivity() {
 
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
-            //Questo ci permette di crearlo una sola volta, così lo stato rimane se passo da una parte all'altra
             fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
             fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
         } else {
@@ -119,9 +102,8 @@ class MainActivity : AppCompatActivity() {
         thisFragment = fragmentId
     }
 
-    //TODO: se si killa l'app rimane?
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putInt(fragment, thisFragment)
     }
 
