@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/summary_time_tv"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/MyTextViewPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -69,13 +69,13 @@
             android:text="@string/back_button"
             style="@style/MyButtonStyle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/summary_distance_tv"
-            app:layout_constraintStart_toEndOf="@id/summary_time_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/activity_name_summary" />
 
         <TextView
             android:id="@+id/summary_distance_tv"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/MyTextViewPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

@@ -90,5 +90,8 @@
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="delete_workout">delete workout</string>
+    <string name="addbutton">addbutton</string>
+    <string name="addButton">addButton</string>
+    <string name="subButton">subButton</string>
 
 </resources>

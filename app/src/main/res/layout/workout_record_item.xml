@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextViewDistance"
+                style="@style/MyTextViewDistanceWorkout"
                 />
 
 
@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextViewPrimary"
+                style="@style/MyTextViewTimeWorkout"
                 />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextViewPrimary"
+                style="@style/MyTextViewSpeedWorkout"
                 />
 
         </LinearLayout>
@@ -86,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/MyTextViewDistance"
+                style="@style/MyTextViewPrimary"
                 />
 
 
