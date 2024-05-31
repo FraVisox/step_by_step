@@ -70,6 +70,7 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         val name = findViewById<TextView>(R.id.activity_name_summary)
         name.text = intent.getStringExtra(nameKey)
 
+
         //Delete workout button
         val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
