@@ -105,7 +105,7 @@ class TodaySummaryFragment : Fragment() {
 
         progressBarDistance.progress = Helpers.calculatePercentage(
             Helpers.distanceToKm(distanceList.first().meters),
-            currentGoal.distance
+            currentGoal.distance.toDouble()
         )
         progressBarCalories.progress =
             Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())

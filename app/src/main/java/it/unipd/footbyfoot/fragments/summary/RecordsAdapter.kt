@@ -76,7 +76,7 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : Recycle
 
             progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
             progressBarCalories.progress = Helpers.calculatePercentage(countCalories, currentGoal.calories.toDouble())
-            progressBarDistance.progress = Helpers.calculatePercentage(countDistance, currentGoal.distance)
+            progressBarDistance.progress = Helpers.calculatePercentage(countDistance, currentGoal.distance.toDouble())
 
         }
     }
