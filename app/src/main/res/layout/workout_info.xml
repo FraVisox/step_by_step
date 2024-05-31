@@ -6,6 +6,16 @@
     android:orientation="vertical"
     style="@style/Background">
 
+    <ImageButton
+        android:id="@+id/delete_workout"
+        style="@style/DeleteButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="end"
+        android:contentDescription="@string/delete_workout"
+        android:src="@drawable/sharp_delete_24"
+        android:text="@string/delete" />
+
     <androidx.fragment.app.FragmentContainerView
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -22,56 +32,58 @@
         map:uiTiltGestures="false"
         map:mapType="normal"
         />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <TextView
             android:id="@+id/activity_name_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            style="@style/MyTextView"
+            android:text="@string/activity_name"
             app:layout_constraintBottom_toTopOf="@id/back_button"
-            android:text="@string/activity_name"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
             android:id="@+id/summary_time_tv"
-            style="?android:attr/buttonBarButtonStyle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/back_button"
-            app:layout_constraintTop_toBottomOf="@id/activity_name_summary"
+            style="@style/MyTextViewPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toStartOf="@id/back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_name_summary" />
+
         <Button
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/back_button"
-            android:id="@+id/back_button"
-            app:layout_constraintStart_toEndOf="@id/summary_time_tv"
-            app:layout_constraintEnd_toStartOf="@id/summary_distance_tv"
-            app:layout_constraintTop_toBottomOf="@id/activity_name_summary"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:id="@+id/summary_distance_tv"
-            style="?android:attr/buttonBarButtonStyle"
-            app:layout_constraintStart_toEndOf="@id/back_button"
+            style="@style/MyButtonStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_name_summary"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_name_summary" />
+
+        <TextView
+            android:id="@+id/summary_distance_tv"
+            style="@style/MyTextViewPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintTop_toBottomOf="@id/activity_name_summary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/delete_workout"
-        android:text="@string/delete"/>
+
+
 </LinearLayout>

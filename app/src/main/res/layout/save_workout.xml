@@ -89,17 +89,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/save_time"
-                android:layout_margin="3dp"
+                android:id="@+id/save_distance"
                 android:textAlignment="center"
+                style="@style/MyTextViewDistanceWorkout"
+                android:layout_margin="3dp"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/save_distance"
-                android:textAlignment="center"
+                android:id="@+id/save_time"
+                style="@style/MyTextViewTimeWorkout"
                 android:layout_margin="3dp"
+                android:textAlignment="center"
                 android:textSize="20sp" />
 
             <TextView
@@ -107,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/save_velocity"
                 android:textAlignment="center"
+                style="@style/MyTextViewSpeedWorkout"
                 android:layout_margin="3dp"
                 android:textSize="20sp" />
 
@@ -117,6 +120,7 @@
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/MyButtonStyle"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
