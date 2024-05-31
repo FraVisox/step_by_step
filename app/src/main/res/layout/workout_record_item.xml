@@ -4,10 +4,7 @@
     android:id="@+id/GoalCardSteps"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/progressBar"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="5dp"
-    app:cardUseCompatPadding="true">
+    style="@style/MyMaterialCardView">
 
     <LinearLayout
         android:layout_width="match_parent"

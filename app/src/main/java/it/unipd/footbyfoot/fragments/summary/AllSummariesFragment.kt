@@ -14,13 +14,13 @@ import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 
-class Last30SummariesFragment : Fragment() {
+class AllSummariesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_last_30_summaries, container, false)
+        val view = inflater.inflate(R.layout.fragment_all_summaries, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)

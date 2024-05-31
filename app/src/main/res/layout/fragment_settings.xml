@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.settings.SettingsFragment"
-    style="@style/Background">
+    style="@style/Background"
+    tools:context=".fragments.settings.SettingsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/UserSettings"
-            android:textAlignment="center"
+            style="@style/MyTextView"
             android:textSize="20sp"
             android:textStyle="bold" />
         <!-- Immagine -->
@@ -31,7 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/baseline_manage_accounts_24"
-            android:textAlignment="center" />
+            android:layout_marginStart="3dp"
+            style="@style/MyTextView"
+            />
 
     </LinearLayout>
 
@@ -44,7 +46,7 @@
         android:layout_marginEnd="10dp"
         android:text="@string/settingsDescription"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        style="@style/MyTextViewSubtitle"
         android:layout_marginBottom="16dp"/>
 
     <com.google.android.material.card.MaterialCardView
@@ -52,10 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -135,10 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -218,10 +214,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

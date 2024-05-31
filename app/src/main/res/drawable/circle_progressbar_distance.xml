@@ -8,8 +8,8 @@
         android:useLevel="true">
         <gradient
             android:angle="0"
-            android:endColor="@color/progressBar"
-            android:startColor="@color/progressBar"
+            android:endColor="@color/progressBarBlue"
+            android:startColor="@color/progressBarBlue"
             android:type="sweep"
             android:useLevel="false"/>
     </shape>

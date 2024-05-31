@@ -14,7 +14,7 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
-class LastSummaryFragment : Fragment() {
+class TodaySummaryFragment : Fragment() {
 
     private lateinit var progressBarSteps  : ProgressBar
     private lateinit var countSteps: TextView
@@ -34,18 +34,18 @@ class LastSummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_last_summaries, container, false)
+        val view = inflater.inflate(R.layout.fragment_today_summary, container, false)
 
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val weight = preferences.getInt(SettingsFragment.WEIGHT, 0)
         val height = preferences.getInt(SettingsFragment.HEIGHT, 0)
 
-        progressBarSteps = view.findViewById(R.id.progressbarLastSteps)
-        countSteps = view.findViewById(R.id.countLastSteps)
-        goalsSteps = view.findViewById(R.id.goalsLastSteps)
-        progressBarCalories = view.findViewById(R.id.progressbarLastCalories)
-        countCalories = view.findViewById(R.id.countLastCalories)
-        goalsCalories= view.findViewById(R.id.goalsLastCalories)
+        progressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
+        countSteps = view.findViewById(R.id.countTodaySteps)
+        goalsSteps = view.findViewById(R.id.goalsTodaySteps)
+        progressBarCalories = view.findViewById(R.id.progressbarTodayCalories)
+        countCalories = view.findViewById(R.id.countTodayCalories)
+        goalsCalories= view.findViewById(R.id.goalsTodayCalories)
         progressBarDistance = view.findViewById(R.id.progressbarLastDistance)
         countDistance = view.findViewById(R.id.countLastDistance)
         goalsDistance = view.findViewById(R.id.goalsLastDistance)

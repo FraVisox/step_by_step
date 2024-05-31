@@ -1,11 +1,8 @@
 <com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    app:cardBackgroundColor="@color/navigation_bar"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="5dp"
-    app:cardUseCompatPadding="true">
+    android:layout_height="185dp"
+    style="@style/MyMaterialCardView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,17 +15,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:gravity="center"
-            android:textAlignment="center"
             android:fontFamily="sans-serif-medium"
             android:textSize="18sp"
-            android:textColor="@color/progressBar" />
+            style="@style/MyTextView"
+            />
 
         <LinearLayout
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            tools:context=".fragments.summary.LastSummaryFragment">
+            tools:context=".fragments.summary.TodaySummaryFragment">
 
             <RelativeLayout
                 android:id="@+id/steps_layout"
@@ -45,7 +42,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/circle_shape"
                     android:indeterminate="false"
-                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:progressDrawable="@drawable/circle_progressbar_steps"
                     android:textAlignment="center" />
 
                 <ImageView
@@ -83,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/circle_shape"
                     android:indeterminate="false"
-                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:progressDrawable="@drawable/circle_progressbar_calories"
                     android:textAlignment="center" />
 
                 <ImageView
@@ -121,7 +118,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/circle_shape"
                     android:indeterminate="false"
-                    android:progressDrawable="@drawable/circle_progressbar"
+                    android:progressDrawable="@drawable/circle_progressbar_distance"
                     android:textAlignment="center" />
 
                 <ImageView

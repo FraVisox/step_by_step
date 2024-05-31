@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".fragments.summary.LastSummaryFragment">
+    style="@style/Background"
+    tools:context=".fragments.summary.TodaySummaryFragment">
 
 
     <RelativeLayout
@@ -16,44 +17,45 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarLastSteps"
+            android:id="@+id/progressbarTodaySteps"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_steps"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageLastSteps"
+            android:id="@+id/imageTodaySteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/countLastSteps"
+            android:layout_above="@id/countTodaySteps"
+            style="@style/MyTextViewSteps"
             android:src="@drawable/baseline_directions_run_24" />
 
         <TextView
-            android:id="@+id/countLastSteps"
+            android:id="@+id/countTodaySteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
+            style="@style/MyTextViewSteps"
             android:textSize="28sp"
             android:textStyle="bold"/>
 
         <!-- Obiettivi -->
         <TextView
-            android:id="@+id/goalsLastSteps"
+            android:id="@+id/goalsTodaySteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/countLastSteps"
+            android:layout_below="@id/countTodaySteps"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/zero"
-            android:textColor="@color/black"
+            style="@style/MyTextViewSteps"
             android:textSize="18sp"/>
 
         <!-- Immagine accanto agli obiettivi -->
@@ -62,8 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
-            android:layout_toStartOf="@id/goalsLastSteps"
-            android:layout_alignTop="@id/goalsLastSteps"
+            android:layout_toStartOf="@id/goalsTodaySteps"
+            android:layout_alignTop="@id/goalsTodaySteps"
+            style="@style/MyTextViewSteps"
             android:src="@drawable/goals_24" />
 
     </RelativeLayout>
@@ -77,42 +80,43 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarLastCalories"
+            android:id="@+id/progressbarTodayCalories"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_calories"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageLastCalories"
+            android:id="@+id/imageTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countLastCalories"
+            android:layout_above="@id/countTodayCalories"
             android:layout_centerHorizontal="true"
+            style="@style/MyTextViewCalories"
             android:src="@drawable/calories" />
 
         <TextView
-            android:id="@+id/countLastCalories"
+            android:id="@+id/countTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
+            style="@style/MyTextViewCalories"
             android:textSize="28sp"
             android:textStyle="bold" />
 
         <!-- Obiettivi -->
         <TextView
-            android:id="@+id/goalsLastCalories"
+            android:id="@+id/goalsTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/countLastCalories"
+            android:layout_below="@id/countTodayCalories"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="3dp"
-            android:textColor="@color/black"
+            style="@style/MyTextViewCalories"
             android:text="@string/zero"
             android:textSize="15sp"/>
 
@@ -120,8 +124,9 @@
             android:id="@+id/imageGoalsCalories"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_toStartOf="@id/goalsLastCalories"
-            android:layout_alignTop="@id/goalsLastCalories"
+            android:layout_toStartOf="@id/goalsTodayCalories"
+            style="@style/MyTextViewCalories"
+            android:layout_alignTop="@id/goalsTodayCalories"
             android:src="@drawable/goals_24" />
 
     </RelativeLayout>
@@ -141,7 +146,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_distance"
             android:textAlignment="center" />
 
         <ImageView
@@ -150,6 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/countLastDistance"
             android:layout_centerHorizontal="true"
+            style="@style/MyTextViewDistance"
             android:src="@drawable/distance" />
 
         <TextView
@@ -158,11 +164,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            style="@style/MyTextViewDistance"/>
 
-        <!-- Obiettivi -->
         <TextView
             android:id="@+id/goalsLastDistance"
             android:layout_width="wrap_content"
@@ -170,9 +175,9 @@
             android:layout_below="@id/countLastDistance"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:textColor="@color/black"
             android:text="@string/zero"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            style="@style/MyTextViewDistance"/>
 
         <ImageView
             android:id="@+id/imageGoalsDistance"
@@ -180,7 +185,8 @@
             android:layout_height="20dp"
             android:layout_toStartOf="@id/goalsLastDistance"
             android:layout_alignTop="@id/goalsLastDistance"
-            android:src="@drawable/goals_24" />
+            android:src="@drawable/goals_24"
+            style="@style/MyTextViewDistance"/>
 
     </RelativeLayout>
 

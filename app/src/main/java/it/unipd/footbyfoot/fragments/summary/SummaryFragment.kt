@@ -38,10 +38,10 @@ class SummaryFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             // Assegna i nomi alle tabs in base alla posizione
             when (position) {
-                0 -> tab.text = "Last"
-                1 -> tab.text = "Last 7"
-                2 -> tab.text = "Last 30"
-                else -> tab.text = "Last"
+                0 -> tab.text = "Today"
+                1 -> tab.text = "Week"
+                2 -> tab.text = "All"
+                else -> tab.text = "Today"
             }
         }.attach()
 

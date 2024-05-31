@@ -7,10 +7,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> LastSummaryFragment()
-            1 -> Last7SummariesFragment()
-            2 -> Last30SummariesFragment()
-            else -> LastSummaryFragment()  // Default case
+            0 -> TodaySummaryFragment()
+            1 -> WeeklySummariesFragment()
+            2 -> AllSummariesFragment()
+            else -> TodaySummaryFragment()  // Default case
         }
     }
 

@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     style="@style/Background">
+
         <Chronometer
             android:layout_width="0dp"
             android:layout_weight="1"

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/Background">
 
     <RelativeLayout
         android:id="@+id/progress_summary_layout"
@@ -14,25 +15,25 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarLastSteps"
+            android:id="@+id/progressbarTodaySteps"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_steps"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageLastSteps"
+            android:id="@+id/imageTodaySteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/countLastSteps"
+            android:layout_above="@id/countTodaySteps"
             android:src="@drawable/baseline_directions_run_24" />
 
         <TextView
-            android:id="@+id/countLastSteps"
+            android:id="@+id/countTodaySteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -52,30 +53,31 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarLastCalories"
+            android:id="@+id/progressbarTodayCalories"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_calories"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageLastCalories"
+            android:id="@+id/imageTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countLastCalories"
+            android:layout_above="@id/countTodayCalories"
             android:layout_centerHorizontal="true"
+            style="@style/MyTextViewDistance"
             android:src="@drawable/calories" />
 
         <TextView
-            android:id="@+id/countLastCalories"
+            android:id="@+id/countTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
+            style="@style/MyTextViewCalories"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -96,7 +98,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressDrawable="@drawable/circle_progressbar_distance"
             android:textAlignment="center" />
 
         <ImageView
@@ -105,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/countLastDistance"
             android:layout_centerHorizontal="true"
+            style="@style/MyTextViewDistance"
             android:src="@drawable/distance" />
 
         <TextView
@@ -113,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/black"
+            style="@style/MyTextViewDistance"
             android:textSize="15sp"
             android:textStyle="bold" />
 

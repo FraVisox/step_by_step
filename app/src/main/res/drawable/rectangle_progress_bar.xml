@@ -5,18 +5,18 @@
 
         <shape android:shape="rectangle" >
             <corners android:radius="20dp"/>
-            <solid android:color="@color/progressBarUnfinished"/>
+            <solid android:color="@color/progressBarBackground"/>
         </shape>
 
     </item>
 
 
-    <item android:id="@color/progressBar">
+    <item android:id="@android:id/progress">
 
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
                 <corners android:radius="20dp"/>
-                <solid android:color="@color/progressBar"/>
+                <solid android:color="@color/progressBarGreen"/>
             </shape>
         </scale>
 

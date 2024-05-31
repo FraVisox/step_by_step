@@ -12,11 +12,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        android:layout_gravity="center"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -41,6 +37,7 @@
                     android:contentDescription="@string/Workouts"
                     android:src="@drawable/baseline_directions_run_24"
                     app:layout_constraintTop_toTopOf="parent"
+                    style="@style/MyTextViewSteps"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
@@ -51,17 +48,15 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
                     android:text="@string/steps"
-                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    style="@style/MyTextViewSteps"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <!-- Testo -->
             <TextView
                 android:id="@+id/stepsGoalCount"
                 android:layout_width="wrap_content"
@@ -70,6 +65,7 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"
+                style="@style/MyTextViewSteps"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -103,10 +99,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -129,6 +122,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/Workouts"
+                    style="@style/MyTextViewCalories"
                     android:src="@drawable/baseline_local_fire_department_24"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -141,7 +135,7 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
                     android:text="@string/calories"
-                    android:textColor="@color/black"
+                    style="@style/MyTextViewCalories"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -157,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/white"
+                style="@style/MyTextViewCalories"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -194,10 +188,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -221,6 +212,7 @@
                     android:layout_height="30dp"
                     android:contentDescription="@string/Workouts"
                     android:src="@drawable/distance"
+                    style="@style/MyTextViewDistance"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
@@ -232,7 +224,7 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
                     android:text="@string/distance"
-                    android:textColor="@color/black"
+                    style="@style/MyTextViewDistance"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -248,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/white"
+                style="@style/MyTextViewDistance"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

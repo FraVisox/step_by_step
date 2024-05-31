@@ -24,7 +24,8 @@
             android:text="@string/save_title"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            style="@style/MyTextView"/>
 
         <ImageView
             android:id="@+id/workoutImage"
@@ -32,7 +33,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="3dp"
             android:src="@drawable/workout"
-            android:contentDescription="@string/workoutImage"/>
+            android:contentDescription="@string/workoutImage"
+            style="@style/MyTextView"/>
 
     </LinearLayout>
 
@@ -43,7 +45,7 @@
         android:id="@+id/instructions"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"
+        style="@style/MyTextViewSubtitle"
         app:layout_constraintTop_toBottomOf="@id/layout_titleSaveWorkout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,10 +60,6 @@
         app:layout_constraintTop_toBottomOf="@id/instructions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true"
         style="@style/MyMaterialCardView">
 
         <LinearLayout

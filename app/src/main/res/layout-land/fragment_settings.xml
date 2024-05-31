@@ -5,18 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    style="@style/Background">
+    style="@style/Background"
+    tools:context=".fragments.settings.SettingsFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/AgeCard"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        android:layout_gravity="center"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -103,10 +100,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -194,10 +188,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

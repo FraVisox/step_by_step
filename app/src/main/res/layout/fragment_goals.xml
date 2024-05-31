@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.goals.GoalsFragment"
-    style="@style/Background">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".fragments.goals.GoalsFragment"
+style="@style/Background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/goalsTitle"
+            style="@style/MyTextView"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -27,10 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/goals_24"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            style="@style/MyTextView"
+            />
 
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/GoalDescription"
@@ -39,25 +42,20 @@
         android:layout_gravity="center"
         android:text="@string/GoalsDescription"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        style="@style/MyTextViewSubtitle"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"/>
 
-
     <com.google.android.material.card.MaterialCardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardSteps"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -78,6 +76,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/Workouts"
+                    style="@style/MyTextViewSteps"
                     android:src="@drawable/baseline_directions_run_24" />
 
                 <TextView
@@ -86,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
-                    android:textColor="@color/black"
+                    style="@style/MyTextViewSteps"
                     android:text="@string/steps"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -99,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/white"
+                style="@style/MyTextViewSteps"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -131,18 +130,13 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardCalories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -162,6 +156,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/Workouts"
+                    style="@style/MyTextViewCalories"
                     android:src="@drawable/calories" />
 
                 <TextView
@@ -170,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:layout_marginVertical="5dp"
-                    android:textColor="@color/black"
+                    style="@style/MyTextViewCalories"
                     android:text="@string/calories"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -183,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/white"
+                style="@style/MyTextViewCalories"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -216,18 +211,13 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/GoalCardDistance"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/progressBar"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        style="@style/MyMaterialCardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -247,6 +237,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/Workouts"
+                    style="@style/MyTextViewDistance"
                     android:src="@drawable/distance" />
 
                 <!-- Testo -->
@@ -256,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:layout_marginStart="3dp"
-                    android:textColor="@color/black"
+                    style="@style/MyTextViewDistance"
                     android:text="@string/distance"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -269,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/white"
+                style="@style/MyTextViewDistance"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -297,8 +288,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/baseline_add_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
-
-
 
 </LinearLayout>

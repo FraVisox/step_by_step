@@ -4,11 +4,33 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
+
+    <!-- App colors -->
+    <color name="Primary">#BB86FC</color>
+    <color name="PrimaryVariant">#3700B3</color>
+    <color name="Secondary">#03DAC6</color>
+    <color name="Background">#121212</color>
+    <color name="Surface">#1E1E1E</color>
+    <color name="OnPrimary">#000000</color>
+    <color name="OnSecondary">#000000</color>
+    <color name="OnBackground">#FFFFFF</color>
+    <color name="OnSurface">#FFFFFF</color>
+    <color name="Error">#CF6679</color>
+
+    <!--  progressBars -->
+    <color name="progressBarGreen">#00E676</color>
+    <color name="progressBarRed">#FF0266</color>
+    <color name="progressBarBlue">#2979FF</color>
+    <color name="progressBarBackground">#E0E0E0</color>
+
+
+
+
     <color name="colorAccent">#03DAC5</color>
     <color name="buttonLabel">#FFFFFF</color>
-    <color name="progressBar">#007FFF</color>
-    <color name="progressBarUnfinished">#E0E0E0</color>
+
     <color name="navigation_bar">#F0F8FF</color>
     <color name="card_dark_gray">#424242</color>
     <color name="custom_blue">#0000FF</color>
+
 </resources>

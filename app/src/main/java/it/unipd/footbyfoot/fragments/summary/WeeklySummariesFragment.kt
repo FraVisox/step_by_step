@@ -15,7 +15,7 @@ import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import java.time.LocalDate
 
-class Last7SummariesFragment : Fragment() {
+class WeeklySummariesFragment : Fragment() {
 
 
     private lateinit var StepsProgressBar1: ProgressBar
@@ -53,41 +53,41 @@ class Last7SummariesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_last_7_summaries, container, false)
+        val view = inflater.inflate(R.layout.fragment_weekly_summaries, container, false)
 
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
         val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
 
         val listProgressBar: List<ProgressBar> = listOf(
-            view.findViewById(R.id.progressbarSteps1),
-            view.findViewById(R.id.progressbarSteps2),
-            view.findViewById(R.id.progressbarSteps3),
-            view.findViewById(R.id.progressbarSteps4),
-            view.findViewById(R.id.progressbarSteps5),
-            view.findViewById(R.id.progressbarSteps6),
-            view.findViewById(R.id.progressbarSteps7)
+            view.findViewById(R.id.progressbarStepsMon),
+            view.findViewById(R.id.progressbarStepsTue),
+            view.findViewById(R.id.progressbarStepsWed),
+            view.findViewById(R.id.progressbarStepsThu),
+            view.findViewById(R.id.progressbarStepsFri),
+            view.findViewById(R.id.progressbarStepsSat),
+            view.findViewById(R.id.progressbarStepsSun)
         )
 
         val listSteps: List<TextView> = listOf(
-            view.findViewById(R.id.steps1),
-            view.findViewById(R.id.steps2),
-            view.findViewById(R.id.steps3),
-            view.findViewById(R.id.steps4),
-            view.findViewById(R.id.steps5),
-            view.findViewById(R.id.steps6),
-            view.findViewById(R.id.steps7)
+            view.findViewById(R.id.stepsMon),
+            view.findViewById(R.id.stepsTue),
+            view.findViewById(R.id.stepsWed),
+            view.findViewById(R.id.stepsThu),
+            view.findViewById(R.id.stepsFri),
+            view.findViewById(R.id.stepsSat),
+            view.findViewById(R.id.stepsSun)
         )
 
         dateView = view.findViewById(R.id.Date)
 
-        CircularProgressBarSteps = view.findViewById(R.id.progressbarLastSteps)
-        CircularProgressBarCalories = view.findViewById(R.id.progressbarLastCalories)
+        CircularProgressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
+        CircularProgressBarCalories = view.findViewById(R.id.progressbarTodayCalories)
         CircularProgressBarDistance = view.findViewById(R.id.progressbarLastDistance)
 
-        CircularCountSteps = view.findViewById(R.id.countLastSteps)
+        CircularCountSteps = view.findViewById(R.id.countTodaySteps)
         CircularCountDistance = view.findViewById(R.id.countLastDistance)
-        CircularCountCalories = view.findViewById(R.id.countLastCalories)
+        CircularCountCalories = view.findViewById(R.id.countTodayCalories)
 
         // todo c'e un bug per cui se giro lo schermo tutte le bar hanno lo stesso valore
 

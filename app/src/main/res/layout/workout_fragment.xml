@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/workout_title"
+            style="@style/MyTextView"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"/>
@@ -33,6 +34,7 @@
             android:id="@+id/WorkoutImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            style="@style/MyTextView"
             android:layout_marginStart="3dp"
             android:src="@drawable/workout"
             android:contentDescription="@string/workoutImage"/>
@@ -48,7 +50,7 @@
         android:layout_margin="10dp"
         android:text="@string/instructions_workout"
         android:textSize="15sp"
-        android:textColor="@android:color/darker_gray"
+        style="@style/MyTextViewSubtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_title_workout" />

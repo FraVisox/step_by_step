@@ -5,6 +5,6 @@
     android:thickness="8dp"
     android:useLevel="false">
 
-    <solid android:color="@color/progressBarUnfinished" />
+    <solid android:color="@color/progressBarBackground" />
 
 </shape>
