@@ -12,7 +12,7 @@ import java.util.Locale
 class Helpers {
     companion object {
 
-        val defaultGoal = Goal(0,0,0,0,0.0)
+        val defaultGoal = Goal(0,0,0,0,0)
 
         fun calculatePercentage(part: Double, total: Double): Int {
             if (total == 0.0) {

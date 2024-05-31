@@ -138,7 +138,7 @@ class WeeklySummariesFragment : Fragment() {
 
                 circularProgressBarDistance.progress = Helpers.calculatePercentage(
                     countD.toDouble(),
-                    goal.distance
+                    goal.distance.toDouble()
                 )
                 circularProgressBarCalories.progress = Helpers.calculatePercentage(
                     countC,

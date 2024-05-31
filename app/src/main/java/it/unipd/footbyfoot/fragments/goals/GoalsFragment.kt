@@ -79,7 +79,7 @@ class GoalsFragment : Fragment() {
 
     private fun insertGoal() {
         val updatedSteps = stepsGoal.text.toString().toInt()
-        val updatedDistance = distanceGoal.text.toString().toDouble()
+        val updatedDistance = distanceGoal.text.toString().toInt()
         val updatedCalories = caloriesGoal.text.toString().toInt()
 
         val date = LocalDate.now()

@@ -14,5 +14,5 @@ data class Goal(
     @ColumnInfo(name = "calories")
     val calories: Int,
     @ColumnInfo(name = "distance")
-    val distance: Double
+    val distance: Int
 )
