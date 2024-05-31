@@ -35,8 +35,9 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
     //TODO: merge this with the one in mainactivity
 
     private val recordsViewModel : RecordsViewModel by viewModels{
-        RecordsViewModelFactory((application as RecordsApplication).repository)
+        (application as RecordsApplication).viewModelFactory
     }
+
 
     //Points of the workout
     private lateinit var points: List<WorkoutTrackPoint>
@@ -52,8 +53,6 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         //Creates the map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-
-        Log.d("AAA", "start create")
 
         //Back button
         val back = findViewById<Button>(R.id.back_button)

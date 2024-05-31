@@ -1,9 +1,11 @@
 package it.unipd.footbyfoot.fragments.summary
 
 import android.widget.TextView
+import com.google.type.TimeOfDay
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -37,9 +39,19 @@ class Helpers {
             return steps.toInt()
         }
 
-        fun formatDateToString(date: LocalDate): String { //TODO: stringa
-            val formatters = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            return date.format(formatters)
+        fun formatDateToString(date: LocalDate): String {
+            val formatters = DateTimeFormatter.ISO_LOCAL_DATE
+            return formatters.format(date)
+        }
+
+        fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
+            val formatters = DateTimeFormatter.ISO_LOCAL_DATE
+            return "${formatters.format(date)} $timeOfDay" //TODO: metto \n?
+        }
+
+        fun formatTimeToString(date: LocalDateTime): String {
+            val formatters = DateTimeFormatter.ofPattern("HH:mm")
+            return formatters.format(date)
         }
 
         fun distanceToKm(distance: Int): Double {

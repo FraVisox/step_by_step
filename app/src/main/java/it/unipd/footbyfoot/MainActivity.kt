@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
 import it.unipd.footbyfoot.fragments.goals.GoalsFragment
 import it.unipd.footbyfoot.fragments.maps.MapsFragment
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private var thisFragment : Int = R.id.stepsFragment
 
     val recordsViewModel : RecordsViewModel by viewModels{
-        RecordsViewModelFactory((application as RecordsApplication).repository)
+        (application as RecordsApplication).viewModelFactory
     }
 
 

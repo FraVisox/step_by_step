@@ -15,6 +15,7 @@ import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.R
 import java.io.Serializable
+import java.time.LocalDate
 
 class WorkoutTracker(private val manager: MapsManager) {
 

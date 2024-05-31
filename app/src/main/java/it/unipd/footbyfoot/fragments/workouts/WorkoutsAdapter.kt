@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.type.TimeOfDay
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
@@ -15,6 +16,7 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.io.Serializable
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 //Adapter for a single Workout
@@ -76,7 +78,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
 
 
-        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -89,9 +91,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: LocalDate, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dat: LocalDate, timeOfDay: String, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
             //Set text
-            date.text = Helpers.formatDateToString(dat)
+            date.text = Helpers.formatDateTimeToString(dat, timeOfDay)
             meters.text = m
             time.text = tim
             name.text = nam

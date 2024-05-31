@@ -14,15 +14,17 @@ import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SaveWorkoutActivity: AppCompatActivity() {
 
     private var workoutId = 1
 
-    //TODO: merge this with the one in mainactivity
     private val recordsViewModel : RecordsViewModel by viewModels{
-        RecordsViewModelFactory((application as RecordsApplication).repository)
+        (application as RecordsApplication).viewModelFactory
     }
 
     //Keys to pass to the intent
@@ -37,7 +39,9 @@ class SaveWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_workout)
 
-        //intent.resolveActivity() TODO
+        //Current date
+        val date = LocalDate.now()
+        val dateTime = LocalDateTime.now()
 
         //Get workout ID
         val preferences = getPreferences(MODE_PRIVATE)
@@ -68,15 +72,22 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
-        Log.d("AAA", (intent.getSerializableExtra(
-            positionsKey) as MutableList<LatLng?>).toString())
-
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //getSerializableExtra is used as the tests were made on Android API 32
-            val date = LocalDate.now() //TODO: passa l'ora giusta
-            recordsViewModel.insertWorkout(Workout(workoutId, name.text.toString(), totTime, dist, date.year, date.dayOfYear, ""), intent.getSerializableExtra(
-                positionsKey) as MutableList<LatLng?>)
+            recordsViewModel.insertWorkout(
+                Workout(
+                    workoutId,
+                    name.text.toString(),
+                    totTime,
+                    dist,
+                    date.year,
+                    date.dayOfYear,
+                    Helpers.formatTimeToString(dateTime)
+                ),
+                intent.getSerializableExtra(
+                    positionsKey) as MutableList<LatLng?>
+            )
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, workoutId))) {
                 workoutId++
             }
