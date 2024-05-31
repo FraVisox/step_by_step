@@ -1,24 +1,22 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.type.TimeOfDay
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.io.Serializable
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Date
+import java.time.LocalDateTime
 
 
 //Adapter for a single Workout
@@ -58,7 +56,6 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
-        //TODO: metti l'ora con AM, PM
         //Take the workout at that position
         val record = getItem(position)
 
@@ -77,14 +74,11 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
             it.workoutId == record.workoutId
         }
 
-        Log.d("AAA", points.toString())
-        Log.d("AAA", p.toString())
-
         val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
 
 
 
-        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -97,9 +91,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: LocalDate, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dat: LocalDate, timeOfDay: String, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
             //Set text
-            date.text = Helpers.formatDateToString(dat.year, dat.dayOfYear) //TODO: non ha senso fare prima la data e poi di nuovo cosi
+            date.text = Helpers.formatDateTimeToString(dat, timeOfDay)
             meters.text = m
             time.text = tim
             name.text = nam

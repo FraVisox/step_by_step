@@ -13,14 +13,18 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.time.LocalDate
-import java.util.Date
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SaveWorkoutActivity: AppCompatActivity() {
 
-    //TODO: merge this with the one in mainactivity
+    private var workoutId = 1
+
     private val recordsViewModel : RecordsViewModel by viewModels{
-        RecordsViewModelFactory((application as RecordsApplication).repository)
+        (application as RecordsApplication).viewModelFactory
     }
 
     //Keys to pass to the intent
@@ -35,10 +39,13 @@ class SaveWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_workout)
 
-        //intent.resolveActivity() TODO
+        //Current date
+        val date = LocalDate.now()
+        val dateTime = LocalDateTime.now()
 
-        //Take current ID
-        val thisID = (application as RecordsApplication).workoutId
+        //Get workout ID
+        val preferences = getPreferences(MODE_PRIVATE)
+        workoutId = preferences.getInt(MainActivity.currentID, 1)
 
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
@@ -46,7 +53,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //Set the name
         val name = findViewById<EditText>(R.id.save_name)
-        name.setText(getString(R.string.workout_name_default, thisID), TextView.BufferType.EDITABLE)
+        name.setText(getString(R.string.workout_name_default, workoutId), TextView.BufferType.EDITABLE)
 
         //Set time
         val totTime: Long = intent.getLongExtra(timeKey, 0)
@@ -65,20 +72,36 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
-        Log.d("AAA", (intent.getSerializableExtra(
-            positionsKey) as MutableList<LatLng?>).toString())
-
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //getSerializableExtra is used as the tests were made on Android API 32
-            val date = LocalDate.now() //TODO: passa l'ora giusta
-            recordsViewModel.insertWorkout(Workout(thisID, name.text.toString(), totTime, dist, date.year, date.dayOfYear, ""), intent.getSerializableExtra(
-                positionsKey) as MutableList<LatLng?>)
-            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, thisID))) {
-                (application as RecordsApplication).workoutId++
+            recordsViewModel.insertWorkout(
+                Workout(
+                    workoutId,
+                    name.text.toString(),
+                    totTime,
+                    dist,
+                    date.year,
+                    date.dayOfYear,
+                    Helpers.formatTimeToString(dateTime)
+                ),
+                intent.getSerializableExtra(
+                    positionsKey) as MutableList<LatLng?>
+            )
+            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, workoutId))) {
+                workoutId++
             }
             finish()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //Store the workout ID
+        val preferences = getPreferences(MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putInt(MainActivity.currentID, workoutId)
+        editor.apply()
     }
 
 }
