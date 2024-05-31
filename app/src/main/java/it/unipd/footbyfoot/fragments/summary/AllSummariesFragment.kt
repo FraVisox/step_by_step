@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.MainActivity
@@ -35,7 +34,7 @@ class AllSummariesFragment : Fragment() {
 
         //Observe
         (activity as MainActivity).recordsViewModel.allDistances.observe(viewLifecycleOwner) { distances ->
-            adapter.submitDistances(distances)
+            adapter.submitList(distances)
         }
 
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) {goals ->

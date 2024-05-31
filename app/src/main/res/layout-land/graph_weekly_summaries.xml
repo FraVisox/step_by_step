@@ -48,7 +48,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
             <TextView
                 android:id="@+id/stepsMon"
                 android:layout_width="0dp"
@@ -88,7 +89,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
 
             <TextView
                 android:id="@+id/stepsTue"
@@ -130,7 +132,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
 
             <TextView
                 android:id="@+id/stepsWed"
@@ -172,7 +175,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
 
             <TextView
                 android:id="@+id/stepsThu"
@@ -215,7 +219,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
 
             <TextView
                 android:id="@+id/stepsFri"
@@ -256,7 +261,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
 
             <TextView
                 android:id="@+id/stepsSat"
@@ -265,7 +271,7 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 style="@style/MyTextView"
-                android:text="0"/>
+                android:text="@string/zero"/>
         </LinearLayout>
 
     </RelativeLayout>
@@ -297,7 +303,8 @@
                 android:layout_weight="1"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:progressDrawable="@drawable/rectangle_progress_bar"/>
+                android:progressDrawable="@drawable/rectangle_progress_bar"
+                android:progress="0"/>
             <TextView
                 android:id="@+id/stepsSun"
                 android:layout_width="0dp"

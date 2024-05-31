@@ -2,6 +2,7 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,12 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import java.time.LocalDate
 
 class WeeklySummariesFragment : Fragment() {
+
+    companion object {
+        const val selectedItemKey = "selectedItem"
+    }
+
+    private var selectedItem = -1
 
     private var distanceList : List<Distance> = listOf()
     private var goalsList : List<Goal> = listOf()
@@ -70,9 +77,18 @@ class WeeklySummariesFragment : Fragment() {
         circularProgressBarCalories = view.findViewById(R.id.progressbarTodayCalories)
         circularProgressBarDistance = view.findViewById(R.id.progressbarLastDistance)
 
+        circularProgressBarSteps.progress = 0
+        circularProgressBarCalories.progress = 0
+        circularProgressBarDistance.progress = 0
+
         circularCountSteps = view.findViewById(R.id.countTodaySteps)
         circularCountDistance = view.findViewById(R.id.countLastDistance)
         circularCountCalories = view.findViewById(R.id.countTodayCalories)
+
+        if (savedInstanceState != null) {
+            Log.d("AAA", selectedItem.toString())
+            selectedItem = savedInstanceState.getInt(selectedItemKey)
+        }
 
         //Observe the distances of last week
         (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner) { distanceList ->
@@ -84,6 +100,11 @@ class WeeklySummariesFragment : Fragment() {
        }
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(selectedItemKey, selectedItem)
     }
 
     private fun updateDistances(dist: List<Distance>) {
@@ -111,13 +132,12 @@ class WeeklySummariesFragment : Fragment() {
                 .minusDays((LocalDate.now().dayOfWeek.value - i).toLong())
 
             //Distance and goal of that day
-            val distance = Helpers.getDistanceOfDate(distanceList, date)
+            val meters = Helpers.getDistanceMetersOfDate(distanceList, date)
             val goal = Helpers.getGoalOfDate(goalsList, date)
 
-            //Calculate the count of distances, steps, calories
-            val countD = distance.meters
-            val countS = Helpers.calculateSteps(height, distance.meters)
-            val countC = Helpers.calculateCalories(weight, distance.meters)
+            //Calculate the count of steps and calories
+            val countS = Helpers.calculateSteps(height, meters)
+            val countC = Helpers.calculateCalories(weight, meters)
 
             //The index of the list is i-1 as it starts from 0
             //Set the text and the progress of the bar
@@ -130,14 +150,16 @@ class WeeklySummariesFragment : Fragment() {
             //Set the listener
             listProgressBar[i - 1].setOnClickListener {
 
+                selectedItem = i-1
+
                 //Set text of date and count
                 dateView.text = Helpers.formatDateToString(date)
-                circularCountDistance.text = countD.toString()
+                circularCountDistance.text = meters.toString()
                 circularCountSteps.text = countS.toString()
                 circularCountCalories.text = countC.toString()
 
                 circularProgressBarDistance.progress = Helpers.calculatePercentage(
-                    countD.toDouble(),
+                    meters.toDouble(),
                     goal.distance.toDouble()
                 )
                 circularProgressBarCalories.progress = Helpers.calculatePercentage(
@@ -146,6 +168,13 @@ class WeeklySummariesFragment : Fragment() {
                 )
                 circularProgressBarSteps.progress = listProgressBar[i - 1].progress
             }
+        }
+
+        Log.d("AAA", "click on $selectedItem")
+        if (selectedItem != -1) {
+            Log.d("AAA", "yyeeee click on $selectedItem")
+
+            listProgressBar[selectedItem].performClick()
         }
     }
 

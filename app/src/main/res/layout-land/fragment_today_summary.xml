@@ -24,7 +24,8 @@
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
             android:progressDrawable="@drawable/circle_progressbar_steps"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:progress="0"/>
 
         <ImageView
             android:id="@+id/imageTodaySteps"
@@ -43,7 +44,8 @@
             android:gravity="center"
             style="@style/MyTextViewSteps"
             android:textSize="28sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text=""/>
 
         <!-- Obiettivi -->
         <TextView
@@ -87,7 +89,8 @@
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
             android:progressDrawable="@drawable/circle_progressbar_calories"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:progress="0"/>
 
         <ImageView
             android:id="@+id/imageTodayCalories"
@@ -106,7 +109,8 @@
             android:gravity="center"
             style="@style/MyTextViewCalories"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text=""/>
 
         <!-- Obiettivi -->
         <TextView
@@ -147,7 +151,8 @@
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
             android:progressDrawable="@drawable/circle_progressbar_distance"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:progress="0"/>
 
         <ImageView
             android:id="@+id/imageLastDistance"
@@ -166,7 +171,8 @@
             android:gravity="center"
             android:textSize="28sp"
             android:textStyle="bold"
-            style="@style/MyTextViewDistance"/>
+            style="@style/MyTextViewDistance"
+            android:text=""/>
 
         <TextView
             android:id="@+id/goalsLastDistance"

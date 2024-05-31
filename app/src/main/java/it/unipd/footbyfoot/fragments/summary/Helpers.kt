@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
 import android.widget.TextView
-import com.google.type.TimeOfDay
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
@@ -15,7 +14,7 @@ class Helpers {
         val defaultGoal = Goal(0,0,0,0,0)
 
         fun calculatePercentage(part: Double, total: Double): Int {
-            if (total == 0.0) {
+            if (total == 0.0 || part == 0.0) {
                 return 0
             }
             val percentage = (part / total) * 100
@@ -46,7 +45,7 @@ class Helpers {
 
         fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
             val formatters = DateTimeFormatter.ISO_LOCAL_DATE
-            return "${formatters.format(date)} $timeOfDay" //TODO: metto \n?
+            return "${formatters.format(date)}\n$timeOfDay" //TODO: metto \n?
         }
 
         fun formatTimeToString(date: LocalDateTime): String {
@@ -68,18 +67,18 @@ class Helpers {
             return defaultGoal
         }
 
-        fun getDistanceOfDate(distances: List<Distance>, date: LocalDate): Distance {
+        fun getDistanceMetersOfDate(distances: List<Distance>, date: LocalDate): Int {
             //Get the distance of this date
             for (distanceL in distances) {
                 if (LocalDate.ofYearDay(
                         distanceL.year,
                         distanceL.dayOfYear
                     ).dayOfWeek.value == date.dayOfWeek.value) {
-                    return distanceL
+                    return distanceL.meters
                 }
             }
             //Default distance
-            return Distance(0, date.year, date.dayOfYear)
+            return 0
         }
 
         fun incrementValue(textView: TextView) {
