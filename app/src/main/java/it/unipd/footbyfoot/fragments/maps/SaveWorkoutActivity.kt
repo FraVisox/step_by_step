@@ -15,7 +15,6 @@ import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.MainActivity
 import java.time.LocalDate
-import java.util.Date
 
 class SaveWorkoutActivity: AppCompatActivity() {
 
@@ -87,14 +86,10 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        //Store the workout ID
         val preferences = getPreferences(MODE_PRIVATE)
         val editor = preferences.edit()
-
-        // Store relevant status of the widgets that are part of the persistent state
         editor.putInt(MainActivity.currentID, workoutId)
-
-
-        // Commit to storage synchronously
         editor.apply()
     }
 
