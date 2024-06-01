@@ -49,7 +49,7 @@
             style="@style/WorkoutBackground">
 
             <ImageView
-                android:contentDescription="@string/meters"
+                android:contentDescription="@string/distance_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,7 +59,7 @@
 
 
             <ImageView
-                android:contentDescription="@string/time"
+                android:contentDescription="@string/time_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -68,7 +68,7 @@
                 />
 
             <ImageView
-                android:contentDescription="@string/speed"
+                android:contentDescription="@string/speed_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

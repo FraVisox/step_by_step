@@ -93,5 +93,18 @@
     <string name="delete_workout">delete workout</string>
     <string name="addButton">addButton</string>
     <string name="subButton">subButton</string>
+    <string name="distance_goal">distance goal</string>
+    <string name="calories_goal">Calories goal</string>
+    <string name="steps_goal">steps goal</string>
+    <string name="distance_image">distance image</string>
+    <string name="calories_image">calories image</string>
+    <string name="steps_image">steps image</string>
+    <string name="weight_image">Weight image</string>
+    <string name="height_image">Height image</string>
+    <string name="age_image">Age image</string>
+    <string name="goals_image">goals image</string>
+    <string name="speed_image">speed_image</string>
+    <string name="time_image">time image</string>
+
 
 </resources>

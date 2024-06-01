@@ -29,13 +29,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
-
                 <ImageView
                     android:id="@+id/ageImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/age"
+                    android:contentDescription="@string/age_image"
                     style="@style/MyTextViewAge"
                     android:src="@drawable/baseline_cake_24"
                     app:layout_constraintTop_toTopOf="parent"
@@ -96,6 +94,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -120,13 +119,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
-
                 <ImageView
                     android:id="@+id/heightImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/height"
+                    android:contentDescription="@string/height_image"
                     android:src="@drawable/baseline_height_24"
                     style="@style/MyTextViewHeight"
                     app:layout_constraintTop_toTopOf="parent"
@@ -148,8 +145,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <!-- Testo -->
             <TextView
                 android:id="@+id/heightCount"
                 android:layout_width="wrap_content"
@@ -188,6 +183,7 @@
                 app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -212,13 +208,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
-
                 <ImageView
                     android:id="@+id/weightImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/weight"
+                    android:contentDescription="@string/weight_image"
                     android:src="@drawable/baseline_monitor_weight_24"
                     style="@style/MyTextViewHeight"
                     app:layout_constraintTop_toTopOf="parent"
@@ -241,8 +235,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <!-- Testo -->
             <TextView
                 android:id="@+id/weightCount"
                 android:layout_width="wrap_content"
@@ -281,6 +273,7 @@
                 app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

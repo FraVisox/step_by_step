@@ -15,7 +15,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal">
-        <!-- Titolo -->
+
         <TextView
             android:id="@+id/settingsTitle"
             style="@style/MyTextView"
@@ -24,7 +24,6 @@
             android:text="@string/UserSettings"
             android:textSize="20sp"
             android:textStyle="bold" />
-        <!-- Immagine -->
 
         <ImageView
             android:id="@+id/SettingsImage"
@@ -32,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="3dp"
+            android:contentDescription="@string/Settings"
             android:src="@drawable/baseline_manage_accounts_24" />
 
     </LinearLayout>
@@ -70,13 +70,12 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
                 <ImageView
                     android:id="@+id/ageImage"
                     style="@style/MyTextViewAge"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/age"
+                    android:contentDescription="@string/age_image"
                     android:src="@drawable/baseline_cake_24" />
 
                 <TextView
@@ -160,7 +159,7 @@
                     style="@style/MyTextViewHeight"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/height"
+                    android:contentDescription="@string/height_image"
                     android:src="@drawable/baseline_height_24" />
 
                 <TextView
@@ -245,7 +244,7 @@
                     style="@style/MyTextViewWeight"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:contentDescription="@string/weight"
+                    android:contentDescription="@string/weight_image"
                     android:src="@drawable/baseline_monitor_weight_24" />
 
                 <!-- Testo -->

@@ -34,6 +34,7 @@
             android:layout_centerHorizontal="true"
             android:layout_above="@id/countTodaySteps"
             style="@style/MyTextViewSteps"
+            android:contentDescription="@string/steps_image"
             android:src="@drawable/baseline_directions_run_24" />
 
         <TextView
@@ -47,7 +48,6 @@
             android:textStyle="bold"
             android:text=""/>
 
-        <!-- Obiettivi -->
         <TextView
             android:id="@+id/goalsTodaySteps"
             android:layout_width="wrap_content"
@@ -60,7 +60,6 @@
             style="@style/MyTextViewSteps"
             android:textSize="18sp"/>
 
-        <!-- Immagine accanto agli obiettivi -->
         <ImageView
             android:id="@+id/imageGoals"
             android:layout_width="wrap_content"
@@ -69,6 +68,7 @@
             android:layout_toStartOf="@id/goalsTodaySteps"
             android:layout_alignTop="@id/goalsTodaySteps"
             style="@style/MyTextViewSteps"
+            android:contentDescription="@string/calories_goal"
             android:src="@drawable/goals_24" />
 
     </RelativeLayout>
@@ -99,6 +99,7 @@
             android:layout_above="@id/countTodayCalories"
             android:layout_centerHorizontal="true"
             style="@style/MyTextViewCalories"
+            android:contentDescription="@string/calories_image"
             android:src="@drawable/calories" />
 
         <TextView
@@ -112,7 +113,6 @@
             android:textStyle="bold"
             android:text=""/>
 
-        <!-- Obiettivi -->
         <TextView
             android:id="@+id/goalsTodayCalories"
             android:layout_width="wrap_content"
@@ -131,6 +131,7 @@
             android:layout_toStartOf="@id/goalsTodayCalories"
             style="@style/MyTextViewCalories"
             android:layout_alignTop="@id/goalsTodayCalories"
+            android:contentDescription="@string/calories_goal"
             android:src="@drawable/goals_24" />
 
     </RelativeLayout>
@@ -161,7 +162,8 @@
             android:layout_above="@id/countLastDistance"
             android:layout_centerHorizontal="true"
             style="@style/MyTextViewDistance"
-            android:src="@drawable/distance" />
+            android:contentDescription="@string/distance"
+            android:src="@drawable/distance_image" />
 
         <TextView
             android:id="@+id/countLastDistance"
@@ -191,6 +193,7 @@
             android:layout_height="20dp"
             android:layout_toStartOf="@id/goalsLastDistance"
             android:layout_alignTop="@id/goalsLastDistance"
+            android:contentDescription="@string/distance_goal"
             android:src="@drawable/goals_24"
             style="@style/MyTextViewDistance"/>
 
