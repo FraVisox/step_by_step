@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Background">
+
+    <LinearLayout
+        android:id = "@+id/layout_titleSaveWorkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/save_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/new_workout_title"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            style="@style/MyTextView"/>
+
+        <ImageView
+            android:id="@+id/workoutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/workout"
+            android:contentDescription="@string/workoutImage"
+            style="@style/MyTextView"/>
+
+    </LinearLayout>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_new_workout"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        style="@style/MyTextViewSubtitle"
+        app:layout_constraintTop_toBottomOf="@id/layout_titleSaveWorkout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/instructions_to_add_new_workout"
+        android:textSize="15sp"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/saveWorkoutCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/add_new_workout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/MyMaterialCardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:dividerPadding="2.5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/save_name"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_name"
+                android:layout_margin="3dp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:autofillHints="Activity"
+                android:inputType="text"
+                android:textSize="25sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_distance"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/instructions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:autofillHints="Activity"
+                android:inputType="number"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_time"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/instructions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:autofillHints="Activity"
+                android:inputType="time"
+                android:digits="0123456789:"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_speed"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/instructions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:autofillHints="Activity"
+                android:inputType="numberDecimal"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MyButtonStyle"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

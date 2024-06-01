@@ -105,6 +105,8 @@
     <string name="goals_image">goals image</string>
     <string name="speed_image">speed_image</string>
     <string name="time_image">time image</string>
+    <string name="new_workout_title">Add new Workout</string>
+    <string name="instructions_to_add_new_workout">Set your personal workout</string>
 
 
 </resources>
