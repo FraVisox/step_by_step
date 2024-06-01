@@ -162,8 +162,8 @@
             android:layout_above="@id/countLastDistance"
             android:layout_centerHorizontal="true"
             style="@style/MyTextViewDistance"
-            android:contentDescription="@string/distance"
-            android:src="@drawable/distance_image" />
+            android:contentDescription="@string/distance_image"
+            android:src="@drawable/distance" />
 
         <TextView
             android:id="@+id/countLastDistance"
