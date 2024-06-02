@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toStartOf="@id/minutes"
         app:layout_constraintBottom_toTopOf="@id/ok_button"
         android:theme="@style/NumberPicker"
+        android:layout_margin="@dimen/big_padding"
         />
 
     <NumberPicker
@@ -25,6 +26,7 @@
         app:layout_constraintEnd_toStartOf="@id/seconds"
         app:layout_constraintBottom_toTopOf="@id/ok_button"
         android:theme="@style/NumberPicker"
+        android:layout_margin="@dimen/big_padding"
         />
 
     <NumberPicker
@@ -36,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/ok_button"
         android:theme="@style/NumberPicker"
+        android:layout_margin="@dimen/big_padding"
         />
 
 
