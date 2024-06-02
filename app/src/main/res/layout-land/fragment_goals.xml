@@ -144,7 +144,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <TextView
                 android:id="@+id/caloriesGoalCount"
                 android:layout_width="wrap_content"
@@ -207,8 +206,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
-
                 <ImageView
                     android:id="@+id/distanceGoalImage"
                     android:layout_width="30dp"
@@ -236,8 +233,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <!-- Testo -->
             <TextView
                 android:id="@+id/distanceGoalCount"
                 android:layout_width="wrap_content"

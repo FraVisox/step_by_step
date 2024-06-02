@@ -7,7 +7,7 @@
     style="@style/Background">
 
     <RelativeLayout
-        android:id="@+id/progress_summary_layout"
+        android:id="@+id/item_summary_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -52,7 +52,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageGoalsSelected"
+                android:id="@+id/imageGoalsStepsSelected"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 style="@style/MyTextViewSteps"
@@ -60,7 +60,7 @@
                 android:src="@drawable/goals_24" />
 
             <TextView
-                android:id="@+id/goalsStepsSelected"
+                android:id="@+id/stepsGoalSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -73,7 +73,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/progress_calories_layout"
+        android:id="@+id/item_calories_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -126,7 +126,7 @@
                 android:src="@drawable/goals_24" />
 
             <TextView
-                android:id="@+id/goalsCaloriesSelected"
+                android:id="@+id/caloriesGoalSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -139,7 +139,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/progress_distance_layout"
+        android:id="@+id/item_distance_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -192,7 +192,7 @@
                 style="@style/MyTextViewDistance"/>
 
             <TextView
-                android:id="@+id/goalsLDistanceSelected"
+                android:id="@+id/distanceGoalSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

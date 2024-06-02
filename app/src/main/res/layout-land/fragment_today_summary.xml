@@ -48,28 +48,31 @@
             android:textStyle="bold"
             android:text=""/>
 
-        <TextView
-            android:id="@+id/goalsTodaySteps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
             android:layout_below="@id/countTodaySteps"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/zero"
-            style="@style/MyTextViewSteps"
-            android:textSize="18sp"/>
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/imageTodayGoals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_toStartOf="@id/goalsTodaySteps"
-            android:layout_alignTop="@id/goalsTodaySteps"
-            style="@style/MyTextViewSteps"
-            android:contentDescription="@string/calories_goal"
-            android:src="@drawable/goals_24" />
+            <ImageView
+                android:id="@+id/imageTodayGoals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MyTextViewSteps"
+                android:contentDescription="@string/steps_goal"
+                android:src="@drawable/goals_24" />
+
+            <TextView
+                android:id="@+id/goalsTodaySteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                style="@style/MyTextViewSteps"
+                android:text="@string/zero"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -113,26 +116,31 @@
             android:textStyle="bold"
             android:text=""/>
 
-        <TextView
-            android:id="@+id/goalsTodayCalories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
             android:layout_below="@id/countTodayCalories"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
-            style="@style/MyTextViewCalories"
-            android:text="@string/zero"
-            android:textSize="15sp"/>
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/imageGoalsTodayCalories"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_toStartOf="@id/goalsTodayCalories"
-            style="@style/MyTextViewCalories"
-            android:layout_alignTop="@id/goalsTodayCalories"
-            android:contentDescription="@string/calories_goal"
-            android:src="@drawable/goals_24" />
+            <ImageView
+                android:id="@+id/imageGoalsTodayCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MyTextViewCalories"
+                android:contentDescription="@string/calories_goal"
+                android:src="@drawable/goals_24" />
+
+            <TextView
+                android:id="@+id/goalsTodayCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                style="@style/MyTextViewCalories"
+                android:text="@string/zero"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -176,26 +184,31 @@
             style="@style/MyTextViewDistance"
             android:text=""/>
 
-        <TextView
-            android:id="@+id/goalsTodayDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
             android:layout_below="@id/countTodayDistance"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="@string/zero"
-            android:textSize="15sp"
-            style="@style/MyTextViewDistance"/>
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/imageGoalsTodayDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_toStartOf="@id/goalsTodayDistance"
-            android:layout_alignTop="@id/goalsTodayDistance"
-            android:contentDescription="@string/distance_goal"
-            android:src="@drawable/goals_24"
-            style="@style/MyTextViewDistance"/>
+            <ImageView
+                android:id="@+id/imageGoalsTodayDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/distance_goal"
+                android:src="@drawable/goals_24"
+                style="@style/MyTextViewDistance"/>
+
+            <TextView
+                android:id="@+id/goalsTodayDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/zero"
+                android:textSize="18sp"
+                style="@style/MyTextViewDistance"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

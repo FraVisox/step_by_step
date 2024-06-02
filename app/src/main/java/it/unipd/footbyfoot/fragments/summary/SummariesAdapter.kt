@@ -13,7 +13,7 @@ import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
 
-class RecordsAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, RecordsAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
+class SummariesAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
 
     //ListAdapters need a comparator
     companion object {
@@ -54,7 +54,7 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : ListAda
             Helpers.formatDateToString(date),
             Helpers.calculateSteps(height, dailyDistance.meters),
             Helpers.calculateCalories(weight, dailyDistance.meters),
-            Helpers.distanceToKm(dailyDistance.meters),
+            dailyDistance.meters,
             Helpers.getGoalOfDate(goals, date)
         )
 
@@ -66,23 +66,31 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : ListAda
 
         private val steps : TextView = itemView.findViewById(R.id.countSteps)
         private val progressBarSteps: ProgressBar = itemView.findViewById(R.id.progressbarSteps)
+        private val stepsGoal : TextView = itemView.findViewById(R.id.stepsGoal)
 
         private val calories : TextView = itemView.findViewById(R.id.countCalories)
         private val progressBarCalories : ProgressBar = itemView.findViewById(R.id.progressbarCalories)
+        private val caloriesGoal : TextView = itemView.findViewById(R.id.caloriesGoal)
 
         private val distance : TextView = itemView.findViewById(R.id.countDistance)
         private val progressBarDistance : ProgressBar = itemView.findViewById(R.id.progressbarDistance)
+        private val distanceGoal : TextView = itemView.findViewById(R.id.distanceGoal)
 
-        fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Double, currentGoal: Goal) {
+        fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Int, currentGoal: Goal) {
 
             dateOfRecords.text = date
+
             steps.text = countSteps.toString()
             calories.text = countCalories.toString()
             distance.text = countDistance.toString()
 
+            stepsGoal.text = currentGoal.steps.toString()
+            caloriesGoal.text = currentGoal.calories.toString()
+            distanceGoal.text = currentGoal.distance.toString()
+
             progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
             progressBarCalories.progress = Helpers.calculatePercentage(countCalories, currentGoal.calories.toDouble())
-            progressBarDistance.progress = Helpers.calculatePercentage(countDistance, currentGoal.distance.toDouble())
+            progressBarDistance.progress = Helpers.calculatePercentage(countDistance.toDouble(), currentGoal.distance.toDouble())
 
         }
     }
