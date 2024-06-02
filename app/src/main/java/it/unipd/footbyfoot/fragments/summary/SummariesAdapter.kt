@@ -13,7 +13,7 @@ import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
 
-class RecordsAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, RecordsAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
+class SummariesAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
 
     //ListAdapters need a comparator
     companion object {
@@ -54,7 +54,7 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : ListAda
             Helpers.formatDateToString(date),
             Helpers.calculateSteps(height, dailyDistance.meters),
             Helpers.calculateCalories(weight, dailyDistance.meters),
-            Helpers.distanceToKm(dailyDistance.meters),
+            dailyDistance.meters,
             Helpers.getGoalOfDate(goals, date)
         )
 
@@ -76,7 +76,7 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : ListAda
         private val progressBarDistance : ProgressBar = itemView.findViewById(R.id.progressbarDistance)
         private val distanceGoal : TextView = itemView.findViewById(R.id.distanceGoal)
 
-        fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Double, currentGoal: Goal) {
+        fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Int, currentGoal: Goal) {
 
             dateOfRecords.text = date
 
@@ -90,7 +90,7 @@ class RecordsAdapter(private val height: Int, private val weight: Int) : ListAda
 
             progressBarSteps.progress = Helpers.calculatePercentage(countSteps.toDouble(), currentGoal.steps.toDouble())
             progressBarCalories.progress = Helpers.calculatePercentage(countCalories, currentGoal.calories.toDouble())
-            progressBarDistance.progress = Helpers.calculatePercentage(countDistance, currentGoal.distance.toDouble())
+            progressBarDistance.progress = Helpers.calculatePercentage(countDistance.toDouble(), currentGoal.distance.toDouble())
 
         }
     }
