@@ -61,7 +61,7 @@
             android:textSize="18sp"/>
 
         <ImageView
-            android:id="@+id/imageGoals"
+            android:id="@+id/imageTodayGoals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
@@ -125,7 +125,7 @@
             android:textSize="15sp"/>
 
         <ImageView
-            android:id="@+id/imageGoalsCalories"
+            android:id="@+id/imageGoalsTodayCalories"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toStartOf="@id/goalsTodayCalories"
@@ -145,7 +145,7 @@
         android:layout_gravity="center">
 
         <ProgressBar
-            android:id="@+id/progressbarLastDistance"
+            android:id="@+id/progressbarTodayDistance"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -156,17 +156,17 @@
             android:progress="0"/>
 
         <ImageView
-            android:id="@+id/imageLastDistance"
+            android:id="@+id/imageTodayDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/countLastDistance"
+            android:layout_above="@id/countTodayDistance"
             android:layout_centerHorizontal="true"
             style="@style/MyTextViewDistance"
             android:contentDescription="@string/distance_image"
             android:src="@drawable/distance" />
 
         <TextView
-            android:id="@+id/countLastDistance"
+            android:id="@+id/countTodayDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -177,10 +177,10 @@
             android:text=""/>
 
         <TextView
-            android:id="@+id/goalsLastDistance"
+            android:id="@+id/goalsTodayDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/countLastDistance"
+            android:layout_below="@id/countTodayDistance"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:text="@string/zero"
@@ -188,11 +188,11 @@
             style="@style/MyTextViewDistance"/>
 
         <ImageView
-            android:id="@+id/imageGoalsDistance"
+            android:id="@+id/imageGoalsTodayDistance"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_toStartOf="@id/goalsLastDistance"
-            android:layout_alignTop="@id/goalsLastDistance"
+            android:layout_toStartOf="@id/goalsTodayDistance"
+            android:layout_alignTop="@id/goalsTodayDistance"
             android:contentDescription="@string/distance_goal"
             android:src="@drawable/goals_24"
             style="@style/MyTextViewDistance"/>

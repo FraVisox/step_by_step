@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
 
         <shape android:shape="rectangle" >
-            <corners android:radius="20dp"/>
+            <corners android:radius="10dp"/>
             <solid android:color="@color/progressBarBackground"/>
         </shape>
 
@@ -15,7 +15,7 @@
 
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <corners android:radius="20dp"/>
+                <corners android:radius="10dp"/>
                 <solid android:color="@color/progressBarGreen"/>
             </shape>
         </scale>

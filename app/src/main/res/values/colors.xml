@@ -3,15 +3,12 @@
 
     <!-- App colors -->
     <color name="Primary">#BB86FC</color>
-    <color name="PrimaryVariant">#3700B3</color>
-    <color name="Secondary">#03DAC6</color>
     <color name="Background">#121212</color>
     <color name="Surface">#1E1E1E</color>
     <color name="OnPrimary">#000000</color>
     <color name="OnSecondary">#000000</color>
     <color name="OnBackground">#FFFFFF</color>
     <color name="OnSurface">#FFFFFF</color>
-    <color name="Error">#CF6679</color>
 
     <!--  progressBars -->
     <color name="progressBarGreen">#00E676</color>
@@ -25,7 +22,13 @@
     <!--  navigation Bar -->
     <color name="navigation_bar">#282828</color>
 
-    <!-- old colors-->
+
+    <!-- old colors 1-->
+    <color name="Error">#CF6679</color>
+    <color name="PrimaryVariant">#3700B3</color>
+    <color name="Secondary">#03DAC6</color>
+
+    <!-- old colors 2-->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#6200EE</color>
