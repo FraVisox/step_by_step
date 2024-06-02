@@ -68,10 +68,8 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
             if (name.text.toString() != currentName) {
-                Log.d("AAA", "lessgoooo change")
                 recordsViewModel.changeWorkoutName(workoutId, name.text.toString())
             }
-            Log.d("AAA", "nooot change")
             finish()
         }
 

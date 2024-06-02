@@ -24,7 +24,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        // Do something with the date the user picks.
+        //Sets the values and the text of the button in the activity
         val date = LocalDate.of(year, month, day)
         this.year = year
         this.dayOfYear = date.dayOfYear

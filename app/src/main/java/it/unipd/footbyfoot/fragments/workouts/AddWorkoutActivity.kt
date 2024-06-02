@@ -49,12 +49,12 @@ class AddWorkoutActivity: AppCompatActivity() {
         val datePicker = DatePickerFragment()
         val timePicker = TimePickerFragment()
 
-        date = findViewById<Button>(R.id.add_date)
+        date = findViewById(R.id.add_date)
         date.setOnClickListener {
             datePicker.show(supportFragmentManager, "datePicker")
         }
 
-        timeOfDay = findViewById<Button>(R.id.add_time_of_day)
+        timeOfDay = findViewById(R.id.add_time_of_day)
         timeOfDay.setOnClickListener {
             timePicker.show(supportFragmentManager, "timePicker")
         }
