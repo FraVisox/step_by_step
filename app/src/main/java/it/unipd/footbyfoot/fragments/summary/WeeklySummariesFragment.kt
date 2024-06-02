@@ -39,6 +39,10 @@ class WeeklySummariesFragment : Fragment() {
     private lateinit var circularCountDistance: TextView
     private lateinit var circularCountCalories: TextView
 
+    private lateinit var circularStepsGoal: TextView
+    private lateinit var circularDistanceGoal: TextView
+    private lateinit var circularCaloriesGoal: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +88,10 @@ class WeeklySummariesFragment : Fragment() {
         circularCountSteps = view.findViewById(R.id.countStepsSelected)
         circularCountDistance = view.findViewById(R.id.countDistanceSelected)
         circularCountCalories = view.findViewById(R.id.countCaloriesSelected)
+
+        circularStepsGoal = view.findViewById(R.id.stepsGoalSelected)
+        circularDistanceGoal = view.findViewById(R.id.distanceGoalSelected)
+        circularCaloriesGoal = view.findViewById(R.id.caloriesGoalSelected)
 
         if (savedInstanceState != null) {
             Log.d("AAA", selectedItem.toString())
@@ -157,6 +165,10 @@ class WeeklySummariesFragment : Fragment() {
                 circularCountDistance.text = meters.toString()
                 circularCountSteps.text = countS.toString()
                 circularCountCalories.text = countC.toString()
+                
+                circularStepsGoal.text = goal.steps.toString()
+                circularDistanceGoal.text = goal.distance.toString()
+                circularCaloriesGoal.text = goal.calories.toString()
 
                 circularProgressBarDistance.progress = Helpers.calculatePercentage(
                     meters.toDouble(),

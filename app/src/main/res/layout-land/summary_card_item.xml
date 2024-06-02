@@ -85,7 +85,7 @@
                         android:src="@drawable/goals_24" />
 
                     <TextView
-                        android:id="@+id/goalsSteps"
+                        android:id="@+id/stepsGoal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -153,7 +153,7 @@
                         android:src="@drawable/goals_24" />
 
                     <TextView
-                        android:id="@+id/goalsCalories"
+                        android:id="@+id/caloriesGoal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -221,7 +221,7 @@
                         style="@style/MyTextViewDistance"/>
 
                     <TextView
-                        android:id="@+id/goalsLDistance"
+                        android:id="@+id/distanceGoal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -236,4 +236,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

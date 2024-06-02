@@ -21,7 +21,7 @@
         style="@style/MyTextView"/>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout1"
+        android:id="@+id/RelativelayoutMon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -107,7 +107,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout3"
+        android:id="@+id/RelativelayoutWed"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -151,7 +151,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout4"
+        android:id="@+id/RelativelayoutThu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -195,7 +195,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout5"
+        android:id="@+id/RelativelayoutFri"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -240,7 +240,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout6"
+        android:id="@+id/RelativelayoutSat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -284,7 +284,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/Relativelayout7"
+        android:id="@+id/RelativelayoutSun"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

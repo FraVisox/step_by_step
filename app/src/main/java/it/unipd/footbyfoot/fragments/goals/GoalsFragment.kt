@@ -76,11 +76,11 @@ class GoalsFragment : Fragment() {
             goalTrace.incrementMetric("Decrement goals", 1)
         }
         addDistanceButton.setOnClickListener {
-            Helpers.incrementValue(distanceGoal)
+            Helpers.increment100Value(distanceGoal)
             goalTrace.incrementMetric("Increment goals", 1)
         }
         subDistanceButton.setOnClickListener {
-            Helpers.decrementValue(distanceGoal)
+            Helpers.decrement100Value(distanceGoal)
             goalTrace.incrementMetric("Decrement goals", 1)
         }
 

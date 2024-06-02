@@ -23,6 +23,8 @@ class AllSummariesFragment : Fragment() {
     // in orizzontale se vado in settings si rompe tutto.
     // togliere un laout di allSummariesLand e itemLand (cardItem ha una piccola diversita quindi tenere)
     // io non ho potuto fare test per il maps perche non va il gps sul mio emulatore è tutto ok?
+    // togliere diverHorizzontal and vertical
+    // togliere i worning di lint sui layout
 
     // mettere il goals in all and week
 

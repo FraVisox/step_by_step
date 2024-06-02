@@ -106,7 +106,7 @@
                 android:progress="0" />
 
             <ImageView
-                android:id="@+id/imageCaloriesSelected"
+                android:id="@+id/imageTodayCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/MyTextViewCalories"
@@ -176,7 +176,7 @@
                 android:progress="0"/>
 
             <ImageView
-                android:id="@+id/imageDistanceSelected"
+                android:id="@+id/imageTodayDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/countTodayDistance"
