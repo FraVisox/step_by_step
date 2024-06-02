@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.database
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -46,15 +45,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
                 repository.changeWorkoutName(workoutId, name)
             }
         }
-    }
-
-    fun getWorkout(id: Int): Workout? {
-        if (id != invalidWorkoutID) {
-            viewModelScope.launch {
-                return@launch repository.getWorkout(id)
-            }
-        }
-        return null
     }
 
 
