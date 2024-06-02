@@ -164,10 +164,7 @@ class WeeklySummariesFragment : Fragment() {
             //Set the listener
             listProgressBar[i - 1].setOnClickListener {
 
-                selectedItem = i-1
-
-                listDay[i-1].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
-                listSteps[i-1].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
+                selectItem(i-1)
 
                 //Set text of date and count
                 dateView.text = Helpers.formatDateToString(date)
@@ -192,6 +189,20 @@ class WeeklySummariesFragment : Fragment() {
         } else {
             listProgressBar[LocalDate.now().dayOfWeek.value-1].performClick()
         }
+    }
+
+    private fun selectItem(index: Int) {
+        selectedItem = index
+
+        //Clear
+        for (i in 0..6) {
+            listDay[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.OnSurface))
+            listSteps[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.OnSurface))
+        }
+
+        //Set the selected one
+        listDay[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
+        listSteps[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
     }
 
 }
