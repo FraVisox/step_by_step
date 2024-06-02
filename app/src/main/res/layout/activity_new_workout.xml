@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -93,7 +94,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/name"
-                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
                 />
 
             <EditText
@@ -101,13 +105,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:id="@+id/add_name"
-                android:layout_margin="3dp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/white"
                 android:autofillHints="Activity"
                 android:inputType="text"
                 android:textSize="25sp"/>
+
         </LinearLayout>
 
             <LinearLayout
@@ -119,12 +123,16 @@
                 android:dividerPadding="2.5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_name">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/distance"
-                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
                     />
 
                 <EditText
@@ -150,20 +158,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_distance">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/time"
-                android:layout_gravity="center_vertical"
-                />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/duration"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/add_time"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Time" />
+                    style="@style/MySetTimeAndDateButtonStyle"
+                    android:layout_weight="2"
+                    android:text="@string/duration" />
 
 
             </LinearLayout>
@@ -178,27 +189,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_time">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/date"
-                android:layout_gravity="center_vertical"
-                />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/date"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
 
                 <Button
                     android:id="@+id/add_time_of_day"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     android:layout_weight="1"
-                    android:text="Time" />
+                    style="@style/MySetTimeAndDateButtonStyle"
+                    android:text="@string/time" />
 
                 <Button
                     android:id="@+id/add_date"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    style="@style/MySetTimeAndDateButtonStyle"
                     android:layout_weight="1"
-                    android:text="Date" />
+                    android:text="@string/date" />
 
             </LinearLayout>
 
