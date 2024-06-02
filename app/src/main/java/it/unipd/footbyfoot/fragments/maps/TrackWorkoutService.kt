@@ -87,7 +87,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
                     BitmapFactory.decodeResource(
                         resources,
                         R.drawable.baseline_directions_run_24
-                    )) //TODO: icon not found
+                    ))
 
             //Make an intent if the user taps the notification
             val intent = Intent(this, MainActivity::class.java)
