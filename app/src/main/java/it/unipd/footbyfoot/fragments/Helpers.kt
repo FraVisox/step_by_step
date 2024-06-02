@@ -1,10 +1,11 @@
-package it.unipd.footbyfoot.fragments.summary
+package it.unipd.footbyfoot.fragments
 
 import android.widget.TextView
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -42,6 +43,7 @@ class Helpers {
             return steps.toInt()
         }
 
+        /*
         fun formatDateToString(date: LocalDate): String {
             val formatters = DateTimeFormatter.ISO_LOCAL_DATE
             return formatters.format(date)
@@ -49,6 +51,18 @@ class Helpers {
 
         fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
             val formatters = DateTimeFormatter.ISO_LOCAL_DATE
+            return "${formatters.format(date)}\n$timeOfDay" //TODO: metto \n?
+        }
+
+        */
+
+        fun formatDateToString(date: LocalDate): String {
+            val formatter = DateTimeFormatter.ofPattern("EEE dd MMM yyyy", Locale.getDefault())
+            return formatter.format(date)
+        }
+
+        fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
+            val formatters = DateTimeFormatter.ofPattern("EEE dd MMM yyyy", Locale.getDefault())
             return "${formatters.format(date)}\n$timeOfDay" //TODO: metto \n?
         }
 

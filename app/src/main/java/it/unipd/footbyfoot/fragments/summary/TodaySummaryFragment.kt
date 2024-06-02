@@ -2,7 +2,6 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
+import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class TodaySummaryFragment : Fragment() {

@@ -15,7 +15,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.R
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 
 
 class SettingsFragment : Fragment() {

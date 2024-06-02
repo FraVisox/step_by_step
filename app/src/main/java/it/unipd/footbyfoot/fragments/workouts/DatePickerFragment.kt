@@ -5,7 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {

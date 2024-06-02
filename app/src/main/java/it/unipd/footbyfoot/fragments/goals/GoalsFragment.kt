@@ -13,7 +13,7 @@ import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 

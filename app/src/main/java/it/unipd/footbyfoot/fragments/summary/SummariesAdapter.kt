@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
+import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 class SummariesAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {

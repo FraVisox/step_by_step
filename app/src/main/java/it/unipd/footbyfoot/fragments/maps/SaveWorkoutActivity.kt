@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,14 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
-import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class SaveWorkoutActivity: AppCompatActivity() {
 

@@ -13,7 +13,7 @@ import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 import java.io.Serializable
 import java.time.LocalDate
 

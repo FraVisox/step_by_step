@@ -92,6 +92,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textAlignment">center</item>
         <item name="android:tint">@color/progressBarGreen</item>
+
     </style>
 
     <!-- TextView for Distance count in Goals-->
@@ -99,6 +100,7 @@
         <item name="android:textColor">@color/progressBarBlue</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:drawableTint">@color/progressBarBlue</item>
         <item name="android:tint">@color/progressBarBlue</item>
     </style>
 
