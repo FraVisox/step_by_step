@@ -16,3 +16,4 @@ La seguente applicazione è stata realizzata da Arduino Leonardo, Meneghetti Fed
 - cambiare altezza e peso fa cambiare tutto?
 - se vado in settings in orizzontale si rompe tutto (bottone leo)
 - 15.8 e non 15.08 in time (add workout)
+- edit text in mapsworkoutsummaryactivity
