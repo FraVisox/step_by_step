@@ -12,8 +12,8 @@
         android:id = "@+id/layout_title_workout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,8 +39,21 @@
             android:src="@drawable/workout"
             android:contentDescription="@string/workoutImage"/>
 
-
     </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/addDistanceButton"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        style="@style/MyAddSubButtonStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/addButton"
+        android:src="@drawable/baseline_add_24" />
+
 
     <TextView
 

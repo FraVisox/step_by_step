@@ -55,6 +55,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_above="@id/countSteps"
 
+                    android:contentDescription="@string/steps_image"
                     android:src="@drawable/baseline_directions_run_24" />
 
                 <TextView
@@ -95,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/countCalories"
                     android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/calories_image"
                     android:src="@drawable/calories" />
 
                 <TextView
@@ -135,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/countDistance"
                     android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/distance_image"
                     android:src="@drawable/distance" />
 
                 <TextView

@@ -7,8 +7,7 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource"
-    style="@style/Background"
-    >
+    style="@style/Background">
 
     <TextView
         android:id="@+id/Date"
@@ -63,7 +62,9 @@
                 />
 
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/RelativelayoutTue"
         android:layout_margin="2dp"
@@ -103,11 +104,12 @@
                 android:layout_weight="0.2"
                 android:gravity="center"
                 style="@style/MyTextView"
-
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout3"
         android:layout_width="match_parent"
@@ -150,7 +152,9 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout4"
         android:layout_width="match_parent"
@@ -171,7 +175,6 @@
                 android:layout_weight="0.2"
                 android:gravity="center"
                 style="@style/MyTextView"
-
                 android:text="@string/thursday"/>
 
             <ProgressBar
@@ -194,7 +197,9 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout5"
         android:layout_width="match_parent"
@@ -226,6 +231,7 @@
                 android:layout_gravity="center"
                 android:progressDrawable="@drawable/rectangle_progress_bar"
                 android:progress="0"/>
+
             <TextView
                 android:id="@+id/stepsFri"
                 android:layout_width="0dp"
@@ -235,7 +241,9 @@
                 style="@style/MyTextView"
                 android:text="@string/zero"/>
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout6"
         android:layout_width="match_parent"
@@ -256,7 +264,6 @@
                 android:layout_weight="0.2"
                 android:gravity="center"
                 style="@style/MyTextView"
-
                 android:text="@string/saturday"/>
 
             <ProgressBar
@@ -279,7 +286,9 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout7"
         android:layout_width="match_parent"
@@ -292,7 +301,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal">
-
 
             <TextView
                 android:id="@+id/Sun"
@@ -322,6 +330,7 @@
                 style="@style/MyTextView"
                 android:text="@string/zero"/>
         </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -62,7 +62,7 @@
         <item name="android:background">@color/progressBarBackground</item>
     </style>
 
-    <!-- Text view for Steps count in Summary-->
+    <!-- TextView for Steps count in Summary-->
     <style name="MyTextViewSteps">
         <item name="android:textColor">@color/progressBarGreen</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -70,7 +70,7 @@
         <item name="android:tint">@color/progressBarGreen</item>
     </style>
 
-    <!-- Text view for Distance count in Summary-->
+    <!-- TextView for Distance count in Summary-->
     <style name="MyTextViewDistance">
         <item name="android:textColor">@color/progressBarBlue</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -78,7 +78,7 @@
         <item name="android:tint">@color/progressBarBlue</item>
     </style>
 
-    <!-- Text view for Calories count in Summary -->
+    <!-- TextView for Calories count in Summary -->
     <style name="MyTextViewCalories">
         <item name="android:textColor">@color/progressBarRed</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -86,7 +86,7 @@
         <item name="android:tint">@color/progressBarRed</item>
     </style>
 
-    <!-- Text view for Steps count in Goals-->
+    <!-- TextView for Steps count in Goals-->
     <style name="MyTextViewStepsGoals">
         <item name="android:textColor">@color/progressBarGreen</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -94,7 +94,7 @@
         <item name="android:tint">@color/progressBarGreen</item>
     </style>
 
-    <!-- Text view for Distance count in Goals-->
+    <!-- TextView for Distance count in Goals-->
     <style name="MyTextViewDistanceGoals">
         <item name="android:textColor">@color/progressBarBlue</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -102,7 +102,7 @@
         <item name="android:tint">@color/progressBarBlue</item>
     </style>
 
-    <!-- Text view for Calories count in Goals -->
+    <!-- TextView for Calories count in Goals -->
     <style name="MyTextViewCaloriesGoals">
         <item name="android:textColor">@color/progressBarRed</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -111,7 +111,7 @@
     </style>
 
 
-    <!-- Text view for Calories count -->
+    <!-- in Settings TextViewAge -->
     <style name="MyTextViewAge">
         <item name="android:textColor">@color/OnSurface</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -120,7 +120,7 @@
     </style>
 
 
-    <!-- General TextVieHeight-->
+    <!-- in Settings TextViewHeight-->
     <style name="MyTextViewHeight">
         <item name="android:textColor">@color/OnSurface</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -128,7 +128,7 @@
         <item name="android:tint">@color/OnSurface</item>
     </style>
 
-    <!-- General TextViewWeight-->
+    <!-- in Settings TextViewWeight-->
     <style name="MyTextViewWeight">
         <item name="android:textColor">@color/OnSurface</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -153,12 +153,13 @@
         <item name="cornerRadius">4dp</item>
     </style>
 
-    <!-- Buttons: Save, Finish ecc -->
+    <!-- add and sub Buttons -->
     <style name="MyAddSubButtonStyle">
         <item name="android:background">@color/progressBarBackground</item>
         <item name="android:radius">8dp</item>
     </style>
 
+    <!-- Delete Buttons -->
     <style name="DeleteButton">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:tint">@color/Delete</item>

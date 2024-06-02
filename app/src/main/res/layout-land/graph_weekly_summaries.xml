@@ -59,6 +59,7 @@
                 style="@style/MyTextView"
                 android:text="@string/zero"/>
         </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -102,6 +103,7 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -145,6 +147,7 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -188,6 +191,7 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -229,10 +233,12 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 style="@style/MyTextView"
-                android:text="0"/>
+                android:text="@string/zero"/>
+
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout6"
         android:layout_width="match_parent"
@@ -272,9 +278,11 @@
                 android:gravity="center"
                 style="@style/MyTextView"
                 android:text="@string/zero"/>
+
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/Relativelayout7"
         android:layout_width="match_parent"
@@ -315,6 +323,7 @@
                 android:text="@string/zero"/>
 
         </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

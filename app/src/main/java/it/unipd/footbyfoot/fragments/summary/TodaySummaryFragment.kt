@@ -37,7 +37,6 @@ class TodaySummaryFragment : Fragment() {
     private lateinit var countDistance : TextView
     private lateinit var goalsDistance : TextView
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
