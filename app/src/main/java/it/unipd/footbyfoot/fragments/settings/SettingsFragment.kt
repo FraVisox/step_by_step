@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.settings
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
-import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.summary.Helpers
 
@@ -64,7 +63,7 @@ class SettingsFragment : Fragment() {
         val addHeightButton: ImageButton = view.findViewById(R.id.addHeightButton)
         val subHeightButton: ImageButton = view.findViewById(R.id.subHeightButton)
 
-        val crashButton: ImageButton = view.findViewById(R.id.crashButton)
+        val crashButton: Button = view.findViewById(R.id.crashButton)
 
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)

@@ -29,7 +29,7 @@
         map:uiZoomGestures="true"
         map:uiRotateGestures="true"
         map:uiTiltGestures="false"
-        map:mapType="normal"
+        map:mapType="terrain"
         />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

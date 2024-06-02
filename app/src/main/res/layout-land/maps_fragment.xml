@@ -26,7 +26,7 @@
         map:uiZoomGestures="true"
         map:uiRotateGestures="true"
         map:uiTiltGestures="false"
-        map:mapType="normal"
+        map:mapType="terrain"
         map:cameraTargetLat="41.9"
         map:cameraTargetLng="12.5"
         map:cameraZoom="5"

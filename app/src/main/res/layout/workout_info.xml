@@ -25,12 +25,12 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         tools:context=".fragments.workouts.MapsWorkoutSummaryActivity"
+        map:mapType="terrain"
         map:uiCompass="true"
         map:uiScrollGestures="true"
         map:uiZoomGestures="true"
         map:uiRotateGestures="true"
         map:uiTiltGestures="false"
-        map:mapType="normal"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout

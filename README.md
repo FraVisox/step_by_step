@@ -5,8 +5,6 @@ La seguente applicazione è stata realizzata da Arduino Leonardo, Meneghetti Fed
 # todo
 - fai in modo di cambiare la mappa.
 
--
-
 - telemetria dell'utilizzo di fragment lo fa già firebase quindi ponato.
 
 - metti in ordine inverso i giorni di all
