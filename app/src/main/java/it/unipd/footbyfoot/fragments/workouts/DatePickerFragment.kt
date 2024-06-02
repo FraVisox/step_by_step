@@ -10,8 +10,8 @@ import java.time.LocalDate
 
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
-    var year = 0
-    var dayOfYear = 0
+    var year: Int? = null
+    var dayOfYear: Int? = null
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current date as the default date in the picker.
         val c = LocalDate.now()
@@ -19,7 +19,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val month = c.month.value
         val day = c.dayOfMonth
 
-        // Create a new instance of DatePickerDialog and return it.
         return DatePickerDialog(requireContext(), this, year, month, day)
     }
 
@@ -29,6 +28,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         this.year = year
         this.dayOfYear = date.dayOfYear
 
-        (activity as AddWorkoutActivity).date.text = Helpers.formatDateToString(date)
+        (activity as AddWorkoutActivity).date.text = Helpers.formatDateToString(requireContext(), date)
     }
 }

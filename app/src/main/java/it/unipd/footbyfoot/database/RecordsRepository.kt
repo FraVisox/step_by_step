@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.database
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -25,10 +24,10 @@ class RecordsRepository(
     //Sum of distances of all today's workouts
     val todayDistance: Flow<List<Distance>> = getLastXDistances(1)
 
-    //Sum of distances of last 7 days' workouts, grouped by date
+    //Sum of distances of this week's workouts, grouped by date
     val lastWeekDistances: Flow<List<Distance>> = getLastXDistances(LocalDate.now().dayOfWeek.value)
 
-    //Sum of distances of last 30 days' workouts, grouped by date
+    //Sum of distances of all workouts, grouped by date
     val allDistances: Flow<List<Distance>> = workoutDao.getAllDistances()
 
     //All goals
@@ -47,7 +46,7 @@ class RecordsRepository(
         var list = 0
         var index = 0
         for (p in points) {
-            if (p == null) {
+            if (p == null) { //Null is the value that separates two lists
                 list++
                 index = 0
                 continue
@@ -69,7 +68,7 @@ class RecordsRepository(
         workoutDao.deleteWorkout(workoutID)
     }
 
-    //This function inserts a Goal: if it is already in the database, the goal is replaced
+    //Insert a Goal: if it is already in the database, the goal is replaced
     @WorkerThread
     suspend fun insertGoal(goal: Goal)  {
         goalDao.insert(goal)

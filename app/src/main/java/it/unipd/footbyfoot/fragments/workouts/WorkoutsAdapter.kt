@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,9 +36,12 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
                 return oldItem.workoutId == newItem.workoutId
             }
 
-            //Tells if two items have the same content
+            //Tells if two items have the same content (same name, date and time)
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-                return oldItem.name == newItem.name
+                return (oldItem.name == newItem.name &&
+                        oldItem.year == newItem.year &&
+                        oldItem.dayOfYear == newItem.dayOfYear &&
+                        oldItem.timeOfDay == newItem.timeOfDay)
             }
         }
     }
@@ -54,30 +56,30 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
-        Log.d("AAA", "binding $position")
         //Take the workout at that position
         val record = getItem(position)
 
-        //Make a string out of time, meters, speed, and take the points
+        //Make a string out of meters
         val meters= activity.getString(R.string.distance_format, record.meters)
 
-        var seconds = record.time
-        var minutes: Long = (seconds / 60)
-        val hours: Long = (minutes/60)
-        minutes %= 60
-        seconds %= 60
-        //TODO: long da problemi?
-        val timeText = Helpers.formatDurationToString(activity, hours.toInt(), minutes.toInt(), seconds.toInt())
+        //Calculate time and make a string out of it
+        val seconds = Helpers.getSeconds(record.time)
+        val minutes = Helpers.getMinutes(record.time)
+        val hours = Helpers.getHours(record.time)
+        val timeText = Helpers.formatDurationToString(activity, hours, minutes, seconds)
 
+        //Take only out workout points
         val p = points.filter {
             it.workoutId == record.workoutId
         }
 
+        //Take speed
         val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
 
+        //Take a string out of date and time
+        val dateTime = Helpers.formatDateTimeToString(activity, LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay)
 
-
-        holder.bind(LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+        holder.bind(dateTime, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -90,9 +92,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dat: LocalDate, timeOfDay: String, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dateTime: String, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
             //Set text
-            date.text = Helpers.formatDateTimeToString(dat, timeOfDay)
+            date.text = dateTime
             meters.text = m
             time.text = tim
             name.text = nam

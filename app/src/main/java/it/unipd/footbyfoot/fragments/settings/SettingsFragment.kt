@@ -2,8 +2,6 @@ package it.unipd.footbyfoot.fragments.settings
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.util.Log
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,8 @@ import it.unipd.footbyfoot.fragments.Helpers
 
 
 class SettingsFragment : Fragment() {
-    // Class constants
+
+    // Class constants and default values
     companion object {
         const val WEIGHT = "weight"
         const val HEIGHT = "height"
@@ -29,7 +28,7 @@ class SettingsFragment : Fragment() {
         const val defaultAge = 30
     }
 
-    // Class variables
+    // Class text views
     private lateinit var ageSettings: TextView
     private lateinit var weightSettings: TextView
     private lateinit var heightSettings: TextView
@@ -42,8 +41,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        Log.d("AAA", "settings fragment created")
 
         ageSettings = view.findViewById(R.id.ageCount)
         weightSettings = view.findViewById(R.id.weightCount)
@@ -107,7 +104,8 @@ class SettingsFragment : Fragment() {
 
         //TODO da rivedere
         firebaseAnalytics = Firebase.analytics
-        firebaseAnalytics.setUserProperty("height", heightSettings.text.toString())
-        firebaseAnalytics.setUserProperty("weight", weightSettings.text.toString())
+        firebaseAnalytics.setUserProperty(HEIGHT, heightSettings.text.toString())
+        firebaseAnalytics.setUserProperty(WEIGHT, weightSettings.text.toString())
+        firebaseAnalytics.setUserProperty(AGE, ageSettings.text.toString())
     }
 }

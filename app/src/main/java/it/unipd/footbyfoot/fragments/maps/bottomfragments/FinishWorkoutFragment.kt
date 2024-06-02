@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Chronometer
@@ -20,7 +19,6 @@ class FinishWorkoutFragment : Fragment() {
     private lateinit var fragment: MapsFragment
     private lateinit var timeView : Chronometer
     private lateinit var distanceView : TextView
-
 
     //Create the fragment
     override fun onCreateView(

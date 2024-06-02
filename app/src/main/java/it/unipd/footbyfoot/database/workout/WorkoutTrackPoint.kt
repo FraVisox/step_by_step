@@ -23,7 +23,7 @@ data class WorkoutTrackPoint(
     @ColumnInfo(name = "pointId")
     val pointId: Int,
     @ColumnInfo(name = "workoutId")
-    val workoutId: Int, //External key to workout
+    val workoutId: Int, //External key to workout, has an index to allow fast search
     @ColumnInfo(name = "trackList")
     val trackList: Int,
     @ColumnInfo(name = "lat")

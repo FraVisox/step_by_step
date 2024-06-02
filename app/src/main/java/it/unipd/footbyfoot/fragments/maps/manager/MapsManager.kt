@@ -53,8 +53,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     /*
      * Polylines drawn
      */
-    var currPolyline : Polyline? = null
-    var otherPolylines : MutableList<Polyline> = mutableListOf()
+    private var currPolyline : Polyline? = null
+    private var otherPolylines : MutableList<Polyline> = mutableListOf()
 
     //Options of current polyline (containing the points)
     private var options = defaultOptions()

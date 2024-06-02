@@ -6,21 +6,21 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
+import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
-    var hourOfDay = "00:00" //TODO: stringa
+    //TODO: funziona?
+    var hourOfDay: String = getString(R.string.null_time_of_day)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // Use the current time as the default values for the picker.
+        // Use the current time as the default value for the picker.
         val c = LocalDateTime.now()
         val hour = c.hour
         val minute = c.minute
 
-        // Create a new instance of TimePickerDialog and return it.
         return TimePickerDialog(activity, this, hour, minute, DateFormat.is24HourFormat(activity))
     }
 

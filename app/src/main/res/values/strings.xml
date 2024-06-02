@@ -5,12 +5,20 @@
     <!-- Database name -->
     <string name="database_name">workouts_database</string>
 
+    <!-- Firebase metrics -->
+    <string name="increment_goals">Increment goals</string>
+    <string name="decrement_goals">Decrement goals</string>
+
+    <!-- Firebase traces -->
+    <string name="goal_trace">Goal_trace</string>
+
     <!-- Common formats of data -->
     <string name="time_format">%1$02d:%2$02d:%3$02d</string>
     <string name="distance_format">%1$dm</string>
     <string name="speed_format">%1$.2fm/s</string>
-    <string name="date_format">dd.MM.yyyy\nhh:mm a</string>
     <string name="hour_format">%1$02d:%2$02d</string>
+    <string name="hour_format_pattern">%1$02d:%2$02d</string>
+    <string name="date_format_pattern">EEE dd MMM yyyy</string>
 
     <!-- Common buttons -->
     <string name="save">SAVE</string>
@@ -36,13 +44,18 @@
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
 
-    <!-- Goals -->
+    <!-- Goals fragment -->
     <string name="GoalsDescription">Set your daily goals. You can check your progress in the Summary section.
         Remember, if you do multiple activities in a day, they are summed up</string>
     <string name="steps">Steps</string>
     <string name="calories">Calories</string>
     <string name="distance">Meters</string>
     <string name="zero">0</string>
+
+    <!-- Summary fragment -->
+    <string name="today">Today</string>
+    <string name="week">Week</string>
+    <string name="all">All</string>
 
     <!-- Maps fragment strings -->
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>
@@ -87,6 +100,11 @@
     <string name="time">Time</string>
     <string name="duration">Duration</string>
     <string name="name">Name</string>
+    <string name="duration_tag">durationPicker</string>
+    <string name="time_tag">timePicker</string>
+    <string name="date_tag">datePicker</string>
+    <string name="impossible_to_add_workout">Not all the fields are filled</string>
+    <string name="null_time_of_day">null</string>
 
     <!-- Weekly graph -->
     <string name="wednesday">Wed</string>

@@ -3,11 +3,6 @@ package it.unipd.footbyfoot.database.workout
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.type.TimeOfDay
-import java.time.DayOfWeek
-import java.time.Month
-import java.time.Year
-import java.util.Date
 
 @Entity(tableName = "workout_table")
 data class Workout(

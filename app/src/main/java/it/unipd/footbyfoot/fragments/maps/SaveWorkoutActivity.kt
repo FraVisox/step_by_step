@@ -24,7 +24,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         (application as RecordsApplication).viewModelFactory
     }
 
-    //Keys to pass to the intent
+    //Keys to pass to the intent or from shared preferences
     companion object {
         const val timeKey = "time"
         const val distanceKey = "distance"
@@ -32,7 +32,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val currentWorkoutID = "workoutID"
         const val currentNameID = "nameID"
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +56,10 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //Set time
         val totTime: Long = intent.getLongExtra(timeKey, 0)
-        var seconds = totTime.toInt()
-        var minutes: Int = (seconds / 60)
-        val hours: Int = (minutes/60)
-        minutes %= 60
-        seconds %= 60
-        time.text = getString(R.string.workout_time, getString(R.string.time_format, hours, minutes, seconds))
+        val seconds = Helpers.getSeconds(totTime)
+        val minutes = Helpers.getMinutes(totTime)
+        val hours = Helpers.getHours(totTime)
+        time.text = getString(R.string.workout_time, Helpers.formatDurationToString(this, hours, minutes, seconds))
 
         //Set distance
         val dist = intent.getIntExtra(distanceKey, 0)
@@ -83,7 +80,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
                     dist,
                     date.year,
                     date.dayOfYear,
-                    Helpers.formatTimeToString(dateTime)
+                    Helpers.formatTimeToString(this, dateTime)
                 ),
                 intent.getSerializableExtra(
                     positionsKey) as MutableList<LatLng?>

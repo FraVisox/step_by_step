@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,13 +29,12 @@ class SummaryFragment : Fragment() {
         val adapter = ViewPagerAdapter(this)
         viewPager.adapter = adapter
 
-        //TODO: prendi da stringhe
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Today"
-                1 -> tab.text = "Week"
-                2 -> tab.text = "All"
-                else -> tab.text = "Today"
+                0 -> tab.text = getString(R.string.today)
+                1 -> tab.text = getString(R.string.week)
+                2 -> tab.text = getString(R.string.all)
+                else -> tab.text = getString(R.string.today)
             }
         }.attach()
 

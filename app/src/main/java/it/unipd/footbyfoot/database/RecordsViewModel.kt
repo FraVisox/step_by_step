@@ -13,6 +13,7 @@ import it.unipd.footbyfoot.database.workout.Distance
 import kotlinx.coroutines.launch
 
 
+//TODO: migliorie: fare un getCurrentGoal
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
     companion object {
@@ -28,7 +29,7 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
 
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
 
-    //Insert a new goal for a day (if there is already one, delete it)
+    //Insert a new goal for a day (if there is already one, replace it)
     fun insertGoal(goal: Goal) = viewModelScope.launch {
         repository.insertGoal(goal)
     }
@@ -39,6 +40,7 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
             repository.insertWorkout(workout, points)
         }
 
+    //Change the name of a workout
     fun changeWorkoutName(workoutId: Int, name: String) {
         if (workoutId != invalidWorkoutID) {
             viewModelScope.launch {
@@ -46,7 +48,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
             }
         }
     }
-
 
     //Delete the workout, with the points associated
     fun deleteWorkout(workoutId: Int) {

@@ -2,14 +2,11 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.MainActivity
@@ -23,7 +20,7 @@ class WorkoutsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.workout_fragment, container, false)
 
-        //Initialize the button
+        //Initialize the button to add a custom workout
         val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
         button.setOnClickListener {
             startActivity(Intent(activity, AddWorkoutActivity::class.java))
@@ -35,7 +32,7 @@ class WorkoutsFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        // Observe LiveData from ViewModel and submit them to the adapter: this is done both for the workouts list and for the points list
+        //Observe LiveData from ViewModel and submit them to the adapter: this is done both for the workouts list and for the points list
         (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
             records?.let {
                 adapter.submitList(it)

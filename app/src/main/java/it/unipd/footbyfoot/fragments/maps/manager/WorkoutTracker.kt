@@ -7,7 +7,6 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
@@ -15,7 +14,6 @@ import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.R
 import java.io.Serializable
-import java.time.LocalDate
 
 class WorkoutTracker(private val manager: MapsManager) {
 

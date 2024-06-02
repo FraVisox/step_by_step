@@ -12,16 +12,14 @@ import it.unipd.footbyfoot.fragments.Helpers
 
 class DurationPickerFragment : DialogFragment() {
 
-    var duration: Long = 0
+    var duration: Long = -1
 
-    // The system calls this to get the DialogFragment's layout, regardless of
-    // whether it's being displayed as a dialog or an embedded fragment.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout to use as a dialog or embedded fragment.
+        // Inflate the layout to use as a dialog
         val view = inflater.inflate(R.layout.dialog_duration_picker, container, false)
 
         val hoursPicker = view.findViewById<NumberPicker>(R.id.hours)
@@ -32,6 +30,7 @@ class DurationPickerFragment : DialogFragment() {
         secondsPicker.maxValue = 59
 
         view.findViewById<Button>(R.id.ok_button).setOnClickListener {
+            //Sets duration and text of activity
             duration = Helpers.getSeconds(hoursPicker.value, minutesPicker.value, secondsPicker.value)
             (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hoursPicker.value, minutesPicker.value, secondsPicker.value)
             dismiss()

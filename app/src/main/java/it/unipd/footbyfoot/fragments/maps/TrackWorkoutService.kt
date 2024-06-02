@@ -82,11 +82,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             notificationBuilder
                 .setContentTitle(getString(R.string.notification_title))
                 .setContentText(getString(R.string.notification_content))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.baseline_directions_run_24)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(
                         resources,
-                        R.mipmap.ic_launcher)) //TODO: icon not found
+                        R.drawable.baseline_directions_run_24
+                    )) //TODO: icon not found
 
             //Make an intent if the user taps the notification
             val intent = Intent(this, MainActivity::class.java)

@@ -173,7 +173,7 @@ class WeeklySummariesFragment : Fragment() {
                 selectItem(i-1)
 
                 //Set text of date and count
-                dateView.text = Helpers.formatDateToString(date)
+                dateView.text = Helpers.formatDateToString(requireActivity(),date)
                 circularCountDistance.text = meters.toString()
                 circularCountSteps.text = countS.toString()
                 circularCountCalories.text = countC.toString()

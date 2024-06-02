@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.summary
 
-
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 

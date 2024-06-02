@@ -21,33 +21,21 @@ class MainActivity : AppCompatActivity() {
 
     //TODO: rimuovi fragment all summaries land
 
-    private lateinit var binding : ActivityMainBinding
-
-    private var thisFragment : Int = R.id.stepsFragment
-
     // Firebase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    //Current fragment and data binding
+    private lateinit var binding : ActivityMainBinding
+    private var thisFragment : Int = R.id.stepsFragment
+
+    //View model
     val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
     }
 
-
-    fun showLocationDialog(exception: ResolvableApiException) {
-        //Show permissions dialog
-        AlertDialog.Builder(this)
-            .setMessage(
-                R.string.enable_location
-            )
-            .setPositiveButton(
-                getString(R.string.show_dialog)
-            ) { _,_ ->
-                exception.startResolutionForResult(this, 1)
-            }.setNegativeButton(
-                getString(R.string.ignore_dialog)
-            ) { _, _ ->
-            }
-            .create().show()
+    companion object {
+        //Key for the fragment of instance state
+        private const val fragment = "currentFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAnalytics = Firebase.analytics
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null) { //TODO: non funzia
             binding.bottomNavigationView.post {
                 binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
             }
@@ -84,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Replace the fragment
     private fun replaceFragment(fragmentId : Int, classname : String?){
 
         val tag = fragmentId.toString()
@@ -112,12 +101,26 @@ class MainActivity : AppCompatActivity() {
         thisFragment = fragmentId
     }
 
+    //Save the instance state, which means which fragment is selected
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(fragment, thisFragment)
     }
 
-    companion object {
-        private const val fragment = "currentFragment"
+    //Show permissions dialog for location
+    fun showLocationDialog(exception: ResolvableApiException) {
+        AlertDialog.Builder(this)
+            .setMessage(
+                R.string.enable_location
+            )
+            .setPositiveButton(
+                getString(R.string.show_dialog)
+            ) { _,_ ->
+                exception.startResolutionForResult(this, 1)
+            }.setNegativeButton(
+                getString(R.string.ignore_dialog)
+            ) { _, _ ->
+            }
+            .create().show()
     }
 }

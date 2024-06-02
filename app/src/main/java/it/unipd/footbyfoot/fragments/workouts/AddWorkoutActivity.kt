@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.NumberPicker
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import it.unipd.footbyfoot.R
@@ -13,7 +13,6 @@ import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
-import it.unipd.footbyfoot.fragments.Helpers
 
 class AddWorkoutActivity: AppCompatActivity() {
 
@@ -32,32 +31,33 @@ class AddWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_workout)
 
-        //Get workout ID
+        //Get workout ID and name ID
         val preferences = getPreferences(MODE_PRIVATE)
         workoutId = preferences.getInt(SaveWorkoutActivity.currentWorkoutID, 1)
         nameId = preferences.getInt(SaveWorkoutActivity.currentNameID, 1)
 
+        //Get distance edit text
         val distance = findViewById<EditText>(R.id.add_distance)
 
+        //Fragments to display
         val datePicker = DatePickerFragment()
         val timePicker = TimePickerFragment()
         val durationPicker = DurationPickerFragment()
 
         date = findViewById(R.id.add_date)
         date.setOnClickListener {
-            datePicker.show(supportFragmentManager, "datePicker")
+            datePicker.show(supportFragmentManager, getString(R.string.date_tag))
         }
 
         timeOfDay = findViewById(R.id.add_time_of_day)
         timeOfDay.setOnClickListener {
-            timePicker.show(supportFragmentManager, "timePicker")
+            timePicker.show(supportFragmentManager, getString(R.string.time_tag))
         }
 
         time = findViewById(R.id.add_time)
         time.setOnClickListener {
-            durationPicker.show(supportFragmentManager, "durationPicker")
+            durationPicker.show(supportFragmentManager, getString(R.string.duration_tag))
         }
-
 
         //Set the name
         val name = findViewById<EditText>(R.id.add_name)
@@ -65,8 +65,8 @@ class AddWorkoutActivity: AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
-            if (distance.text.isEmpty() || name.text.isEmpty()) { //TODO
-                finish()
+            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == getString(R.string.null_time_of_day) || durationPicker.duration == -1L || datePicker.year == null || datePicker.dayOfYear == null) {
+                Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             recordsViewModel.insertWorkout(
@@ -75,11 +75,11 @@ class AddWorkoutActivity: AppCompatActivity() {
                     name.text.toString(),
                     durationPicker.duration,
                     distance.text.toString().toInt(),
-                    datePicker.year,
-                    datePicker.dayOfYear,
+                    datePicker.year!!,
+                    datePicker.dayOfYear!!,
                     timePicker.hourOfDay
                 ),
-                mutableListOf()
+                mutableListOf() //No points
             )
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++

@@ -37,10 +37,8 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         (application as RecordsApplication).viewModelFactory
     }
 
-
     //Points of the workout
     private lateinit var points: List<WorkoutTrackPoint>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +51,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        //Sets things passed
+        //Sets things passed on the intent
         val time = findViewById<TextView>(R.id.summary_time_tv)
         time.text = intent.getStringExtra(timeKey)
         val distance = findViewById<TextView>(R.id.summary_distance_tv)
@@ -64,7 +62,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
-        //Back button
+        //Back button //TODO: dovremmo cambiargli nome se modifica il nome?
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
             if (name.text.toString() != currentName) {

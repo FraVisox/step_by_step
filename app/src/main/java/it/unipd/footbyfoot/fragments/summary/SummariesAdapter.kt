@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
-class SummariesAdapter(private val height: Int, private val weight: Int) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
+class SummariesAdapter(private val height: Int, private val weight: Int,private val activity: Activity) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
 
     //ListAdapters need a comparator
     companion object {
@@ -52,7 +53,7 @@ class SummariesAdapter(private val height: Int, private val weight: Int) : ListA
 
         //Pass parameters
         holder.bind(
-            Helpers.formatDateToString(date),
+            Helpers.formatDateToString(activity, date),
             Helpers.calculateSteps(height, dailyDistance.meters),
             Helpers.calculateCalories(weight, dailyDistance.meters),
             dailyDistance.meters,

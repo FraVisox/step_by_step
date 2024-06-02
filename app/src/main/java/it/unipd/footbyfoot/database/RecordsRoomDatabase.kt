@@ -55,7 +55,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             }
         }
 
-        //TODO: rimuovi
+        // TODO: rimuovi
         suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao) {
             var currentDate = LocalDate.now()
             goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 500, 2400, 3000))

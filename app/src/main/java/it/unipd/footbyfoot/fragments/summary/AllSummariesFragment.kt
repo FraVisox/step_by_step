@@ -39,7 +39,7 @@ class AllSummariesFragment : Fragment() {
         val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
 
         //Create adapter
-        val adapter = SummariesAdapter(height, weight)
+        val adapter = SummariesAdapter(height, weight, requireActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 

@@ -7,7 +7,6 @@ import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -16,23 +15,25 @@ class Helpers {
 
         val defaultGoal = Goal(0,0,0,0,0)
 
+        //Calculate the percentage of the part on the total
         fun calculatePercentage(part: Double, total: Double): Int {
-            if (total == 0.0 || part == 0.0) {
+            if (total == 0.0) {
                 return 0
             }
             val percentage = (part / total) * 100
-
             return if (percentage > 100) 100 else percentage.toInt()
         }
 
-        fun getSeconds(hours: Int, minutes: Int, seconds: Int): Long {
-            return (seconds+minutes*60+hours*3600).toLong()
-        }
-
+        //Calculate calories based on weight and distance
         fun calculateCalories(weight: Int, distance: Int): Double {
             val result = weight.toDouble() * distanceToKm(distance) * 0.9
             return "%.1f".format(Locale.US, result).toDouble()
         }
+        private fun distanceToKm(distance: Int): Double {
+            return distance.toDouble()/1000
+        }
+
+        //Calculate steps based on height and distance
         fun calculateSteps(height: Int, distance: Int): Int {
             // Convert height from centimeters to meters
             val heightInMeters = height.toDouble() / 100.0
@@ -45,46 +46,55 @@ class Helpers {
             return steps.toInt()
         }
 
-        /*
-        fun formatDateToString(date: LocalDate): String {
-            val formatters = DateTimeFormatter.ISO_LOCAL_DATE
-            return formatters.format(date)
-        }
-
-        fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
-            val formatters = DateTimeFormatter.ISO_LOCAL_DATE
-            return "${formatters.format(date)}\n$timeOfDay" //TODO: metto \n?
-        }
-
-        */
-
-        fun formatDateToString(date: LocalDate): String {
-            val formatter = DateTimeFormatter.ofPattern("EEE dd MMM yyyy", Locale.getDefault())
+        //Formats only the date
+        fun formatDateToString(context: Context, date: LocalDate): String {
+            val formatter = DateTimeFormatter.ofPattern(context.getString(R.string.date_format_pattern), Locale.getDefault())
             return formatter.format(date)
         }
 
-        fun formatDateTimeToString(date: LocalDate, timeOfDay: String): String {
-            val formatters = DateTimeFormatter.ofPattern("EEE dd MMM yyyy", Locale.getDefault())
-            return "${formatters.format(date)}\n$timeOfDay" //TODO: metto \n?
+        //Formats date and time
+        fun formatDateTimeToString(context: Context,date: LocalDate, timeOfDay: String): String {
+            val formatters = DateTimeFormatter.ofPattern(context.getString(R.string.date_format_pattern), Locale.getDefault())
+            return "${formatters.format(date)}\n$timeOfDay"
         }
 
-        fun formatTimeToString(date: LocalDateTime): String {
-            val formatters = DateTimeFormatter.ofPattern("HH:mm")
+        //Formats time given a DateTime
+        fun formatTimeToString(context: Context, date: LocalDateTime): String {
+            val formatters = DateTimeFormatter.ofPattern(context.getString(R.string.hour_format_pattern))
             return formatters.format(date)
         }
 
+        //Formats time given
         fun formatTimeToString(context: Context, hours: Int, minutes: Int): String {
             return context.getString(R.string.hour_format, hours, minutes)
         }
 
+        //Formats duration (with seconds)
         fun formatDurationToString(context: Context, hours: Int, minutes: Int, seconds: Int): String {
             return context.getString(R.string.time_format, hours, minutes, seconds)
         }
 
-        fun distanceToKm(distance: Int): Double {
-            return distance.toDouble()/1000
+        //Calculate the number of seconds, given hour, minutes and seconds
+        fun getSeconds(hours: Int, minutes: Int, seconds: Int): Long {
+            return (seconds+minutes*60+hours*3600).toLong()
         }
 
+        //Obtain seconds from total time
+        fun getSeconds(total: Long): Int {
+            return (total%60).toInt()
+        }
+
+        //Obtain minutes from total time
+        fun getMinutes(total: Long): Int {
+            return ((total/60)%60).toInt()
+        }
+
+        //Obtain hours from total time
+        fun getHours(total: Long): Int {
+            return (total/3600).toInt()
+        }
+
+        //Get the goal for the current date
         fun getGoalOfDate(goals: List<Goal>, date: LocalDate): Goal {
             for (j in goals.indices) {
                 if (goals[j].year < date.year || (goals[j].year == date.year && goals[j].dayOfYear <= date.dayOfYear)) {
@@ -95,6 +105,7 @@ class Helpers {
             return defaultGoal
         }
 
+        //Get the distance of a date in a list of weekly dates
         fun getDistanceMetersOfDate(distances: List<Distance>, date: LocalDate): Int {
             //Get the distance of this date
             for (distanceL in distances) {
