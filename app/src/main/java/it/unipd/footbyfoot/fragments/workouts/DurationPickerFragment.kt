@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
 import it.unipd.footbyfoot.R
-import it.unipd.footbyfoot.fragments.summary.Helpers
+import it.unipd.footbyfoot.fragments.Helpers
 
 class DurationPickerFragment : DialogFragment() {
 

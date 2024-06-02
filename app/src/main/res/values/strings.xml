@@ -48,16 +48,21 @@
     <string name="notification_channel_description">The channel where workouts in progress are displayed</string>
 
     <!-- Workouts descriptions -->
-    <string name="time">TIME</string>
-    <string name="meters">DISTANCE</string>
-    <string name="speed">SPEED</string>
-    <string name="date">DATE</string>
+
+    <string name="meters">Distance</string>
+    <string name="speed">Speed</string>
     <string name="back_button">BACK</string>
     <string name="activity_name">Activity</string>
     <string name="delete">DELETE</string>
     <string name="workoutImage">WorkoutImage</string>
     <string name="workout_title">Workout</string>
     <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activities section</string>
+
+    <!-- addWorkouts -->
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
+    <string name="name">Name</string>
 
     <!-- nav_menu -->
     <string name="Activity">Activity</string>
@@ -68,7 +73,6 @@
 
     <!-- Settings -->
     <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned</string>
-    <string name="name">name</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
@@ -109,6 +113,7 @@
     <string name="time_image">time image</string>
     <string name="new_workout_title">Add new Workout</string>
     <string name="instructions_to_add_new_workout">Set your personal workout</string>
+
 
 
 </resources>

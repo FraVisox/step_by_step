@@ -1,27 +1,19 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.Workout
-import com.google.android.gms.maps.model.LatLng
-import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
-import it.unipd.footbyfoot.fragments.summary.Helpers
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import it.unipd.footbyfoot.fragments.Helpers
 
 class AddWorkoutActivity: AppCompatActivity() {
 
@@ -93,6 +85,11 @@ class AddWorkoutActivity: AppCompatActivity() {
                 nameId++
             }
             workoutId++
+            finish()
+        }
+
+        val back = findViewById<ImageButton>(R.id.back_button_addWorkout)
+        back.setOnClickListener {
             finish()
         }
     }

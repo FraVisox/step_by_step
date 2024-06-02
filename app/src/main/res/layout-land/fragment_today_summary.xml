@@ -189,7 +189,8 @@
             android:layout_height="30dp"
             android:orientation="horizontal"
             android:layout_below="@id/countTodayDistance"
-            android:gravity="center">
+            android:gravity="center"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/imageGoalsTodayDistance"
