@@ -81,7 +81,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 Workout(
                     workoutId,
                     name.text.toString(),
-                    durationPicker.seconds,
+                    durationPicker.duration,
                     distance.text.toString().toInt(),
                     datePicker.year,
                     datePicker.dayOfYear,

@@ -67,7 +67,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         minutes %= 60
         seconds %= 60
         //TODO: long da problemi?
-        val timeText = activity.getString(R.string.time_format, hours, minutes, seconds)
+        val timeText = Helpers.formatDurationToString(activity, hours.toInt(), minutes.toInt(), seconds.toInt())
 
         val p = points.filter {
             it.workoutId == record.workoutId

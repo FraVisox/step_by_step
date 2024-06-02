@@ -18,6 +18,7 @@
     <string name="distance_format">%1$dm</string>
     <string name="speed_format">%1$.2fm/s</string>
     <string name="date_format">dd.MM.yyyy\nhh:mm a</string>
+    <string name="hour_format">%1$02d:%2$02d</string>
 
     <!-- Maps strings -->
     <string name="start_workout">Start</string>
