@@ -1,9 +1,7 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -13,7 +11,6 @@ import androidx.core.content.ContextCompat
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -33,8 +30,6 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         const val nameKey = "name"
         const val idKey = "id"
     }
-
-    //TODO: merge this with the one in mainactivity
 
     private val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -98,14 +93,12 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        Log.d("AAA", "map ready")
         drawAllLines()
     }
 
     //Draw all lines
     private fun drawAllLines() {
-        //TODO: sono passate in ordine? Sicuro?
-        Log.d("AAA", points.toString())
+        //Points are ordered because of the way we select them
         if (points.isEmpty())
             return
         var options: PolylineOptions = defaultOptions()

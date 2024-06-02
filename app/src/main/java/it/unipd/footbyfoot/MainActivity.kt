@@ -119,6 +119,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val fragment = "currentFragment"
-        const val currentID = "workoutID"
     }
 }

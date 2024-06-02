@@ -95,7 +95,7 @@ class GoalsFragment : Fragment() {
         goalTrace.stop()
     }
 
-    private fun insertGoal() {
+    private fun insertGoal() { //TODO: lo inseriamo solo se è diverso?
         val updatedSteps = stepsGoal.text.toString().toInt()
         val updatedDistance = distanceGoal.text.toString().toInt()
         val updatedCalories = caloriesGoal.text.toString().toInt()

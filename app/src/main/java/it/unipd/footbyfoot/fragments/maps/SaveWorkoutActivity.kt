@@ -32,6 +32,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val positionsKey = "positions"
+        const val currentID = "workoutID"
     }
 
 
@@ -45,7 +46,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //Get workout ID
         val preferences = getPreferences(MODE_PRIVATE)
-        workoutId = preferences.getInt(MainActivity.currentID, 1)
+        workoutId = preferences.getInt(currentID, 1)
 
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
@@ -100,7 +101,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         //Store the workout ID
         val preferences = getPreferences(MODE_PRIVATE)
         val editor = preferences.edit()
-        editor.putInt(MainActivity.currentID, workoutId)
+        editor.putInt(currentID, workoutId)
         editor.apply()
     }
 
