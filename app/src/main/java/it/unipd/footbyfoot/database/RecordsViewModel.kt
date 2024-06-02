@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.database
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -38,6 +39,16 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         viewModelScope.launch {
             repository.insertWorkout(workout, points)
         }
+
+    fun changeWorkoutName(workoutId: Int, name: String) {
+        if (workoutId != invalidWorkoutID) {
+            Log.d("AAA", "lessgoooo change")
+            viewModelScope.launch {
+                repository.changeWorkoutName(workoutId, name)
+            }
+        }
+    }
+
 
     //Delete the workout, with the points associated
     fun deleteWorkout(workoutId: Int) {

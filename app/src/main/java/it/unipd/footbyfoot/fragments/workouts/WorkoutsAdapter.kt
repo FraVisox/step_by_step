@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
             //Tells if two items have the same content
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-                return areItemsTheSame(oldItem, newItem)
+                return oldItem.name == newItem.name
             }
         }
     }
@@ -53,6 +54,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
     // Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
+        Log.d("AAA", "binding $position")
         //Take the workout at that position
         val record = getItem(position)
 

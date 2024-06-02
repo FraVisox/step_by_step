@@ -2,7 +2,9 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -51,25 +53,32 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        //Back button
-        val back = findViewById<Button>(R.id.back_button)
-        back.setOnClickListener {
-            finish()
-        }
-
         //Sets things passed
         val time = findViewById<TextView>(R.id.summary_time_tv)
         time.text = intent.getStringExtra(timeKey)
         val distance = findViewById<TextView>(R.id.summary_distance_tv)
         distance.text = intent.getStringExtra(distanceKey)
-        val name = findViewById<TextView>(R.id.activity_name_summary)
-        name.text = intent.getStringExtra(nameKey)
+        val name = findViewById<EditText>(R.id.activity_name_summary)
+        val currentName = intent.getStringExtra(nameKey)
+        name.setText(currentName, TextView.BufferType.EDITABLE)
 
+        val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
+
+        //Back button
+        val back = findViewById<Button>(R.id.back_button)
+        back.setOnClickListener {
+            if (name.text.toString() != currentName) {
+                Log.d("AAA", "lessgoooo change")
+                recordsViewModel.changeWorkoutName(workoutId, name.text.toString())
+            }
+            Log.d("AAA", "nooot change")
+            finish()
+        }
 
         //Delete workout button
         val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
-            recordsViewModel.deleteWorkout(intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID))
+            recordsViewModel.deleteWorkout(workoutId)
             finish()
         }
     }

@@ -36,16 +36,16 @@ class WorkoutsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
         // Observe LiveData from ViewModel and submit them to the adapter: this is done both for the workouts list and for the points list
-        (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity, Observer { records ->
+        (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
             records?.let {
                 adapter.submitList(it)
             }
-        })
-        (activity as MainActivity).recordsViewModel.allPoints.observe(activity as MainActivity, Observer { records ->
+        }
+        (activity as MainActivity).recordsViewModel.allPoints.observe(activity as MainActivity) { records ->
             records?.let {
                 adapter.updatePoints(it)
             }
-        })
+        }
 
         return view
     }

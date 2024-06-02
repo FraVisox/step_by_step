@@ -22,6 +22,10 @@ interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workout: Workout)
 
+    //Change name of a workout
+    @Query("UPDATE workout_table SET name = :name WHERE workoutId = :workoutId")
+    suspend fun changeWorkoutName(workoutId: Int, name: String)
+
     //Delete a workout
     @Query("DELETE FROM workout_table WHERE workoutId = :id")
     suspend fun deleteWorkout(id: Int)

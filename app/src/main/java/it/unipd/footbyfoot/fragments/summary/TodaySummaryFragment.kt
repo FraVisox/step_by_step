@@ -57,8 +57,8 @@ class TodaySummaryFragment : Fragment() {
         countDistance = view.findViewById(R.id.countTodayDistance)
         goalsDistance = view.findViewById(R.id.goalsTodayDistance)
 
-        //Observe the distances of last week
-        (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner) { distanceList ->
+        //Observe the distances of today
+        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner) { distanceList ->
             updateDistances(distanceList)
         }
 
@@ -76,7 +76,6 @@ class TodaySummaryFragment : Fragment() {
     }
 
     private fun updateGoals(goals: List<Goal>) {
-        Log.d("AAA", goals.toString())
         goalsList = goals
         setViews()
     }

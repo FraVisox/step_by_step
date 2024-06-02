@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.database
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -54,6 +55,13 @@ class RecordsRepository(
             workoutDao.insert(WorkoutTrackPoint(index, workout.workoutId, list, p.latitude, p.longitude))
             index++
         }
+    }
+
+    //Change the name of the workout
+    @WorkerThread
+    suspend fun changeWorkoutName(workoutId: Int, name: String) {
+        Log.d("AAA", "lessgoooo change")
+        workoutDao.changeWorkoutName(workoutId, name)
     }
 
     //Delete the workout and all the points associated (it is done on cascade)
