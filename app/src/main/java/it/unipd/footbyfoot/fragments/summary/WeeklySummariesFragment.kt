@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
@@ -29,6 +32,7 @@ class WeeklySummariesFragment : Fragment() {
 
     private lateinit var listProgressBar:  List<ProgressBar>
     private lateinit var listSteps:  List<TextView>
+    private lateinit var listDay:  List<TextView>
     private lateinit var dateView:  TextView
 
     private lateinit var circularProgressBarSteps : ProgressBar
@@ -69,6 +73,17 @@ class WeeklySummariesFragment : Fragment() {
             view.findViewById(R.id.stepsSun)
         )
 
+        //Lists of name of day
+        listDay = listOf(
+            view.findViewById(R.id.Mon),
+            view.findViewById(R.id.Tue),
+            view.findViewById(R.id.Wed),
+            view.findViewById(R.id.Thu),
+            view.findViewById(R.id.Fri),
+            view.findViewById(R.id.Sat),
+            view.findViewById(R.id.Sun)
+        )
+
         //Date
         dateView = view.findViewById(R.id.Date)
 
@@ -86,7 +101,6 @@ class WeeklySummariesFragment : Fragment() {
         circularCountCalories = view.findViewById(R.id.countTodayCalories)
 
         if (savedInstanceState != null) {
-            Log.d("AAA", selectedItem.toString())
             selectedItem = savedInstanceState.getInt(selectedItemKey)
         }
 
@@ -152,6 +166,9 @@ class WeeklySummariesFragment : Fragment() {
 
                 selectedItem = i-1
 
+                listDay[i-1].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
+                listSteps[i-1].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
+
                 //Set text of date and count
                 dateView.text = Helpers.formatDateToString(date)
                 circularCountDistance.text = meters.toString()
@@ -170,11 +187,10 @@ class WeeklySummariesFragment : Fragment() {
             }
         }
 
-        Log.d("AAA", "click on $selectedItem")
         if (selectedItem != -1) {
-            Log.d("AAA", "yyeeee click on $selectedItem")
-
             listProgressBar[selectedItem].performClick()
+        } else {
+            listProgressBar[LocalDate.now().dayOfWeek.value-1].performClick()
         }
     }
 
