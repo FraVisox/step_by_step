@@ -67,6 +67,32 @@
                     android:textStyle="bold"
                     android:text=""/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/countSteps"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageGoals"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        style="@style/MyTextViewSteps"
+                        android:contentDescription="@string/steps_goal"
+                        android:src="@drawable/goals_24" />
+
+                    <TextView
+                        android:id="@+id/goalsSteps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        style="@style/MyTextViewSteps"
+                        android:text="@string/zero"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -109,6 +135,32 @@
                     android:textStyle="bold"
                     android:text=""/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/countCalories"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageGoalsCalories"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        style="@style/MyTextViewCalories"
+                        android:contentDescription="@string/calories_goal"
+                        android:src="@drawable/goals_24" />
+
+                    <TextView
+                        android:id="@+id/goalsCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        style="@style/MyTextViewCalories"
+                        android:text="@string/zero"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -150,6 +202,32 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:text=""/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/countDistance"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageGoalsDistance"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="@string/distance_goal"
+                        android:src="@drawable/goals_24"
+                        style="@style/MyTextViewDistance"/>
+
+                    <TextView
+                        android:id="@+id/goalsLDistance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/zero"
+                        android:textSize="15sp"
+                        style="@style/MyTextViewDistance"/>
+
+                </LinearLayout>
 
             </RelativeLayout>
 

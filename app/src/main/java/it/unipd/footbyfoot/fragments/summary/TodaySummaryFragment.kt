@@ -48,12 +48,14 @@ class TodaySummaryFragment : Fragment() {
         progressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
         countSteps = view.findViewById(R.id.countTodaySteps)
         goalsSteps = view.findViewById(R.id.goalsTodaySteps)
+
         progressBarCalories = view.findViewById(R.id.progressbarTodayCalories)
         countCalories = view.findViewById(R.id.countTodayCalories)
         goalsCalories= view.findViewById(R.id.goalsTodayCalories)
-        progressBarDistance = view.findViewById(R.id.progressbarLastDistance)
-        countDistance = view.findViewById(R.id.countLastDistance)
-        goalsDistance = view.findViewById(R.id.goalsLastDistance)
+
+        progressBarDistance = view.findViewById(R.id.progressbarTodayDistance)
+        countDistance = view.findViewById(R.id.countTodayDistance)
+        goalsDistance = view.findViewById(R.id.goalsTodayDistance)
 
         //Observe the distances of last week
         (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner) { distanceList ->

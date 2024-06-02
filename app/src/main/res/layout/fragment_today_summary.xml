@@ -58,7 +58,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageGoals"
+                android:id="@+id/imageTodayGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/MyTextViewSteps"
@@ -106,7 +106,7 @@
                 android:progress="0" />
 
             <ImageView
-                android:id="@+id/imageTodayCalories"
+                android:id="@+id/imageCaloriesSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/MyTextViewCalories"
@@ -121,7 +121,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 style="@style/MyTextViewCalories"
-                android:gravity="center" android:textSize="28sp"
+                android:gravity="center"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 android:text=""/>
 
@@ -133,7 +134,7 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/imageGoalsCalories"
+                    android:id="@+id/imageGoalsTodayCalories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/MyTextViewCalories"
@@ -164,7 +165,7 @@
             android:layout_marginBottom="20dp">
 
             <ProgressBar
-                android:id="@+id/progressbarLastDistance"
+                android:id="@+id/progressbarTodayDistance"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -175,17 +176,17 @@
                 android:progress="0"/>
 
             <ImageView
-                android:id="@+id/imageLastDistance"
+                android:id="@+id/imageDistanceSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/countLastDistance"
+                android:layout_above="@id/countTodayDistance"
                 style="@style/MyTextViewDistance"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/distance_image"
                 android:src="@drawable/distance" />
 
             <TextView
-                android:id="@+id/countLastDistance"
+                android:id="@+id/countTodayDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -199,11 +200,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal"
-                android:layout_below="@id/countLastDistance"
+                android:layout_below="@id/countTodayDistance"
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/imageGoalsDistance"
+                    android:id="@+id/imageGoalsTodayDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/distance_goal"
@@ -211,7 +212,7 @@
                     style="@style/MyTextViewDistance"/>
 
                 <TextView
-                    android:id="@+id/goalsLastDistance"
+                    android:id="@+id/goalsTodayDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

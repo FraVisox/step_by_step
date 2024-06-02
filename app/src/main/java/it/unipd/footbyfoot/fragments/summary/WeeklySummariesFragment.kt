@@ -73,17 +73,17 @@ class WeeklySummariesFragment : Fragment() {
         dateView = view.findViewById(R.id.Date)
 
         //Progress bars and views of bottom part
-        circularProgressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
-        circularProgressBarCalories = view.findViewById(R.id.progressbarTodayCalories)
-        circularProgressBarDistance = view.findViewById(R.id.progressbarLastDistance)
+        circularProgressBarSteps = view.findViewById(R.id.progressbarStepsSeclected)
+        circularProgressBarCalories = view.findViewById(R.id.progressbarCaloriesSelected)
+        circularProgressBarDistance = view.findViewById(R.id.progressbarDistanceSelected)
 
         circularProgressBarSteps.progress = 0
         circularProgressBarCalories.progress = 0
         circularProgressBarDistance.progress = 0
 
-        circularCountSteps = view.findViewById(R.id.countTodaySteps)
-        circularCountDistance = view.findViewById(R.id.countLastDistance)
-        circularCountCalories = view.findViewById(R.id.countTodayCalories)
+        circularCountSteps = view.findViewById(R.id.countStepsSelected)
+        circularCountDistance = view.findViewById(R.id.countDistanceSelected)
+        circularCountCalories = view.findViewById(R.id.countCaloriesSelected)
 
         if (savedInstanceState != null) {
             Log.d("AAA", selectedItem.toString())

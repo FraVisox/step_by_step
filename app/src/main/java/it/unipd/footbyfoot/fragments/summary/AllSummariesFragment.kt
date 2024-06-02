@@ -15,6 +15,17 @@ import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class AllSummariesFragment : Fragment() {
 
+    //todo mettere in all metri al posto di kilometri ed invertire il tutto (ultima cosa in alto non in basso)
+    // mettere in week il perform click sulla data di oggi.
+    // fixare il today che non si vede niente rispetto al week e al goal
+    // se cambio altezza cambiano tutti i dati? si
+    // se cambio i goals?
+    // in orizzontale se vado in settings si rompe tutto.
+    // togliere un laout di allSummariesLand e itemLand (cardItem ha una piccola diversita quindi tenere)
+    // io non ho potuto fare test per il maps perche non va il gps sul mio emulatore è tutto ok?
+
+    // mettere il goals in all and week
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
