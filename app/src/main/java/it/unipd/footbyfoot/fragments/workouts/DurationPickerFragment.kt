@@ -1,20 +1,14 @@
 package it.unipd.footbyfoot.fragments.workouts
 
-import android.app.Dialog
-import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Button
 import android.widget.NumberPicker
-import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.summary.Helpers
-import java.util.Calendar
 
 class DurationPickerFragment : DialogFragment() {
 
