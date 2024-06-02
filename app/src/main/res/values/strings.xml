@@ -1,77 +1,36 @@
 <resources>
-    <!-- Global strings -->
+    <!-- App name -->
     <string name="app_name">Step By Step</string>
-    <string name="action_settings">Settings</string>
 
-    <!-- Database -->
+    <!-- Database name -->
     <string name="database_name">workouts_database</string>
-    <string name="points_not_available">Positions not available</string>
 
-    <!-- Dialogs to show to the user for the location permissions -->
-    <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>
-    <string name="request_permission_positive_button">Ask for position</string>
-    <string name="position_not_found">Position not found</string>
-    <string name="show_dialog">Update</string>
-    <string name="ignore_dialog">Ignore</string>
-
-    <!-- Common formats -->
+    <!-- Common formats of data -->
     <string name="time_format">%1$02d:%2$02d:%3$02d</string>
     <string name="distance_format">%1$dm</string>
     <string name="speed_format">%1$.2fm/s</string>
     <string name="date_format">dd.MM.yyyy\nhh:mm a</string>
     <string name="hour_format">%1$02d:%2$02d</string>
 
-    <!-- Maps strings -->
-    <string name="start_workout">Start</string>
-    <string name="finish_workout">Finish</string>
-    <string name="pause_workout">Pause</string>
-    <string name="resume_workout">Resume</string>
-    <string name="initial_meters">0m</string>
-    <string name="go_to_settings">The access to the position is required.</string>
-    <string name="update_permissions">Update permissions</string>
-    <string name="enable_location">To track your workouts, you need to enable the location setting on your device. Click Update to update it</string>
-
-    <!-- Save workout activity -->
-    <string name="save_title">Save workout</string>
-    <string name="instructions_to_save">Give a name to the current workout</string>
-    <string name="workout_name_default">Workout %1$d</string>
-    <string name="workout_time">TIME: %1$s</string>
-    <string name="workout_distance">DISTANCE: %1$s</string>
-    <string name="workout_speed">SPEED: %1$s</string>
+    <!-- Common buttons -->
     <string name="save">SAVE</string>
-
-    <!-- Notification of service -->
-    <string name="channel_id">Workout tracking</string>
-    <string name="notification_title">Workout in progress</string>
-    <string name="notification_content">Click here to return to Foot By Foot application</string>
-    <string name="notification_channel_name">Workout channel</string>
-    <string name="notification_channel_description">The channel where workouts in progress are displayed</string>
-
-    <!-- Workouts descriptions -->
-
-    <string name="meters">Distance</string>
-    <string name="speed">Speed</string>
     <string name="back_button">BACK</string>
-    <string name="activity_name">Activity</string>
     <string name="delete">DELETE</string>
-    <string name="workoutImage">WorkoutImage</string>
-    <string name="workout_title">Workout</string>
-    <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activities section</string>
 
-    <!-- addWorkouts -->
-    <string name="date">Date</string>
-    <string name="time">Time</string>
-    <string name="duration">Duration</string>
-    <string name="name">Name</string>
+    <!-- Dialog on MainActivity to ask the user permissions -->
+    <string name="show_dialog">Update</string>
+    <string name="ignore_dialog">Ignore</string>
+    <string name="enable_location">To track your workouts, you need to enable the location setting on your device. Click Update to update it</string>
 
     <!-- nav_menu -->
     <string name="Activity">Activity</string>
     <string name="Summary">Summary</string>
     <string name="Workouts">Workouts</string>
-    <string name="UserSettings">User Settings</string>
+    <string name="Settings">Settings</string>
     <string name="goalsTitle">Goals</string>
 
-    <!-- Settings -->
+    <!-- Settings fragment -->
+    <string name="UserSettings">User Settings</string>
     <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
@@ -84,9 +43,52 @@
     <string name="calories">Calories</string>
     <string name="distance">Meters</string>
     <string name="zero">0</string>
-    <string name="Settings">Settings</string>
 
-    <!-- weekly graph -->
+    <!-- Maps fragment strings -->
+    <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>
+    <string name="go_to_settings">The access to the position is required.</string>
+    <string name="request_permission_positive_button">Ask for position</string>
+    <string name="position_not_found">Position not found</string>
+    <string name="start_workout">Start</string>
+    <string name="finish_workout">Finish</string>
+    <string name="pause_workout">Pause</string>
+    <string name="resume_workout">Resume</string>
+    <string name="initial_meters">0m</string>
+
+    <!-- Save workout activity -->
+    <string name="save_title">Save workout</string>
+    <string name="instructions_to_save">Give a name to the current workout</string>
+    <string name="workout_name_default">Workout %1$d</string>
+    <string name="workout_time">TIME: %1$s</string> <!-- TODO: volevi senza time? -->
+    <string name="workout_distance">DISTANCE: %1$s</string>
+    <string name="workout_speed">SPEED: %1$s</string>
+
+    <!-- Notification of service -->
+    <string name="channel_id">Workout tracking</string>
+    <string name="notification_title">Workout in progress</string>
+    <string name="notification_content">Click here to return to Foot By Foot application</string>
+    <string name="notification_channel_name">Workout channel</string>
+    <string name="notification_channel_description">The channel where workouts in progress are displayed</string>
+
+    <!-- Workouts descriptions -->
+    <string name="meters">Distance</string>
+    <string name="speed">Speed</string>
+    <string name="workout_title">Workout</string>
+    <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activities section</string>
+
+    <!-- Maps workout info activity -->
+    <string name="activity_name">Workout</string>
+    <string name="points_not_available">Positions not available</string>
+
+    <!-- Add workouts -->
+    <string name="new_workout_title">Add new Workout</string>
+    <string name="instructions_to_add_new_workout">Set your personal workout</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
+    <string name="name">Name</string>
+
+    <!-- Weekly graph -->
     <string name="wednesday">Wed</string>
     <string name="monday">Mon</string>
     <string name="tuesday">Tue</string>
@@ -111,9 +113,6 @@
     <string name="goals_image">goals image</string>
     <string name="speed_image">speed_image</string>
     <string name="time_image">time image</string>
-    <string name="new_workout_title">Add new Workout</string>
-    <string name="instructions_to_add_new_workout">Set your personal workout</string>
-
-
+    <string name="workoutImage">WorkoutImage</string>
 
 </resources>

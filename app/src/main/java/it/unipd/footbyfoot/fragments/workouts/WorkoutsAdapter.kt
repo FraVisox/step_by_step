@@ -100,12 +100,12 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
             //Set a listener on the entire view that displays the track
             itemView.setOnClickListener {
-                val intent = Intent(it.context, MapsWorkoutSummaryActivity::class.java)
-                intent.putExtra(MapsWorkoutSummaryActivity.pointsKey, points as Serializable)
-                intent.putExtra(MapsWorkoutSummaryActivity.timeKey, tim)
-                intent.putExtra(MapsWorkoutSummaryActivity.distanceKey, m)
-                intent.putExtra(MapsWorkoutSummaryActivity.nameKey, nam)
-                intent.putExtra(MapsWorkoutSummaryActivity.idKey, id)
+                val intent = Intent(it.context, MapsWorkoutInfoActivity::class.java)
+                intent.putExtra(MapsWorkoutInfoActivity.pointsKey, points as Serializable)
+                intent.putExtra(MapsWorkoutInfoActivity.timeKey, tim)
+                intent.putExtra(MapsWorkoutInfoActivity.distanceKey, m)
+                intent.putExtra(MapsWorkoutInfoActivity.nameKey, nam)
+                intent.putExtra(MapsWorkoutInfoActivity.idKey, id)
                 it.context.startActivity(intent)
             }
         }

@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 
-class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     //Keys to pass data to the intent
     companion object {
         const val pointsKey = "points"
