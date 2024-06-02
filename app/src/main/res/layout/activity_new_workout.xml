@@ -141,7 +141,7 @@
                     android:layout_weight="2"
                     android:id="@+id/add_distance"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/Primary"
                     android:autofillHints="Activity"
                     android:inputType="number"
                     android:textSize="15sp"/>

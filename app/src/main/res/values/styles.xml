@@ -157,7 +157,7 @@
 
     <!-- Buttons: set Time Date and Duration -->
     <style name="MySetTimeAndDateButtonStyle" >
-        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:textColor">@color/Primary</item>
         <item name="android:backgroundTint">@color/progressBarBackground</item>
         <item name="cornerRadius">4dp</item>
     </style>
