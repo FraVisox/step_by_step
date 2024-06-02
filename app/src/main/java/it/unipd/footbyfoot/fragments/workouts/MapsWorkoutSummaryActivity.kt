@@ -2,11 +2,11 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -106,8 +106,10 @@ class MapsWorkoutSummaryActivity : AppCompatActivity(), OnMapReadyCallback {
     //Draw all lines
     private fun drawAllLines() {
         //Points are ordered because of the way we select them
-        if (points.isEmpty())
+        if (points.isEmpty()) {
+            Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT).show()
             return
+        }
         var options: PolylineOptions = defaultOptions()
         for (p in points) {
             if (p.trackList >= polylines.size) {

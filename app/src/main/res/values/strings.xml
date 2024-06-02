@@ -5,6 +5,7 @@
 
     <!-- Database -->
     <string name="database_name">workouts_database</string>
+    <string name="points_not_available">Positions not available</string>
 
     <!-- Dialogs to show to the user for the location permissions -->
     <string name="reason_to_update_permissions">The access to the position is required to track your workouts.\nIf you deny it but want to update it later, please go to your device settings</string>

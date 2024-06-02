@@ -60,7 +60,6 @@ class RecordsRepository(
     //Change the name of the workout
     @WorkerThread
     suspend fun changeWorkoutName(workoutId: Int, name: String) {
-        Log.d("AAA", "lessgoooo change")
         workoutDao.changeWorkoutName(workoutId, name)
     }
 

@@ -42,11 +42,19 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
 
     fun changeWorkoutName(workoutId: Int, name: String) {
         if (workoutId != invalidWorkoutID) {
-            Log.d("AAA", "lessgoooo change")
             viewModelScope.launch {
                 repository.changeWorkoutName(workoutId, name)
             }
         }
+    }
+
+    fun getWorkout(id: Int): Workout? {
+        if (id != invalidWorkoutID) {
+            viewModelScope.launch {
+                return@launch repository.getWorkout(id)
+            }
+        }
+        return null
     }
 
 
