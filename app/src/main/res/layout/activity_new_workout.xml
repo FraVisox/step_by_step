@@ -62,69 +62,156 @@
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/MyMaterialCardView">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:id="@+id/linear_name"
             android:dividerPadding="2.5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/save_name"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/name"
+                android:layout_gravity="center_vertical"
+                />
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/add_name"
                 android:layout_margin="3dp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:autofillHints="Activity"
                 android:inputType="text"
                 android:textSize="25sp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_distance"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/instructions"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:autofillHints="Activity"
-                android:inputType="number"
-                android:textSize="15sp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_time"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/instructions"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:autofillHints="Activity"
-                android:inputType="time"
-                android:digits="0123456789:"
-                android:textSize="15sp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_speed"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/instructions"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:autofillHints="Activity"
-                android:inputType="numberDecimal"
-                android:textSize="15sp"/>
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:id="@+id/linear_distance"
+                android:dividerPadding="2.5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_name">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/distance"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:id="@+id/add_distance"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:autofillHints="Activity"
+                    android:inputType="number"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:id="@+id/linear_time"
+                android:dividerPadding="2.5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_distance">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/time"
+                android:layout_gravity="center_vertical"
+                />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    >
+
+                    <NumberPicker
+                        android:id="@+id/numpicker_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        />
+
+                    <NumberPicker
+                        android:id="@+id/numpicker_minutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@color/white"/>
+
+                    <NumberPicker
+                        android:id="@+id/numpicker_seconds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:id="@+id/linear_date"
+                android:dividerPadding="2.5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_time">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/date"
+                android:layout_gravity="center_vertical"
+                />
+
+                <Button
+                    android:id="@+id/add_time_of_day"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Time" />
+
+                <Button
+                    android:id="@+id/add_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Date" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

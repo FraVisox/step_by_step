@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter
 class SaveWorkoutActivity: AppCompatActivity() {
 
     private var workoutId = 1
+    private var nameId = 1
 
     private val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -32,7 +33,8 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val positionsKey = "positions"
-        const val currentID = "workoutID"
+        const val currentWorkoutID = "workoutID"
+        const val currentNameID = "nameID"
     }
 
 
@@ -44,9 +46,10 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val date = LocalDate.now()
         val dateTime = LocalDateTime.now()
 
-        //Get workout ID
+        //Get workout ID and name ID
         val preferences = getPreferences(MODE_PRIVATE)
-        workoutId = preferences.getInt(currentID, 1)
+        workoutId = preferences.getInt(currentWorkoutID, 1)
+        nameId = preferences.getInt(currentNameID, 1)
 
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
@@ -54,7 +57,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
         //Set the name
         val name = findViewById<EditText>(R.id.save_name)
-        name.setText(getString(R.string.workout_name_default, workoutId), TextView.BufferType.EDITABLE)
+        name.setText(getString(R.string.workout_name_default, nameId), TextView.BufferType.EDITABLE)
 
         //Set time
         val totTime: Long = intent.getLongExtra(timeKey, 0)
@@ -89,19 +92,21 @@ class SaveWorkoutActivity: AppCompatActivity() {
                 intent.getSerializableExtra(
                     positionsKey) as MutableList<LatLng?>
             )
-            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, workoutId))) {
-                workoutId++
+            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
+                nameId++
             }
+            workoutId++
             finish()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        //Store the workout ID
+        //Store the workout and name ID
         val preferences = getPreferences(MODE_PRIVATE)
         val editor = preferences.edit()
-        editor.putInt(currentID, workoutId)
+        editor.putInt(currentWorkoutID, workoutId)
+        editor.putInt(currentNameID, nameId)
         editor.apply()
     }
 

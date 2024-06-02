@@ -41,6 +41,7 @@
         </activity>
         <activity android:name=".fragments.workouts.MapsWorkoutSummaryActivity"/>
         <activity android:name=".fragments.maps.SaveWorkoutActivity"/>
+        <activity android:name=".fragments.workouts.AddWorkoutActivity"/>
 
         <!-- Required for Android 10 (API level 29) and higher. -->
         <service

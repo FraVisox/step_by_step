@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
 import java.io.Serializable
 
 @Entity(tableName = "point_table", primaryKeys = ["pointId","workoutId", "trackList"],
@@ -15,7 +16,8 @@ import java.io.Serializable
             onUpdate = CASCADE,
             onDelete = CASCADE
         )
-    ]
+    ],
+    indices = [Index("workoutId")]
 )
 data class WorkoutTrackPoint(
     @ColumnInfo(name = "pointId")

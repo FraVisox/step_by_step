@@ -22,6 +22,10 @@ class Helpers {
             return if (percentage > 100) 100 else percentage.toInt()
         }
 
+        fun getSeconds(hours: Int, minutes: Int, seconds: Int): Long {
+            return (seconds+minutes*60+hours*3600).toLong()
+        }
+
         fun calculateCalories(weight: Int, distance: Int): Double {
             val result = weight.toDouble() * distanceToKm(distance) * 0.9
             return "%.1f".format(Locale.US, result).toDouble()

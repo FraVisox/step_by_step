@@ -1,11 +1,14 @@
 package it.unipd.footbyfoot.fragments.workouts
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +23,11 @@ class WorkoutsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.workout_fragment, container, false)
 
-        Log.d("AAA", "workouts fragment created")
+        //Initialize the button
+        val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
+        button.setOnClickListener {
+            startActivity(Intent(activity, AddWorkoutActivity::class.java))
+        }
 
         // Initialize the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview_workouts)
