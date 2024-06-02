@@ -30,6 +30,7 @@ class AddWorkoutActivity: AppCompatActivity() {
 
     lateinit var date: Button
     lateinit var timeOfDay: Button
+    lateinit var time: Button
 
     private val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -48,6 +49,7 @@ class AddWorkoutActivity: AppCompatActivity() {
 
         val datePicker = DatePickerFragment()
         val timePicker = TimePickerFragment()
+        val durationPicker = DurationPickerFragment()
 
         date = findViewById(R.id.add_date)
         date.setOnClickListener {
@@ -59,12 +61,11 @@ class AddWorkoutActivity: AppCompatActivity() {
             timePicker.show(supportFragmentManager, "timePicker")
         }
 
-        val hours = findViewById<NumberPicker>(R.id.numpicker_hours)
-        hours.maxValue = 23
-        val minutes = findViewById<NumberPicker>(R.id.numpicker_minutes)
-        minutes.maxValue = 59
-        val seconds = findViewById<NumberPicker>(R.id.numpicker_seconds)
-        seconds.maxValue = 59
+        time = findViewById(R.id.add_time)
+        time.setOnClickListener {
+            durationPicker.show(supportFragmentManager, "durationPicker")
+        }
+
 
         //Set the name
         val name = findViewById<EditText>(R.id.add_name)
@@ -80,7 +81,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 Workout(
                     workoutId,
                     name.text.toString(),
-                    Helpers.getSeconds(hours.value, minutes.value, seconds.value),
+                    durationPicker.seconds,
                     distance.text.toString().toInt(),
                     datePicker.year,
                     datePicker.dayOfYear,
