@@ -1,31 +1,42 @@
 package it.unipd.footbyfoot.fragments.workouts
 
-import android.app.Dialog
-import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.format.DateFormat
-import android.widget.TimePicker
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
-import java.util.Calendar
+import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.fragments.summary.Helpers
 
-class DurationPickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+class DurationPickerFragment : DialogFragment() {
 
-    var hourOfDay = "00:00" //TODO: dialog
+    var duration: Long = 0
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // Use the current time as the default values for the picker.
-        val c = Calendar.getInstance() //TODO: metti ora con localdate
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
+    // The system calls this to get the DialogFragment's layout, regardless of
+    // whether it's being displayed as a dialog or an embedded fragment.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout to use as a dialog or embedded fragment.
+        val view = inflater.inflate(R.layout.dialog_duration_picker, container, false)
 
-        // Create a new instance of TimePickerDialog and return it.
-        return TimePickerDialog(activity, this, hour, minute, DateFormat.is24HourFormat(activity))
-    }
+        val hoursPicker = view.findViewById<NumberPicker>(R.id.hours)
+        hoursPicker.maxValue = 23
+        val minutesPicker = view.findViewById<NumberPicker>(R.id.minutes)
+        minutesPicker.maxValue = 59
+        val secondsPicker = view.findViewById<NumberPicker>(R.id.seconds)
+        secondsPicker.maxValue = 59
 
-    override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        // Do something with the time the user picks.
-        this.hourOfDay = "$hourOfDay:$minute"
+        view.findViewById<Button>(R.id.ok_button).setOnClickListener {
+            duration = Helpers.getSeconds(hoursPicker.value, minutesPicker.value, secondsPicker.value)
+            (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hoursPicker.value, minutesPicker.value, secondsPicker.value)
+            dismiss()
+        }
 
-        (activity as AddWorkoutActivity).timeOfDay.text = this.hourOfDay
+        return view
     }
 }

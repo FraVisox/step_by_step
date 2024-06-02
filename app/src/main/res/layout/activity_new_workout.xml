@@ -158,35 +158,14 @@
                 android:layout_gravity="center_vertical"
                 />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/add_time"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    >
+                    android:layout_weight="1"
+                    android:text="Time" />
 
-                    <NumberPicker
-                        android:id="@+id/numpicker_hours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        />
 
-                    <NumberPicker
-                        android:id="@+id/numpicker_minutes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:background="@color/white"/>
-
-                    <NumberPicker
-                        android:id="@+id/numpicker_seconds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"/>
-
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

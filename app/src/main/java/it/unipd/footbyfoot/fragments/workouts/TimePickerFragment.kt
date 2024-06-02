@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
+import it.unipd.footbyfoot.fragments.summary.Helpers
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
@@ -24,7 +26,7 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         //Sets the value and the text of the button in the activity
-        this.hourOfDay = "$hourOfDay:$minute"
+        this.hourOfDay = Helpers.formatTimeToString(requireContext(), hourOfDay, minute)
 
         (activity as AddWorkoutActivity).timeOfDay.text = this.hourOfDay
     }

@@ -1,6 +1,8 @@
 package it.unipd.footbyfoot.fragments
 
+import android.content.Context
 import android.widget.TextView
+import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Distance
 import java.time.LocalDate
@@ -69,6 +71,14 @@ class Helpers {
         fun formatTimeToString(date: LocalDateTime): String {
             val formatters = DateTimeFormatter.ofPattern("HH:mm")
             return formatters.format(date)
+        }
+
+        fun formatTimeToString(context: Context, hours: Int, minutes: Int): String {
+            return context.getString(R.string.hour_format, hours, minutes)
+        }
+
+        fun formatDurationToString(context: Context, hours: Int, minutes: Int, seconds: Int): String {
+            return context.getString(R.string.time_format, hours, minutes, seconds)
         }
 
         fun distanceToKm(distance: Int): Double {
