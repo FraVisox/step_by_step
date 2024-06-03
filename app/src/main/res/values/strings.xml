@@ -82,7 +82,7 @@
     <!-- Notification of service -->
     <string name="channel_id">Workout tracking</string>
     <string name="notification_title">Workout in progress</string>
-    <string name="notification_content">Click here to return to Foot By Foot application</string>
+    <string name="notification_content">Click here to return to Step By Step application</string>
     <string name="notification_channel_name">Workout channel</string>
     <string name="notification_channel_description">The channel where workouts in progress are displayed</string>
 

@@ -62,6 +62,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.d("AAA", "map ready")
         map = googleMap
         mapInitialized = true
         PositionTracker.addObserver(this)
@@ -94,7 +95,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Function called by PositionTracker as this class implements PositionLocationObserver:
     //updates the polyline, if needed
     override fun locationUpdated(loc: Location) {
-        if (first) {
+        if (first && mapInitialized) {
             focusPosition(loc)
             first = false
         }
@@ -114,6 +115,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      */
     //Start a new workout and set the views
     fun startWorkout(time: Chronometer, distanceView: TextView) {
+        PositionTracker.addObserver(this)
         workoutTracker.setViews(time, distanceView)
         if (PositionTracker.currentLocation == null) {
             //In this case, no workout could be initialized
@@ -182,5 +184,11 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             it.remove()
         }
         otherPolylines.clear()
+    }
+
+    fun stopView() {
+        Log.d("AAA", "view stopped")
+        PositionTracker.removeObserver(this)
+        clearLine()
     }
 }

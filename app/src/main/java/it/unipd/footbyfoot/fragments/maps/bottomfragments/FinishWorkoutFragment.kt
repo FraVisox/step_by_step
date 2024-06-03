@@ -64,10 +64,4 @@ class FinishWorkoutFragment : Fragment() {
 
         return view
     }
-
-    //On stop, clears the lines drawn
-    override fun onStop() {
-        super.onStop()
-        fragment.manager.clearLine()
-    }
 }

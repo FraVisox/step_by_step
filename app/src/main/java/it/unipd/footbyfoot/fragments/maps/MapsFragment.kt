@@ -69,6 +69,12 @@ class MapsFragment : Fragment() {
         requirePermissions()
     }
 
+    //On stop, clears the lines drawn
+    override fun onPause() {
+        super.onPause()
+        manager.stopView()
+    }
+
     private fun requirePermissions() {
         if (checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PermissionChecker.PERMISSION_GRANTED || checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PermissionChecker.PERMISSION_GRANTED) {
             // Application can use position: start updating the map
