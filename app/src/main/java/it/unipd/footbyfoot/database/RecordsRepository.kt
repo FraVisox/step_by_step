@@ -17,6 +17,9 @@ class RecordsRepository(
     private val goalDao: GoalDao,
     private val workoutDao: WorkoutDao
 ) {
+    //Firebase metrics
+    val totalDistance: Flow<Int> = workoutDao.getTotalDistance()
+    val totalTime: Flow<Long> = workoutDao.getTotalTime()
 
     //All workouts and all workouts points
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
