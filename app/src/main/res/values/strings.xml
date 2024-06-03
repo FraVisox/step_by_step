@@ -11,6 +11,9 @@
 
     <!-- Firebase traces -->
     <string name="goal_trace">Goal_trace</string>
+    <string name="day_trace">Day_trace</string>
+    <string name="week_trace">Week_trace</string>
+    <string name="month_trace">Month_trace</string>
 
     <!-- Common formats of data -->
     <string name="time_format">%1$02d:%2$02d:%3$02d</string>
