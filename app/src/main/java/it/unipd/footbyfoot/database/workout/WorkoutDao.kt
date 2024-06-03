@@ -56,13 +56,4 @@ interface WorkoutDao {
     //Delete the points of a workout
     @Query("DELETE FROM point_table WHERE workoutId = :id")
     suspend fun deleteWorkoutPoints(id: Int)
-
-    /*
-     * QUERIES FOR FIREBASE
-     */
-    @Query("SELECT SUM(meters) FROM workout_table")
-    fun getTotalDistance(): Flow<Int>
-
-    @Query("SELECT SUM(time) FROM workout_table")
-    fun getTotalTime(): Flow<Long>
 }
