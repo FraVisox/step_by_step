@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     style="@style/Background"
-    tools:context=".fragments.settings.SettingsFragment">
+    tools:context=".fragments.settings.SettingsFragment"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/AgeCard"

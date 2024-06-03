@@ -9,7 +9,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    style="@style/Background">
+    style="@style/Background"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- This fragment manages the lifecycle of the map-->
     <!-- Initially it's centered in Rome -->
