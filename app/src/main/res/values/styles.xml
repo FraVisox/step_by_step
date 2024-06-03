@@ -172,7 +172,7 @@
 
     <!-- add and sub Buttons -->
     <style name="MyAddSubButtonStyle" >
-        <item name="android:background">@color/OnSurface</item>
+        <item name="android:background">@color/colorAccent</item>
         <item name="android:radius">8dp</item>
     </style>
 
