@@ -24,6 +24,9 @@ class AddWorkoutActivity: AppCompatActivity() {
         const val timeOfDayMINUTEKey = "timeOfDayMINUTE"
         const val dateYearKey = "dateYear"
         const val dateDayKey = "dateDay"
+        const val savedDuration = "dur"
+        const val savedTime = "tim"
+        const val savedDate = "dat"
     }
 
     private var workoutId = 1
@@ -78,9 +81,8 @@ class AddWorkoutActivity: AppCompatActivity() {
         name.setText(getString(R.string.workout_name_default, nameId), TextView.BufferType.EDITABLE)
 
         if (savedInstanceState != null) {
-            //TODO: se metto mezzanotte non funzia
             //Restore date
-            if (savedInstanceState.getInt(dateYearKey) != 0 && savedInstanceState.getInt(dateDayKey) != 0) {
+            if (savedInstanceState.getBoolean(savedDate)) {
                 datePicker.year = savedInstanceState.getInt(dateYearKey)
                 datePicker.dayOfYear = savedInstanceState.getInt(dateDayKey)
                 date.text = Helpers.formatDateToString(
@@ -89,8 +91,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 )
             }
             //Restore time
-            if (savedInstanceState.getInt(timeOfDayHOURKey) != 0 &&
-                savedInstanceState.getInt(timeOfDayMINUTEKey) != 0) {
+            if (savedInstanceState.getBoolean(savedTime)) {
                 timePicker.hour = savedInstanceState.getInt(timeOfDayHOURKey)
                 timePicker.minute = savedInstanceState.getInt(timeOfDayMINUTEKey)
                 timePicker.hourOfDay =
@@ -98,8 +99,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 timeOfDay.text = timePicker.hourOfDay
             }
             //Restore duration
-            if (savedInstanceState.getLong(durationKey) != DurationPickerFragment.defaultDuration && savedInstanceState.getLong(
-                    durationKey) != 0L) {
+            if (savedInstanceState.getBoolean(savedDuration)) {
                 durationPicker.duration = savedInstanceState.getLong(durationKey)
                 durationPicker.seconds = Helpers.getSeconds(durationPicker.duration)
                 durationPicker.minutes = Helpers.getMinutes(durationPicker.duration)
@@ -156,14 +156,25 @@ class AddWorkoutActivity: AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putLong(durationKey, durationPicker.duration)
+        if (durationPicker.duration != DurationPickerFragment.defaultDuration) {
+            outState.putLong(durationKey, durationPicker.duration)
+            outState.putBoolean(savedDuration, true)
+        } else {
+            outState.putBoolean(savedDuration, false)
+        }
         if (datePicker.year != null && datePicker.dayOfYear != null) {
             outState.putInt(dateYearKey, datePicker.year!!)
             outState.putInt(dateDayKey, datePicker.dayOfYear!!)
+            outState.putBoolean(savedDate, true)
+        } else {
+            outState.putBoolean(savedDate, false)
         }
         if (timePicker.hour != null && timePicker.minute != null) {
             outState.putInt(timeOfDayHOURKey, timePicker.hour!!)
             outState.putInt(timeOfDayMINUTEKey, timePicker.minute!!)
+            outState.putBoolean(savedTime, true)
+        } else {
+            outState.putBoolean(savedTime, false)
         }
     }
 
