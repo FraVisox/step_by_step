@@ -27,7 +27,7 @@ class SummariesAdapter(private val height: Int, private val weight: Int,private 
 
             //Tells if two items have the same content
             override fun areContentsTheSame(oldItem: Distance, newItem: Distance): Boolean {
-                return areItemsTheSame(oldItem, newItem)
+                return oldItem.meters == newItem.meters && areItemsTheSame(oldItem, newItem)
             }
         }
     }
@@ -36,6 +36,8 @@ class SummariesAdapter(private val height: Int, private val weight: Int,private 
 
     fun submitGoals(goalsList: List<Goal>) {
         goals = goalsList
+        //The only record that can be affected immediately by the change of goals is today's record, on the first position
+        notifyItemChanged(0)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
