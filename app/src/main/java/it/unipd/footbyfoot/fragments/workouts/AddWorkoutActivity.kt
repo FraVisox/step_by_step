@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -9,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.rpc.Help
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
@@ -83,7 +81,7 @@ class AddWorkoutActivity: AppCompatActivity() {
             //Restore date
             datePicker.year = savedInstanceState.getInt(dateYearKey)
             datePicker.dayOfYear = savedInstanceState.getInt(dateDayKey)
-            if (datePicker.year != null && datePicker.dayOfYear != null) {
+            if (datePicker.year != null) {
                 date.text = Helpers.formatDateToString(
                     this,
                     LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!)
@@ -92,7 +90,7 @@ class AddWorkoutActivity: AppCompatActivity() {
             //Restore time
             timePicker.hour = savedInstanceState.getInt(timeOfDayHOURKey)
             timePicker.minute = savedInstanceState.getInt(timeOfDayMINUTEKey)
-            if (timePicker.hour != null && timePicker.minute != null) {
+            if (timePicker.hour != null) {
                 timePicker.hourOfDay =
                     Helpers.formatTimeToString(this, timePicker.hour!!, timePicker.minute!!)
                 timeOfDay.text = timePicker.hourOfDay
