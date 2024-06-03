@@ -31,7 +31,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Returns the clear options to construct the polyline
     private fun defaultOptions(): PolylineOptions {
-        return PolylineOptions().color(trackColor)
+        return PolylineOptions().color(trackColor).geodesic(true)
     }
 
     //Map
@@ -176,10 +176,15 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     fun clearLine() {
         options = defaultOptions()
         currPolyline?.remove()
+        currPolyline = null
         otherPolylines.forEach {
             it.remove()
         }
         otherPolylines.clear()
+
+        //Just to be sure, remove every possible polyline
+        if (mapInitialized)
+            map.clear()
     }
 
     fun stopView() {

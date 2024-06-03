@@ -48,8 +48,11 @@ object PositionTracker {
     }
 
     fun addObserver(obs: PositionLocationObserver) {
-        if (observers.find { it == obs } == null)
-            observers.add(obs)
+        val obj = observers.find { it.javaClass == obs.javaClass }
+        if (obj != null) {
+            observers.remove(obj)
+        }
+        observers.add(obs)
     }
 
     //There is no need to check if the element was present
