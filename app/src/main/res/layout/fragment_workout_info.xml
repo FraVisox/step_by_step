@@ -63,7 +63,7 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:text="@string/instructions_workout"
-        android:textSize="15sp"
+        android:textSize="16sp"
         style="@style/MyTextViewSubtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
