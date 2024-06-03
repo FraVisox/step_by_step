@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton

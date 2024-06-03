@@ -60,8 +60,7 @@ class Helpers {
 
         //Formats time given a DateTime
         fun formatTimeToString(context: Context, date: LocalDateTime): String {
-            val formatters = DateTimeFormatter.ofPattern(context.getString(R.string.hour_format_pattern))
-            return formatters.format(date)
+            return context.getString(R.string.hour_format_pattern, date.hour, date.minute)
         }
 
         //Formats time given

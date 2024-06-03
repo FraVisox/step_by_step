@@ -31,6 +31,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         const val distanceKey = "distance"
         const val nameKey = "name"
         const val idKey = "id"
+        const val toastShowed = "toast"
     }
 
     private val recordsViewModel : RecordsViewModel by viewModels{
@@ -40,9 +41,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     //Points of the workout
     private lateinit var points: List<WorkoutTrackPoint>
 
+    private var showedToast = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_info)
+
+        if (savedInstanceState != null) {
+            showedToast = savedInstanceState.getBoolean(toastShowed)
+        }
 
         //This is deprecated from API level 33, but our test was on API level 32
         points = intent.getSerializableExtra(pointsKey) as List<WorkoutTrackPoint>
@@ -79,6 +86,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(toastShowed, showedToast)
+    }
+
     //Map
     private lateinit var map: GoogleMap
 
@@ -105,7 +117,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun drawAllLines() {
         //Points are ordered because of the way we select them
         if (points.isEmpty()) {
-            Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT).show()
+            if (!showedToast) {
+                Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT)
+                    .show()
+                showedToast = true
+            }
             return
         }
         var options: PolylineOptions = defaultOptions()
