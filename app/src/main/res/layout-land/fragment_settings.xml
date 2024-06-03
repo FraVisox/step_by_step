@@ -278,10 +278,10 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Solo per debug dei crash -->
+    <!-- Solo per debug dei crash TODO: RIMUOVI-->
     <Button
         android:id="@+id/crashButton"
-        android:text="Crash ;)"
+        android:text="Crash"
         style="@style/MyButtonStyle"
         android:layout_width="100dp"
         android:layout_height="50dp"

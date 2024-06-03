@@ -5,17 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Background">
 
+    <ImageButton
+        android:id="@+id/back_button_saveWorkout"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        style="@style/MyAddSubButtonStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/back_button"
+        android:src="@drawable/baseline_arrow_back_24" />
+
     <LinearLayout
-        android:id = "@+id/layout_titleSaveWorkout"
+        android:id="@+id/layout_titleSaveWorkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/save_title"
@@ -77,8 +89,7 @@
                 android:id="@+id/save_name"
                 android:layout_margin="3dp"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/white"
+                style="@style/MyEditText"
                 app:layout_constraintTop_toBottomOf="@id/instructions"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

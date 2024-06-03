@@ -42,7 +42,7 @@
 
         <EditText
             android:id="@+id/activity_name_summary"
-            style="@style/MyTextView"
+            style="@style/MyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

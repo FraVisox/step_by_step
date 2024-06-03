@@ -76,21 +76,28 @@ class MainActivity : AppCompatActivity() {
         val tag = fragmentId.toString()
 
         val fragmentManager = supportFragmentManager
+
+        //The current fragment is saved in primaryNavigationFragment, if present
         val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFragment = fragmentManager.primaryNavigationFragment
 
         if (currentFragment != null) {
+            //Detaching it means to allow to restore its state more efficiently
             fragmentTransaction.detach(currentFragment)
         }
 
+        //Search if the fragment has already been created
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
+            //If not, create it
             fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
             fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
         } else {
+            //Else, attach it
             fragmentTransaction.attach(fragment)
         }
 
+        //Update current fragment
         fragmentTransaction.setPrimaryNavigationFragment(fragment)
         fragmentTransaction.setReorderingAllowed(true)
         fragmentTransaction.commitNow()

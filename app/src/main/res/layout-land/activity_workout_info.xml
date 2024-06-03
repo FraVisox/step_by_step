@@ -15,7 +15,8 @@
         android:layout_height="25dp"
         android:layout_gravity="end"
         android:src="@drawable/sharp_delete_24"
-        android:text="@string/delete" />
+        android:text="@string/delete"
+        android:contentDescription="@string/delete" />
 
     <androidx.fragment.app.FragmentContainerView
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -40,7 +41,7 @@
 
         <EditText
             android:id="@+id/activity_name_summary"
-            style="@style/MyTextView"
+            style="@style/MyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

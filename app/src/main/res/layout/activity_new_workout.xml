@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Background">
 
     <LinearLayout
-        android:id = "@+id/layout_titleSaveWorkout"
+        android:id="@+id/layout_titleSaveWorkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -48,7 +48,7 @@
         android:layout_marginStart="16dp"
         style="@style/MyAddSubButtonStyle"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/addButton"
+        android:contentDescription="@string/back_button"
         android:src="@drawable/baseline_arrow_back_24" />
 
     <TextView
@@ -98,6 +98,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
+                style="@style/MyTextViewSubtitle"
                 />
 
             <EditText
@@ -106,11 +107,10 @@
                 android:layout_weight="2"
                 android:id="@+id/add_name"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/white"
                 android:autofillHints="Activity"
                 android:inputType="text"
-                android:textSize="25sp"/>
+                android:textSize="25sp"
+                style="@style/MyEditText"/>
 
         </LinearLayout>
 
@@ -133,6 +133,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textAlignment="center"
+                    style="@style/MyTextViewSubtitle"
                     />
 
                 <EditText
@@ -166,7 +167,8 @@
                     android:gravity="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    style="@style/MyTextViewSubtitle"/>
 
                 <Button
                     android:id="@+id/add_time"
@@ -197,7 +199,8 @@
                     android:gravity="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    style="@style/MyTextViewSubtitle"/>
 
                 <Button
                     android:id="@+id/add_time_of_day"

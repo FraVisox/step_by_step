@@ -19,6 +19,14 @@
         <item name="android:tint">@color/OnSurface</item>
     </style>
 
+    <!-- General Edit text -->
+    <style name="MyEditText">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:backgroundTint">@color/OnSurface</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
     <!-- Subtitle in fragments -->
     <style name="MyTextViewSubtitle">
         <item name="android:textColor">@android:color/darker_gray</item>
@@ -164,7 +172,7 @@
 
     <!-- add and sub Buttons -->
     <style name="MyAddSubButtonStyle" >
-        <item name="android:background">@color/progressBarBackground</item>
+        <item name="android:background">@color/OnSurface</item>
         <item name="android:radius">8dp</item>
     </style>
 
