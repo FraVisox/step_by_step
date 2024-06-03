@@ -28,7 +28,7 @@ class GoalsFragment : Fragment() {
 
     //TODO: funziona?
     //Personalized trace
-    private val goalTrace = Firebase.performance.newTrace(getString(R.string.goal_trace))
+    private val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

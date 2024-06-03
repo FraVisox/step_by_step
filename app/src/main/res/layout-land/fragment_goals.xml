@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".fragments.goals.GoalsFragment"
-    style="@style/Background">
+    style="@style/Background"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/GoalCardSteps"
