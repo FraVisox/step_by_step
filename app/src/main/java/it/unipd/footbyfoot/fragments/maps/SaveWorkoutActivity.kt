@@ -35,7 +35,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.save_workout)
+        setContentView(R.layout.activity_save_workout)
 
         //Current date
         val date = LocalDate.now()

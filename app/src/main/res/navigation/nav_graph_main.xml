@@ -13,12 +13,12 @@
         android:id="@+id/allenamentiFragment"
         android:name="it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment"
         android:label="fragment_allenamenti"
-        tools:layout="@layout/workout_fragment" />
+        tools:layout="@layout/fragment_workout_info" />
     <fragment
         android:id="@+id/mapsFragment"
         android:name="it.unipd.footbyfoot.fragments.maps.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/maps_fragment" />
+        tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/goalsFragment"
         android:name="it.unipd.footbyfoot.fragments.goals.GoalsFragment"

@@ -26,7 +26,7 @@ class FinishWorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.maps_finish_workout, container, false)
+        val view = inflater.inflate(R.layout.fragment_maps_bottom_finish, container, false)
 
         //Initialize the properties
         fragment = (parentFragment?.parentFragment as MapsFragment)

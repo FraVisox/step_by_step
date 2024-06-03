@@ -18,7 +18,7 @@ class WorkoutsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.workout_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_workout_info, container, false)
 
         //Initialize the button to add a custom workout
         val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)

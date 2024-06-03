@@ -42,7 +42,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.workout_info)
+        setContentView(R.layout.activity_workout_info)
 
         //This is deprecated from API level 33, but our test was on API level 32
         points = intent.getSerializableExtra(pointsKey) as List<WorkoutTrackPoint>

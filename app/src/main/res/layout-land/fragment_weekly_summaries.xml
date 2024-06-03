@@ -8,13 +8,13 @@
     style="@style/Background"
     tools:context=".fragments.summary.WeeklySummariesFragment">
 
-    <include layout="@layout/graph_weekly_summaries"
+    <include layout="@layout/fragment_summary_weekly_graph"
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.7"/>
 
-    <include layout="@layout/summary_item"
+    <include layout="@layout/item_summary"
         android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"

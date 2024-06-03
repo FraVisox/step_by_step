@@ -49,7 +49,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
     // Returns a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.workout_record_item, parent, false)
+            .inflate(R.layout.item_workout_info, parent, false)
         return WorkoutViewHolder(view)
     }
 

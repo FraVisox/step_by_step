@@ -13,7 +13,6 @@ import it.unipd.footbyfoot.database.workout.Distance
 import kotlinx.coroutines.launch
 
 
-//TODO: migliorie: fare un getCurrentGoal
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
     companion object {

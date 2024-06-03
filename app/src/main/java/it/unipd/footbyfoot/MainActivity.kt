@@ -19,8 +19,6 @@ import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
-    //TODO: rimuovi fragment all summaries land
-
     // Firebase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAnalytics = Firebase.analytics
 
-        if (savedInstanceState != null) { //TODO: non funzia
+        if (savedInstanceState != null) {
             binding.bottomNavigationView.post {
                 binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
             }
@@ -84,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment != null) {
             fragmentTransaction.detach(currentFragment)
         }
-
 
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {

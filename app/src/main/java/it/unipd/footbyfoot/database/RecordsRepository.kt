@@ -22,10 +22,10 @@ class RecordsRepository(
     val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
 
     //Sum of distances of all today's workouts
-    val todayDistance: Flow<List<Distance>> = getLastXDistances(1)
+    val todayDistance: Flow<List<Distance>> = workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
 
     //Sum of distances of this week's workouts, grouped by date
-    val lastWeekDistances: Flow<List<Distance>> = getLastXDistances(LocalDate.now().dayOfWeek.value)
+    val lastWeekDistances: Flow<List<Distance>> = getThisWeekDistances()
 
     //Sum of distances of all workouts, grouped by date
     val allDistances: Flow<List<Distance>> = workoutDao.getAllDistances()
@@ -33,10 +33,12 @@ class RecordsRepository(
     //All goals
     val allGoals : Flow<List<Goal>> = goalDao.getAllGoals()
 
-    //Utility function to get the sum of distances of last x days' workouts, grouped by date
-    private fun getLastXDistances(x: Int): Flow<List<Distance>> {
-        val dateFrom = LocalDate.now().minusDays((x-1).toLong())
-        return workoutDao.getDistancesFromDate(dateFrom.year, dateFrom.dayOfYear)
+    //Utility function to get the sum of distances of this week's workouts, grouped by date
+    private fun getThisWeekDistances(): Flow<List<Distance>> {
+        val now = LocalDate.now().dayOfWeek.value
+        val dateFrom = LocalDate.now().minusDays((now-1).toLong())
+        val dateTo = dateFrom.plusDays(6L)
+        return workoutDao.getDistancesFromDateToDate(dateFrom.year, dateFrom.dayOfYear, dateTo.year, dateTo.dayOfYear)
     }
 
     //Insert a new workout, with the points associated

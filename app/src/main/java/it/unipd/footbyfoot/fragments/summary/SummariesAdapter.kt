@@ -39,7 +39,7 @@ class SummariesAdapter(private val height: Int, private val weight: Int,private 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.summary_card_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_summary, parent, false)
         return RecordsViewHolder(view)
     }
 

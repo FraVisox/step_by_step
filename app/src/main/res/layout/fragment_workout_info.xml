@@ -80,6 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workout_instructions"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/workout_record_item" />
+        tools:listitem="@layout/item_workout_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
