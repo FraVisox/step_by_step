@@ -53,7 +53,7 @@ class Helpers {
         }
 
         //Formats date and time
-        fun formatDateTimeToString(context: Context,date: LocalDate, timeOfDay: String): String {
+        fun formatDateTimeToString(context: Context, date: LocalDate, timeOfDay: String): String {
             val formatters = DateTimeFormatter.ofPattern(context.getString(R.string.date_format_pattern), Locale.getDefault())
             return "${formatters.format(date)}\n$timeOfDay"
         }

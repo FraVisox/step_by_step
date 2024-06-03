@@ -18,6 +18,10 @@ class DurationPickerFragment : DialogFragment() {
 
     var duration: Long = defaultDuration
 
+    var seconds: Int = defaultDuration.toInt()
+    var minutes: Int = defaultDuration.toInt()
+    var hours: Int = defaultDuration.toInt()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,10 +37,20 @@ class DurationPickerFragment : DialogFragment() {
         val secondsPicker = view.findViewById<NumberPicker>(R.id.seconds)
         secondsPicker.maxValue = 59
 
+        //Set previous state
+        if (seconds != defaultDuration.toInt() && minutes != defaultDuration.toInt() && hours != defaultDuration.toInt()) {
+            secondsPicker.value = seconds
+            minutesPicker.value = minutes
+            hoursPicker.value = hours
+        }
+
         view.findViewById<Button>(R.id.ok_button).setOnClickListener {
             //Sets duration and text of activity
-            duration = Helpers.getSeconds(hoursPicker.value, minutesPicker.value, secondsPicker.value)
-            (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hoursPicker.value, minutesPicker.value, secondsPicker.value)
+            seconds = secondsPicker.value
+            minutes = minutesPicker.value
+            hours = hoursPicker.value
+            duration = Helpers.getSeconds(hours, minutes, seconds)
+            (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hours, minutes, seconds)
             dismiss()
         }
 

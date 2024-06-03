@@ -104,6 +104,7 @@
     <string name="time_tag">timePicker</string>
     <string name="date_tag">datePicker</string>
     <string name="impossible_to_add_workout">Not all the fields are filled</string>
+    <string name="impossible_date">The date is after today</string>
 
     <!-- Weekly graph -->
     <string name="wednesday">Wed</string>

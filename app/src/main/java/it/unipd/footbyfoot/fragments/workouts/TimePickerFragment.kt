@@ -18,8 +18,14 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
 
     var hourOfDay: String = defaultHour
 
+    var hour: Int? = null
+    var minute: Int? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // Use the current time as the default value for the picker.
+        // Use the current time as the default value for the picker, if not already saved.
+        if (hour != null && minute != null) {
+            return TimePickerDialog(activity, this, hour!!, minute!!, DateFormat.is24HourFormat(activity))
+        }
         val c = LocalDateTime.now()
         val hour = c.hour
         val minute = c.minute
@@ -30,6 +36,9 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         //Sets the value and the text of the button in the activity
         this.hourOfDay = Helpers.formatTimeToString(requireContext(), hourOfDay, minute)
+
+        this.hour = hourOfDay
+        this.minute = minute
 
         (activity as AddWorkoutActivity).timeOfDay.text = this.hourOfDay
     }
