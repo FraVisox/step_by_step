@@ -65,7 +65,7 @@ object PositionTracker {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
         //Create a request that asks for the position every second
-        val request = LocationRequest.Builder(1000).build()
+        val request = LocationRequest.Builder(5000).build()
 
         //Check the settings to see if location is enabled
         val client: SettingsClient = LocationServices.getSettingsClient(context)

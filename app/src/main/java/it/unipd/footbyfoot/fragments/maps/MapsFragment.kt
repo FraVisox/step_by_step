@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -45,7 +44,7 @@ class MapsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
 
-        manager = MapsManager(this.activity as Activity)
+        manager = MapsManager(requireActivity())
 
         //If the service is running and we aren't on the finish view, go to finish view: the service has the state that defines what to do
         if (TrackWorkoutService.running && childFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
