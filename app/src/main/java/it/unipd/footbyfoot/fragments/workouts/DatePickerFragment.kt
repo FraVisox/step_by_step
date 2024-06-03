@@ -18,12 +18,12 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         // Use the current date as the default date in the picker, or the one saved
         var c = LocalDate.now()
 
-        if (year != null && dayOfYear != null) {
+        if (year != null && dayOfYear != null && dayOfYear != 0) {
             c = LocalDate.ofYearDay(year!!, dayOfYear!!)
         }
 
         val year = c.year
-        val month = c.month.value
+        val month = c.month.value-1
         val day = c.dayOfMonth
 
         return DatePickerDialog(requireContext(), this, year, month, day)
@@ -31,7 +31,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         //Sets the values and the text of the button in the activity
-        val date = LocalDate.of(year, month, day)
+        val date = LocalDate.of(year, month+1, day)
         if (date > LocalDate.now()) {
             Toast.makeText(requireContext(), R.string.impossible_date, Toast.LENGTH_SHORT).show()
             return

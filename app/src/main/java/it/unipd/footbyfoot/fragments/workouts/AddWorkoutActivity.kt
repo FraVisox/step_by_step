@@ -78,26 +78,29 @@ class AddWorkoutActivity: AppCompatActivity() {
         name.setText(getString(R.string.workout_name_default, nameId), TextView.BufferType.EDITABLE)
 
         if (savedInstanceState != null) {
+            //TODO: se metto mezzanotte non funzia
             //Restore date
-            datePicker.year = savedInstanceState.getInt(dateYearKey)
-            datePicker.dayOfYear = savedInstanceState.getInt(dateDayKey)
-            if (datePicker.year != null) {
+            if (savedInstanceState.getInt(dateYearKey) != 0 && savedInstanceState.getInt(dateDayKey) != 0) {
+                datePicker.year = savedInstanceState.getInt(dateYearKey)
+                datePicker.dayOfYear = savedInstanceState.getInt(dateDayKey)
                 date.text = Helpers.formatDateToString(
                     this,
                     LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!)
                 )
             }
             //Restore time
-            timePicker.hour = savedInstanceState.getInt(timeOfDayHOURKey)
-            timePicker.minute = savedInstanceState.getInt(timeOfDayMINUTEKey)
-            if (timePicker.hour != null) {
+            if (savedInstanceState.getInt(timeOfDayHOURKey) != 0 &&
+                savedInstanceState.getInt(timeOfDayMINUTEKey) != 0) {
+                timePicker.hour = savedInstanceState.getInt(timeOfDayHOURKey)
+                timePicker.minute = savedInstanceState.getInt(timeOfDayMINUTEKey)
                 timePicker.hourOfDay =
                     Helpers.formatTimeToString(this, timePicker.hour!!, timePicker.minute!!)
                 timeOfDay.text = timePicker.hourOfDay
             }
             //Restore duration
-            durationPicker.duration = savedInstanceState.getLong(durationKey)
-            if (durationPicker.duration != DurationPickerFragment.defaultDuration) {
+            if (savedInstanceState.getLong(durationKey) != DurationPickerFragment.defaultDuration && savedInstanceState.getLong(
+                    durationKey) != 0L) {
+                durationPicker.duration = savedInstanceState.getLong(durationKey)
                 durationPicker.seconds = Helpers.getSeconds(durationPicker.duration)
                 durationPicker.minutes = Helpers.getMinutes(durationPicker.duration)
                 durationPicker.hours = Helpers.getHours(durationPicker.duration)
@@ -108,7 +111,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                     durationPicker.seconds
                 )
             }
-        }
+            }
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
