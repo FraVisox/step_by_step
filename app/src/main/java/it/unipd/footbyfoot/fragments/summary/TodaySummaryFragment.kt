@@ -2,12 +2,15 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.firebase.Firebase
+import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
@@ -37,12 +40,21 @@ class TodaySummaryFragment : Fragment() {
     private lateinit var countDistance : TextView
     private lateinit var goalsDistance : TextView
 
+    //Personalized trace
+    private val dayTrace = Firebase.performance.newTrace("Day_trace")
+    private var start :Long =0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_today_summary, container, false)
+
+        //Start trace
+        dayTrace.putMetric("Time in DayF", 0)
+        dayTrace.start()
+        start = System.currentTimeMillis()
 
         //Get Views
         progressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
@@ -112,6 +124,16 @@ class TodaySummaryFragment : Fragment() {
             Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())
         progressBarSteps.progress =
             Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
+    }
+
+    override fun onPause(){
+        var time = System.currentTimeMillis()-start
+        Log.w("time", time.toString())
+
+        dayTrace.incrementMetric("Time in DayF", time)
+        dayTrace.stop()   //Stop trace
+
+        super.onPause()
     }
 
 }

@@ -46,6 +46,4 @@ class WorkoutsFragment : Fragment() {
 
         return view
     }
-
-
 }

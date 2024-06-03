@@ -2,6 +2,7 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.google.firebase.Firebase
+import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
@@ -45,6 +48,9 @@ class WeeklySummariesFragment : Fragment() {
     private lateinit var circularDistanceGoal: TextView
     private lateinit var circularCaloriesGoal: TextView
 
+    //Personalized trace
+    private val weekTrace = Firebase.performance.newTrace("Week_trace")
+    private var start :Long =0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +58,11 @@ class WeeklySummariesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_weekly_summaries, container, false)
+
+        //Start trace
+        weekTrace.putMetric("Time in WeekF", 0)
+        weekTrace.start()
+        start = System.currentTimeMillis()
 
         //List of progress bars
         listProgressBar = listOf(
@@ -213,6 +224,16 @@ class WeeklySummariesFragment : Fragment() {
         //Set the selected one
         listDay[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
         listSteps[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
+    }
+
+    override fun onPause(){
+        var time = System.currentTimeMillis()-start
+        Log.w("time", time.toString())
+
+        weekTrace.incrementMetric("Time in WeekF", time)
+        weekTrace.stop()   //Stop trace
+
+        super.onPause()
     }
 
 }

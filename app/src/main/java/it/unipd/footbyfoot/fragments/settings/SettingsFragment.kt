@@ -2,6 +2,8 @@ package it.unipd.footbyfoot.fragments.settings
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
+import android.util.Log.println
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +64,8 @@ class SettingsFragment : Fragment() {
 
         val crashButton: Button = view.findViewById(R.id.crashButton)
 
+        firebaseAnalytics = Firebase.analytics
+
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)
         }
@@ -102,10 +106,12 @@ class SettingsFragment : Fragment() {
         editor.putInt(HEIGHT, heightSettings.text.toString().toInt())
         editor.apply()
 
-        //TODO da rivedere
-        firebaseAnalytics = Firebase.analytics
-        firebaseAnalytics.setUserProperty(HEIGHT, heightSettings.text.toString())
-        firebaseAnalytics.setUserProperty(WEIGHT, weightSettings.text.toString())
-        firebaseAnalytics.setUserProperty(AGE, ageSettings.text.toString())
+        //examples of users properties
+        firebaseAnalytics.setUserProperty("Height", heightSettings.text.toString())
+        Log.w("user" ,heightSettings.text.toString())
+        firebaseAnalytics.setUserProperty("Weight", weightSettings.text.toString())
+        Log.w("user" ,weightSettings.text.toString())
+        firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+        Log.w("user" ,ageSettings.text.toString())
     }
 }
