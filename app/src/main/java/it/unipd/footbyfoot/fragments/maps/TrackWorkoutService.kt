@@ -11,11 +11,12 @@ import android.location.Location
 import android.os.Binder
 import android.os.IBinder
 import android.os.SystemClock
+import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.manager.PositionLocationObserver
 import it.unipd.footbyfoot.fragments.maps.manager.PositionTracker
-import com.google.android.gms.maps.model.LatLng
-import it.unipd.footbyfoot.MainActivity
+
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
@@ -63,7 +64,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         val channel = NotificationChannel(
             getString(R.string.channel_id),
             getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH //High importance to display it immediately
         )
         channel.description = getString(R.string.notification_channel_description)
         val notificationManager = getSystemService(NotificationManager::class.java)
@@ -89,10 +90,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
                         R.drawable.baseline_directions_run_24
                     ))
 
-            //Make an intent if the user taps the notification
-            val intent = Intent(this, MainActivity::class.java)
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
-            notificationBuilder.setContentIntent(pendingIntent)
+            //Make an intent if the user taps the notification using a launch intent,
+            //which means it will launch the root activity only if it is not running
+            val pm = packageManager
+            val launchIntent = pm.getLaunchIntentForPackage("it.unipd.footbyfoot")
+            val contentIntent = PendingIntent.getActivity(this, requestCode, launchIntent, PendingIntent.FLAG_IMMUTABLE)
+            notificationBuilder.setContentIntent(contentIntent)
 
             //Start foreground
             val notification = notificationBuilder.build()

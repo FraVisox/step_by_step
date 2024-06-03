@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/km_tv"
-            android:text="@string/initial_meters"
+            android:text=""
             style="@style/MyTextViewPrimary"
             android:layout_gravity="center_vertical"
             />

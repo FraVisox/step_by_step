@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
+import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
@@ -39,6 +40,7 @@ class WorkoutTracker(private val manager: MapsManager) {
                 mService.startWorkout()
             }
             timeChronometer.base = mService.startTime
+            timeChronometer.visibility = View.VISIBLE
             updateDistance()
             if (!TrackWorkoutService.paused) {
                 timeChronometer.start()

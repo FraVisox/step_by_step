@@ -33,6 +33,8 @@ class FinishWorkoutFragment : Fragment() {
         timeView = view.findViewById(R.id.time_chrono)
         distanceView = view.findViewById(R.id.km_tv)
 
+        timeView.visibility = View.INVISIBLE
+
         //Start the workout and set the views
         fragment.manager.startWorkout(timeView, distanceView)
 
