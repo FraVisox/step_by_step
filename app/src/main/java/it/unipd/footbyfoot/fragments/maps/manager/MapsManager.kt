@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -173,9 +174,11 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     }
     //Deletes the lines drawn
     fun clearLine() {
+        Log.d("AAA", "clear line $currPolyline")
         options = defaultOptions()
         currPolyline?.remove()
         otherPolylines.forEach {
+            Log.d("AAA", "clear line $it")
             it.remove()
         }
         otherPolylines.clear()

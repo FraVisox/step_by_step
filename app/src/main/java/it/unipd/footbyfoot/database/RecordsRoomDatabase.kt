@@ -57,6 +57,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
 
         // TODO: rimuovi
         suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao) {
+            /*
             var currentDate = LocalDate.now()
             goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 500, 2400, 3000))
             currentDate = currentDate.minusDays(1L)
@@ -77,7 +78,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             workoutDao.insert(Workout(8, "6", 10L, 100000, date.year, date.dayOfYear+5, "11"))
             workoutDao.insert(Workout(9, "6", 10L, 100000, date.year, date.dayOfYear+8, "11"))
             workoutDao.insert(Workout(10, "6", 10L, 100000, date.year, date.dayOfYear-9, "11"))
-
+*/
         }
 
     }

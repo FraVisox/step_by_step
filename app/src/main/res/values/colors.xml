@@ -10,7 +10,7 @@
     <color name="OnBackground">#FFFFFF</color>
     <color name="OnSurface">#FFFFFF</color>
 
-    <!--  progressBars -->
+    <!--  Progress bars colors -->
     <color name="progressBarGreen">#00E676</color>
     <color name="progressBarRed">#FF0266</color>
     <color name="progressBarBlue">#2979FF</color>

@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
@@ -85,8 +86,10 @@ class WorkoutTracker(private val manager: MapsManager) {
     fun stopWorkout() {
         //If the workout only has one point, we save it anyway
         if (!mBound) {
+            Log.d("AAA", "not mbound")
             return
         }
+        Log.d("AAA", "yes mbound")
         mService.stopWorkout()
 
         //Cancel the updating of the chronometer
@@ -102,6 +105,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Reset
         mService.clearWorkout()
         manager.context.applicationContext.unbindService(connection)
+        Log.d("AAA", "clear line")
         manager.clearLine()
 
         //Start activity to save the workout

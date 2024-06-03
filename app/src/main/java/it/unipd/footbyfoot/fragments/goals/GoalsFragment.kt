@@ -43,8 +43,6 @@ class GoalsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
 
-        Log.d("AAA", "creato")
-
         //Start trace
         goalTrace.putMetric(getString(R.string.increment_goals), 0)
         goalTrace.putMetric(getString(R.string.decrement_goals), 0)
@@ -56,7 +54,10 @@ class GoalsFragment : Fragment() {
         distanceGoal = view.findViewById(R.id.distanceGoalCount)
 
         //Take the last goal, if present, or the default goal
-        currentGoal = (activity as MainActivity).recordsViewModel.allGoals.value?.first() ?: Helpers.defaultGoal
+        currentGoal = if ((activity as MainActivity).recordsViewModel.allGoals.value?.isNotEmpty() == true)
+            (activity as MainActivity).recordsViewModel.allGoals.value!!.first()
+         else
+             Helpers.defaultGoal
 
         stepsGoal.text = currentGoal.steps.toString()
         caloriesGoal?.text = currentGoal.calories.toString()
