@@ -10,6 +10,7 @@ import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.database.workout.Distance
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -18,6 +19,10 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     companion object {
         const val invalidWorkoutID = -1
     }
+
+    //Firebase metrics
+    val totalDistance: LiveData<Int> = repository.totalDistance.asLiveData()
+    val totalTime: LiveData<Long> = repository.totalTime.asLiveData()
 
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
     val allPoints: LiveData<List<WorkoutTrackPoint>> = repository.allPoints.asLiveData()
