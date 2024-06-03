@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.database
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -73,6 +74,7 @@ class RecordsRepository(
     //Insert a Goal: if it is already in the database, the goal is replaced
     @WorkerThread
     suspend fun insertGoal(goal: Goal)  {
+        Log.d("AAA", "inserendo")
         goalDao.insert(goal)
     }
 }

@@ -4,6 +4,7 @@ package it.unipd.footbyfoot
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -44,16 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAnalytics = Firebase.analytics
 
-        if (savedInstanceState != null) {
-            binding.bottomNavigationView.post {
-                binding.bottomNavigationView.selectedItemId = savedInstanceState.getInt(fragment)
-            }
-        } else {
-            binding.bottomNavigationView.post {
-                binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
-            }
-        }
-
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
@@ -68,6 +59,46 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
+        if (savedInstanceState != null) {
+            attachFragment(savedInstanceState.getInt(fragment))
+        } else {
+            binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
+        }
+    }
+
+    //Replace the fragment
+    private fun attachFragment(fragmentId : Int){
+
+        val tag = fragmentId.toString()
+
+        val fragmentManager = supportFragmentManager
+
+        //The current fragment is saved in primaryNavigationFragment, if present
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val currentFragment = fragmentManager.primaryNavigationFragment
+
+        if (currentFragment != null) {
+            //Detaching it means to allow to restore its state more efficiently
+            fragmentTransaction.detach(currentFragment)
+        }
+
+        //Search if the fragment has already been created
+        val fragment = fragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            //Else, attach it
+            fragmentTransaction.attach(fragment)
+        }
+
+        Log.d("AAA", "detaching $currentFragment and attaching $fragment")
+
+        //Update current fragment
+        fragmentTransaction.setPrimaryNavigationFragment(fragment)
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.commitNow()
+
+        thisFragment = fragmentId
     }
 
     //Replace the fragment
@@ -89,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         //Search if the fragment has already been created
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
+            Log.d("AAA", "need to instantiate it")
             //If not, create it
             fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
             fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
@@ -96,6 +128,8 @@ class MainActivity : AppCompatActivity() {
             //Else, attach it
             fragmentTransaction.attach(fragment)
         }
+
+        Log.d("AAA", "detaching $currentFragment and attaching $fragment")
 
         //Update current fragment
         fragmentTransaction.setPrimaryNavigationFragment(fragment)

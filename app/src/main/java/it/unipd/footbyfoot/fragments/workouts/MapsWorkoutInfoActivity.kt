@@ -62,7 +62,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
-        //Back button //TODO: dovremmo cambiargli nome se modifica il nome?
+        //Back button
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
             if (name.text.toString() != currentName) {

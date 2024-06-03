@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.goals
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,15 +19,21 @@ import java.time.LocalDate
 
 class GoalsFragment : Fragment() {
 
+    //Companion object
+    companion object {
+        const val stepsKey = "steps"
+        const val distanceKey = "distance"
+        const val caloriesKey = "calories"
+    }
+
     // Text views with the values of the goals
     private lateinit var stepsGoal: TextView
-    private lateinit var caloriesGoal: TextView
+    private var caloriesGoal: TextView? = null
     private lateinit var distanceGoal: TextView
 
     //Done for efficiency
     private lateinit var currentGoal: Goal
 
-    //TODO: funziona?
     //Personalized trace
     private val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
@@ -35,6 +42,8 @@ class GoalsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
+
+        Log.d("AAA", "creato")
 
         //Start trace
         goalTrace.putMetric(getString(R.string.increment_goals), 0)
@@ -50,8 +59,14 @@ class GoalsFragment : Fragment() {
         currentGoal = (activity as MainActivity).recordsViewModel.allGoals.value?.first() ?: Helpers.defaultGoal
 
         stepsGoal.text = currentGoal.steps.toString()
-        caloriesGoal.text = currentGoal.calories.toString()
+        caloriesGoal?.text = currentGoal.calories.toString()
         distanceGoal.text = currentGoal.distance.toString()
+
+        if (savedInstanceState != null) {
+            stepsGoal.text = savedInstanceState.getInt(stepsKey, currentGoal.steps).toString()
+            caloriesGoal?.text = savedInstanceState.getInt(caloriesKey, currentGoal.calories).toString()
+            distanceGoal.text = savedInstanceState.getInt(distanceKey, currentGoal.distance).toString()
+        }
 
         val addStepsButton: AppCompatImageButton = view.findViewById(R.id.addStepsButton)
         val subStepsButton: AppCompatImageButton = view.findViewById(R.id.subStepsButton)
@@ -69,11 +84,11 @@ class GoalsFragment : Fragment() {
             goalTrace.incrementMetric(getString(R.string.decrement_goals), 1)
         }
         addCaloriesButton.setOnClickListener {
-            Helpers.increment100Value(caloriesGoal)
+            Helpers.increment100Value(caloriesGoal!!)
             goalTrace.incrementMetric(getString(R.string.increment_goals), 1)
         }
         subCaloriesButton.setOnClickListener {
-            Helpers.decrement100Value(caloriesGoal)
+            Helpers.decrement100Value(caloriesGoal!!)
             goalTrace.incrementMetric(getString(R.string.decrement_goals), 1)
         }
         addDistanceButton.setOnClickListener {
@@ -88,8 +103,18 @@ class GoalsFragment : Fragment() {
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (caloriesGoal != null) { //TODO
+            outState.putInt(caloriesKey, caloriesGoal!!.text.toString().toInt())
+            outState.putInt(distanceKey, distanceGoal.text.toString().toInt())
+            outState.putInt(stepsKey, stepsGoal.text.toString().toInt())
+        }
+    }
+
     override fun onPause() {
         super.onPause()
+
         //Insert the current goal into the database
         insertGoal()
         //End trace
@@ -99,11 +124,14 @@ class GoalsFragment : Fragment() {
     private fun insertGoal() {
         val updatedSteps = stepsGoal.text.toString().toInt()
         val updatedDistance = distanceGoal.text.toString().toInt()
-        val updatedCalories = caloriesGoal.text.toString().toInt()
+        val updatedCalories = caloriesGoal?.text.toString().toInt()
+
+        Log.d("AAA", updatedCalories.toString())
 
         //Insert a new goal only if it is different from the current one (for efficiency)
         if (currentGoal.distance != updatedDistance || currentGoal.steps != updatedSteps || currentGoal.calories != updatedCalories) {
             val date = LocalDate.now()
+            Log.d("AAA", "inserting goal")
             val updatedGoal = Goal(
                 date.year,
                 date.dayOfYear,

@@ -39,6 +39,7 @@ class WorkoutTracker(private val manager: MapsManager) {
                 mService.startWorkout()
             }
             timeChronometer.base = mService.startTime
+            updateDistance()
             if (!TrackWorkoutService.paused) {
                 timeChronometer.start()
             }
