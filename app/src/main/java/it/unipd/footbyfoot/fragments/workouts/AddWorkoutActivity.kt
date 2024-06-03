@@ -65,7 +65,7 @@ class AddWorkoutActivity: AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
-            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == getString(R.string.null_time_of_day) || durationPicker.duration == -1L || datePicker.year == null || datePicker.dayOfYear == null) {
+            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || durationPicker.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
                 Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

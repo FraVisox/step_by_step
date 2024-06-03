@@ -68,11 +68,15 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
 
             val date = LocalDate.now()
             workoutDao.insert(Workout(1, "1", 10L, 1000, date.year, date.dayOfYear, "11"))
-            workoutDao.insert(Workout(2, "2", 29L, 10, date.year, date.dayOfYear-1, "11"))
-            workoutDao.insert(Workout(3, "3", 1L, 200, date.year, date.dayOfYear-3, "11"))
-            workoutDao.insert(Workout(4, "4", 22L, 5000, date.year, date.dayOfYear-6, "11"))
-            workoutDao.insert(Workout(5, "5", 10L, 100000, date.year, date.dayOfYear-32, "11"))
-
+            workoutDao.insert(Workout(2, "2", 29L, 10, date.year, date.dayOfYear+1, "11"))
+            workoutDao.insert(Workout(3, "3", 1L, 200, date.year, date.dayOfYear+2, "11"))
+            workoutDao.insert(Workout(4, "4", 22L, 5000, date.year, date.dayOfYear+3, "11"))
+            workoutDao.insert(Workout(5, "5", 10L, 100000, date.year, date.dayOfYear+7, "11"))
+            workoutDao.insert(Workout(6, "6", 10L, 100000, date.year, date.dayOfYear+6, "11"))
+            workoutDao.insert(Workout(7, "6", 10L, 100000, date.year, date.dayOfYear+4, "11"))
+            workoutDao.insert(Workout(8, "6", 10L, 100000, date.year, date.dayOfYear+5, "11"))
+            workoutDao.insert(Workout(9, "6", 10L, 100000, date.year, date.dayOfYear+8, "11"))
+            workoutDao.insert(Workout(10, "6", 10L, 100000, date.year, date.dayOfYear-9, "11"))
 
         }
 

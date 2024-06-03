@@ -12,7 +12,11 @@ import it.unipd.footbyfoot.fragments.Helpers
 
 class DurationPickerFragment : DialogFragment() {
 
-    var duration: Long = -1
+    companion object {
+        const val defaultDuration = -1L
+    }
+
+    var duration: Long = defaultDuration
 
     override fun onCreateView(
         inflater: LayoutInflater,

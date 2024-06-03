@@ -12,8 +12,11 @@ import java.time.LocalDateTime
 
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
-    //TODO: funziona?
-    var hourOfDay: String = getString(R.string.null_time_of_day)
+    companion object {
+        const val defaultHour = "null"
+    }
+
+    var hourOfDay: String = defaultHour
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default value for the picker.
