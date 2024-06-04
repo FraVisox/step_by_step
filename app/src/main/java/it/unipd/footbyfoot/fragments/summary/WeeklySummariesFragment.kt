@@ -1,8 +1,6 @@
 package it.unipd.footbyfoot.fragments.summary
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +13,9 @@ import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import java.time.LocalDate
 
 class WeeklySummariesFragment : Fragment() {
@@ -30,6 +28,7 @@ class WeeklySummariesFragment : Fragment() {
 
     private var distanceList : List<Distance> = listOf()
     private var goalsList : List<Goal> = listOf()
+    private var infoList : List<UserInfo> = listOf()
 
     private lateinit var listProgressBar:  List<ProgressBar>
     private lateinit var listSteps:  List<TextView>
@@ -129,6 +128,10 @@ class WeeklySummariesFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) { goals ->
             updateGoals(goals)
        }
+        //Observe the infos
+        (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
+            updateInfo(info)
+        }
 
         return view
     }
@@ -148,12 +151,12 @@ class WeeklySummariesFragment : Fragment() {
         setViews()
     }
 
-    private fun setViews() {
+    private fun updateInfo(info: List<UserInfo>) {
+        infoList = info
+        setViews()
+    }
 
-        //Get height and weight
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
-        val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
+    private fun setViews() {
 
         //For every date in the current week (1 is Monday, 7 is Sunday, as in LocalDate)
         for (i in 1..7) {
@@ -165,10 +168,11 @@ class WeeklySummariesFragment : Fragment() {
             //Distance and goal of that day
             val meters = Helpers.getDistanceMetersOfDate(distanceList, date)
             val goal = Helpers.getGoalOfDate(goalsList, date)
+            val info = Helpers.getInfoOfDate(infoList, date)
 
             //Calculate the count of steps and calories
-            val countS = Helpers.calculateSteps(height, meters)
-            val countC = Helpers.calculateCalories(weight, meters)
+            val countS = Helpers.calculateSteps(info.height, meters)
+            val countC = Helpers.calculateCalories(info.weight, meters)
 
             //The index of the list is i-1 as it starts from 0
             //Set the text and the progress of the bar
@@ -227,7 +231,7 @@ class WeeklySummariesFragment : Fragment() {
     }
 
     override fun onPause(){
-        var time = System.currentTimeMillis()-start
+        val time = System.currentTimeMillis()-start
         //Log.w("time", time.toString())
 
         weekTrace.incrementMetric("Time in WeekF", time)

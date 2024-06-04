@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.summary
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,16 +12,16 @@ import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class TodaySummaryFragment : Fragment() {
 
-    //TODO: le distanze si dovrebbero vedere anche se i goal non ci sono
     //Lists
     private var distanceList : List<Distance> = listOf()
     private var goalsList : List<Goal> = listOf()
+    private var infoList : List<UserInfo> = listOf()
 
     //Steps
     private lateinit var progressBarSteps  : ProgressBar
@@ -39,7 +38,7 @@ class TodaySummaryFragment : Fragment() {
     private lateinit var countDistance : TextView
     private lateinit var goalsDistance : TextView
 
-    //Personalized trace fixme
+    //Personalized trace
     private val dayTrace = Firebase.performance.newTrace("Day_trace")
     private var start :Long =0
 
@@ -78,6 +77,11 @@ class TodaySummaryFragment : Fragment() {
             updateGoals(goals)
         }
 
+        //Observe the infos
+        (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
+            updateInfo(info)
+        }
+
         return view
     }
 
@@ -91,13 +95,18 @@ class TodaySummaryFragment : Fragment() {
         setViews()
     }
 
-    private fun setViews() {
-        //Get height and weight
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
-        val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
+    private fun updateInfo(info: List<UserInfo>) {
+        infoList = info
+        setViews()
+    }
 
-        //Get current goal (or null if it doesn't exist)
+    private fun setViews() {
+        //Get height and weight (or default one if it doesn't exist)
+        val currentInfo = if (infoList.isNotEmpty()) infoList.first() else Helpers.defaultInfo
+        val height = currentInfo.height
+        val weight = currentInfo.weight
+
+        //Get current goal (or default one if it doesn't exist)
         val currentGoal = if (goalsList.isNotEmpty()) goalsList.first() else Helpers.defaultGoal
         //Get today distance (or zero if not present)
         val distance = if (distanceList.isNotEmpty()) distanceList.first().meters else 0

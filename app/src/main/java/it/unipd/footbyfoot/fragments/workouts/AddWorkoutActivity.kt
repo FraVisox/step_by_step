@@ -15,6 +15,7 @@ import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class AddWorkoutActivity: AppCompatActivity() {
 
@@ -117,6 +118,11 @@ class AddWorkoutActivity: AppCompatActivity() {
         button.setOnClickListener {
             if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || durationPicker.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
                 Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val now = LocalDateTime.now()
+            if (datePicker.year == now.year && datePicker.dayOfYear == now.year && (timePicker.hour!! > now.hour || (timePicker.hour == now.hour && timePicker.minute!! > now.minute))) {
+                Toast.makeText(this, getString(R.string.impossible_date), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             recordsViewModel.insertWorkout(

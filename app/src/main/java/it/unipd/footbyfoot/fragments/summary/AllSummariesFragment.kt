@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.summary
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,22 +11,14 @@ import com.google.firebase.Firebase
 import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
-import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 
 class AllSummariesFragment : Fragment() {
 
-    //todo mettere in all metri al posto di kilometri ed invertire il tutto (ultima cosa in alto non in basso)
-    // mettere in week il perform click sulla data di oggi.
-    // fixare il today che non si vede niente rispetto al week e al goal
-    // se cambio altezza cambiano tutti i dati? si
-    // se cambio i goals?
-    // in orizzontale se vado in settings si rompe tutto.
-    // togliere un laout di allSummariesLand e itemLand (cardItem ha una piccola diversita quindi tenere)
-    // io non ho potuto fare test per il maps perche non va il gps sul mio emulatore è tutto ok?
+    //todo
     // togliere i worning di lint sui layout
 
     //Personalized trace
-    private val monthTrace = Firebase.performance.newTrace("Month_trace") //FIXME
+    private val monthTrace = Firebase.performance.newTrace("Month_trace")
     private var start: Long = 0
 
     override fun onCreateView(
@@ -42,13 +33,8 @@ class AllSummariesFragment : Fragment() {
         monthTrace.start()
         start = System.currentTimeMillis()
 
-        //Get preferences
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
-        val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
-
         //Create adapter
-        val adapter = SummariesAdapter(height, weight, requireActivity())
+        val adapter = SummariesAdapter(requireActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -59,6 +45,10 @@ class AllSummariesFragment : Fragment() {
 
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) {goals ->
             adapter.submitGoals(goals)
+        }
+
+        (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
+            adapter.submitInfo(info)
         }
 
         return view

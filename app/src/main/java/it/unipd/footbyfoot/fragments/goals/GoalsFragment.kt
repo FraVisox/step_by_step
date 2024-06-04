@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.fragments.goals
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class GoalsFragment : Fragment() {
         const val stepsKey = "steps"
         const val distanceKey = "distance"
         const val caloriesKey = "calories"
+        const val defaultGoal = 0
     }
 
     // Text views with the values of the goals
@@ -33,7 +35,7 @@ class GoalsFragment : Fragment() {
     //Done for efficiency
     private lateinit var currentGoal: Goal
 
-    //Personalized trace FIXME
+    //Personalized trace
     private val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
     override fun onCreateView(
@@ -42,7 +44,7 @@ class GoalsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
 
-        //Start trace FIXME funziona anche se faccio getString
+        //Start trace
         goalTrace.putMetric("Increment goals", 0)
         goalTrace.putMetric("Decrement goals", 0)
         goalTrace.start()
@@ -52,21 +54,13 @@ class GoalsFragment : Fragment() {
         caloriesGoal = view.findViewById(R.id.caloriesGoalCount)
         distanceGoal = view.findViewById(R.id.distanceGoalCount)
 
-        //Take the last goal, if present, or the default goal
-        currentGoal = if ((activity as MainActivity).recordsViewModel.allGoals.value?.isNotEmpty() == true)
-            (activity as MainActivity).recordsViewModel.allGoals.value!!.first()
-         else
-             Helpers.defaultGoal
-
-        stepsGoal?.text = currentGoal.steps.toString()
-        caloriesGoal?.text = currentGoal.calories.toString()
-        distanceGoal?.text = currentGoal.distance.toString()
-
-        if (savedInstanceState != null) {
-            stepsGoal?.text = savedInstanceState.getInt(stepsKey, currentGoal.steps).toString()
-            caloriesGoal?.text = savedInstanceState.getInt(caloriesKey, currentGoal.calories).toString()
-            distanceGoal?.text = savedInstanceState.getInt(distanceKey, currentGoal.distance).toString()
-        }
+        //Get saved goals. We take these values and not the ones in the database
+        //as sometimes may happen that the inserting in the database and update of livedata is
+        //not instantaneous
+        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        stepsGoal?.text = preferences.getInt(stepsKey, defaultGoal).toString()
+        caloriesGoal?.text = preferences.getInt(caloriesKey, defaultGoal).toString()
+        distanceGoal?.text = preferences.getInt(distanceKey, defaultGoal).toString()
 
         val addStepsButton: AppCompatImageButton = view.findViewById(R.id.addStepsButton)
         val subStepsButton: AppCompatImageButton = view.findViewById(R.id.subStepsButton)
@@ -125,6 +119,14 @@ class GoalsFragment : Fragment() {
         val updatedSteps = stepsGoal?.text.toString().toInt()
         val updatedDistance = distanceGoal?.text.toString().toInt()
         val updatedCalories = caloriesGoal?.text.toString().toInt()
+
+        //Insert everything in shared preferences
+        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putInt(caloriesKey, updatedCalories)
+        editor.putInt(stepsKey, updatedSteps)
+        editor.putInt(distanceKey, updatedDistance)
+        editor.apply()
 
         //Insert a new goal only if it is different from the current one (for efficiency)
         if (currentGoal.distance != updatedDistance || currentGoal.steps != updatedSteps || currentGoal.calories != updatedCalories) {

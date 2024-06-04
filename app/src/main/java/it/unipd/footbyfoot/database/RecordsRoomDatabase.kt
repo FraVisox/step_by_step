@@ -11,16 +11,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
+import it.unipd.footbyfoot.database.userinfo.UserInfo
+import it.unipd.footbyfoot.database.userinfo.UserInfoDao
 
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutDao
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
-import java.time.LocalDate
 
-@Database(entities = [Goal::class, Workout::class, WorkoutTrackPoint::class], version = 1, exportSchema = false)
+@Database(entities = [Workout::class, WorkoutTrackPoint::class, Goal::class, UserInfo::class], version = 1, exportSchema = false)
 abstract class RecordsRoomDatabase : RoomDatabase() {
     abstract fun workoutDao(): WorkoutDao
     abstract fun goalDao(): GoalDao
+    abstract fun infoDao(): UserInfoDao
 
     companion object {
         //Singleton design pattern
@@ -49,16 +51,33 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
                 super.onCreate(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.goalDao(), database.workoutDao())
+                        populateDatabase(database.goalDao(), database.workoutDao(), database.infoDao())
                     }
                 }
             }
         }
 
         // TODO: rimuovi
-        suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao) {
+        suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao, infoDao: UserInfoDao) {
             /*
             var currentDate = LocalDate.now()
+            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 10, 10))
+            workoutDao.insert(Workout(1, "1", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
+
+            currentDate = currentDate.minusDays(10L)
+            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 1000, 1000))
+            workoutDao.insert(Workout(2, "1 ma prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
+
+            currentDate = currentDate.minusDays(1L)
+            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 360, 120))
+            workoutDao.insert(Workout(3, "1 ma ancora prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
+
+
+            currentDate = currentDate.minusDays(1L)
+            workoutDao.insert(Workout(4, "1 ma ancora ancora prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
+
+
+
             goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 500, 2400, 3000))
             currentDate = currentDate.minusDays(1L)
             goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 100, 2100, 30))

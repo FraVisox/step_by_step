@@ -12,16 +12,19 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.fragments.Helpers
+import java.time.LocalDate
 
 
 class SettingsFragment : Fragment() {
 
     // Class constants and default values
     companion object {
-        const val WEIGHT = "weight"
-        const val HEIGHT = "height"
+        private const val WEIGHT = "weight"
+        private const val HEIGHT = "height"
         private const val AGE = "age"
         const val defaultWeight = 60
         const val defaultHeight = 180
@@ -30,10 +33,13 @@ class SettingsFragment : Fragment() {
 
     // Class text views
     private lateinit var ageSettings: TextView
-    private lateinit var weightSettings: TextView
-    private lateinit var heightSettings: TextView
+    private var weightSettings: TextView? = null
+    private var heightSettings: TextView? = null
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    //Done for efficiency
+    private lateinit var currentInfo: UserInfo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +51,13 @@ class SettingsFragment : Fragment() {
         weightSettings = view.findViewById(R.id.weightCount)
         heightSettings = view.findViewById(R.id.heightCount)
 
-        //Get saved values, or default ones
+        //Get saved age, weight and height. We take these values and not the ones in the database
+        //as sometimes may happen that the inserting in the database and update of livedata is
+        //not instantaneous
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
         ageSettings.text = preferences.getInt(AGE, defaultAge).toString()
-        weightSettings.text = preferences.getInt(WEIGHT, defaultWeight).toString()
-        heightSettings.text = preferences.getInt(HEIGHT, defaultHeight).toString()
+        weightSettings?.text = preferences.getInt(WEIGHT, defaultWeight).toString()
+        heightSettings?.text = preferences.getInt(HEIGHT, defaultHeight).toString()
 
         //Listeners to buttons
         val addAgeButton: ImageButton = view.findViewById(R.id.addAgeButton)
@@ -72,19 +80,19 @@ class SettingsFragment : Fragment() {
         }
 
         addWeightButton.setOnClickListener {
-            Helpers.incrementValue(weightSettings)
+            Helpers.incrementValue(weightSettings!!)
         }
 
         subWeightButton.setOnClickListener {
-            Helpers.decrementValue(weightSettings)
+            Helpers.decrementValue(weightSettings!!)
         }
 
         addHeightButton.setOnClickListener {
-            Helpers.incrementValue(heightSettings)
+            Helpers.incrementValue(heightSettings!!)
         }
 
         subHeightButton.setOnClickListener {
-            Helpers.decrementValue(heightSettings)
+            Helpers.decrementValue(heightSettings!!)
         }
 
         crashButton.setOnClickListener {
@@ -96,16 +104,39 @@ class SettingsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        val preferences = requireActivity().getPreferences(MODE_PRIVATE)
-        val editor = preferences.edit()
-        editor.putInt(AGE, ageSettings.text.toString().toInt())
-        editor.putInt(WEIGHT, weightSettings.text.toString().toInt())
-        editor.putInt(HEIGHT, heightSettings.text.toString().toInt())
-        editor.apply()
+
+        insertInfo()
 
         //Examples of users properties
-        firebaseAnalytics.setUserProperty("Height", heightSettings.text.toString())
-        firebaseAnalytics.setUserProperty("Weight", weightSettings.text.toString())
+        firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
+        firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
         firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+    }
+
+    private fun insertInfo() {
+        //Take new values
+        val updatedHeight = heightSettings?.text.toString().toInt()
+        val updatedWeight = weightSettings?.text.toString().toInt()
+        val updatedAge = ageSettings.text.toString().toInt()
+
+        //Insert age, weight and height on shared preferences
+        val preferences = requireActivity().getPreferences(MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putInt(AGE, updatedAge)
+        editor.putInt(WEIGHT, updatedWeight)
+        editor.putInt(HEIGHT, updatedHeight)
+        editor.apply()
+
+        //Insert a new info in the database only if it is different from the current one (for efficiency and for not saving every day the same goal)
+        if (currentInfo.height != updatedHeight || currentInfo.weight != updatedWeight) {
+            val date = LocalDate.now()
+            val updatedInfo = UserInfo(
+                date.year,
+                date.dayOfYear,
+                updatedHeight,
+                updatedWeight
+            )
+            (activity as MainActivity).recordsViewModel.insertInfo(updatedInfo)
+        }
     }
 }

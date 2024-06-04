@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
-class SummariesAdapter(private val height: Int, private val weight: Int,private val activity: Activity) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
+class SummariesAdapter(private val activity: Activity) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
 
     //ListAdapters need a comparator
     companion object {
@@ -33,10 +34,17 @@ class SummariesAdapter(private val height: Int, private val weight: Int,private 
     }
 
     private var goals : List<Goal> = listOf()
+    private var info : List<UserInfo> = listOf()
 
     fun submitGoals(goalsList: List<Goal>) {
         goals = goalsList
         //The only record that can be affected immediately by the change of goals is today's record, on the first position
+        notifyItemChanged(0)
+    }
+
+    fun submitInfo(infoList: List<UserInfo>) {
+        info = infoList
+        //The only record that can be affected immediately by the change of info is today's record, on the first position
         notifyItemChanged(0)
     }
 
@@ -53,11 +61,13 @@ class SummariesAdapter(private val height: Int, private val weight: Int,private 
         //Get the date
         val date = LocalDate.ofYearDay(dailyDistance.year, dailyDistance.dayOfYear)
 
+        val info = Helpers.getInfoOfDate(info, date)
+
         //Pass parameters
         holder.bind(
             Helpers.formatDateToString(activity, date),
-            Helpers.calculateSteps(height, dailyDistance.meters),
-            Helpers.calculateCalories(weight, dailyDistance.meters),
+            Helpers.calculateSteps(info.height, dailyDistance.meters),
+            Helpers.calculateCalories(info.weight, dailyDistance.meters),
             dailyDistance.meters,
             Helpers.getGoalOfDate(goals, date)
         )

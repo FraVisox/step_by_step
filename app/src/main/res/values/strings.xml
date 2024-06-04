@@ -42,14 +42,16 @@
 
     <!-- Settings fragment -->
     <string name="UserSettings">User Settings</string>
-    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned</string>
+    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned.
+        The default settings are: age 30, height 180cm and weight 60kg</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
 
     <!-- Goals fragment -->
     <string name="GoalsDescription">Set your daily goals. You can check your progress in the Summary section.
-        Remember, if you do multiple activities in a day, they are summed up</string>
+        Remember, if you do multiple activities in a day, they are summed up.
+        The default goals are: steps 0, calories 0 and distance 0m</string>
     <string name="steps">Steps</string>
     <string name="calories">Calories</string>
     <string name="distance">Meters</string>
@@ -98,7 +100,8 @@
 
     <!-- Add workouts -->
     <string name="new_workout_title">Add new Workout</string>
-    <string name="instructions_to_add_new_workout">Set your personal workout</string>
+    <string name="instructions_to_add_new_workout">Set your personal workout.
+        If the date is precedent to the date of the setting of your first goal or your first user settings, the default values will be used</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="duration">Duration</string>
@@ -107,7 +110,7 @@
     <string name="time_tag">timePicker</string>
     <string name="date_tag">datePicker</string>
     <string name="impossible_to_add_workout">Not all the fields are filled</string>
-    <string name="impossible_date">The date is after today</string>
+    <string name="impossible_date">A workout time can\'t be in the future</string>
 
     <!-- Weekly graph -->
     <string name="wednesday">Wed</string>

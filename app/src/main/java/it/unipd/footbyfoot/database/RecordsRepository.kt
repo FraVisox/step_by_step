@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.database
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -8,6 +7,8 @@ import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutDao
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.database.userinfo.UserInfo
+import it.unipd.footbyfoot.database.userinfo.UserInfoDao
 import it.unipd.footbyfoot.database.workout.Distance
 
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,8 @@ import java.time.LocalDate
 
 class RecordsRepository(
     private val goalDao: GoalDao,
-    private val workoutDao: WorkoutDao
+    private val workoutDao: WorkoutDao,
+    private val infoDao: UserInfoDao
 ) {
     //Firebase metrics
     val totalDistance: Flow<Int> = workoutDao.getTotalDistance()
@@ -36,6 +38,9 @@ class RecordsRepository(
 
     //All goals
     val allGoals : Flow<List<Goal>> = goalDao.getAllGoals()
+
+    //All user info
+    val allInfo : Flow<List<UserInfo>> = infoDao.getAllInfo()
 
     //Utility function to get the sum of distances of this week's workouts, grouped by date
     private fun getThisWeekDistances(): Flow<List<Distance>> {
@@ -74,10 +79,15 @@ class RecordsRepository(
         workoutDao.deleteWorkout(workoutID)
     }
 
-    //Insert a Goal: if it is already in the database, the goal is replaced
+    //Insert a Goal: if a goal with the same date is already in the database, the goal is replaced
     @WorkerThread
     suspend fun insertGoal(goal: Goal)  {
-        Log.d("AAA", "inserendo")
         goalDao.insert(goal)
+    }
+
+    //Insert a UserInfo: if an info with the same date is already in the database, the info is replaced
+    @WorkerThread
+    suspend fun insertInfo(info: UserInfo)  {
+        infoDao.insert(info)
     }
 }

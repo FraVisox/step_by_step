@@ -4,7 +4,10 @@ import android.content.Context
 import android.widget.TextView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
+import it.unipd.footbyfoot.fragments.goals.GoalsFragment
+import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -13,7 +16,8 @@ import java.util.Locale
 class Helpers {
     companion object {
 
-        val defaultGoal = Goal(0,0,0,0,0)
+        val defaultGoal = Goal(0,0,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal)
+        val defaultInfo = UserInfo(0,0, SettingsFragment.defaultHeight, SettingsFragment.defaultWeight)
 
         //Calculate the percentage of the part on the total
         fun calculatePercentage(part: Double, total: Double): Int {
@@ -102,6 +106,17 @@ class Helpers {
             }
             //Default goal
             return defaultGoal
+        }
+
+        //Get the goal for the current date
+        fun getInfoOfDate(info: List<UserInfo>, date: LocalDate): UserInfo {
+            for (j in info.indices) {
+                if (info[j].year < date.year || (info[j].year == date.year && info[j].dayOfYear <= date.dayOfYear)) {
+                    return info[j]
+                }
+            }
+            //Default goal
+            return defaultInfo
         }
 
         //Get the distance of a date in a list of weekly dates

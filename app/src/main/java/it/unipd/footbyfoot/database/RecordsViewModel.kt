@@ -9,8 +9,8 @@ import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import com.google.android.gms.maps.model.LatLng
+import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -32,10 +32,16 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allDistances : LiveData<List<Distance>> = repository.allDistances.asLiveData()
 
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
+    val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
 
     //Insert a new goal for a day (if there is already one, replace it)
     fun insertGoal(goal: Goal) = viewModelScope.launch {
         repository.insertGoal(goal)
+    }
+
+    //Insert a new user info for a day (if there is already one, replace it)
+    fun insertInfo(info: UserInfo) = viewModelScope.launch {
+        repository.insertInfo(info)
     }
 
     //Insert a new workout, with the corresponding points
