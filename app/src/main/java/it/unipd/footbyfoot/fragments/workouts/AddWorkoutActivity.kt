@@ -16,6 +16,7 @@ import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class AddWorkoutActivity: AppCompatActivity() {
 
@@ -137,6 +138,11 @@ class AddWorkoutActivity: AppCompatActivity() {
                 ),
                 mutableListOf() //No points
             )
+            //TODO: qua ti metto il valore da passare, ovvero i giorni tra quando mette il workout e quando lo ha effettivamente fatto
+            val daysFromWorkout = ChronoUnit.DAYS.between(now, LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!))
+
+            //firebase.put(daysFromWorkout)
+
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++
             }
