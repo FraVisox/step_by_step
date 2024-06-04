@@ -52,11 +52,13 @@ class WorkoutsFragment : Fragment() {
         var totd :Int =0
         var tott: Long =0
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
+            totd = 0
             records?.let {
                 totd= totd+it
             }
         }
         (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
+            tott = 0
             records?.let {
                 tott= tott+it
             }

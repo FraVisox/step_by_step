@@ -20,7 +20,7 @@ import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
-    // Firebase
+    // Firebase FIXME
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     //Current fragment and data binding
@@ -91,8 +91,6 @@ class MainActivity : AppCompatActivity() {
             fragmentTransaction.attach(fragment)
         }
 
-        Log.d("AAA", "detaching $currentFragment and attaching $fragment")
-
         //Update current fragment
         fragmentTransaction.setPrimaryNavigationFragment(fragment)
         fragmentTransaction.setReorderingAllowed(true)
@@ -120,7 +118,6 @@ class MainActivity : AppCompatActivity() {
         //Search if the fragment has already been created
         var fragment = fragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
-            Log.d("AAA", "need to instantiate it")
             //If not, create it
             fragment = fragmentManager.fragmentFactory.instantiate(this.classLoader, classname!!)
             fragmentTransaction.add(R.id.activity_main_nav_host_fragment, fragment, tag)
@@ -128,8 +125,6 @@ class MainActivity : AppCompatActivity() {
             //Else, attach it
             fragmentTransaction.attach(fragment)
         }
-
-        Log.d("AAA", "detaching $currentFragment and attaching $fragment")
 
         //Update current fragment
         fragmentTransaction.setPrimaryNavigationFragment(fragment)

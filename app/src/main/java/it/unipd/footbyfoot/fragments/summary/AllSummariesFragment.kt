@@ -2,7 +2,6 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
-
 
 class AllSummariesFragment : Fragment() {
 
@@ -29,8 +27,8 @@ class AllSummariesFragment : Fragment() {
     // togliere i worning di lint sui layout
 
     //Personalized trace
-    private val monthTrace = Firebase.performance.newTrace("Month_trace")
-    private var start :Long =0
+    private val monthTrace = Firebase.performance.newTrace("Month_trace") //FIXME
+    private var start: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +65,7 @@ class AllSummariesFragment : Fragment() {
     }
 
     override fun onPause(){
-        var time = System.currentTimeMillis()-start
+        val time = System.currentTimeMillis()-start
         //Log.w("time", time.toString())
 
         monthTrace.incrementMetric("Time in MonthF", time)

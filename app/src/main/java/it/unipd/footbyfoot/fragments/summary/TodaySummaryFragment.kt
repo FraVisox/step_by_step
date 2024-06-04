@@ -2,7 +2,6 @@ package it.unipd.footbyfoot.fragments.summary
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +39,7 @@ class TodaySummaryFragment : Fragment() {
     private lateinit var countDistance : TextView
     private lateinit var goalsDistance : TextView
 
-    //Personalized trace
+    //Personalized trace fixme
     private val dayTrace = Firebase.performance.newTrace("Day_trace")
     private var start :Long =0
 
@@ -127,7 +126,7 @@ class TodaySummaryFragment : Fragment() {
     }
 
     override fun onPause(){
-        var time = System.currentTimeMillis()-start
+        val time = System.currentTimeMillis()-start
         //Log.w("time", time.toString())
 
         dayTrace.incrementMetric("Time in DayF", time)
