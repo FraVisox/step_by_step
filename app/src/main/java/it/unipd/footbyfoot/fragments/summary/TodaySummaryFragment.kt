@@ -128,7 +128,7 @@ class TodaySummaryFragment : Fragment() {
 
     override fun onPause(){
         var time = System.currentTimeMillis()-start
-        Log.w("time", time.toString())
+        //Log.w("time", time.toString())
 
         dayTrace.incrementMetric("Time in DayF", time)
         dayTrace.stop()   //Stop trace

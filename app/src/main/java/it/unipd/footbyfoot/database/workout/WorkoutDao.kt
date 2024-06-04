@@ -15,6 +15,10 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout_table ORDER BY year DESC, dayOfYear DESC, timeOfDay DESC")
     fun getAllWorkoutsOrderedByDate(): Flow<List<Workout>>
 
+    //Count all workouts
+    @Query("SELECT count(*) FROM workout_table")
+    fun countWorkout(): Int
+
     //Insert a workout
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workout: Workout)

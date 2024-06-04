@@ -228,7 +228,7 @@ class WeeklySummariesFragment : Fragment() {
 
     override fun onPause(){
         var time = System.currentTimeMillis()-start
-        Log.w("time", time.toString())
+        //Log.w("time", time.toString())
 
         weekTrace.incrementMetric("Time in WeekF", time)
         weekTrace.stop()   //Stop trace

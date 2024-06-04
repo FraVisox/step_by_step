@@ -68,7 +68,7 @@ class AllSummariesFragment : Fragment() {
 
     override fun onPause(){
         var time = System.currentTimeMillis()-start
-        Log.w("time", time.toString())
+        //Log.w("time", time.toString())
 
         monthTrace.incrementMetric("Time in MonthF", time)
         monthTrace.stop()   //Stop trace

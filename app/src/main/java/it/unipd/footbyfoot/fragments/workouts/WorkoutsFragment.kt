@@ -9,10 +9,15 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
 class WorkoutsFragment : Fragment() {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +48,25 @@ class WorkoutsFragment : Fragment() {
                 adapter.updatePoints(it)
             }
         }
+
+        var totd :Int =0
+        var tott: Long =0
+        (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
+            records?.let {
+                totd= totd+it
+            }
+        }
+        (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
+            records?.let {
+                tott= tott+it
+            }
+        }
+
+        firebaseAnalytics = Firebase.analytics
+        var avg: Double = totd/tott.toDouble()
+        try{
+            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
+        }catch (e: ArithmeticException){}
 
         return view
     }

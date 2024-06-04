@@ -44,8 +44,8 @@ class GoalsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
 
         //Start trace
-        goalTrace.putMetric(getString(R.string.increment_goals), 0)
-        goalTrace.putMetric(getString(R.string.decrement_goals), 0)
+        goalTrace.putMetric("Increment goals", 0)
+        goalTrace.putMetric("Decrement goals", 0)
         goalTrace.start()
 
         //Initialize views
