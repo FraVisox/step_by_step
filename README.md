@@ -18,6 +18,8 @@ La seguente applicazione è stata realizzata da Arduino Leonardo, Meneghetti Fed
 -   position precise: telemetria malevola? considera che firebase lo fa vedere già
 -   mediamente dopo qunato tempo gli utenti inseriscono il proprio workout? se mette roba vechia magari le persone voglio aggiungere workout da altre app o aggiungere un modo comodo per 
     aggiungere piu cose vecchie contemporaneamente. 
+-   il sevice è usato principalmenti in background o in foreground.
+-   La notifica del service è usata tanto? in caso ci stà mettere il bottone.
 -   far vedere tutto quello firebase mostra autonomamente.
 
 
