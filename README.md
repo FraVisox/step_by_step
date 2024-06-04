@@ -4,7 +4,8 @@ La seguente applicazione è stata realizzata da Arduino Leonardo, Meneghetti Fed
 # telmetria
 
 -   Durata dei Fragment: ad esempio a noi interessa se la gente usa spesso la schemata week (vuol dire che usa l'app spesso, ossia aggiunge spesso workout),
-    se usa spesso all invece vuol dire che usa l'app saltuariamente (tipo in vacanza). Inoltre vediamo se l'utente nella sezione workout info si va a rivedere i propri percorsi.
+    se usa spesso all invece vuol dire che usa l'app saltuariamente (tipo in vacanza). Inoltre vediamo se l'utente nella sezione workout info si va a rivedere i propri percorsi. Magari evidenziare che si puo fare sia con la 
+    traccia si in modo autonomo.
 -   Da dove vengono i wokout? da add_workout l'utenete è interessato ad aggiungere i workout e usare l'app come 
     una sorta di diario. invece se vengono da activity allora l'utente è interessato a registrare il workout con la nostra app e la mappa
 -   In media quantiWorkout hanno gli utenti: ci da una chiara idea di quanto l'untete utilizzi l'app.
