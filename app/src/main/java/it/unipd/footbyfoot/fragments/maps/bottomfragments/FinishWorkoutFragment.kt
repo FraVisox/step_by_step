@@ -64,4 +64,11 @@ class FinishWorkoutFragment : Fragment() {
 
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (TrackWorkoutService.running) {
+            fragment.manager.takeOnWorkout()
+        }
+    }
 }

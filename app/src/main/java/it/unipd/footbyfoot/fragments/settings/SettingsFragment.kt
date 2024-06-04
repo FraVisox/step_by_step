@@ -38,9 +38,6 @@ class SettingsFragment : Fragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    //Done for efficiency
-    private lateinit var currentInfo: UserInfo
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -119,8 +116,15 @@ class SettingsFragment : Fragment() {
         val updatedWeight = weightSettings?.text.toString().toInt()
         val updatedAge = ageSettings.text.toString().toInt()
 
-        //Insert age, weight and height on shared preferences
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
+        //Get last values (to know if we need to update or not)
+        val currentHeight = preferences.getInt(
+            HEIGHT,
+            defaultHeight
+        )
+        val currentWeight = preferences.getInt(WEIGHT, defaultWeight)
+
+        //Insert age, weight and height on shared preferences
         val editor = preferences.edit()
         editor.putInt(AGE, updatedAge)
         editor.putInt(WEIGHT, updatedWeight)
@@ -128,7 +132,7 @@ class SettingsFragment : Fragment() {
         editor.apply()
 
         //Insert a new info in the database only if it is different from the current one (for efficiency and for not saving every day the same goal)
-        if (currentInfo.height != updatedHeight || currentInfo.weight != updatedWeight) {
+        if (currentHeight != updatedHeight || currentWeight != updatedWeight) {
             val date = LocalDate.now()
             val updatedInfo = UserInfo(
                 date.year,

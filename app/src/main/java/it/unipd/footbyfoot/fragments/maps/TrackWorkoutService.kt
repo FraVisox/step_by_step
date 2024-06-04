@@ -81,14 +81,17 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             val notificationBuilder: Notification.Builder =
                 Notification.Builder(this, getString(R.string.channel_id))
             notificationBuilder
+                .setShowWhen(false)
                 .setContentTitle(getString(R.string.notification_title))
                 .setContentText(getString(R.string.notification_content))
                 .setSmallIcon(R.drawable.baseline_directions_run_24)
-                .setLargeIcon(
+  /*              .setLargeIcon(
                     BitmapFactory.decodeResource(
                         resources,
                         R.drawable.baseline_directions_run_24
                     ))
+
+   */
 
             //Make an intent if the user taps the notification using a launch intent,
             //which means it will launch the root activity only if it is not running

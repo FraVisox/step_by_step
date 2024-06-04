@@ -191,4 +191,9 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         PositionTracker.removeObserver(this)
         clearLine()
     }
+
+    fun takeOnWorkout() {
+        workoutTracker.takeOnWorkout()
+        PositionTracker.addObserver(this)
+    }
 }

@@ -2,6 +2,7 @@ package it.unipd.footbyfoot
 
 
 import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,7 @@ import com.google.firebase.analytics.analytics
 
 class MainActivity : AppCompatActivity() {
 
-    // Firebase FIXME
+    // Firebase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     //Current fragment and data binding
@@ -138,6 +139,11 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(fragment, thisFragment)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        //TODO qua si vede quando l'utente chiude la app e poi preme sulla notifica, non sono riuscito a fare di meglio
     }
 
     //Show permissions dialog for location

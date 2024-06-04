@@ -32,9 +32,6 @@ class GoalsFragment : Fragment() {
     private var caloriesGoal: TextView? = null
     private var distanceGoal: TextView? = null
 
-    //Done for efficiency
-    private lateinit var currentGoal: Goal
-
     //Personalized trace
     private val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
@@ -120,8 +117,13 @@ class GoalsFragment : Fragment() {
         val updatedDistance = distanceGoal?.text.toString().toInt()
         val updatedCalories = caloriesGoal?.text.toString().toInt()
 
-        //Insert everything in shared preferences
         val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        //Get last values (to know if we need to update or not)
+        val currentDistance = preferences.getInt(distanceKey, defaultGoal)
+        val currentSteps = preferences.getInt(stepsKey, defaultGoal)
+        val currentCalories = preferences.getInt(caloriesKey, defaultGoal)
+
+        //Insert everything in shared preferences
         val editor = preferences.edit()
         editor.putInt(caloriesKey, updatedCalories)
         editor.putInt(stepsKey, updatedSteps)
@@ -129,7 +131,7 @@ class GoalsFragment : Fragment() {
         editor.apply()
 
         //Insert a new goal only if it is different from the current one (for efficiency)
-        if (currentGoal.distance != updatedDistance || currentGoal.steps != updatedSteps || currentGoal.calories != updatedCalories) {
+        if (currentDistance != updatedDistance || currentSteps != updatedSteps || currentCalories != updatedCalories) {
             val date = LocalDate.now()
             val updatedGoal = Goal(
                 date.year,

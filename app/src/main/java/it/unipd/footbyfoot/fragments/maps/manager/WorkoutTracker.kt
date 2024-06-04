@@ -52,6 +52,12 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    fun takeOnWorkout() {
+        if (TrackWorkoutService.running && mBound) {
+            manager.drawCurrentTrack(mService.locations)
+        }
+    }
+
     fun setViews(time: Chronometer, distanceView: TextView) {
         //Connect the views
         this.timeChronometer = time
