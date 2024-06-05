@@ -104,6 +104,9 @@ dependencies {
     implementation("com.google.firebase:firebase-perf")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
+
+    //Splash screen
+    implementation "androidx.core:core-splashscreen:1.0.0"
 }
 
 secrets {

@@ -5,6 +5,15 @@
     <!-- Database name -->
     <string name="database_name">workouts_database</string>
 
+    <!-- Telemetry permissions -->
+    <string name="permissions_title">Give consent to the processing of personal data</string>
+    <string name="permissions_description">
+        This application stores and sends data to our developers to help them improve the user experience
+    </string>
+    <string name="give_consent">Agree</string>
+    <string name="no_consent">Close app</string>
+    <string name="permission_dialog">permission_dialog</string>
+
     <!-- Firebase metrics -->
     <string name="increment_goals">Increment goals</string>
     <string name="decrement_goals">Decrement goals</string>

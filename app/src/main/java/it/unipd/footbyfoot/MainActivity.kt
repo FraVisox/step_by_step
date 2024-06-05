@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         //Key for the fragment of instance state
         private const val fragment = "currentFragment"
+        const val firstUse = "first"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +48,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Register the created workouts
+        var preferences = getPreferences(MODE_PRIVATE)
+        if (preferences.getBoolean(firstUse, true)) {
+            PermissionDialog().show(supportFragmentManager, getString(R.string.permission_dialog))
+        }
+
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
+
+        //Firebase
+        preferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+        firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
+        firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
+        serviceTrace.putMetric("Service click", 0)
 
         //Set listeners
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -72,12 +84,6 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
         }
 
-        //Register the created workouts
-        val preferences= getSharedPreferences("Saved_workouts", MODE_PRIVATE)
-        firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
-        firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
-
-        serviceTrace.putMetric("Service click", 0)
      }
 
     //Replace the fragment
@@ -172,5 +178,22 @@ class MainActivity : AppCompatActivity() {
             ) { _, _ ->
             }
             .create().show()
+    }
+
+    //Ask the user for permissions to use telemetry
+    private fun askTelemetryPermissions() {
+
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        alertDialogBuilder
+            .setTitle(getString(R.string.permissions_title))
+            .setMessage(getString(R.string.permissions_description))
+            .setCancelable(false)
+            .setPositiveButton(R.string.give_consent) {dialog,_ ->
+
+            }
+            .setNegativeButton(R.string.no_consent) {_,_ ->
+                finishAndRemoveTask()
+            }
+        alertDialogBuilder.create().show();
     }
 }

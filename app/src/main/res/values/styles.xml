@@ -182,6 +182,18 @@
         <item name="android:tint">@color/Delete</item>
     </style>
 
+    <!-- No permission button -->
+    <style name="MyGivePermissionButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:backgroundTint">@color/progressBarGreen</item>
+    </style>
+
+    <!-- No permission button -->
+    <style name="MyNoPermissionButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/OnSurface</item>
+        <item name="android:backgroundTint">@color/Delete</item>
+    </style>
+
     <!-- Number picker -->
     <style name="NumberPicker">
         <item name="android:background">@color/Background</item>

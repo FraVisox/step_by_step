@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.App" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/Primary</item>
+        <item name="colorPrimaryDark">@color/Surface</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Splash screen: only on API 31+ -->
+        <item name="android:windowSplashScreenBackground">@color/Background</item>
+        <item name="android:windowSplashScreenAnimationDuration">200</item>
+    </style>
+</resources>
