@@ -38,7 +38,7 @@ class WorkoutTracker(private val manager: MapsManager) {
 
             //If it is already running, draw track, else start a new workout
             if (TrackWorkoutService.running) {
-                manager.drawCurrentTrack(mService.locations)
+                takeOnWorkout()
             } else {
                 mService.startWorkout()
             }
@@ -53,13 +53,6 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
         override fun onServiceDisconnected(name: ComponentName) {
             mBound = false
-        }
-    }
-
-    //After resume TODO: ha senso mettere nel draw current track il positiontracker.addobserver???
-    fun takeOnWorkout() {
-        if (TrackWorkoutService.running && mBound) {
-            manager.drawCurrentTrack(mService.locations)
         }
     }
 
@@ -79,6 +72,13 @@ class WorkoutTracker(private val manager: MapsManager) {
             connection,
             Context.BIND_AUTO_CREATE
         )
+    }
+
+    //After resume
+    fun takeOnWorkout() {
+        if (TrackWorkoutService.running && mBound) {
+            manager.drawCurrentTrack(mService.locations)
+        }
     }
 
     //Pause workout

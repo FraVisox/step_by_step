@@ -48,9 +48,6 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private var currPolyline : Polyline? = null
     private var otherPolylines : MutableList<Polyline> = mutableListOf()
 
-    //Options of current polyline (containing the points)
-    private var options = defaultOptions()
-
     //Color of the polyline
     private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
 
@@ -58,6 +55,9 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private fun defaultOptions(): PolylineOptions {
         return PolylineOptions().color(trackColor).geodesic(true)
     }
+
+    //Options of current polyline (containing the points)
+    private var options = defaultOptions()
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     @Override
