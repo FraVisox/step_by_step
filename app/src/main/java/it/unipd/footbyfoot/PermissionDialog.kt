@@ -18,8 +18,6 @@ class PermissionDialog: DialogFragment() {
         // Inflate the layout to use as a dialog
         val view = inflater.inflate(R.layout.dialog_permission, container, false)
 
-        isCancelable = false
-        
         view.findViewById<Button>(R.id.no_consent_button).setOnClickListener {
             requireActivity().finishAndRemoveTask()
         }

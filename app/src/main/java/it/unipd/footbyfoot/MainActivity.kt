@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot
 
-
 import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -51,13 +50,14 @@ class MainActivity : AppCompatActivity() {
         //Register the created workouts
         var preferences = getPreferences(MODE_PRIVATE)
         if (preferences.getBoolean(firstUse, true)) {
-            PermissionDialog().show(supportFragmentManager, getString(R.string.permission_dialog))
+            val dialog = PermissionDialog()
+            dialog.isCancelable = false
+            dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
         }
 
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
-        //Firebase
         preferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
         firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
         firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
@@ -178,22 +178,5 @@ class MainActivity : AppCompatActivity() {
             ) { _, _ ->
             }
             .create().show()
-    }
-
-    //Ask the user for permissions to use telemetry
-    private fun askTelemetryPermissions() {
-
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder
-            .setTitle(getString(R.string.permissions_title))
-            .setMessage(getString(R.string.permissions_description))
-            .setCancelable(false)
-            .setPositiveButton(R.string.give_consent) {dialog,_ ->
-
-            }
-            .setNegativeButton(R.string.no_consent) {_,_ ->
-                finishAndRemoveTask()
-            }
-        alertDialogBuilder.create().show();
     }
 }
