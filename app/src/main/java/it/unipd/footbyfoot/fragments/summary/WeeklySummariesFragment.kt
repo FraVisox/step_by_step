@@ -24,12 +24,15 @@ class WeeklySummariesFragment : Fragment() {
         const val selectedItemKey = "selectedItem"
     }
 
+    //Day of the week selected
     private var selectedItem = -1
 
+    //Lists
     private var distanceList : List<Distance> = listOf()
     private var goalsList : List<Goal> = listOf()
     private var infoList : List<UserInfo> = listOf()
 
+    //Views
     private lateinit var listProgressBar:  List<ProgressBar>
     private lateinit var listSteps:  List<TextView>
     private lateinit var listDay:  List<TextView>
@@ -104,10 +107,6 @@ class WeeklySummariesFragment : Fragment() {
         circularProgressBarCalories = view.findViewById(R.id.progressbarCaloriesSelected)
         circularProgressBarDistance = view.findViewById(R.id.progressbarDistanceSelected)
 
-        circularProgressBarSteps.progress = 0
-        circularProgressBarCalories.progress = 0
-        circularProgressBarDistance.progress = 0
-
         circularCountSteps = view.findViewById(R.id.countStepsSelected)
         circularCountDistance = view.findViewById(R.id.countDistanceSelected)
         circularCountCalories = view.findViewById(R.id.countCaloriesSelected)
@@ -115,6 +114,11 @@ class WeeklySummariesFragment : Fragment() {
         circularStepsGoal = view.findViewById(R.id.stepsGoalSelected)
         circularDistanceGoal = view.findViewById(R.id.distanceGoalSelected)
         circularCaloriesGoal = view.findViewById(R.id.caloriesGoalSelected)
+
+        //Set default progress
+        circularProgressBarSteps.progress = 0
+        circularProgressBarCalories.progress = 0
+        circularProgressBarDistance.progress = 0
 
         if (savedInstanceState != null) {
             selectedItem = savedInstanceState.getInt(selectedItemKey)
@@ -128,7 +132,7 @@ class WeeklySummariesFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) { goals ->
             updateGoals(goals)
        }
-        //Observe the infos
+        //Observe the info
         (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
             updateInfo(info)
         }
@@ -138,6 +142,7 @@ class WeeklySummariesFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        //Put only the selected item
         outState.putInt(selectedItemKey, selectedItem)
     }
 
@@ -185,6 +190,7 @@ class WeeklySummariesFragment : Fragment() {
             //Set the listener
             listProgressBar[i - 1].setOnClickListener {
 
+                //Select item
                 selectItem(i-1)
 
                 //Set text of date and count
@@ -209,6 +215,7 @@ class WeeklySummariesFragment : Fragment() {
             }
         }
 
+        //Select current date or the one previously selected
         if (selectedItem != -1) {
             listProgressBar[selectedItem].performClick()
         } else {
@@ -219,7 +226,7 @@ class WeeklySummariesFragment : Fragment() {
     private fun selectItem(index: Int) {
         selectedItem = index
 
-        //Clear
+        //Clear all other colors
         for (i in 0..6) {
             listDay[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.OnSurface))
             listSteps[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.OnSurface))

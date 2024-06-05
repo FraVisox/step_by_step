@@ -18,8 +18,8 @@ import it.unipd.footbyfoot.fragments.Helpers
 
 class TodaySummaryFragment : Fragment() {
 
-    //Lists
-    private var distanceList : List<Distance> = listOf()
+    //Lists of data of database
+    private var distance : Distance? = null
     private var goalsList : List<Goal> = listOf()
     private var infoList : List<UserInfo> = listOf()
 
@@ -68,8 +68,8 @@ class TodaySummaryFragment : Fragment() {
         goalsDistance = view.findViewById(R.id.goalsTodayDistance)
 
         //Observe the distances of today
-        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner) { distanceList ->
-            updateDistances(distanceList)
+        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner) { distance ->
+            updateDistances(distance)
         }
 
         //Observe the goals
@@ -85,8 +85,8 @@ class TodaySummaryFragment : Fragment() {
         return view
     }
 
-    private fun updateDistances(dist: List<Distance>) {
-        distanceList = dist
+    private fun updateDistances(dist: Distance) {
+        distance = dist
         setViews()
     }
 
@@ -108,9 +108,11 @@ class TodaySummaryFragment : Fragment() {
 
         //Get current goal (or default one if it doesn't exist)
         val currentGoal = if (goalsList.isNotEmpty()) goalsList.first() else Helpers.defaultGoal
-        //Get today distance (or zero if not present)
-        val distance = if (distanceList.isNotEmpty()) distanceList.first().meters else 0
 
+        //Get today distance (or zero if not present)
+        val distance = distance?.meters ?: 0
+
+        //Get count of steps, distance and calories
         val countD = distance.toString()
         countDistance.text = countD
 
@@ -128,10 +130,14 @@ class TodaySummaryFragment : Fragment() {
             distance.toDouble(),
             currentGoal.distance.toDouble()
         )
-        progressBarCalories.progress =
-            Helpers.calculatePercentage(countC, currentGoal.calories.toDouble())
-        progressBarSteps.progress =
-            Helpers.calculatePercentage(countS.toDouble(), currentGoal.steps.toDouble())
+        progressBarCalories.progress = Helpers.calculatePercentage(
+            countC,
+            currentGoal.calories.toDouble()
+        )
+        progressBarSteps.progress = Helpers.calculatePercentage(
+            countS.toDouble(),
+            currentGoal.steps.toDouble()
+        )
     }
 
     override fun onPause(){

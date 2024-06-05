@@ -9,7 +9,7 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         const val numberOfTabs = 3
     }
 
-
+    //Create fragment of a position
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> TodaySummaryFragment()

@@ -33,6 +33,7 @@ class SummariesAdapter(private val activity: Activity) : ListAdapter<Distance, S
         }
     }
 
+    //List of goals and info
     private var goals : List<Goal> = listOf()
     private var info : List<UserInfo> = listOf()
 
@@ -61,6 +62,7 @@ class SummariesAdapter(private val activity: Activity) : ListAdapter<Distance, S
         //Get the date
         val date = LocalDate.ofYearDay(dailyDistance.year, dailyDistance.dayOfYear)
 
+        //Get info
         val info = Helpers.getInfoOfDate(info, date)
 
         //Pass parameters

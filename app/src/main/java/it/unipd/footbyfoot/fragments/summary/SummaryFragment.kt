@@ -26,9 +26,11 @@ class SummaryFragment : Fragment() {
         val viewPager : ViewPager2 = view.findViewById(R.id.view_pager)
         val tabLayout : TabLayout = view.findViewById(R.id.tabs)
 
+        //Set adapter
         val adapter = ViewPagerAdapter(this)
         viewPager.adapter = adapter
 
+        //And table layout
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.today)
