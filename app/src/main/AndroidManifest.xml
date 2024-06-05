@@ -5,6 +5,7 @@
     <!-- Permissions to ask for the position, needed by the Maps SDK -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Permissions for the service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
@@ -25,7 +26,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAWXBAlnvR_B7yIFTB5_xOV0XXDonQTARU" />
-        <!-- Firebase per log automatici -->
+        <!-- Firebase for automatic logs -->
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
@@ -44,7 +45,6 @@
         <activity android:name=".fragments.maps.SaveWorkoutActivity"/>
         <activity android:name=".fragments.workouts.AddWorkoutActivity"/>
 
-        <!-- Required for Android 10 (API level 29) and higher. -->
         <service
             android:name=".fragments.maps.TrackWorkoutService"
             android:foregroundServiceType="location"  />
