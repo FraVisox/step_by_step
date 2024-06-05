@@ -9,9 +9,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.userinfo.UserInfo
@@ -20,14 +17,11 @@ import java.time.LocalDate
 
 class SettingsFragment : Fragment() {
 
-    //Firebase
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     // Class constants and default values
     companion object {
-        private const val WEIGHT = "weight"
-        private const val HEIGHT = "height"
-        private const val AGE = "age"
+        internal const val WEIGHT = "weight"
+        internal const val HEIGHT = "height"
+        internal const val AGE = "age"
         const val defaultWeight = 60
         const val defaultHeight = 180
         const val defaultAge = 30
@@ -66,8 +60,6 @@ class SettingsFragment : Fragment() {
 
         val crashButton: Button = view.findViewById(R.id.crashButton)
 
-        firebaseAnalytics = Firebase.analytics
-
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)
         }
@@ -105,9 +97,9 @@ class SettingsFragment : Fragment() {
         insertInfo()
 
         //User properties
-        firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
     }
 
     private fun insertInfo() {

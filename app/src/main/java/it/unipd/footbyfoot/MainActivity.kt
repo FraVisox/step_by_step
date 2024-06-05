@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -17,11 +18,14 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 
 class MainActivity : AppCompatActivity() {
 
     // Firebase
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    internal lateinit var firebaseAnalytics: FirebaseAnalytics
+    //Personalized trace
+    private val serviceTrace = Firebase.performance.newTrace("Service_trace")
 
     // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
@@ -56,9 +60,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.BottomBarWorkouts -> replaceFragment(R.id.allenamentiFragment, WorkoutsFragment::class.qualifiedName)
                 R.id.BottomBarGoals -> replaceFragment(R.id.goalsFragment, GoalsFragment::class.qualifiedName)
                 R.id.BottomBartUserSettings -> replaceFragment(R.id.settingsFragment, SettingsFragment::class.qualifiedName)
-                else ->{
-
-                }
+                else ->{}
             }
             true
         }
@@ -69,7 +71,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
         }
-    }
+
+        //Register the created workouts
+        val preferences= getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+        firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
+        firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
+
+        serviceTrace.putMetric("Service click", 0)
+     }
 
     //Replace the fragment
     private fun attachFragment(fragmentId : Int){

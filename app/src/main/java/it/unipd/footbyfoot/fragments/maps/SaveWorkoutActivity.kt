@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -31,6 +32,9 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val positionsKey = "positions"
         const val currentWorkoutID = "workoutID"
         const val currentNameID = "nameID"
+
+        const val filename = "Saved_workouts"
+        const val workoutsFromMap = "fromMap"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +95,13 @@ class SaveWorkoutActivity: AppCompatActivity() {
             }
             workoutId++
             finish()
+
+            //Register the workout creation
+            val sharedPreferences= getSharedPreferences(filename, MODE_PRIVATE)
+            var counter = sharedPreferences.getInt(workoutsFromMap, 0) +1
+            val editor= sharedPreferences.edit()
+            editor.putInt(workoutsFromMap, counter)
+            editor.apply()
         }
 
         //Listener on back
