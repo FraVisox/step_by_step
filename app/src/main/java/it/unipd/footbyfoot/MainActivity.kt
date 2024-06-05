@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     // Firebase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    //Current fragment and data binding
+    // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
     private var thisFragment : Int = R.id.stepsFragment
 
@@ -41,11 +40,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        //Bind
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
+        //Set listeners
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
+        //Restore state
         if (savedInstanceState != null) {
             attachFragment(savedInstanceState.getInt(fragment))
         } else {

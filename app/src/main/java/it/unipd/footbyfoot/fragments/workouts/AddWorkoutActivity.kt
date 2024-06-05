@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -114,7 +113,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                     durationPicker.seconds
                 )
             }
-            }
+        }
 
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
@@ -169,12 +168,14 @@ class AddWorkoutActivity: AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        //Save duration, if set
         if (durationPicker.duration != DurationPickerFragment.defaultDuration) {
             outState.putLong(durationKey, durationPicker.duration)
             outState.putBoolean(savedDuration, true)
         } else {
             outState.putBoolean(savedDuration, false)
         }
+        //Save date, if set
         if (datePicker.year != null && datePicker.dayOfYear != null) {
             outState.putInt(dateYearKey, datePicker.year!!)
             outState.putInt(dateDayKey, datePicker.dayOfYear!!)
@@ -182,6 +183,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         } else {
             outState.putBoolean(savedDate, false)
         }
+        //Save time, if set
         if (timePicker.hour != null && timePicker.minute != null) {
             outState.putInt(timeOfDayHOURKey, timePicker.hour!!)
             outState.putInt(timeOfDayMINUTEKey, timePicker.minute!!)

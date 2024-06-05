@@ -19,7 +19,6 @@
     <string name="time_format">%1$02d:%2$02d:%3$02d</string>
     <string name="distance_format">%1$dm</string>
     <string name="speed_format">%1$.2fm/s</string>
-    <string name="hour_format">%1$02d:%2$02d</string>
     <string name="hour_format_pattern">%1$02d:%2$02d</string>
     <string name="date_format_pattern">EEE dd MMM yyyy</string>
 
@@ -47,6 +46,7 @@
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
+    <string name="crash_message">Controlled crash</string>
 
     <!-- Goals fragment -->
     <string name="GoalsDescription">Set your daily goals. You can check your progress in the Summary section.
@@ -111,6 +111,7 @@
     <string name="date_tag">datePicker</string>
     <string name="impossible_to_add_workout">Not all the fields are filled</string>
     <string name="impossible_date">A workout time can\'t be in the future</string>
+    <string name="impossible_duration">The duration can\'t be zero</string>
 
     <!-- Weekly graph -->
     <string name="wednesday">Wed</string>

@@ -22,13 +22,14 @@ class RecordsRepository(
     //Firebase metrics
     val totalDistance: Flow<Int> = workoutDao.getTotalDistance()
     val totalTime: Flow<Long> = workoutDao.getTotalTime()
+    val countWorkout: Flow<Int> = workoutDao.countWorkout()
 
     //All workouts and all workouts points
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
     val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
 
     //Sum of distances of all today's workouts
-    val todayDistance: Flow<List<Distance>> = workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
+    val todayDistance: Flow<Distance> = workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
 
     //Sum of distances of this week's workouts, grouped by date
     val lastWeekDistances: Flow<List<Distance>> = getThisWeekDistances()

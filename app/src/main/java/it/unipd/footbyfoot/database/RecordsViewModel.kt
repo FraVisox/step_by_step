@@ -23,14 +23,18 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     //Firebase metrics
     val totalDistance: LiveData<Int> = repository.totalDistance.asLiveData()
     val totalTime: LiveData<Long> = repository.totalTime.asLiveData()
+    val countWorkout: LiveData<Int> = repository.countWorkout.asLiveData()
 
+    //Workouts
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
     val allPoints: LiveData<List<WorkoutTrackPoint>> = repository.allPoints.asLiveData()
 
-    val todayDistance: LiveData<List<Distance>> = repository.todayDistance.asLiveData()
+    //Distances
+    val todayDistance: LiveData<Distance> = repository.todayDistance.asLiveData()
     val lastWeekDistances : LiveData<List<Distance>> = repository.lastWeekDistances.asLiveData()
     val allDistances : LiveData<List<Distance>> = repository.allDistances.asLiveData()
 
+    //Goals and info
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
     val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
 

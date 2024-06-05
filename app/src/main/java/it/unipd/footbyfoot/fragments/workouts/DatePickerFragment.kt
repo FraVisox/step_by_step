@@ -37,7 +37,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
             return
         }
 
-        this.year = year
+        this.year = date.year
         this.dayOfYear = date.dayOfYear
 
         (activity as AddWorkoutActivity).date.text = Helpers.formatDateToString(requireContext(), date)

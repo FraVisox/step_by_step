@@ -17,7 +17,10 @@ import it.unipd.footbyfoot.R
 
 class WorkoutsFragment : Fragment() {
 
+    //Firebase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var totD: Int = 0
+    private var totT: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,27 +52,30 @@ class WorkoutsFragment : Fragment() {
             }
         }
 
-        var totd :Int =0
-        var tott: Long =0
+        //Firebase analytics
+        firebaseAnalytics = Firebase.analytics
+
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
-            totd = 0
+            totD = 0
             records?.let {
-                totd= totd+it
+                totD += it
             }
+            sendAverageSpeed()
         }
         (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
-            tott = 0
+            totT = 0
             records?.let {
-                tott= tott+it
+                totT += it
             }
+            sendAverageSpeed()
         }
-
-        firebaseAnalytics = Firebase.analytics
-        var avg: Double = totd/tott.toDouble()
-        try{
-            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
-        }catch (e: ArithmeticException){}
-
         return view
+    }
+
+    private fun sendAverageSpeed() {
+        if (totT != 0L) {
+            val avg: Double = totD / totT.toDouble()
+            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
+        }
     }
 }

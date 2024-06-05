@@ -41,6 +41,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     //Points of the workout
     private lateinit var points: List<WorkoutTrackPoint>
 
+    //Says if the toast has already been showed
     private var showedToast = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +92,14 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         outState.putBoolean(toastShowed, showedToast)
     }
 
+    /*
+     * MANAGING OF THE MAP
+     */
+
     //Map
     private lateinit var map: GoogleMap
 
-    //Default options of the polylines
+    //Default options of the polylines drawn
     private fun defaultOptions(): PolylineOptions {
         return PolylineOptions().color(Color.parseColor(
             ContextCompat.getString(

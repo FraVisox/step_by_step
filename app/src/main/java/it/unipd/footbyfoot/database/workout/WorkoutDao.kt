@@ -15,10 +15,6 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout_table ORDER BY year DESC, dayOfYear DESC, timeOfDay DESC")
     fun getAllWorkoutsOrderedByDate(): Flow<List<Workout>>
 
-    //Count all workouts
-    @Query("SELECT count(*) FROM workout_table")
-    fun countWorkout(): Int
-
     //Insert a workout
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workout: Workout)
@@ -44,13 +40,13 @@ interface WorkoutDao {
 
     //Get today's distance
     @Query("SELECT SUM(meters) AS meters, year, dayOfYear FROM workout_table WHERE year = :year AND dayOfYear = :dayOfYear")
-    fun getTodayDistance(year: Int, dayOfYear: Int): Flow<List<Distance>>
+    fun getTodayDistance(year: Int, dayOfYear: Int): Flow<Distance>
 
     /*
      * POINTS
      */
     //Get all the points of all workouts
-    @Query("SELECT * FROM point_table")
+    @Query("SELECT * FROM point_table ORDER BY workoutId, trackList, pointId")
     fun getAllPoints(): Flow<List<WorkoutTrackPoint>>
 
     //Insert a point of a workout
@@ -69,4 +65,7 @@ interface WorkoutDao {
 
     @Query("SELECT SUM(time) FROM workout_table")
     fun getTotalTime(): Flow<Long>
+
+    @Query("SELECT COUNT(*) FROM workout_table")
+    fun countWorkout(): Flow<Int>
 }

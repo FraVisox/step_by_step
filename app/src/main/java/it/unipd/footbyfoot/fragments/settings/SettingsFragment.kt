@@ -18,8 +18,10 @@ import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
-
 class SettingsFragment : Fragment() {
+
+    //Firebase
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     // Class constants and default values
     companion object {
@@ -36,8 +38,6 @@ class SettingsFragment : Fragment() {
     private var weightSettings: TextView? = null
     private var heightSettings: TextView? = null
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,7 +49,7 @@ class SettingsFragment : Fragment() {
         heightSettings = view.findViewById(R.id.heightCount)
 
         //Get saved age, weight and height. We take these values and not the ones in the database
-        //as sometimes may happen that the inserting in the database and update of livedata is
+        //as sometimes may happen that the inserting in the database and updating of livedata is
         //not instantaneous
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
         ageSettings.text = preferences.getInt(AGE, defaultAge).toString()
@@ -77,23 +77,23 @@ class SettingsFragment : Fragment() {
         }
 
         addWeightButton.setOnClickListener {
-            Helpers.incrementValue(weightSettings!!)
+            Helpers.incrementValue(weightSettings)
         }
 
         subWeightButton.setOnClickListener {
-            Helpers.decrementValue(weightSettings!!)
+            Helpers.decrementValue(weightSettings)
         }
 
         addHeightButton.setOnClickListener {
-            Helpers.incrementValue(heightSettings!!)
+            Helpers.incrementValue(heightSettings)
         }
 
         subHeightButton.setOnClickListener {
-            Helpers.decrementValue(heightSettings!!)
+            Helpers.decrementValue(heightSettings)
         }
 
         crashButton.setOnClickListener {
-            throw RuntimeException("Crash controllato")   // Solo per debug dei crash
+            throw RuntimeException(getString(R.string.crash_message))   //Only for debug purposes
         }
 
         return view
@@ -104,7 +104,7 @@ class SettingsFragment : Fragment() {
 
         insertInfo()
 
-        //Examples of users properties
+        //User properties
         firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
         firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
         firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
@@ -131,7 +131,7 @@ class SettingsFragment : Fragment() {
         editor.putInt(HEIGHT, updatedHeight)
         editor.apply()
 
-        //Insert a new info in the database only if it is different from the current one (for efficiency and for not saving every day the same goal)
+        //Insert a new info in the database only if it is different from the current one (as we don't want many similar data)
         if (currentHeight != updatedHeight || currentWeight != updatedWeight) {
             val date = LocalDate.now()
             val updatedInfo = UserInfo(

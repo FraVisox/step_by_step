@@ -11,6 +11,7 @@ class RecordsApplication : Application() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
 
+    //TODO: rimuovi scope
     private val database by lazy { RecordsRoomDatabase.getDatabase(this, applicationScope) }
     private val repository by lazy { RecordsRepository(database.goalDao(), database.workoutDao(), database.infoDao()) }
 

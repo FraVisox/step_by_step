@@ -5,9 +5,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import androidx.sqlite.db.SupportSQLiteDatabase
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.goal.GoalDao
@@ -36,13 +33,14 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
                     RecordsRoomDatabase::class.java,
                     context.getString(R.string.database_name)
                 )
-                    .addCallback(RecordsDatabaseCallback(scope))
+                    //.addCallback(RecordsDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance //Save the instance
                 instance //Return the instance
             }
         }
 
+        /*
         //Callback called when the database is created, to populate it if needed
         private class RecordsDatabaseCallback(private val scope: CoroutineScope
         ) : Callback() {
@@ -59,7 +57,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
 
         // TODO: rimuovi
         suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao, infoDao: UserInfoDao) {
-            /*
+
             var currentDate = LocalDate.now()
             infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 10, 10))
             workoutDao.insert(Workout(1, "1", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
@@ -97,8 +95,9 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             workoutDao.insert(Workout(8, "6", 10L, 100000, date.year, date.dayOfYear+5, "11"))
             workoutDao.insert(Workout(9, "6", 10L, 100000, date.year, date.dayOfYear+8, "11"))
             workoutDao.insert(Workout(10, "6", 10L, 100000, date.year, date.dayOfYear-9, "11"))
-*/
         }
+
+         */
 
     }
 }

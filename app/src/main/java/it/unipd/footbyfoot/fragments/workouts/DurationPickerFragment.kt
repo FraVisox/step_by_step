@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.Helpers
@@ -16,8 +17,10 @@ class DurationPickerFragment : DialogFragment() {
         const val defaultDuration = -1L
     }
 
+    //Total duration
     var duration: Long = defaultDuration
 
+    //Seconds, minutes and hours
     var seconds: Int = defaultDuration.toInt()
     var minutes: Int = defaultDuration.toInt()
     var hours: Int = defaultDuration.toInt()
@@ -45,11 +48,18 @@ class DurationPickerFragment : DialogFragment() {
         }
 
         view.findViewById<Button>(R.id.ok_button).setOnClickListener {
+            //Return if the duration is zero
+            val dur = Helpers.getSecondsFromTime(hoursPicker.value, minutesPicker.value, secondsPicker.value)
+            if (dur == 0L) {
+                Toast.makeText(context, getString(R.string.impossible_duration), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             //Sets duration and text of activity
             seconds = secondsPicker.value
             minutes = minutesPicker.value
             hours = hoursPicker.value
-            duration = Helpers.getSeconds(hours, minutes, seconds)
+            duration = dur
             (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hours, minutes, seconds)
             dismiss()
         }

@@ -16,9 +16,13 @@ import java.util.Locale
 class Helpers {
     companion object {
 
+        //Default goal and info used for workouts previous than the first setting of settings or goals
         val defaultGoal = Goal(0,0,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal)
         val defaultInfo = UserInfo(0,0, SettingsFragment.defaultHeight, SettingsFragment.defaultWeight)
 
+        /*
+         * SUMMARY FRAGMENT
+         */
         //Calculate the percentage of the part on the total
         fun calculatePercentage(part: Double, total: Double): Int {
             if (total == 0.0) {
@@ -30,11 +34,8 @@ class Helpers {
 
         //Calculate calories based on weight and distance
         fun calculateCalories(weight: Int, distance: Int): Double {
-            val result = weight.toDouble() * distanceToKm(distance) * 0.9
+            val result = weight.toDouble() * (distance / 1000) * 0.9
             return "%.1f".format(Locale.US, result).toDouble()
-        }
-        private fun distanceToKm(distance: Int): Double {
-            return distance.toDouble()/1000
         }
 
         //Calculate steps based on height and distance
@@ -50,6 +51,10 @@ class Helpers {
             return steps.toInt()
         }
 
+        /*
+         * FORMATTING OF DATES AND TIME
+         */
+
         //Formats only the date
         fun formatDateToString(context: Context, date: LocalDate): String {
             val formatter = DateTimeFormatter.ofPattern(context.getString(R.string.date_format_pattern), Locale.getDefault())
@@ -58,18 +63,17 @@ class Helpers {
 
         //Formats date and time
         fun formatDateTimeToString(context: Context, date: LocalDate, timeOfDay: String): String {
-            val formatters = DateTimeFormatter.ofPattern(context.getString(R.string.date_format_pattern), Locale.getDefault())
-            return "${formatters.format(date)}\n$timeOfDay"
+            return "${formatDateToString(context, date)}\n$timeOfDay"
         }
 
         //Formats time given a DateTime
         fun formatTimeToString(context: Context, date: LocalDateTime): String {
-            return context.getString(R.string.hour_format_pattern, date.hour, date.minute)
+            return formatTimeToString(context, date.hour, date.minute)
         }
 
-        //Formats time given
+        //Formats time given hour and minute
         fun formatTimeToString(context: Context, hours: Int, minutes: Int): String {
-            return context.getString(R.string.hour_format, hours, minutes)
+            return context.getString(R.string.hour_format_pattern, hours, minutes)
         }
 
         //Formats duration (with seconds)
@@ -77,8 +81,12 @@ class Helpers {
             return context.getString(R.string.time_format, hours, minutes, seconds)
         }
 
+        /*
+         * CALCULATING OF TIME
+         */
+
         //Calculate the number of seconds, given hour, minutes and seconds
-        fun getSeconds(hours: Int, minutes: Int, seconds: Int): Long {
+        fun getSecondsFromTime(hours: Int, minutes: Int, seconds: Int): Long {
             return (seconds+minutes*60+hours*3600).toLong()
         }
 
@@ -96,6 +104,10 @@ class Helpers {
         fun getHours(total: Long): Int {
             return (total/3600).toInt()
         }
+
+        /*
+         * GET GOAL, INFO AND DISTANCE OF DATE
+         */
 
         //Get the goal for the current date
         fun getGoalOfDate(goals: List<Goal>, date: LocalDate): Goal {
@@ -134,31 +146,43 @@ class Helpers {
             return 0
         }
 
-        fun incrementValue(textView: TextView) {
-            var value = textView.text.toString().toInt()
-            value++
-            textView.text = value.toString()
-        }
+        /*
+         * INCREMENT AND DECREMENT VALUES OF TEXTVIEWS
+         */
 
-        fun decrementValue(textView: TextView) {
-            var value = textView.text.toString().toInt()
-            value--
-            if (value >= 0) {
+        fun incrementValue(textView: TextView?) {
+            if (textView != null) {
+                var value = textView.text.toString().toInt()
+                value++
                 textView.text = value.toString()
             }
         }
 
-        fun increment100Value(textView: TextView) {
-            var value = textView.text.toString().toInt()
-            value += 100
-            textView.text = value.toString()
+        fun decrementValue(textView: TextView?) {
+            if (textView != null) {
+                var value = textView.text.toString().toInt()
+                value--
+                if (value >= 0) {
+                    textView.text = value.toString()
+                }
+            }
         }
 
-        fun decrement100Value(textView: TextView) {
-            var value = textView.text.toString().toInt()
-            value -= 100
-            if (value >= 0) {
+        fun increment100Value(textView: TextView?) {
+            if (textView != null) {
+                var value = textView.text.toString().toInt()
+                value += 100
                 textView.text = value.toString()
+            }
+        }
+
+        fun decrement100Value(textView: TextView?) {
+            if (textView != null) {
+                var value = textView.text.toString().toInt()
+                value -= 100
+                if (value >= 0) {
+                    textView.text = value.toString()
+                }
             }
         }
 

@@ -1,13 +1,10 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +15,6 @@ import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.Helpers
 import java.io.Serializable
 import java.time.LocalDate
-
 
 //Adapter for a single Workout
 class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, WorkoutsAdapter.WorkoutViewHolder>(WORKOUT_COMPARATOR) {
@@ -71,7 +67,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         val hours = Helpers.getHours(record.time)
         val timeText = Helpers.formatDurationToString(activity, hours, minutes, seconds)
 
-        //Take only out workout points
+        //Take only this workout's points
         val p = points.filter {
             it.workoutId == record.workoutId
         }
