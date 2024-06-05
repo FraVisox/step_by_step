@@ -24,16 +24,12 @@ class MapsFragment : Fragment() {
     private val permissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         //What to do when we have a result from activity
         when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // Precise location access granted
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)
+                    ||
+                    permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Precise or coarse location access granted
                 manager.startUpdateMap()
             }
-
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // Only approximate location access granted.
-                manager.startUpdateMap()
-            }
-
             else -> {
                 //Nothing happens
             }
@@ -67,14 +63,6 @@ class MapsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         requirePermissions()
-    }
-
-    //On pause, clears the lines drawn. It is done on pause and not on stop as
-    //if the user makes a rage tap or if the system has not enough resources, this is
-    //the only method that should be called
-    override fun onPause() {
-        super.onPause()
-        manager.stopView()
     }
 
     private fun requirePermissions() {

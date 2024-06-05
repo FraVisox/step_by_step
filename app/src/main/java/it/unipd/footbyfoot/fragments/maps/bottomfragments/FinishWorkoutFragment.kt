@@ -33,6 +33,7 @@ class FinishWorkoutFragment : Fragment() {
         timeView = view.findViewById(R.id.time_chrono)
         distanceView = view.findViewById(R.id.km_tv)
 
+        //Set timeView invisible: in this way, the user don't see 00:00:00 every time the view is created
         timeView.visibility = View.INVISIBLE
 
         //Start the workout and set the views
@@ -65,6 +66,16 @@ class FinishWorkoutFragment : Fragment() {
         return view
     }
 
+    //On pause, clears the lines drawn. It is done on pause and not on stop as
+    //if the user makes a rage tap or if the system has not enough resources, this is
+    //the only method that should be called. This causes the user to see for a little
+    //amount of time the lines to be delete, but it is acceptable
+    override fun onPause() { //TODO: meglio mettere in maps fragment?
+        super.onPause()
+        fragment.manager.stopView()
+    }
+
+    //Every time the view is redisplayed, as we deleted the traces on onPause
     override fun onResume() {
         super.onResume()
         if (TrackWorkoutService.running) {

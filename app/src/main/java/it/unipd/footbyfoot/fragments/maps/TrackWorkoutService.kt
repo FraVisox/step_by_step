@@ -6,17 +6,14 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
 import android.os.SystemClock
 import com.google.android.gms.maps.model.LatLng
-import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.manager.PositionLocationObserver
 import it.unipd.footbyfoot.fragments.maps.manager.PositionTracker
-
 
 class TrackWorkoutService: Service(), PositionLocationObserver {
 
@@ -64,7 +61,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         val channel = NotificationChannel(
             getString(R.string.channel_id),
             getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_HIGH //High importance to display it immediately
+            NotificationManager.IMPORTANCE_DEFAULT
         )
         channel.description = getString(R.string.notification_channel_description)
         val notificationManager = getSystemService(NotificationManager::class.java)
@@ -85,15 +82,8 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
                 .setContentTitle(getString(R.string.notification_title))
                 .setContentText(getString(R.string.notification_content))
                 .setSmallIcon(R.drawable.baseline_directions_run_24)
-  /*              .setLargeIcon(
-                    BitmapFactory.decodeResource(
-                        resources,
-                        R.drawable.baseline_directions_run_24
-                    ))
 
-   */
-
-            //Make an intent if the user taps the notification using a launch intent,
+            //Make an intent if the user taps the notification using a launch intent for this package,
             //which means it will launch the root activity only if it is not running
             val pm = packageManager
             val launchIntent = pm.getLaunchIntentForPackage("it.unipd.footbyfoot")
@@ -154,6 +144,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     }
 
     //When it receives a new position, it updates the locations and the distance, if it isn't paused
+    @Override
     override fun locationUpdated(loc: Location) {
         if (running && !paused) {
             val pos = LatLng(loc.latitude, loc.longitude)
@@ -191,10 +182,10 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
     //Updates the distance using the last two locations
     private fun updateDistance(current: Location) {
         if (locations.isNotEmpty() && locations.last() != null) {
-            val last = locations.last()
+            val last = locations.last()!!
             val result = FloatArray(1)
             Location.distanceBetween(
-                last!!.latitude,
+                last.latitude,
                 last.longitude,
                 current.latitude,
                 current.longitude,

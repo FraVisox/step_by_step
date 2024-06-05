@@ -20,18 +20,10 @@ import com.google.android.gms.maps.model.PolylineOptions
 //The class that manages and updates the map
 class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationObserver {
 
-    //Color of the polyline
-    private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
-
     companion object {
         //Values of zoom
         const val firstZoom = 17F
         const val maxZoomToUpdate = 10F
-    }
-
-    //Returns the clear options to construct the polyline
-    private fun defaultOptions(): PolylineOptions {
-        return PolylineOptions().color(trackColor).geodesic(true)
     }
 
     //Map
@@ -59,7 +51,16 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Options of current polyline (containing the points)
     private var options = defaultOptions()
 
+    //Color of the polyline
+    private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
+
+    //Returns the clear options to construct the polyline
+    private fun defaultOptions(): PolylineOptions {
+        return PolylineOptions().color(trackColor).geodesic(true)
+    }
+
     //Called when the map is ready (as this class implements OnMapReadyCallback)
+    @Override
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         mapInitialized = true
@@ -69,7 +70,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         }
     }
 
-    //Start tracking of the position
+    //Start tracking of the position, when
     fun startUpdateMap() {
         //If the map has not been initialized, save the request
         if (!mapInitialized) {
@@ -92,6 +93,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Function called by PositionTracker as this class implements PositionLocationObserver:
     //updates the polyline, if needed
+    @Override
     override fun locationUpdated(loc: Location) {
         if (first && mapInitialized) {
             focusPosition(loc)
@@ -113,7 +115,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
      */
     //Start a new workout and set the views
     fun startWorkout(time: Chronometer, distanceView: TextView) {
-        PositionTracker.addObserver(this)
+        PositionTracker.addObserver(this) //Add observer, if not already in the observers
         workoutTracker.setViews(time, distanceView)
         if (PositionTracker.currentLocation == null) {
             //In this case, no workout could be initialized
@@ -123,7 +125,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         }
         workoutTracker.startWorkout()
     }
-    //End the current workout
+    //Stop the current workout
     fun stopWorkout() {
         workoutTracker.stopWorkout()
     }
@@ -187,11 +189,13 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             map.clear()
     }
 
+    /*
+     * Functions used in onPause and onResume
+     */
     fun stopView() {
         PositionTracker.removeObserver(this)
         clearLine()
     }
-
     fun takeOnWorkout() {
         workoutTracker.takeOnWorkout()
         PositionTracker.addObserver(this)

@@ -7,7 +7,6 @@ import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
@@ -32,14 +31,19 @@ class WorkoutTracker(private val manager: MapsManager) {
     {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as TrackWorkoutService.TrackServiceBinder
+
+            //Initialize service data
             mService = binder.service
             mBound = true
 
+            //If it is already running, draw track, else start a new workout
             if (TrackWorkoutService.running) {
                 manager.drawCurrentTrack(mService.locations)
             } else {
                 mService.startWorkout()
             }
+
+            //Set views
             timeChronometer.base = mService.startTime
             timeChronometer.visibility = View.VISIBLE
             updateDistance()
@@ -52,18 +56,21 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    //After resume TODO: ha senso mettere nel draw current track il positiontracker.addobserver???
     fun takeOnWorkout() {
         if (TrackWorkoutService.running && mBound) {
             manager.drawCurrentTrack(mService.locations)
         }
     }
 
+    //Set the views
     fun setViews(time: Chronometer, distanceView: TextView) {
         //Connect the views
         this.timeChronometer = time
         this.distanceView = distanceView
     }
 
+    //Start the workout
     fun startWorkout() {
         //Create the service that will be used to track the workout: the chronometer will be updated when we receive the callback
         val intent = Intent(manager.context, TrackWorkoutService::class.java)
@@ -74,6 +81,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         )
     }
 
+    //Pause workout
     fun pauseWorkout() {
         if (mBound) {
             mService.pauseWorkout()
@@ -81,6 +89,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    //Resume workout
     fun resumeWorkout() {
         if (mBound) {
             mService.resumeWorkout()
@@ -89,13 +98,12 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    //Stop workout
     fun stopWorkout() {
         //If the workout only has one point, we save it anyway
         if (!mBound) {
-            Log.d("AAA", "not mbound")
             return
         }
-        Log.d("AAA", "yes mbound")
         mService.stopWorkout()
 
         //Cancel the updating of the chronometer
@@ -111,7 +119,6 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Reset
         mService.clearWorkout()
         manager.context.applicationContext.unbindService(connection)
-        Log.d("AAA", "clear line")
         manager.clearLine()
 
         //Start activity to save the workout
@@ -122,6 +129,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         manager.context.startActivity(intent)
     }
 
+    //Update current polyline
     fun updatePolyline(current : Location) {
         if (TrackWorkoutService.running && !TrackWorkoutService.paused) {
             manager.addPointToLine(current)
@@ -129,6 +137,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    //Update distance
     private fun updateDistance() {
         distanceView?.post {
             distanceView?.text = manager.context.getString(

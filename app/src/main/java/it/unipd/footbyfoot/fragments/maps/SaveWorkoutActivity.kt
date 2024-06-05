@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.maps
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,7 +13,6 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.fragments.Helpers
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 class SaveWorkoutActivity: AppCompatActivity() {
@@ -40,7 +38,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
         setContentView(R.layout.activity_save_workout)
 
         //Current date
-        val date = LocalDate.now()
         val dateTime = LocalDateTime.now()
 
         //Get workout ID and name ID
@@ -48,6 +45,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         workoutId = preferences.getInt(currentWorkoutID, 1)
         nameId = preferences.getInt(currentNameID, 1)
 
+        //Set views
         val time = findViewById<TextView>(R.id.save_time)
         val distance = findViewById<TextView>(R.id.save_distance)
         val vel = findViewById<TextView>(R.id.save_velocity)
@@ -71,6 +69,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val speed = if (totTime != 0L) dist.toFloat()/seconds else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
+        //Set listener on save
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //getSerializableExtra is used as the tests were made on Android API 32
@@ -80,8 +79,8 @@ class SaveWorkoutActivity: AppCompatActivity() {
                     name.text.toString(),
                     totTime,
                     dist,
-                    date.year,
-                    date.dayOfYear,
+                    dateTime.year,
+                    dateTime.dayOfYear,
                     Helpers.formatTimeToString(this, dateTime)
                 ),
                 intent.getSerializableExtra(
@@ -94,6 +93,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
             finish()
         }
 
+        //Listener on back
         val back = findViewById<ImageButton>(R.id.back_button_saveWorkout)
         back.setOnClickListener {
             finish()

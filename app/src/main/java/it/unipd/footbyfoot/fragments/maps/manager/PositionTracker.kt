@@ -6,7 +6,6 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import it.unipd.footbyfoot.MainActivity
@@ -47,6 +46,7 @@ object PositionTracker {
         }
     }
 
+    //Add observer, if an observer of the same class is already present delete it
     fun addObserver(obs: PositionLocationObserver) {
         val obj = observers.find { it.javaClass == obs.javaClass }
         if (obj != null) {
@@ -69,7 +69,7 @@ object PositionTracker {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        //Create a request that asks for the position every second
+        //Create a request that asks for the position every 2.5 seconds
         val request = LocationRequest.Builder(2500).build()
 
         //Check the settings to see if location is enabled
@@ -147,7 +147,6 @@ object PositionTracker {
     private fun updateLocation(loc: Location) {
         currentLocation = loc
         for (obs in observers) {
-            Log.d("AAA", "updated location for $obs")
             obs.locationUpdated(loc)
         }
     }
