@@ -1,6 +1,7 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -122,7 +123,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 return@setOnClickListener
             }
             val now = LocalDateTime.now()
-            if (datePicker.year == now.year && datePicker.dayOfYear == now.year && (timePicker.hour!! > now.hour || (timePicker.hour == now.hour && timePicker.minute!! > now.minute))) {
+            if (datePicker.year == now.year && datePicker.dayOfYear == now.dayOfYear && (timePicker.hour!! > now.hour || (timePicker.hour == now.hour && timePicker.minute!! > now.minute))) {
                 Toast.makeText(this, getString(R.string.impossible_date), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -139,7 +140,7 @@ class AddWorkoutActivity: AppCompatActivity() {
                 mutableListOf() //No points
             )
             //TODO: qua ti metto il valore da passare, ovvero i giorni tra quando mette il workout e quando lo ha effettivamente fatto
-            val daysFromWorkout = ChronoUnit.DAYS.between(now, LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!))
+            val daysFromWorkout = ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!))
 
             //firebase.put(daysFromWorkout)
 
