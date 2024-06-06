@@ -1,8 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
