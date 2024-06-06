@@ -13,45 +13,63 @@
         android:text="@string/permissions_title"
         android:textSize="20sp"
         android:padding="@dimen/big_padding"
-        app:layout_constraintBottom_toTopOf="@+id/permission_subtitle"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/permission_subtitle"
-        style="@style/MyTextViewSubtitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/permission_card"
+        style="@style/MyMaterialCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/permissions_description"
-        android:padding="@dimen/big_padding"
-        app:layout_constraintBottom_toTopOf="@+id/give_consent_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/permission_title"/>
-
-    <Button
-        android:id="@+id/give_consent_button"
-        style="@style/MyGivePermissionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/give_consent"
-        android:padding="@dimen/big_padding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/no_consent_button"
+        app:layout_constraintTop_toBottomOf="@+id/permission_title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/permission_subtitle"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/no_consent_button"
-        style="@style/MyNoPermissionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_consent"
-        android:padding="@dimen/big_padding"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/give_consent_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/permission_subtitle" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/permission_subtitle"
+                style="@style/MyTextViewSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/big_padding"
+                android:text="@string/permissions_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/give_consent_button"
+                style="@style/MyGivePermissionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:padding="@dimen/big_padding"
+                android:text="@string/give_consent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/no_consent_button"
+                app:layout_constraintTop_toBottomOf="@+id/permission_subtitle" />
+
+            <Button
+                android:id="@+id/no_consent_button"
+                style="@style/MyNoPermissionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:padding="@dimen/big_padding"
+                android:text="@string/no_consent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/give_consent_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permission_subtitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

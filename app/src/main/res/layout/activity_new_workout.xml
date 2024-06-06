@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/add_new_workout"
         android:layout_gravity="center"
-        android:textAlignment="center"
+        android:layout_margin="10dp"
         style="@style/MyTextViewSubtitle"
         app:layout_constraintTop_toBottomOf="@id/layout_titleSaveWorkout"
         app:layout_constraintStart_toStartOf="parent"
