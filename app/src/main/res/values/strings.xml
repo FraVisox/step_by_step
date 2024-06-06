@@ -50,8 +50,7 @@
 
     <!-- Settings fragment -->
     <string name="UserSettings">User Settings</string>
-    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned.
-        The default settings are: age 30, height 180cm and weight 60kg</string>
+    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned.</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
@@ -59,8 +58,7 @@
 
     <!-- Goals fragment -->
     <string name="GoalsDescription">Set your daily goals. You can check your progress in the Summary section.
-        Remember, if you do multiple activities in a day, they are summed up.
-        The default goals are: steps 0, calories 0 and distance 0m</string>
+        Remember, if you do multiple activities in a day, they are summed up.</string>
     <string name="steps">Steps</string>
     <string name="calories">Calories</string>
     <string name="distance">Meters</string>
