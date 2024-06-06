@@ -9,6 +9,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.userinfo.UserInfo
@@ -32,11 +35,15 @@ class SettingsFragment : Fragment() {
     private var weightSettings: TextView? = null
     private var heightSettings: TextView? = null
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        firebaseAnalytics = Firebase.analytics
 
         ageSettings = view.findViewById(R.id.ageCount)
         weightSettings = view.findViewById(R.id.weightCount)
@@ -97,9 +104,9 @@ class SettingsFragment : Fragment() {
         insertInfo()
 
         //User properties
-        (activity as MainActivity).firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
-        (activity as MainActivity).firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
-        (activity as MainActivity).firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+        firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
+        firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
+        firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
     }
 
     private fun insertInfo() {
