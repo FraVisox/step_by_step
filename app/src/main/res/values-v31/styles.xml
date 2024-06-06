@@ -8,6 +8,6 @@
 
         <!-- Splash screen: only on API 31+ -->
         <item name="android:windowSplashScreenBackground">@color/Background</item>
-        <item name="android:windowSplashScreenAnimationDuration">200</item>
+        <item name="android:windowSplashScreenAnimationDuration">100</item>
     </style>
 </resources>

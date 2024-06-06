@@ -2,7 +2,6 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
@@ -20,11 +22,15 @@ class WorkoutsFragment : Fragment() {
     private var totT: Long = 0
     private var counter: Int = 0
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_workout_info, container, false)
+
+        firebaseAnalytics = Firebase.analytics
 
         //Initialize the button to add a custom workout
         val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
@@ -53,7 +59,7 @@ class WorkoutsFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
             totD = 0
             records?.let {
-                it
+
             }
         }
 
@@ -65,7 +71,7 @@ class WorkoutsFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
             counter= records.size
         }
-        (activity as MainActivity).firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
+        firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
 
         //Register the average speed
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
@@ -89,7 +95,7 @@ class WorkoutsFragment : Fragment() {
     private fun sendAverageSpeed() {
         if (totT != 0L) {
             val avg: Double = totD / totT.toDouble()
-            (activity as MainActivity).firebaseAnalytics.setUserProperty("Average speed", avg.toString())
+            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
         }
     }
 }

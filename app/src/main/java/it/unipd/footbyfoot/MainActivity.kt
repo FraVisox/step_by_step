@@ -16,14 +16,11 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
-import com.google.firebase.perf.performance
 
 class MainActivity : AppCompatActivity() {
 
     // Firebase
-    internal lateinit var firebaseAnalytics: FirebaseAnalytics
-    //Personalized trace
-    private val serviceTrace = Firebase.performance.newTrace("Service_trace")
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
@@ -61,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         preferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
         firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
         firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
-        serviceTrace.putMetric("Service click", 0)
 
         //Set listeners
         binding.bottomNavigationView.setOnItemSelectedListener {
