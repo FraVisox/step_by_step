@@ -70,7 +70,7 @@ class FinishWorkoutFragment : Fragment() {
     //if the user makes a rage tap or if the system has not enough resources, this is
     //the only method that should be called. This causes the user to see for a little
     //amount of time the lines to be delete, but it is acceptable
-    override fun onPause() { //TODO: meglio mettere in maps fragment?
+    override fun onPause() {
         super.onPause()
         fragment.manager.stopView()
     }

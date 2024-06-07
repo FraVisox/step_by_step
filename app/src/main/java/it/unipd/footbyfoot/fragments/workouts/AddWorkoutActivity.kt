@@ -9,13 +9,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
-import com.google.firebase.perf.performance
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
+import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -50,9 +52,6 @@ class AddWorkoutActivity: AppCompatActivity() {
     private val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
     }
-
-    //Personalized trace
-    private val dateDifferenceTrace = Firebase.performance.newTrace("Date_difference_trace")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +89,6 @@ class AddWorkoutActivity: AppCompatActivity() {
         val name = findViewById<EditText>(R.id.add_name)
         name.setText(getString(R.string.workout_name_default, nameId), TextView.BufferType.EDITABLE)
 
-        dateDifferenceTrace.putMetric("Difference from creation to loading", 0)
-        dateDifferenceTrace.start()
 
         if (savedInstanceState != null) {
             //Restore date
@@ -150,21 +147,27 @@ class AddWorkoutActivity: AppCompatActivity() {
                 mutableListOf() //No points
             )
 
+            //TODO: ha senso fare increment metric? Non sarebbe meglio usare google analytics
             val daysFromWorkout = ChronoUnit.DAYS.between(LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!), LocalDate.now())
-            dateDifferenceTrace.incrementMetric("Difference from creation to loading", daysFromWorkout)
+            val bundle = Bundle()
+            bundle.putLong("days_from_workout", daysFromWorkout)
+            firebaseAnalytics.logEvent("added_workout", bundle)
 
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++
             }
             workoutId++
-            finish()
 
-            //Register the workout adding
-            val sharedPreferences= getSharedPreferences(filename, MODE_PRIVATE)
-            var counter = sharedPreferences.getInt(workoutsFromAdd, 0) +1
+            //Register the workout creation
+            val sharedPreferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+            val counter = sharedPreferences.getInt("fromAdd", 0)+1
             val editor= sharedPreferences.edit()
-            editor.putInt(workoutsFromAdd, counter)
-            editor.apply()
+            editor.putInt(workoutsFromMap, counter)
+            editor.apply() //TODO: evento?
+            RecordsApplication.firebaseAnalytics.setUserProperty("Workouts added", counter.toString())
+
+
+            finish()
         }
 
         val back = findViewById<ImageButton>(R.id.back_button_addWorkout)
@@ -175,7 +178,6 @@ class AddWorkoutActivity: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        dateDifferenceTrace.stop()
 
         //Store the workout ID
         val preferences = getPreferences(MODE_PRIVATE)

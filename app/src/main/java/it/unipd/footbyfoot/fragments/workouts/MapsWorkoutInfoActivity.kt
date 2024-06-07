@@ -82,6 +82,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         //Delete workout button
         val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
+            val bundle = Bundle() //TODO: passiamo anche la data?
+            bundle.putLong(timeKey, intent.getLongExtra(timeKey, 0))
+            bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
+            if (points.isNotEmpty()) {
+                bundle.putDoubleArray(pointsKey,
+                    doubleArrayOf(points.first().latitude, points.first().longitude)
+                )
+            }
+            RecordsApplication.firebaseAnalytics.logEvent("workout_not_saved", bundle)
             recordsViewModel.deleteWorkout(workoutId)
             finish()
         }

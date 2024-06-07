@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 
 class WorkoutsFragment : Fragment() {
 
@@ -22,15 +20,11 @@ class WorkoutsFragment : Fragment() {
     private var totT: Long = 0
     private var counter: Int = 0
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_workout_info, container, false)
-
-        firebaseAnalytics = Firebase.analytics
 
         //Initialize the button to add a custom workout
         val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
@@ -56,22 +50,17 @@ class WorkoutsFragment : Fragment() {
             }
         }
 
-        (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
-            totD = 0
-            records?.let {
-
-            }
-        }
-
         return view
     }
 
     override fun onPause() {
         //Register the number of workouts
-        (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
-            counter= records.size
+        (activity as MainActivity).recordsViewModel.countWorkout.observe(activity as MainActivity) { record ->
+            counter = record
         }
-        firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
+
+        //TODO: il numero di workout in questo modo viene preso solo se apre questo fragment. METTI IN MAIN??
+        RecordsApplication.firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
 
         //Register the average speed
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
@@ -95,7 +84,8 @@ class WorkoutsFragment : Fragment() {
     private fun sendAverageSpeed() {
         if (totT != 0L) {
             val avg: Double = totD / totT.toDouble()
-            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
+            //TODO: e anche la velocità
+            RecordsApplication.firebaseAnalytics.setUserProperty("Average speed", avg.toString())
         }
     }
 }

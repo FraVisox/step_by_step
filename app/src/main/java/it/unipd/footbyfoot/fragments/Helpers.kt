@@ -18,7 +18,7 @@ class Helpers {
 
         //Default goal and info used for workouts previous than the first setting of settings or goals
         val defaultGoal = Goal(0,0,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal,GoalsFragment.defaultGoal)
-        val defaultInfo = UserInfo(0,0, SettingsFragment.defaultHeight, SettingsFragment.defaultWeight)
+        private val defaultInfo = UserInfo(0,0, SettingsFragment.defaultHeight, SettingsFragment.defaultWeight)
 
         /*
          * SUMMARY FRAGMENT

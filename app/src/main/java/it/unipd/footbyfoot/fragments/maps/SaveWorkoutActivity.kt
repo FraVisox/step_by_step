@@ -13,12 +13,15 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.fragments.Helpers
+import it.unipd.footbyfoot.fragments.workouts.MapsWorkoutInfoActivity
 import java.time.LocalDateTime
 
 class SaveWorkoutActivity: AppCompatActivity() {
 
     private var workoutId = 1
     private var nameId = 1
+
+    private var workoutSaved = false
 
     private val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
@@ -75,6 +78,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         //Set listener on save
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
+            workoutSaved = true
             //getSerializableExtra is used as the tests were made on Android API 32
             recordsViewModel.insertWorkout(
                 Workout(
@@ -93,14 +97,16 @@ class SaveWorkoutActivity: AppCompatActivity() {
                 nameId++
             }
             workoutId++
-            finish()
 
             //Register the workout creation
-            val sharedPreferences= getSharedPreferences(filename, MODE_PRIVATE)
-            var counter = sharedPreferences.getInt(workoutsFromMap, 0) +1
+            val sharedPreferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+            val counter = sharedPreferences.getInt("fromMap", 0)+1
             val editor= sharedPreferences.edit()
             editor.putInt(workoutsFromMap, counter)
-            editor.apply()
+            editor.apply() //TODO: evento?
+            RecordsApplication.firebaseAnalytics.setUserProperty("Workouts created", counter.toString())
+
+            finish()
         }
 
         //Listener on back
@@ -118,6 +124,24 @@ class SaveWorkoutActivity: AppCompatActivity() {
         editor.putInt(currentWorkoutID, workoutId)
         editor.putInt(currentNameID, nameId)
         editor.apply()
+
+        val points = intent.getSerializableExtra(positionsKey) as MutableList<LatLng?>
+        if (points.isNotEmpty() && points.first() != null) {
+            val pointsBundle = Bundle()
+            pointsBundle.putDoubleArray(
+                MapsWorkoutInfoActivity.pointsKey,
+                doubleArrayOf(points.first()!!.latitude, points.first()!!.longitude)
+            )
+            RecordsApplication.firebaseAnalytics.logEvent("first_point", pointsBundle)
+        }
+
+
+        if (!workoutSaved) {
+            val bundle = Bundle() //TODO: passiamo anche la data?
+            bundle.putLong(timeKey, intent.getLongExtra(timeKey, 0))
+            bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
+            RecordsApplication.firebaseAnalytics.logEvent("workout_not_saved", bundle)
+        }
     }
 
 }

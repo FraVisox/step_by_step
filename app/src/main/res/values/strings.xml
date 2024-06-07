@@ -17,6 +17,9 @@
     <!-- Firebase metrics -->
     <string name="increment_goals">Increment goals</string>
     <string name="decrement_goals">Decrement goals</string>
+    <string name="increment_setting">Increment setting</string>
+    <string name="decrement_setting">Decrement setting</string>
+
 
     <!-- Firebase traces -->
     <string name="goal_trace">Goal_trace</string>

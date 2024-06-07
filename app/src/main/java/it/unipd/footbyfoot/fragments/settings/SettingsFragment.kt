@@ -10,8 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
+import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.userinfo.UserInfo
@@ -19,6 +18,11 @@ import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 class SettingsFragment : Fragment() {
+
+    /*
+     * FIREBASE: personalized trace
+     */
+    private val settingsTrace = Firebase.performance.newTrace("Settings_trace")
 
     // Class constants and default values
     companion object {
@@ -35,15 +39,16 @@ class SettingsFragment : Fragment() {
     private var weightSettings: TextView? = null
     private var heightSettings: TextView? = null
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
-        firebaseAnalytics = Firebase.analytics
+        //Start trace TODO: mettere una metrica per ogni bottone?
+        settingsTrace.putMetric(getString(R.string.increment_goals), 0)
+        settingsTrace.putMetric(getString(R.string.decrement_goals), 0)
+        settingsTrace.start()
 
         ageSettings = view.findViewById(R.id.ageCount)
         weightSettings = view.findViewById(R.id.weightCount)
@@ -68,27 +73,33 @@ class SettingsFragment : Fragment() {
         val crashButton: Button = view.findViewById(R.id.crashButton)
 
         addAgeButton.setOnClickListener {
-            Helpers.incrementValue(ageSettings)
+            Helpers.incrementValue(ageSettings) //TODO: firebase anche qui??
+            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
         }
 
         subAgeButton.setOnClickListener {
             Helpers.decrementValue(ageSettings)
+            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
         }
 
         addWeightButton.setOnClickListener {
             Helpers.incrementValue(weightSettings)
+            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
         }
 
         subWeightButton.setOnClickListener {
             Helpers.decrementValue(weightSettings)
+            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
         }
 
         addHeightButton.setOnClickListener {
             Helpers.incrementValue(heightSettings)
+            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
         }
 
         subHeightButton.setOnClickListener {
             Helpers.decrementValue(heightSettings)
+            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
         }
 
         crashButton.setOnClickListener {
@@ -103,10 +114,10 @@ class SettingsFragment : Fragment() {
 
         insertInfo()
 
-        //User properties
-        firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+        //Save new current user properties
+        MainActivity.firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
+        MainActivity.firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
+        MainActivity.firebaseAnalytics.setUserProperty("RealAge", ageSettings.text.toString()) //TODO: non è riservata la Age??
     }
 
     private fun insertInfo() {

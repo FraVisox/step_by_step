@@ -14,12 +14,8 @@ import it.unipd.footbyfoot.R
 
 class AllSummariesFragment : Fragment() {
 
-    //todo
-    // togliere i worning di lint sui layout
-
     //Personalized trace
     private val monthTrace = Firebase.performance.newTrace("Month_trace")
-    private var start: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +25,6 @@ class AllSummariesFragment : Fragment() {
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
         //Start trace
-        monthTrace.putMetric("Time in MonthF", 0)
         monthTrace.start()
         start = System.currentTimeMillis()
 
@@ -55,10 +50,6 @@ class AllSummariesFragment : Fragment() {
     }
 
     override fun onPause(){
-        val time = System.currentTimeMillis()-start
-        //Log.w("time", time.toString())
-
-        monthTrace.incrementMetric("Time in MonthF", time)
         monthTrace.stop()   //Stop trace
 
         super.onPause()

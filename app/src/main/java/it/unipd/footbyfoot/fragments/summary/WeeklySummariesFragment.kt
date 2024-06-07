@@ -52,7 +52,6 @@ class WeeklySummariesFragment : Fragment() {
 
     //Personalized trace
     private val weekTrace = Firebase.performance.newTrace("Week_trace")
-    private var start :Long =0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,9 +61,7 @@ class WeeklySummariesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_weekly_summaries, container, false)
 
         //Start trace
-        weekTrace.putMetric("Time in WeekF", 0)
         weekTrace.start()
-        start = System.currentTimeMillis()
 
         //List of progress bars
         listProgressBar = listOf(
@@ -238,10 +235,6 @@ class WeeklySummariesFragment : Fragment() {
     }
 
     override fun onPause(){
-        val time = System.currentTimeMillis()-start
-        //Log.w("time", time.toString())
-
-        weekTrace.incrementMetric("Time in WeekF", time)
         weekTrace.stop()   //Stop trace
 
         super.onPause()

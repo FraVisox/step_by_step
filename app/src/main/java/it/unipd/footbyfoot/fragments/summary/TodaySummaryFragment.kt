@@ -42,7 +42,6 @@ class TodaySummaryFragment : Fragment() {
 
     //Personalized trace
     private val dayTrace = Firebase.performance.newTrace("Day_trace")
-    private var start :Long =0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +51,7 @@ class TodaySummaryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_today_summary, container, false)
 
         //Start trace
-        dayTrace.putMetric("Time in DayF", 0)
         dayTrace.start()
-        start = System.currentTimeMillis()
 
         //Get Views
         progressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
@@ -133,9 +130,6 @@ class TodaySummaryFragment : Fragment() {
     }
 
     override fun onPause(){
-        val time = System.currentTimeMillis()-start
-
-        dayTrace.incrementMetric("Time in DayF", time)
         dayTrace.stop()   //Stop trace
 
         super.onPause()

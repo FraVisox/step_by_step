@@ -42,9 +42,9 @@ class GoalsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
 
-        //Start trace
-        goalTrace.putMetric("Increment goals", 0)
-        goalTrace.putMetric("Decrement goals", 0)
+        //Start trace TODO: mettere una metrica per ogni bottone?
+        goalTrace.putMetric(getString(R.string.increment_goals), 0)
+        goalTrace.putMetric(getString(R.string.decrement_goals), 0)
         goalTrace.start()
 
         //Initialize views
@@ -69,6 +69,7 @@ class GoalsFragment : Fragment() {
         //Initialize the listeners of the buttons
         addStepsButton.setOnClickListener {
             Helpers.increment100Value(stepsGoal)
+            //TODO: le metriche mandate possono essere più di 5 in teoria, le mandiamo diverse?
             goalTrace.incrementMetric(getString(R.string.increment_goals), 1)
         }
         subStepsButton.setOnClickListener {
@@ -101,6 +102,11 @@ class GoalsFragment : Fragment() {
         insertGoal()
         //End trace
         goalTrace.stop()
+
+        //User properties TODO: add to dashboard
+        MainActivity.firebaseAnalytics.setUserProperty("CaloriesGoal", caloriesGoal?.text.toString())
+        MainActivity.firebaseAnalytics.setUserProperty("StepsGoal", stepsGoal?.text.toString())
+        MainActivity.firebaseAnalytics.setUserProperty("DistanceGoal", distanceGoal?.text.toString())
     }
 
     private fun insertGoal() {

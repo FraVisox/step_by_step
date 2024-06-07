@@ -16,11 +16,11 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 
 class MainActivity : AppCompatActivity() {
 
-    // Firebase
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
     // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
@@ -51,13 +51,6 @@ class MainActivity : AppCompatActivity() {
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
         }
-
-        //Initialize firebase
-        firebaseAnalytics = Firebase.analytics
-
-        preferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
-        firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
-        firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
 
         //Set listeners
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -156,6 +149,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
+        val bundle = Bundle()
+        bundle.putBoolean("service_paused", TrackWorkoutService.paused) //TODO: altro da passare
+        RecordsApplication.firebaseAnalytics.logEvent("click_notification", bundle)
         //TODO qua si vede quando l'utente chiude la app e poi preme sulla notifica, non sono riuscito a fare di meglio
     }
 
