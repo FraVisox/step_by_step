@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.userinfo.UserInfo
@@ -35,15 +31,11 @@ class SettingsFragment : Fragment() {
     private var weightSettings: TextView? = null
     private var heightSettings: TextView? = null
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        firebaseAnalytics = Firebase.analytics
 
         ageSettings = view.findViewById(R.id.ageCount)
         weightSettings = view.findViewById(R.id.weightCount)
@@ -98,9 +90,15 @@ class SettingsFragment : Fragment() {
         insertInfo()
 
         //User properties
-        firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
-        firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Age", ageSettings.text.toString())
+
+        val preferences = (activity as MainActivity).getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Workouts counter", preferences.getInt("counter", 0).toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty("Average speed", preferences.getFloat("average", 0f).toString())
     }
 
     private fun insertInfo() {

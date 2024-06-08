@@ -1,6 +1,8 @@
 package it.unipd.footbyfoot.fragments.workouts
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,9 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
@@ -22,15 +21,11 @@ class WorkoutsFragment : Fragment() {
     private var totT: Long = 0
     private var counter: Int = 0
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_workout_info, container, false)
-
-        firebaseAnalytics = Firebase.analytics
 
         //Initialize the button to add a custom workout
         val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
@@ -58,10 +53,15 @@ class WorkoutsFragment : Fragment() {
 
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
             totD = 0
-            records?.let {
-
-            }
+            records?.let {}
         }
+        (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
+            records?.let {}
+        }
+        (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
+            records?.let {}
+        }
+
 
         return view
     }
@@ -71,7 +71,11 @@ class WorkoutsFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
             counter= records.size
         }
-        firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
+
+        val preferences = (activity as MainActivity).getSharedPreferences("Saved_workouts", MODE_PRIVATE)
+        val editor = preferences.edit()
+
+        editor.putInt("counter", counter)
 
         //Register the average speed
         (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
@@ -79,23 +83,24 @@ class WorkoutsFragment : Fragment() {
             records?.let {
                 totD += it
             }
-            sendAverageSpeed()
+            sendAverageSpeed(editor)
         }
         (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
             totT = 0
             records?.let {
                 totT += it
             }
-            sendAverageSpeed()
+            sendAverageSpeed(editor)
         }
 
+        editor.apply()
         super.onPause()
     }
 
-    private fun sendAverageSpeed() {
+    private fun sendAverageSpeed(editor: Editor) {
         if (totT != 0L) {
             val avg: Double = totD / totT.toDouble()
-            firebaseAnalytics.setUserProperty("Average speed", avg.toString())
+            editor.putFloat("average", avg.toFloat())
         }
     }
 }

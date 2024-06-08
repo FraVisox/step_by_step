@@ -20,7 +20,7 @@ import com.google.firebase.analytics.analytics
 class MainActivity : AppCompatActivity() {
 
     // Firebase
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    internal lateinit var firebaseAnalytics: FirebaseAnalytics
 
     // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Register the created workouts
-        var preferences = getPreferences(MODE_PRIVATE)
+        val preferences = getPreferences(MODE_PRIVATE)
         if (preferences.getBoolean(firstUse, true)) {
             val dialog = PermissionDialog()
             dialog.isCancelable = false
@@ -54,10 +54,6 @@ class MainActivity : AppCompatActivity() {
 
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
-
-        preferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
-        firebaseAnalytics.setUserProperty("Workouts added", preferences.getInt("fromAdd", 0).toString())
-        firebaseAnalytics.setUserProperty("Workouts created", preferences.getInt("fromMap", 0).toString())
 
         //Set listeners
         binding.bottomNavigationView.setOnItemSelectedListener {
