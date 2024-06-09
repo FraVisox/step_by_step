@@ -87,8 +87,6 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             //which means it will launch the root activity only if it is not running
             val pm = packageManager
             val launchIntent = pm.getLaunchIntentForPackage("it.unipd.footbyfoot")
-            launchIntent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            launchIntent?.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val contentIntent = PendingIntent.getActivity(this, requestCode, launchIntent, PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(contentIntent)
 

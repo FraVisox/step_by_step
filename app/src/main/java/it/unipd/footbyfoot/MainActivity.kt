@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity() {
             val dialog = PermissionDialog()
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
-        } else {
-            //firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         }
 
         //Change workout counts
@@ -104,13 +102,6 @@ class MainActivity : AppCompatActivity() {
             attachFragment(savedInstanceState.getInt(fragment))
         } else {
             binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
-        }
-
-        //If the service is running, the application is closed and the user re-enters in the application
-        if (TrackWorkoutService.running) {
-            val bundle = Bundle()
-            bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
-            firebaseAnalytics.logEvent(RecordsApplication.openedWhileClosed, bundle)
         }
      }
 
@@ -207,13 +198,12 @@ class MainActivity : AppCompatActivity() {
      * FIREBASE EVENTS
      */
     //Function called when the application is in background but the user clicks on notification
-    //or returns back to the one running
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (TrackWorkoutService.running) {
             val bundle = Bundle()
             bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
-            firebaseAnalytics.logEvent(RecordsApplication.openedWhileBackground, bundle)
+            firebaseAnalytics.logEvent(RecordsApplication.openedWithNotification, bundle)
         }
     }
 
