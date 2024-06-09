@@ -278,18 +278,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Solo per debug dei crash TODO: RIMUOVI-->
-    <Button
-        android:id="@+id/crashButton"
-        android:text="Crash"
-        style="@style/MyButtonStyle"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="10dp"
-        android:baselineAligned="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </LinearLayout>

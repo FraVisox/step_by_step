@@ -16,7 +16,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.fragments.workouts.MapsWorkoutInfoActivity
 import java.time.LocalDateTime
 
 class SaveWorkoutActivity: AppCompatActivity() {

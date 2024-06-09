@@ -55,49 +55,29 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             }
         }
 
+
         // TODO: rimuovi
         suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao, infoDao: UserInfoDao) {
 
-            var currentDate = LocalDate.now()
-            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 10, 10))
-            workoutDao.insert(Workout(1, "1", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
-
-            currentDate = currentDate.minusDays(10L)
-            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 1000, 1000))
-            workoutDao.insert(Workout(2, "1 ma prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
-
-            currentDate = currentDate.minusDays(1L)
-            infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 360, 120))
-            workoutDao.insert(Workout(3, "1 ma ancora prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
-
-
-            currentDate = currentDate.minusDays(1L)
-            workoutDao.insert(Workout(4, "1 ma ancora ancora prima", 10L, 1000, currentDate.year, currentDate.dayOfYear, "11"))
-
-
-
-            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 500, 2400, 3000))
-            currentDate = currentDate.minusDays(1L)
-            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 100, 2100, 30))
-            currentDate = currentDate.minusDays(9L)
-            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 6000, 200, 3))
-            currentDate = currentDate.minusDays(31L)
-            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear, 400, 200, 3))
+            val currentDate = LocalDate.now()
+            //infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 10, 10))
+            goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear-9, 4800, 350, 3000))
 
             val date = LocalDate.now()
-            workoutDao.insert(Workout(1, "1", 10L, 1000, date.year, date.dayOfYear, "11"))
-            workoutDao.insert(Workout(2, "2", 29L, 10, date.year, date.dayOfYear+1, "11"))
-            workoutDao.insert(Workout(3, "3", 1L, 200, date.year, date.dayOfYear+2, "11"))
-            workoutDao.insert(Workout(4, "4", 22L, 5000, date.year, date.dayOfYear+3, "11"))
-            workoutDao.insert(Workout(5, "5", 10L, 100000, date.year, date.dayOfYear+7, "11"))
-            workoutDao.insert(Workout(6, "6", 10L, 100000, date.year, date.dayOfYear+6, "11"))
-            workoutDao.insert(Workout(7, "6", 10L, 100000, date.year, date.dayOfYear+4, "11"))
-            workoutDao.insert(Workout(8, "6", 10L, 100000, date.year, date.dayOfYear+5, "11"))
-            workoutDao.insert(Workout(9, "6", 10L, 100000, date.year, date.dayOfYear+8, "11"))
-            workoutDao.insert(Workout(10, "6", 10L, 100000, date.year, date.dayOfYear-9, "11"))
+            workoutDao.insert(Workout(1, "Argine Tencarola", 1800L, 1500, date.year, date.dayOfYear, "10"))
+            workoutDao.insert(Workout(2, "Passeggiata", 1800L, 800, date.year, date.dayOfYear, "15"))
+            workoutDao.insert(Workout(3, "Percorso le tre fonti", 1950L, 1000, date.year, date.dayOfYear-1, "18"))
+            workoutDao.insert(Workout(4, "Sentiero della civetta", 2000L, 2000, date.year, date.dayOfYear-2, "18"))
+            workoutDao.insert(Workout(5, "Lago di Braies", 3200L, 3300, date.year, date.dayOfYear-3, "16"))
+            workoutDao.insert(Workout(6, "Monte fior, foza", 3000L, 750, date.year, date.dayOfYear-7, "11"))
+            workoutDao.insert(Workout(7, "Asiago paese", 6000L, 1000, date.year, date.dayOfYear-6, "14"))
+            workoutDao.insert(Workout(8, "Val Formica", 5000L, 2110, date.year, date.dayOfYear-4, "9"))
+            workoutDao.insert(Workout(9, "Casa", 3200L, 5000, date.year, date.dayOfYear-5, "8"))
+            workoutDao.insert(Workout(10, "Tennis Abano", 1000L, 170, date.year, date.dayOfYear-8, "16"))
+            workoutDao.insert(Workout(11, "Argine Salboro", 6000L, 1600, date.year, date.dayOfYear-9, "12"))
         }
+        */
 
-         */
 
     }
 }
