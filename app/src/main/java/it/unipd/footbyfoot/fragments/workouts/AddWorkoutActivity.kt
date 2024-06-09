@@ -164,7 +164,8 @@ class AddWorkoutActivity: AppCompatActivity() {
             //Create a bundle and log the event
             val bundle = Bundle()
             bundle.putLong(daysFromWorkoutKey, daysFromWorkout)
-            bundle.putInt(numberWorkoutsKey, counter)
+            bundle.putInt(RecordsApplication.addKey, counter)
+            bundle.putInt(RecordsApplication.saveKey, preferences.getInt(RecordsApplication.saveKey, 0))
             firebaseAnalytics.logEvent(RecordsApplication.addedWorkout, bundle)
 
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {

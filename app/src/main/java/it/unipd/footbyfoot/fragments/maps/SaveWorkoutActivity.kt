@@ -41,7 +41,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val currentNameID = "nameID"
 
         //Firebase keys for parameters
-        const val numberWorkoutsSaved = "number_workouts_saved"
         const val pointsLat = "pointsLat"
         const val pointsLng = "pointsLng"
     }
@@ -114,7 +113,8 @@ class SaveWorkoutActivity: AppCompatActivity() {
             editor.apply()
 
             val bundle = Bundle()
-            bundle.putInt(numberWorkoutsSaved, counter)
+            bundle.putInt(RecordsApplication.saveKey, counter)
+            bundle.putInt(RecordsApplication.addKey, preferences.getInt(RecordsApplication.addKey, 0))
             firebaseAnalytics.logEvent(RecordsApplication.savedWorkout, bundle)
 
             finish()

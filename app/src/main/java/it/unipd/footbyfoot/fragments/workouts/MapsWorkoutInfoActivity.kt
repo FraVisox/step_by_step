@@ -25,6 +25,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 
 class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -99,9 +100,8 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             bundle.putLong(timeKey, intent.getLongExtra(timeKey,0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
             if (points.isNotEmpty()) {
-                bundle.putDoubleArray(pointsKey,
-                    doubleArrayOf(points.first().lat, points.first().lng)
-                )
+                bundle.putDouble(SaveWorkoutActivity.pointsLat, points.first().lat)
+                bundle.putDouble(SaveWorkoutActivity.pointsLng, points.first().lng)
             }
             firebaseAnalytics.logEvent(RecordsApplication.workoutDeleted, bundle)
             recordsViewModel.deleteWorkout(workoutId)
