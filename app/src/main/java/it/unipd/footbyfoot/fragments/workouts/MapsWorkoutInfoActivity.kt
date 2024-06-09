@@ -21,16 +21,27 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 
 class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
-    //Keys to pass data to the intent
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     companion object {
+        //Keys to pass data to the intent
         const val pointsKey = "points"
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val nameKey = "name"
         const val idKey = "id"
+        const val distanceTextKey = "distanceText"
+        const val timeTextKey = "timeText"
+
+        //If the toast was showed
         const val toastShowed = "toast"
     }
 
@@ -48,6 +59,8 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_info)
 
+        firebaseAnalytics = Firebase.analytics
+
         if (savedInstanceState != null) {
             showedToast = savedInstanceState.getBoolean(toastShowed)
         }
@@ -61,9 +74,9 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Sets things passed on the intent
         val time = findViewById<TextView>(R.id.summary_time_tv)
-        time.text = intent.getStringExtra(timeKey)
+        time.text = intent.getStringExtra(timeTextKey)
         val distance = findViewById<TextView>(R.id.summary_distance_tv)
-        distance.text = intent.getStringExtra(distanceKey)
+        distance.text = intent.getStringExtra(distanceTextKey)
         val name = findViewById<EditText>(R.id.activity_name_summary)
         val currentName = intent.getStringExtra(nameKey)
         name.setText(currentName, TextView.BufferType.EDITABLE)
@@ -82,15 +95,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         //Delete workout button
         val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
-            val bundle = Bundle() //TODO: passiamo anche la data?
-            bundle.putLong(timeKey, intent.getLongExtra(timeKey, 0))
+            val bundle = Bundle()
+            bundle.putLong(timeKey, intent.getLongExtra(timeKey,0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
             if (points.isNotEmpty()) {
                 bundle.putDoubleArray(pointsKey,
-                    doubleArrayOf(points.first().latitude, points.first().longitude)
+                    doubleArrayOf(points.first().lat, points.first().lng)
                 )
             }
-            RecordsApplication.firebaseAnalytics.logEvent("workout_not_saved", bundle)
+            firebaseAnalytics.logEvent(RecordsApplication.workoutDeleted, bundle)
             recordsViewModel.deleteWorkout(workoutId)
             finish()
         }

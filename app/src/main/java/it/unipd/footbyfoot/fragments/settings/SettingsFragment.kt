@@ -9,20 +9,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.firebase.Firebase
-import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 class SettingsFragment : Fragment() {
-
-    /*
-     * FIREBASE: personalized trace
-     */
-    private val settingsTrace = Firebase.performance.newTrace("Settings_trace")
 
     // Class constants and default values
     companion object {
@@ -32,6 +26,14 @@ class SettingsFragment : Fragment() {
         const val defaultWeight = 60
         const val defaultHeight = 180
         const val defaultAge = 30
+
+        //Firebase keys for event
+        const val ageIncrementKey = "age_increment"
+        const val ageDecrementKey = "age_decrement"
+        const val heightIncrementKey = "height_increment"
+        const val heightDecrementKey = "height_decrement"
+        const val weightIncrementKey = "weight_increment"
+        const val weightDecrementKey = "weight_decrement"
     }
 
     // Class text views
@@ -39,16 +41,19 @@ class SettingsFragment : Fragment() {
     private var weightSettings: TextView? = null
     private var heightSettings: TextView? = null
 
+    //Counters used for the events in firebase
+    private var counterIncrementAge = 0
+    private var counterIncrementHeight = 0
+    private var counterIncrementWeight = 0
+    private var counterDecrementAge = 0
+    private var counterDecrementHeight = 0
+    private var counterDecrementWeight = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        //Start trace TODO: mettere una metrica per ogni bottone?
-        settingsTrace.putMetric(getString(R.string.increment_goals), 0)
-        settingsTrace.putMetric(getString(R.string.decrement_goals), 0)
-        settingsTrace.start()
 
         ageSettings = view.findViewById(R.id.ageCount)
         weightSettings = view.findViewById(R.id.weightCount)
@@ -73,33 +78,33 @@ class SettingsFragment : Fragment() {
         val crashButton: Button = view.findViewById(R.id.crashButton)
 
         addAgeButton.setOnClickListener {
-            Helpers.incrementValue(ageSettings) //TODO: firebase anche qui??
-            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
+            Helpers.incrementValue(ageSettings)
+            counterIncrementAge++
         }
 
         subAgeButton.setOnClickListener {
             Helpers.decrementValue(ageSettings)
-            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
+            counterDecrementAge++
         }
 
         addWeightButton.setOnClickListener {
             Helpers.incrementValue(weightSettings)
-            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
+            counterIncrementWeight++
         }
 
         subWeightButton.setOnClickListener {
             Helpers.decrementValue(weightSettings)
-            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
+            counterDecrementWeight++
         }
 
         addHeightButton.setOnClickListener {
             Helpers.incrementValue(heightSettings)
-            settingsTrace.incrementMetric(getString(R.string.increment_setting), 1)
+            counterIncrementHeight++
         }
 
         subHeightButton.setOnClickListener {
             Helpers.decrementValue(heightSettings)
-            settingsTrace.incrementMetric(getString(R.string.decrement_setting), 1)
+            counterDecrementHeight++
         }
 
         crashButton.setOnClickListener {
@@ -109,15 +114,38 @@ class SettingsFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        counterIncrementHeight = 0
+        counterDecrementHeight = 0
+        counterDecrementWeight = 0
+        counterIncrementWeight = 0
+        counterIncrementAge = 0
+        counterDecrementAge = 0
+    }
+
     override fun onPause() {
         super.onPause()
 
         insertInfo()
 
         //Save new current user properties
-        MainActivity.firebaseAnalytics.setUserProperty("Height", heightSettings?.text.toString())
-        MainActivity.firebaseAnalytics.setUserProperty("Weight", weightSettings?.text.toString())
-        MainActivity.firebaseAnalytics.setUserProperty("RealAge", ageSettings.text.toString()) //TODO: non è riservata la Age??
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.height, heightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.weight, weightSettings?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.declaredAge, ageSettings.text.toString())
+
+        //Send event
+        if (counterIncrementAge != 0 || counterDecrementAge != 0 || counterIncrementHeight != 0 ||
+            counterDecrementHeight != 0 || counterIncrementWeight != 0 || counterDecrementWeight != 0) {
+            val bundle = Bundle()
+            bundle.putInt(ageIncrementKey, counterIncrementAge)
+            bundle.putInt(ageDecrementKey, counterDecrementAge)
+            bundle.putInt(heightIncrementKey, counterIncrementHeight)
+            bundle.putInt(heightDecrementKey, counterDecrementHeight)
+            bundle.putInt(weightIncrementKey, counterIncrementWeight)
+            bundle.putInt(weightDecrementKey, counterDecrementWeight)
+            (activity as MainActivity).firebaseAnalytics.logEvent(RecordsApplication.settingsUpdate, bundle)
+        }
     }
 
     private fun insertInfo() {

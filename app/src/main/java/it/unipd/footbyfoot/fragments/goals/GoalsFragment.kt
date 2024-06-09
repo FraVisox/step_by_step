@@ -8,20 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
-import com.google.firebase.Firebase
-import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
 class GoalsFragment : Fragment() {
-
-    /*
-     * FIREBASE: personalized trace
-     */
-    private val goalTrace = Firebase.performance.newTrace("Goal_trace")
 
     //Companion object
     companion object {
@@ -29,6 +23,14 @@ class GoalsFragment : Fragment() {
         const val distanceKey = "distance"
         const val caloriesKey = "calories"
         const val defaultGoal = 0
+
+        //Firebase keys for parameters
+        const val incrementCalories = "calories_increment"
+        const val decrementCalories = "calories_decrement"
+        const val incrementSteps = "steps_increment"
+        const val decrementSteps = "steps_decrement"
+        const val incrementDistance = "distance_increment"
+        const val decrementDistance = "distance_decrement"
     }
 
     // Text views with the values of the goals
@@ -36,16 +38,19 @@ class GoalsFragment : Fragment() {
     private var caloriesGoal: TextView? = null
     private var distanceGoal: TextView? = null
 
+    //Counters used for the events in firebase
+    private var counterIncrementCalories = 0
+    private var counterIncrementSteps = 0
+    private var counterIncrementDistance = 0
+    private var counterDecrementCalories = 0
+    private var counterDecrementSteps = 0
+    private var counterDecrementDistance = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_goals, container, false)
-
-        //Start trace TODO: mettere una metrica per ogni bottone?
-        goalTrace.putMetric(getString(R.string.increment_goals), 0)
-        goalTrace.putMetric(getString(R.string.decrement_goals), 0)
-        goalTrace.start()
 
         //Initialize views
         stepsGoal = view.findViewById(R.id.stepsGoalCount)
@@ -69,44 +74,63 @@ class GoalsFragment : Fragment() {
         //Initialize the listeners of the buttons
         addStepsButton.setOnClickListener {
             Helpers.increment100Value(stepsGoal)
-            //TODO: le metriche mandate possono essere più di 5 in teoria, le mandiamo diverse?
-            goalTrace.incrementMetric(getString(R.string.increment_goals), 1)
+            counterIncrementSteps++
         }
         subStepsButton.setOnClickListener {
             Helpers.decrement100Value(stepsGoal)
-            goalTrace.incrementMetric(getString(R.string.decrement_goals), 1)
+            counterDecrementSteps++
         }
         addCaloriesButton.setOnClickListener {
             Helpers.increment100Value(caloriesGoal)
-            goalTrace.incrementMetric(getString(R.string.increment_goals), 1)
+            counterIncrementCalories++
         }
         subCaloriesButton.setOnClickListener {
             Helpers.decrement100Value(caloriesGoal)
-            goalTrace.incrementMetric(getString(R.string.decrement_goals), 1)
+            counterDecrementCalories++
         }
         addDistanceButton.setOnClickListener {
             Helpers.increment100Value(distanceGoal)
-            goalTrace.incrementMetric(getString(R.string.increment_goals), 1)
+            counterIncrementDistance++
         }
         subDistanceButton.setOnClickListener {
             Helpers.decrement100Value(distanceGoal)
-            goalTrace.incrementMetric(getString(R.string.decrement_goals), 1)
+            counterDecrementDistance++
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        counterDecrementCalories = 0
+        counterIncrementCalories = 0
+        counterDecrementDistance = 0
+        counterIncrementDistance = 0
+        counterIncrementSteps = 0
+        counterDecrementSteps = 0
     }
 
     override fun onPause() {
         super.onPause()
         //Insert the current goal into the database and the preferences
         insertGoal()
-        //End trace
-        goalTrace.stop()
 
-        //User properties TODO: add to dashboard
-        MainActivity.firebaseAnalytics.setUserProperty("CaloriesGoal", caloriesGoal?.text.toString())
-        MainActivity.firebaseAnalytics.setUserProperty("StepsGoal", stepsGoal?.text.toString())
-        MainActivity.firebaseAnalytics.setUserProperty("DistanceGoal", distanceGoal?.text.toString())
+        //User properties
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.caloriesGoal, caloriesGoal?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.stepsGoal, stepsGoal?.text.toString())
+        (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.distanceGoal, distanceGoal?.text.toString())
+
+        if (counterIncrementCalories != 0 || counterDecrementCalories != 0 || counterIncrementSteps != 0 ||
+            counterDecrementSteps != 0 || counterIncrementDistance != 0 || counterDecrementDistance != 0) {
+            val bundle = Bundle()
+            bundle.putInt(incrementCalories, counterIncrementCalories)
+            bundle.putInt(decrementCalories, counterDecrementCalories)
+            bundle.putInt(incrementSteps, counterIncrementSteps)
+            bundle.putInt(decrementSteps, counterDecrementSteps)
+            bundle.putInt(incrementDistance, counterIncrementDistance)
+            bundle.putInt(decrementDistance, counterDecrementDistance)
+            (activity as MainActivity).firebaseAnalytics.logEvent(RecordsApplication.goalsUpdate, bundle)
+        }
     }
 
     private fun insertGoal() {

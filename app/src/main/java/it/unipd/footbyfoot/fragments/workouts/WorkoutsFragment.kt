@@ -11,14 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
-import it.unipd.footbyfoot.RecordsApplication
 
 class WorkoutsFragment : Fragment() {
-
-    //Firebase
-    private var totD: Int = 0
-    private var totT: Long = 0
-    private var counter: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,41 +45,5 @@ class WorkoutsFragment : Fragment() {
         }
 
         return view
-    }
-
-    override fun onPause() {
-        //Register the number of workouts
-        (activity as MainActivity).recordsViewModel.countWorkout.observe(activity as MainActivity) { record ->
-            counter = record
-        }
-
-        //TODO: il numero di workout in questo modo viene preso solo se apre questo fragment. METTI IN MAIN??
-        RecordsApplication.firebaseAnalytics.setUserProperty("Workouts counter", counter.toString())
-
-        //Register the average speed
-        (activity as MainActivity).recordsViewModel.totalDistance.observe(activity as MainActivity) { records ->
-            totD = 0
-            records?.let {
-                totD += it
-            }
-            sendAverageSpeed()
-        }
-        (activity as MainActivity).recordsViewModel.totalTime.observe(activity as MainActivity) { records ->
-            totT = 0
-            records?.let {
-                totT += it
-            }
-            sendAverageSpeed()
-        }
-
-        super.onPause()
-    }
-
-    private fun sendAverageSpeed() {
-        if (totT != 0L) {
-            val avg: Double = totD / totT.toDouble()
-            //TODO: e anche la velocità
-            RecordsApplication.firebaseAnalytics.setUserProperty("Average speed", avg.toString())
-        }
     }
 }

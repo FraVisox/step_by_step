@@ -58,15 +58,6 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         //Take the workout at that position
         val record = getItem(position)
 
-        //Make a string out of meters
-        val meters= activity.getString(R.string.distance_format, record.meters)
-
-        //Calculate time and make a string out of it
-        val seconds = Helpers.getSeconds(record.time)
-        val minutes = Helpers.getMinutes(record.time)
-        val hours = Helpers.getHours(record.time)
-        val timeText = Helpers.formatDurationToString(activity, hours, minutes, seconds)
-
         //Take only this workout's points
         val p = points.filter {
             it.workoutId == record.workoutId
@@ -78,7 +69,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         //Take a string out of date and time
         val dateTime = Helpers.formatDateTimeToString(activity, LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay)
 
-        holder.bind(dateTime, meters, timeText, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+        holder.bind(dateTime, record.meters, record.time, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -91,11 +82,21 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dateTime: String, m: String, tim: String, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dateTime: String, m: Int, tim: Long, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+
+            //Get distance text
+            val metersText = itemView.context.getString(R.string.distance_format, m)
+
+            //Get time text
+            val seconds = Helpers.getSeconds(tim)
+            val minutes = Helpers.getMinutes(tim)
+            val hours = Helpers.getHours(tim)
+            val timeText = Helpers.formatDurationToString(itemView.context, hours, minutes, seconds)
+
             //Set text
             date.text = dateTime
-            meters.text = m
-            time.text = tim
+            meters.text = metersText
+            time.text = timeText
             name.text = nam
             speed.text = v
 
@@ -104,7 +105,9 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
                 val intent = Intent(it.context, MapsWorkoutInfoActivity::class.java)
                 intent.putExtra(MapsWorkoutInfoActivity.pointsKey, points as Serializable)
                 intent.putExtra(MapsWorkoutInfoActivity.timeKey, tim)
+                intent.putExtra(MapsWorkoutInfoActivity.timeTextKey, timeText)
                 intent.putExtra(MapsWorkoutInfoActivity.distanceKey, m)
+                intent.putExtra(MapsWorkoutInfoActivity.distanceTextKey, metersText)
                 intent.putExtra(MapsWorkoutInfoActivity.nameKey, nam)
                 intent.putExtra(MapsWorkoutInfoActivity.idKey, id)
                 it.context.startActivity(intent)

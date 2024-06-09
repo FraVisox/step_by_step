@@ -24,6 +24,8 @@ import java.time.temporal.ChronoUnit
 
 class AddWorkoutActivity: AppCompatActivity() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     companion object {
         const val durationKey = "duration"
         const val timeOfDayHOURKey = "timeOfDayHOUR"
@@ -34,8 +36,9 @@ class AddWorkoutActivity: AppCompatActivity() {
         const val savedTime = "tim"
         const val savedDate = "dat"
 
-        const val filename = "Saved_workouts"
-        const val workoutsFromAdd = "fromAdd"
+        //Firebase const for event
+        const val daysFromWorkoutKey = "days_from_workout"
+        const val numberWorkoutsKey = "number_workouts_added"
     }
 
     private var workoutId = 1
@@ -57,8 +60,10 @@ class AddWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_workout)
 
+        firebaseAnalytics = Firebase.analytics
+
         //Get workout ID and name ID
-        val preferences = getPreferences(MODE_PRIVATE)
+        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
         workoutId = preferences.getInt(SaveWorkoutActivity.currentWorkoutID, 1)
         nameId = preferences.getInt(SaveWorkoutActivity.currentNameID, 1)
 
@@ -147,24 +152,25 @@ class AddWorkoutActivity: AppCompatActivity() {
                 mutableListOf() //No points
             )
 
-            //TODO: ha senso fare increment metric? Non sarebbe meglio usare google analytics
+            //Register the workout creation
+            val counter = preferences.getInt(RecordsApplication.addKey, 0)+1
+            val editor= preferences.edit()
+            editor.putInt(RecordsApplication.addKey, counter)
+            editor.apply()
+
+            //Get the days from the workout
             val daysFromWorkout = ChronoUnit.DAYS.between(LocalDate.ofYearDay(datePicker.year!!, datePicker.dayOfYear!!), LocalDate.now())
+
+            //Create a bundle and log the event
             val bundle = Bundle()
-            bundle.putLong("days_from_workout", daysFromWorkout)
-            firebaseAnalytics.logEvent("added_workout", bundle)
+            bundle.putLong(daysFromWorkoutKey, daysFromWorkout)
+            bundle.putInt(numberWorkoutsKey, counter)
+            firebaseAnalytics.logEvent(RecordsApplication.addedWorkout, bundle)
 
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++
             }
             workoutId++
-
-            //Register the workout creation
-            val sharedPreferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
-            val counter = sharedPreferences.getInt("fromAdd", 0)+1
-            val editor= sharedPreferences.edit()
-            editor.putInt(workoutsFromMap, counter)
-            editor.apply() //TODO: evento?
-            RecordsApplication.firebaseAnalytics.setUserProperty("Workouts added", counter.toString())
 
 
             finish()
@@ -180,7 +186,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         super.onPause()
 
         //Store the workout ID
-        val preferences = getPreferences(MODE_PRIVATE)
+        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putInt(SaveWorkoutActivity.currentWorkoutID, workoutId)
         editor.putInt(SaveWorkoutActivity.currentNameID, nameId)

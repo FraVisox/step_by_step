@@ -20,7 +20,12 @@ import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 
 class MainActivity : AppCompatActivity() {
 
+    //Firebase
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    //Firebase used properties
+    private var totD: Int = 0
+    private var totT: Long = 0
 
     // Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
@@ -33,8 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         //Key for the fragment of instance state
-        private const val fragment = "currentFragment"
+        const val fragment = "currentFragment"
         const val firstUse = "first"
+
+        //Firebase const for event
+        const val servicePausedKey = "service_paused"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +52,37 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Register the created workouts
-        var preferences = getPreferences(MODE_PRIVATE)
+        //Initialize firebase
+        firebaseAnalytics = Firebase.analytics
+
+        //Change workout counts
+        recordsViewModel.countWorkout.observe(this) { record ->
+            firebaseAnalytics.setUserProperty(RecordsApplication.workoutCounter, record.toString())
+        }
+        //Change speed
+        recordsViewModel.totalDistance.observe(this) { records ->
+            totD = 0
+            records?.let {
+                totD += it
+            }
+            setAverageSpeed()
+        }
+        recordsViewModel.totalTime.observe(this) { records ->
+            totT = 0
+            records?.let {
+                totT += it
+            }
+            setAverageSpeed()
+        }
+
+        //If it is the first time the user uses the app, show a dialog
+        val preferences = getPreferences(MODE_PRIVATE)
         if (preferences.getBoolean(firstUse, true)) {
             val dialog = PermissionDialog()
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
+        } else {
+            firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         }
 
         //Set listeners
@@ -73,9 +106,15 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
         }
 
+        //If the service is running, the application is closed and the user re-enters in the application
+        if (TrackWorkoutService.running) {
+            val bundle = Bundle()
+            bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
+            firebaseAnalytics.logEvent(RecordsApplication.openedWhileClosed, bundle)
+        }
      }
 
-    //Replace the fragment
+    //Attach current fragment
     private fun attachFragment(fragmentId : Int){
 
         val tag = fragmentId.toString()
@@ -147,15 +186,6 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(fragment, thisFragment)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-
-        val bundle = Bundle()
-        bundle.putBoolean("service_paused", TrackWorkoutService.paused) //TODO: altro da passare
-        RecordsApplication.firebaseAnalytics.logEvent("click_notification", bundle)
-        //TODO qua si vede quando l'utente chiude la app e poi preme sulla notifica, non sono riuscito a fare di meglio
-    }
-
     //Show permissions dialog for location
     fun showLocationDialog(exception: ResolvableApiException) {
         AlertDialog.Builder(this)
@@ -172,4 +202,27 @@ class MainActivity : AppCompatActivity() {
             }
             .create().show()
     }
+
+    /*
+     * FIREBASE EVENTS
+     */
+    //Function called when the application is in background but the user clicks on notification
+    //or returns back to the one running
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (TrackWorkoutService.running) {
+            val bundle = Bundle()
+            bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
+            firebaseAnalytics.logEvent(RecordsApplication.openedWhileBackground, bundle)
+        }
+    }
+
+    //Function called to change speed as user property
+    private fun setAverageSpeed() {
+        if (totT != 0L) {
+            val avg: Double = totD / totT.toDouble()
+            firebaseAnalytics.setUserProperty(RecordsApplication.averageSpeed, avg.toString())
+        }
+    }
+
 }

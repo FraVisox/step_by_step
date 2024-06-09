@@ -74,19 +74,21 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             startTime = SystemClock.elapsedRealtime()
             running = true
 
-            // Build a notification
+            // Build a notification (the icon is the app's icon)
             val notificationBuilder: Notification.Builder =
                 Notification.Builder(this, getString(R.string.channel_id))
             notificationBuilder
                 .setShowWhen(false)
                 .setContentTitle(getString(R.string.notification_title))
                 .setContentText(getString(R.string.notification_content))
-                .setSmallIcon(R.drawable.baseline_directions_run_24)
+                .setSmallIcon(R.mipmap.ic_launcher)
 
             //Make an intent if the user taps the notification using a launch intent for this package,
             //which means it will launch the root activity only if it is not running
             val pm = packageManager
             val launchIntent = pm.getLaunchIntentForPackage("it.unipd.footbyfoot")
+            launchIntent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            launchIntent?.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             val contentIntent = PendingIntent.getActivity(this, requestCode, launchIntent, PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(contentIntent)
 

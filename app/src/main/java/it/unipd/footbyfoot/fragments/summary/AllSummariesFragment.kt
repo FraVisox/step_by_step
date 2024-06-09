@@ -11,11 +11,12 @@ import com.google.firebase.Firebase
 import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 
 class AllSummariesFragment : Fragment() {
 
     //Personalized trace
-    private val monthTrace = Firebase.performance.newTrace("Month_trace")
+    private val monthTrace = Firebase.performance.newTrace(RecordsApplication.allSummariesTrace)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +27,6 @@ class AllSummariesFragment : Fragment() {
 
         //Start trace
         monthTrace.start()
-        start = System.currentTimeMillis()
 
         //Create adapter
         val adapter = SummariesAdapter(requireActivity())
@@ -50,8 +50,8 @@ class AllSummariesFragment : Fragment() {
     }
 
     override fun onPause(){
-        monthTrace.stop()   //Stop trace
-
+        //Stop trace
+        monthTrace.stop()
         super.onPause()
     }
 

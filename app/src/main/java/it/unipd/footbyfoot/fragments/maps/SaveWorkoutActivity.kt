@@ -12,11 +12,17 @@ import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.workouts.MapsWorkoutInfoActivity
 import java.time.LocalDateTime
 
 class SaveWorkoutActivity: AppCompatActivity() {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
     private var workoutId = 1
     private var nameId = 1
@@ -35,19 +41,23 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val currentWorkoutID = "workoutID"
         const val currentNameID = "nameID"
 
-        const val filename = "Saved_workouts"
-        const val workoutsFromMap = "fromMap"
+        //Firebase keys for parameters
+        const val numberWorkoutsSaved = "number_workouts_saved"
+        const val pointsLat = "pointsLat"
+        const val pointsLng = "pointsLng"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_workout)
 
+        firebaseAnalytics = Firebase.analytics
+
         //Current date
         val dateTime = LocalDateTime.now()
 
         //Get workout ID and name ID
-        val preferences = getPreferences(MODE_PRIVATE)
+        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
         workoutId = preferences.getInt(currentWorkoutID, 1)
         nameId = preferences.getInt(currentNameID, 1)
 
@@ -99,12 +109,14 @@ class SaveWorkoutActivity: AppCompatActivity() {
             workoutId++
 
             //Register the workout creation
-            val sharedPreferences = getSharedPreferences("Saved_workouts", MODE_PRIVATE)
-            val counter = sharedPreferences.getInt("fromMap", 0)+1
-            val editor= sharedPreferences.edit()
-            editor.putInt(workoutsFromMap, counter)
-            editor.apply() //TODO: evento?
-            RecordsApplication.firebaseAnalytics.setUserProperty("Workouts created", counter.toString())
+            val counter = preferences.getInt(RecordsApplication.saveKey, 0)+1
+            val editor= preferences.edit()
+            editor.putInt(RecordsApplication.saveKey, counter)
+            editor.apply()
+
+            val bundle = Bundle()
+            bundle.putInt(numberWorkoutsSaved, counter)
+            firebaseAnalytics.logEvent(RecordsApplication.savedWorkout, bundle)
 
             finish()
         }
@@ -119,28 +131,28 @@ class SaveWorkoutActivity: AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         //Store the workout and name ID
-        val preferences = getPreferences(MODE_PRIVATE)
+        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putInt(currentWorkoutID, workoutId)
         editor.putInt(currentNameID, nameId)
         editor.apply()
 
+        //First point of the workout
         val points = intent.getSerializableExtra(positionsKey) as MutableList<LatLng?>
         if (points.isNotEmpty() && points.first() != null) {
             val pointsBundle = Bundle()
-            pointsBundle.putDoubleArray(
-                MapsWorkoutInfoActivity.pointsKey,
-                doubleArrayOf(points.first()!!.latitude, points.first()!!.longitude)
-            )
-            RecordsApplication.firebaseAnalytics.logEvent("first_point", pointsBundle)
+            pointsBundle.putDouble(pointsLat, points.first()!!.latitude)
+            pointsBundle.putDouble(pointsLng, points.first()!!.longitude)
+            firebaseAnalytics.logEvent(RecordsApplication.firstPointOfWorkout, pointsBundle)
         }
 
 
+        //Workouts not saved
         if (!workoutSaved) {
-            val bundle = Bundle() //TODO: passiamo anche la data?
+            val bundle = Bundle()
             bundle.putLong(timeKey, intent.getLongExtra(timeKey, 0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
-            RecordsApplication.firebaseAnalytics.logEvent("workout_not_saved", bundle)
+            firebaseAnalytics.logEvent(RecordsApplication.notSavedWorkout, bundle)
         }
     }
 

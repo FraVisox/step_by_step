@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.summary
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,11 +11,12 @@ import com.google.firebase.Firebase
 import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.fragments.settings.SettingsFragment
+import java.time.LocalDate
 
 class TodaySummaryFragment : Fragment() {
 
@@ -41,7 +41,7 @@ class TodaySummaryFragment : Fragment() {
     private lateinit var goalsDistance : TextView
 
     //Personalized trace
-    private val dayTrace = Firebase.performance.newTrace("Day_trace")
+    private val dayTrace = Firebase.performance.newTrace(RecordsApplication.todaySummaryTrace)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +76,11 @@ class TodaySummaryFragment : Fragment() {
             updateGoals(goals)
         }
 
+        //Observe the info
+        (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
+            updateInfo(info)
+        }
+
         return view
     }
 
@@ -89,11 +94,16 @@ class TodaySummaryFragment : Fragment() {
         setViews()
     }
 
+    private fun updateInfo(info: List<UserInfo>) {
+        infoList = info
+        setViews()
+    }
+
     private fun setViews() {
         //Get height and weight
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val weight = preferences.getInt(SettingsFragment.WEIGHT, SettingsFragment.defaultWeight)
-        val height = preferences.getInt(SettingsFragment.HEIGHT, SettingsFragment.defaultHeight)
+        val info = Helpers.getInfoOfDate(infoList, LocalDate.now())
+        val weight = info.weight
+        val height = info.height
 
         //Get current goal (or null if it doesn't exist)
         val currentGoal = if (goalsList.isNotEmpty()) goalsList.first() else Helpers.defaultGoal

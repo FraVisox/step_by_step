@@ -16,7 +16,6 @@ import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
 import kotlinx.coroutines.launch
 
-
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 
     companion object {
@@ -42,36 +41,41 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
 
     //Insert a new goal for a day (if there is already one, replace it)
-    fun insertGoal(goal: Goal) = viewModelScope.launch {
-        val goalTrace = Firebase.performance.newTrace("insert_goal")
+    fun insertGoal(goal: Goal) {
+        val goalTrace = Firebase.performance.newTrace(RecordsApplication.insertGoalTrace)
         goalTrace.start()
-        repository.insertGoal(goal)
-        goalTrace.stop()
+        viewModelScope.launch {
+            repository.insertGoal(goal)
+            goalTrace.stop()
+        }
     }
 
     //Insert a new user info for a day (if there is already one, replace it)
-    fun insertInfo(info: UserInfo) = viewModelScope.launch {
-        val infoTrace = Firebase.performance.newTrace("insert_info")
+    fun insertInfo(info: UserInfo) {
+        val infoTrace = Firebase.performance.newTrace(RecordsApplication.insertInfoTrace)
         infoTrace.start()
-        repository.insertInfo(info)
-        infoTrace.stop()
+        viewModelScope.launch {
+            repository.insertInfo(info)
+            infoTrace.stop()
+        }
     }
 
     //Insert a new workout, with the corresponding points
-    fun insertWorkout(workout: Workout, points: MutableList<LatLng?>) =
+    fun insertWorkout(workout: Workout, points: MutableList<LatLng?>) {
+        val workoutTrace = Firebase.performance.newTrace(RecordsApplication.insertWorkoutTrace)
+        workoutTrace.start()
         viewModelScope.launch {
-            val workoutTrace = Firebase.performance.newTrace("insert_workout")
-            workoutTrace.start()
             repository.insertWorkout(workout, points)
             workoutTrace.stop()
         }
+    }
 
     //Change the name of a workout
     fun changeWorkoutName(workoutId: Int, name: String) {
         if (workoutId != invalidWorkoutID) {
+            val changeWorkout = Firebase.performance.newTrace(RecordsApplication.changeWorkoutTrace)
+            changeWorkout.start()
             viewModelScope.launch {
-                val changeWorkout = Firebase.performance.newTrace("change_workout")
-                changeWorkout.start()
                 repository.changeWorkoutName(workoutId, name)
                 changeWorkout.stop()
             }
@@ -81,9 +85,9 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     //Delete the workout, with the points associated
     fun deleteWorkout(workoutId: Int) {
         if (workoutId != invalidWorkoutID) {
+            val deleteWorkout = Firebase.performance.newTrace(RecordsApplication.deleteWorkoutTrace)
+            deleteWorkout.start()
             viewModelScope.launch {
-                val deleteWorkout = Firebase.performance.newTrace("delete_workout")
-                deleteWorkout.start()
                 repository.deleteWorkout(workoutId)
                 deleteWorkout.stop()
             }

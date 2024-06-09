@@ -12,6 +12,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.perf.performance
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.goal.Goal
 import it.unipd.footbyfoot.database.userinfo.UserInfo
 import it.unipd.footbyfoot.database.workout.Distance
@@ -51,7 +52,7 @@ class WeeklySummariesFragment : Fragment() {
     private lateinit var circularCaloriesGoal: TextView
 
     //Personalized trace
-    private val weekTrace = Firebase.performance.newTrace("Week_trace")
+    private val weekTrace = Firebase.performance.newTrace(RecordsApplication.weekSummaryTrace)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -236,7 +237,6 @@ class WeeklySummariesFragment : Fragment() {
 
     override fun onPause(){
         weekTrace.stop()   //Stop trace
-
         super.onPause()
     }
 
