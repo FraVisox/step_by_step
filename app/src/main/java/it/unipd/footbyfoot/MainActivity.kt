@@ -55,6 +55,16 @@ class MainActivity : AppCompatActivity() {
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
+        //If it is the first time the user uses the app, show a dialog
+        val preferences = getPreferences(MODE_PRIVATE)
+        if (preferences.getBoolean(firstUse, true)) {
+            val dialog = PermissionDialog()
+            dialog.isCancelable = false
+            dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
+        } else {
+            //firebaseAnalytics.setAnalyticsCollectionEnabled(true)
+        }
+
         //Change workout counts
         recordsViewModel.countWorkout.observe(this) { record ->
             firebaseAnalytics.setUserProperty(RecordsApplication.workoutCounter, record.toString())
@@ -73,16 +83,6 @@ class MainActivity : AppCompatActivity() {
                 totT += it
             }
             setAverageSpeed()
-        }
-
-        //If it is the first time the user uses the app, show a dialog
-        val preferences = getPreferences(MODE_PRIVATE)
-        if (preferences.getBoolean(firstUse, true)) {
-            val dialog = PermissionDialog()
-            dialog.isCancelable = false
-            dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
-        } else {
-            firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         }
 
         //Set listeners
