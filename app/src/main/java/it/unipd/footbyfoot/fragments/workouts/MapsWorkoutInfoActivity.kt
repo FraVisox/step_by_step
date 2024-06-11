@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
@@ -26,6 +27,9 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -158,23 +162,33 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             return
         }
-        var options: PolylineOptions = defaultOptions()
-        for (p in points!!) {
-            if (p.trackList >= polylines.size) {
-                options = defaultOptions()
-                polylines.add(p.trackList, map!!.addPolyline(options.add(LatLng(p.lat, p.lng))))
-            } else {
-                polylines[p.trackList].remove()
-                polylines[p.trackList] = map!!.addPolyline(options.add(LatLng(p.lat, p.lng)))
+        lifecycleScope.launch(Dispatchers.IO) {
+            var options: PolylineOptions = defaultOptions()
+            val listOptions: MutableList<PolylineOptions> = mutableListOf(options)
+            for (p in points!!) {
+                if (p.trackList >= listOptions.size) {
+                    if (options != defaultOptions()) {
+                        listOptions.add(options)
+                    }
+                    options = defaultOptions()
+                } else {
+                    options.add(LatLng(p.lat, p.lng))
+                }
+            }
+            withContext(Dispatchers.Main) {
+                for (o in listOptions) {
+                    polylines.add(map!!.addPolyline(o))
+                }
+                polylines.add(map!!.addPolyline(options))
+                //Focus on starting point
+                focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
             }
         }
-        //Focus on starting point
-        focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
     }
 
     //Used to focus on workout position
     private fun focusPosition(pos: LatLng) {
         map!!.moveCamera(CameraUpdateFactory.zoomTo(MapsManager.firstZoom))
-        map!!.moveCamera(CameraUpdateFactory.newLatLng(pos))
+        map!!.animateCamera(CameraUpdateFactory.newLatLng(pos))
     }
 }

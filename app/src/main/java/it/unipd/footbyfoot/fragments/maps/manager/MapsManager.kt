@@ -1,14 +1,15 @@
 package it.unipd.footbyfoot.fragments.maps.manager
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.widget.Chronometer
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getString
+import androidx.lifecycle.lifecycleScope
 import it.unipd.footbyfoot.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,9 +17,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 //The class that manages and updates the map
-class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationObserver {
+class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, PositionLocationObserver {
 
     companion object {
         //Values of zoom
@@ -38,6 +42,8 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     private var requestMade = false
     //Boolean to check if it has already been zoomed the area of the current position
     private var first = true
+    //Boolean to guarantee synchronism
+    private var drawingTrack = false
 
     //Tracker that manages the binding to the service
     private val workoutTracker = WorkoutTracker(this)
@@ -58,6 +64,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
 
     //Options of current polyline (containing the points)
     private var options = defaultOptions()
+    private var justArrivedOptions = defaultOptions()
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     @Override
@@ -95,6 +102,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //updates the polyline, if needed
     @Override
     override fun locationUpdated(loc: Location) {
+        if (drawingTrack) {
+            justArrivedOptions.add(LatLng(loc.latitude, loc.longitude))
+            return
+        }
         if (first && mapInitialized) {
             focusPosition(loc)
             first = false
@@ -164,22 +175,39 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
         if (locs.isEmpty()) {
             return
         }
+
+        drawingTrack = true
+        justArrivedOptions = defaultOptions()
         clearLine()
-        var lastLoc: LatLng? = null
-        locs.forEach {
-            if (it == null) {
-                if (currPolyline != null) {
-                    otherPolylines.add(currPolyline!!)
+
+        context.lifecycleScope.launch(Dispatchers.IO) {
+            var lastLoc: LatLng? = null
+            val otherOptions: MutableList<PolylineOptions> = mutableListOf()
+            locs.forEach {
+                if (it == null) {
+                    if (options != defaultOptions()) {
+                        otherOptions.add(options)
+                    }
+                    options = defaultOptions()
+                } else {
+                    options.add(it)
+                    lastLoc = it
                 }
-                currPolyline = null
-                options = defaultOptions()
-            } else {
-                currPolyline?.remove()
-                currPolyline = map.addPolyline(options.add(it))
-                lastLoc = it
+            }
+            withContext(Dispatchers.Main) {
+                for (o in otherOptions) {
+                    otherPolylines.add(map.addPolyline(o))
+                }
+                options.addAll(justArrivedOptions.points)
+                justArrivedOptions = defaultOptions()
+                currPolyline = map.addPolyline(options)
+                if (first) {
+                    lastLoc?.let { focusPosition(it) }
+                    first = false
+                }
+                drawingTrack = false
             }
         }
-        lastLoc?.let { focusPosition(it) }
     }
     //Deletes the lines drawn
     fun clearLine() {
