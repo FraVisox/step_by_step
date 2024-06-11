@@ -69,8 +69,8 @@ object PositionTracker {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        //Create a request that asks for the position every 2.5 seconds
-        val request = LocationRequest.Builder(2500).build()
+        //Create a request that asks for the position every 4 seconds
+        val request = LocationRequest.Builder(4000).build()
 
         //Check the settings to see if location is enabled
         val client: SettingsClient = LocationServices.getSettingsClient(context)
@@ -145,9 +145,11 @@ object PositionTracker {
     }
 
     private fun updateLocation(loc: Location) {
-        currentLocation = loc
-        for (obs in observers) {
-            obs.locationUpdated(loc)
+        if (currentLocation == null || (loc.latitude != currentLocation!!.latitude && loc.longitude != currentLocation!!.longitude)) {
+            currentLocation = loc
+            for (obs in observers) {
+                obs.locationUpdated(loc)
+            }
         }
     }
 }

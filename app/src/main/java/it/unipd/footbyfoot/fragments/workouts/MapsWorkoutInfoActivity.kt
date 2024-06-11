@@ -57,6 +57,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     //Says if the toast has already been showed
     private var showedToast = false
+    private var first = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +72,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
         recordsViewModel.getWorkoutPoints(workoutId)?.observe(this) {
-            points = it
-            drawAllLines()
+            if (first) {
+                points = it
+                drawAllLines()
+                first = false
+            }
         }
 
         //Creates the map
