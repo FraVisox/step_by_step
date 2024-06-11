@@ -176,7 +176,7 @@
                     android:layout_height="match_parent"
                     style="@style/MySetTimeAndDateButtonStyle"
                     android:layout_weight="2"
-                    android:text="@string/duration" />
+                    android:text="@string/initial_duration" />
 
 
             </LinearLayout>
@@ -209,7 +209,7 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     style="@style/MySetTimeAndDateButtonStyle"
-                    android:text="@string/time" />
+                    android:text="@string/initial_time" />
 
                 <Button
                     android:id="@+id/add_date"
@@ -218,7 +218,7 @@
                     android:layout_margin="3dp"
                     style="@style/MySetTimeAndDateButtonStyle"
                     android:layout_weight="1"
-                    android:text="@string/date" />
+                    android:text="@string/dd_mm_yyyy" />
 
             </LinearLayout>
 
