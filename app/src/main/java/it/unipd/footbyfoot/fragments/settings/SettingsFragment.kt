@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -75,8 +74,6 @@ class SettingsFragment : Fragment() {
         val addHeightButton: ImageButton = view.findViewById(R.id.addHeightButton)
         val subHeightButton: ImageButton = view.findViewById(R.id.subHeightButton)
 
-        val crashButton: Button = view.findViewById(R.id.crashButton)
-
         addAgeButton.setOnClickListener {
             Helpers.incrementValue(ageSettings)
             counterIncrementAge++
@@ -105,10 +102,6 @@ class SettingsFragment : Fragment() {
         subHeightButton.setOnClickListener {
             Helpers.decrementValue(heightSettings)
             counterDecrementHeight++
-        }
-
-        crashButton.setOnClickListener {
-            throw RuntimeException(getString(R.string.crash_message))   //Only for debug purposes
         }
 
         return view
