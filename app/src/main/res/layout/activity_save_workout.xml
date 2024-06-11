@@ -7,8 +7,8 @@
 
     <ImageButton
         android:id="@+id/back_button_saveWorkout"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"

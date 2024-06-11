@@ -122,6 +122,9 @@
     <string name="impossible_to_add_workout">Not all the fields are filled</string>
     <string name="impossible_date">A workout time can\'t be in the future</string>
     <string name="impossible_duration">The duration can\'t be zero</string>
+    <string name="initial_duration">00:00:00</string>
+    <string name="initial_time">00:00</string>
+    <string name="dd_mm_yyyy">dd/mm/yyyy</string>
 
     <!-- Weekly graph -->
     <string name="wednesday">Wed</string>
@@ -149,5 +152,6 @@
     <string name="speed_image">speed_image</string>
     <string name="time_image">time image</string>
     <string name="workoutImage">WorkoutImage</string>
+
 
 </resources>
