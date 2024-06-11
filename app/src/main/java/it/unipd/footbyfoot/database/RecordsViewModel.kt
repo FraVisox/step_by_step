@@ -39,6 +39,15 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
     val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
 
+    //Get points of a workout
+    fun getWorkoutPoints(workoutId: Int): LiveData<List<WorkoutTrackPoint>>? {
+        if (workoutId != invalidWorkoutID) {
+            //No need to put a trace, as it is not an insertion or deletion or change
+            return repository.getWorkoutPoints(workoutId).asLiveData()
+        }
+        return null
+    }
+
     //Insert a new goal for a day (if there is already one, replace it)
     fun insertGoal(goal: Goal) {
         val goalTrace = Firebase.performance.newTrace(RecordsApplication.insertGoalTrace)
@@ -91,14 +100,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
                 deleteWorkout.stop()
             }
         }
-    }
-
-    //Get workout points
-    fun getWorkoutPoints(workoutId: Int): LiveData<List<WorkoutTrackPoint>>? {
-        if (workoutId != invalidWorkoutID) {
-            return repository.getWorkoutPoints(workoutId).asLiveData()
-        }
-        return null
     }
 }
 

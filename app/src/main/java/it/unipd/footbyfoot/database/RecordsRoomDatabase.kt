@@ -84,7 +84,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
 
             workoutDao.insert(Workout(1, "Argine Tencarola", 1800L, 1500, date.year, date.dayOfYear, "10"))
 
-            val listPoints = Array<WorkoutTrackPoint>(200) {WorkoutTrackPoint(it, 1, 0, 0.0, 0.0)}.toList()
+            val listPoints = Array(200) {WorkoutTrackPoint(it, 1, 0, 0.0, 0.0)}.toList()
             listPoints.forEach {
                 workoutDao.insert(it)
             }

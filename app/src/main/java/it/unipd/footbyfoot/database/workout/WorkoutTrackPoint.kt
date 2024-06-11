@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import java.io.Serializable
 
 @Entity(tableName = "point_table", primaryKeys = ["pointId","workoutId", "trackList"],
     foreignKeys = [

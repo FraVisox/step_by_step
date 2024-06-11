@@ -26,7 +26,6 @@ class RecordsRepository(
 
     //All workouts and all workouts points
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
-    val allPoints: Flow<List<WorkoutTrackPoint>> = workoutDao.getAllPoints()
 
     //Sum of distances of all today's workouts
     val todayDistance: Flow<Distance> = workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
@@ -92,6 +91,7 @@ class RecordsRepository(
         infoDao.insert(info)
     }
 
+    //Get points of a workout
     fun getWorkoutPoints(workoutID: Int): Flow<List<WorkoutTrackPoint>> {
         return workoutDao.getWorkoutPoints(workoutID)
     }

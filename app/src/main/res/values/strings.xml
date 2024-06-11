@@ -87,7 +87,7 @@
     <string name="save_title">Save workout</string>
     <string name="instructions_to_save">Give a name to the current workout</string>
     <string name="workout_name_default">Workout %1$d</string>
-    <string name="workout_time">TIME: %1$s</string> <!-- TODO: volevi senza time? -->
+    <string name="workout_time">TIME: %1$s</string>
     <string name="workout_distance">DISTANCE: %1$s</string>
     <string name="workout_speed">SPEED: %1$s</string>
 

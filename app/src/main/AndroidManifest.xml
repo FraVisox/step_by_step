@@ -25,7 +25,7 @@
         <!-- Maps SDK API key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAWXBAlnvR_B7yIFTB5_xOV0XXDonQTARU" />
+            android:value="${MAPS_API_KEY}" />
         <!-- Firebase-->
         <!-- Analytics -->
         <meta-data

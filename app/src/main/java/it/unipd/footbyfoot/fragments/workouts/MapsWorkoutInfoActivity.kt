@@ -2,7 +2,6 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -11,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
@@ -26,10 +24,8 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
-import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
-import kotlinx.coroutines.launch
 
 class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 

@@ -17,7 +17,6 @@ import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
-import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit

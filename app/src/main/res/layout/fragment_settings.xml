@@ -93,7 +93,7 @@
 
             </LinearLayout>
 
-            <!-- Testo -->
+            <!-- Text -->
             <TextView
                 android:id="@+id/ageCount"
                 style="@style/MyTextView"
@@ -155,7 +155,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
+                <!-- Image -->
                 <ImageView
                     android:id="@+id/heightImage"
                     style="@style/MyTextViewHeight"
@@ -240,7 +240,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Immagine -->
+                <!-- Image -->
                 <ImageView
                     android:id="@+id/weightImage"
                     style="@style/MyTextViewWeight"
@@ -249,7 +249,7 @@
                     android:contentDescription="@string/weight_image"
                     android:src="@drawable/baseline_monitor_weight_24" />
 
-                <!-- Testo -->
+                <!-- Text -->
                 <TextView
                     android:id="@+id/weightTitle"
                     style="@style/MyTextViewWeight"

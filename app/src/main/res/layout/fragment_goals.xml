@@ -92,7 +92,7 @@
 
             </LinearLayout>
 
-            <!-- Testo -->
+            <!-- Text -->
             <TextView
                 android:id="@+id/stepsGoalCount"
                 android:layout_width="wrap_content"
