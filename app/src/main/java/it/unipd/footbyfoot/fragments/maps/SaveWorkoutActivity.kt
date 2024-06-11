@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
@@ -16,6 +17,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.fragments.Helpers
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 class SaveWorkoutActivity: AppCompatActivity() {
@@ -45,11 +47,18 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val pointsLng = "pointsLng"
     }
 
+    private var points:  MutableList<LatLng?>? = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_workout)
 
         firebaseAnalytics = Firebase.analytics
+
+        lifecycleScope.launch {
+            points = intent.getSerializableExtra(
+                positionsKey) as MutableList<LatLng?>
+        }
 
         //Current date
         val dateTime = LocalDateTime.now()
@@ -86,38 +95,44 @@ class SaveWorkoutActivity: AppCompatActivity() {
         //Set listener on save
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
-            workoutSaved = true
-            //getSerializableExtra is used as the tests were made on Android API 32
-            recordsViewModel.insertWorkout(
-                Workout(
-                    workoutId,
-                    name.text.toString(),
-                    totTime,
-                    dist,
-                    dateTime.year,
-                    dateTime.dayOfYear,
-                    Helpers.formatTimeToString(this, dateTime)
-                ),
-                intent.getSerializableExtra(
-                    positionsKey) as MutableList<LatLng?>
-            )
-            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
-                nameId++
+            if (points != null) {
+                workoutSaved = true
+                //getSerializableExtra is used as the tests were made on Android API 32
+                recordsViewModel.insertWorkout(
+                    Workout(
+                        workoutId,
+                        name.text.toString(),
+                        totTime,
+                        dist,
+                        dateTime.year,
+                        dateTime.dayOfYear,
+                        Helpers.formatTimeToString(this, dateTime)
+                    ),
+                    points!!
+                )
+                if (name.text.toString()
+                        .contentEquals(getString(R.string.workout_name_default, nameId))
+                ) {
+                    nameId++
+                }
+                workoutId++
+
+                //Register the workout creation
+                val counter = preferences.getInt(RecordsApplication.saveKey, 0) + 1
+                val editor = preferences.edit()
+                editor.putInt(RecordsApplication.saveKey, counter)
+                editor.apply()
+
+                val bundle = Bundle()
+                bundle.putInt(RecordsApplication.saveKey, counter)
+                bundle.putInt(
+                    RecordsApplication.addKey,
+                    preferences.getInt(RecordsApplication.addKey, 0)
+                )
+                firebaseAnalytics.logEvent(RecordsApplication.savedWorkout, bundle)
+
+                finish()
             }
-            workoutId++
-
-            //Register the workout creation
-            val counter = preferences.getInt(RecordsApplication.saveKey, 0)+1
-            val editor= preferences.edit()
-            editor.putInt(RecordsApplication.saveKey, counter)
-            editor.apply()
-
-            val bundle = Bundle()
-            bundle.putInt(RecordsApplication.saveKey, counter)
-            bundle.putInt(RecordsApplication.addKey, preferences.getInt(RecordsApplication.addKey, 0))
-            firebaseAnalytics.logEvent(RecordsApplication.savedWorkout, bundle)
-
-            finish()
         }
 
         //Listener on back

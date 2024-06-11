@@ -29,7 +29,6 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
 
     //Workouts
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
-    val allPoints: LiveData<List<WorkoutTrackPoint>> = repository.allPoints.asLiveData()
 
     //Distances
     val todayDistance: LiveData<Distance> = repository.todayDistance.asLiveData()
@@ -92,6 +91,14 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
                 deleteWorkout.stop()
             }
         }
+    }
+
+    //Get workout points
+    fun getWorkoutPoints(workoutId: Int): LiveData<List<WorkoutTrackPoint>>? {
+        if (workoutId != invalidWorkoutID) {
+            return repository.getWorkoutPoints(workoutId).asLiveData()
+        }
+        return null
     }
 }
 

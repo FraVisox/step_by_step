@@ -2,6 +2,7 @@ package it.unipd.footbyfoot.fragments.workouts
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.database.RecordsViewModel
@@ -27,6 +29,7 @@ import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
+import kotlinx.coroutines.launch
 
 class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -34,7 +37,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         //Keys to pass data to the intent
-        const val pointsKey = "points"
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val nameKey = "name"
@@ -51,7 +53,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     //Points of the workout
-    private lateinit var points: List<WorkoutTrackPoint>
+    private var points: List<WorkoutTrackPoint>? = null
 
     //Says if the toast has already been showed
     private var showedToast = false
@@ -66,8 +68,12 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             showedToast = savedInstanceState.getBoolean(toastShowed)
         }
 
-        //This is deprecated from API level 33, but our test was on API level 32
-        points = intent.getSerializableExtra(pointsKey) as List<WorkoutTrackPoint>
+        val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
+
+        recordsViewModel.getWorkoutPoints(workoutId)?.observe(this) {
+            points = it
+            drawAllLines()
+        }
 
         //Creates the map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
@@ -81,8 +87,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         val name = findViewById<EditText>(R.id.activity_name_summary)
         val currentName = intent.getStringExtra(nameKey)
         name.setText(currentName, TextView.BufferType.EDITABLE)
-
-        val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
         //Back button
         val back = findViewById<Button>(R.id.back_button)
@@ -99,9 +103,9 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             val bundle = Bundle()
             bundle.putLong(timeKey, intent.getLongExtra(timeKey,0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
-            if (points.isNotEmpty()) {
-                bundle.putDouble(SaveWorkoutActivity.pointsLat, points.first().lat)
-                bundle.putDouble(SaveWorkoutActivity.pointsLng, points.first().lng)
+            if (points?.isNotEmpty() == true) {
+                bundle.putDouble(SaveWorkoutActivity.pointsLat, points!!.first().lat)
+                bundle.putDouble(SaveWorkoutActivity.pointsLng, points!!.first().lng)
             }
             firebaseAnalytics.logEvent(RecordsApplication.workoutDeleted, bundle)
             recordsViewModel.deleteWorkout(workoutId)
@@ -119,7 +123,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
      */
 
     //Map
-    private lateinit var map: GoogleMap
+    private var map: GoogleMap? = null
 
     //Default options of the polylines drawn
     private fun defaultOptions(): PolylineOptions {
@@ -142,8 +146,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     //Draw all lines
     private fun drawAllLines() {
+        if (map == null || points == null) {
+            return
+        }
         //Points are ordered because of the way we select them
-        if (points.isEmpty()) {
+        if (points!!.isEmpty()) {
             if (!showedToast) {
                 Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT)
                     .show()
@@ -152,22 +159,22 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
         var options: PolylineOptions = defaultOptions()
-        for (p in points) {
+        for (p in points!!) {
             if (p.trackList >= polylines.size) {
                 options = defaultOptions()
-                polylines.add(p.trackList, map.addPolyline(options.add(LatLng(p.lat, p.lng))))
+                polylines.add(p.trackList, map!!.addPolyline(options.add(LatLng(p.lat, p.lng))))
             } else {
                 polylines[p.trackList].remove()
-                polylines[p.trackList] = map.addPolyline(options.add(LatLng(p.lat, p.lng)))
+                polylines[p.trackList] = map!!.addPolyline(options.add(LatLng(p.lat, p.lng)))
             }
         }
         //Focus on starting point
-        focusPosition(LatLng(points.first().lat, points.first().lng))
+        focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
     }
 
     //Used to focus on workout position
     private fun focusPosition(pos: LatLng) {
-        map.moveCamera(CameraUpdateFactory.zoomTo(MapsManager.firstZoom))
-        map.moveCamera(CameraUpdateFactory.newLatLng(pos))
+        map!!.moveCamera(CameraUpdateFactory.zoomTo(MapsManager.firstZoom))
+        map!!.moveCamera(CameraUpdateFactory.newLatLng(pos))
     }
 }

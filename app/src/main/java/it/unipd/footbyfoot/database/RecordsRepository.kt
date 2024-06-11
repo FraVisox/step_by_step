@@ -91,4 +91,8 @@ class RecordsRepository(
     suspend fun insertInfo(info: UserInfo)  {
         infoDao.insert(info)
     }
+
+    fun getWorkoutPoints(workoutID: Int): Flow<List<WorkoutTrackPoint>> {
+        return workoutDao.getWorkoutPoints(workoutID)
+    }
 }

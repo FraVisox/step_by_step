@@ -10,22 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
-import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.fragments.Helpers
-import java.io.Serializable
 import java.time.LocalDate
 
 //Adapter for a single Workout
 class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, WorkoutsAdapter.WorkoutViewHolder>(WORKOUT_COMPARATOR) {
-
-    //List of points of the workouts: we keep all the points and then filter them later
-    private var points : List<WorkoutTrackPoint> = listOf()
-
-    //Update the list of points, used by the WorkoutsFragment when it observes live data
-    fun updatePoints(new: List<WorkoutTrackPoint>) {
-        points = new
-    }
 
     //ListAdapters need a comparator
     companion object {
@@ -58,18 +48,13 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         //Take the workout at that position
         val record = getItem(position)
 
-        //Take only this workout's points
-        val p = points.filter {
-            it.workoutId == record.workoutId
-        }
-
         //Take speed
         val sp = if (record.time != 0L) record.meters.toFloat()/record.time else 0F
 
         //Take a string out of date and time
         val dateTime = Helpers.formatDateTimeToString(activity, LocalDate.ofYearDay(record.year, record.dayOfYear), record.timeOfDay)
 
-        holder.bind(dateTime, record.meters, record.time, activity.getString(R.string.speed_format, sp), record.name, p, record.workoutId)
+        holder.bind(dateTime, record.meters, record.time, activity.getString(R.string.speed_format, sp), record.name, record.workoutId)
     }
 
     //The holder of the data of a workout
@@ -82,7 +67,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         private val time = itemView.findViewById<TextView>(R.id.time)
         private val name = itemView.findViewById<TextView>(R.id.activity_name)
 
-        fun bind(dateTime: String, m: Int, tim: Long, v: String, nam:String, points: List<WorkoutTrackPoint>, id: Int) {
+        fun bind(dateTime: String, m: Int, tim: Long, v: String, nam:String, id: Int) {
 
             //Get distance text
             val metersText = itemView.context.getString(R.string.distance_format, m)
@@ -100,10 +85,10 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
             name.text = nam
             speed.text = v
 
+
             //Set a listener on the entire view that displays the track
             itemView.setOnClickListener {
                 val intent = Intent(it.context, MapsWorkoutInfoActivity::class.java)
-                intent.putExtra(MapsWorkoutInfoActivity.pointsKey, points as Serializable)
                 intent.putExtra(MapsWorkoutInfoActivity.timeKey, tim)
                 intent.putExtra(MapsWorkoutInfoActivity.timeTextKey, timeText)
                 intent.putExtra(MapsWorkoutInfoActivity.distanceKey, m)

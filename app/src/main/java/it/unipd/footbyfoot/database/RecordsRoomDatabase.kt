@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
+import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.goal.Goal
@@ -14,6 +15,9 @@ import it.unipd.footbyfoot.database.userinfo.UserInfoDao
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.database.workout.WorkoutDao
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Database(entities = [Workout::class, WorkoutTrackPoint::class, Goal::class, UserInfo::class], version = 1, exportSchema = false)
 abstract class RecordsRoomDatabase : RoomDatabase() {
@@ -33,14 +37,14 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
                     RecordsRoomDatabase::class.java,
                     context.getString(R.string.database_name)
                 )
-                    //.addCallback(RecordsDatabaseCallback(scope))
+                    .addCallback(RecordsDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance //Save the instance
                 instance //Return the instance
             }
         }
 
-        /*
+
         //Callback called when the database is created, to populate it if needed
         private class RecordsDatabaseCallback(private val scope: CoroutineScope
         ) : Callback() {
@@ -59,7 +63,7 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
         // TODO: rimuovi
         suspend fun populateDatabase(goalDao: GoalDao, workoutDao: WorkoutDao, infoDao: UserInfoDao) {
 
-            val currentDate = LocalDate.now()
+            /*
             //infoDao.insert(UserInfo(currentDate.year, currentDate.dayOfYear, 10, 10))
             goalDao.insert(Goal(currentDate.year, currentDate.dayOfYear-9, 4800, 350, 3000))
 
@@ -75,8 +79,18 @@ abstract class RecordsRoomDatabase : RoomDatabase() {
             workoutDao.insert(Workout(9, "Casa", 3200L, 5000, date.year, date.dayOfYear-5, "8"))
             workoutDao.insert(Workout(10, "Tennis Abano", 1000L, 170, date.year, date.dayOfYear-8, "16"))
             workoutDao.insert(Workout(11, "Argine Salboro", 6000L, 1600, date.year, date.dayOfYear-9, "12"))
+            */
+            val date = LocalDate.now()
+
+            workoutDao.insert(Workout(1, "Argine Tencarola", 1800L, 1500, date.year, date.dayOfYear, "10"))
+
+            val listPoints = Array<WorkoutTrackPoint>(200) {WorkoutTrackPoint(it, 1, 0, 0.0, 0.0)}.toList()
+            listPoints.forEach {
+                workoutDao.insert(it)
+            }
         }
-        */
+
+
 
 
     }

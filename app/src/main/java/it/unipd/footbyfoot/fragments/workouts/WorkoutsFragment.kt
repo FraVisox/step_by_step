@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.unipd.footbyfoot.MainActivity
 import it.unipd.footbyfoot.R
 
@@ -21,8 +22,8 @@ class WorkoutsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_workout_info, container, false)
 
         //Initialize the button to add a custom workout
-        val button = view.findViewById<AppCompatImageButton>(R.id.addWorkout)
-        button.setOnClickListener {
+        val fab = view.findViewById<FloatingActionButton>(R.id.addWorkout)
+        fab.setOnClickListener {
             startActivity(Intent(activity, AddWorkoutActivity::class.java))
         }
 
@@ -36,11 +37,6 @@ class WorkoutsFragment : Fragment() {
         (activity as MainActivity).recordsViewModel.allWorkouts.observe(activity as MainActivity) { records ->
             records?.let {
                 adapter.submitList(it)
-            }
-        }
-        (activity as MainActivity).recordsViewModel.allPoints.observe(activity as MainActivity) { records ->
-            records?.let {
-                adapter.updatePoints(it)
             }
         }
 
