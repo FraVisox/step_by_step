@@ -38,7 +38,6 @@ class AddWorkoutActivity: AppCompatActivity() {
 
         //Firebase const for event
         const val daysFromWorkoutKey = "days_from_workout"
-        const val numberWorkoutsKey = "number_workouts_added"
     }
 
     private var workoutId = 1

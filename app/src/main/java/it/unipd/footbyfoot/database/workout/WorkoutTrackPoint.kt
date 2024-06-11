@@ -30,4 +30,4 @@ data class WorkoutTrackPoint(
     val lat: Double,
     @ColumnInfo(name = "lng")
     val lng: Double
-) : Serializable //Implements Serializable to be passed in Intents
+)
