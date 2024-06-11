@@ -29,6 +29,7 @@
         tools:context=".fragments.workouts.MapsWorkoutInfoActivity"
         map:mapType="terrain"
         map:uiCompass="true"
+        map:uiZoomControls="true"
         map:uiScrollGestures="true"
         map:uiZoomGestures="true"
         map:uiRotateGestures="true"
