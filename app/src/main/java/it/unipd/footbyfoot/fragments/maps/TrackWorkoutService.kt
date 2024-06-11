@@ -35,9 +35,12 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
         val service: TrackWorkoutService
             get() = this@TrackWorkoutService
     }
+
+    private val binder: TrackServiceBinder = TrackServiceBinder()
+
     //When an external user binds to this service
     override fun onBind(intent: Intent?): IBinder {
-        return TrackServiceBinder()
+        return binder
     }
 
     //Current startTime, distance and locations covered
