@@ -50,9 +50,6 @@ class TodaySummaryFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_today_summary, container, false)
 
-        //Start trace
-        dayTrace.start()
-
         //Get Views
         progressBarSteps = view.findViewById(R.id.progressbarTodaySteps)
         countSteps = view.findViewById(R.id.countTodaySteps)
@@ -139,9 +136,15 @@ class TodaySummaryFragment : Fragment() {
         )
     }
 
-    override fun onPause(){
-        dayTrace.stop()   //Stop trace
+    override fun onResume() {
+        super.onResume()
+        //Start trace
+        dayTrace.start()
+    }
 
+    override fun onPause(){
+        //Stop trace
+        dayTrace.stop()
         super.onPause()
     }
 

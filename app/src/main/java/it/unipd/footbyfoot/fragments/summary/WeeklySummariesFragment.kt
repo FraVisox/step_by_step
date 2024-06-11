@@ -61,9 +61,6 @@ class WeeklySummariesFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_weekly_summaries, container, false)
 
-        //Start trace
-        weekTrace.start()
-
         //List of progress bars
         listProgressBar = listOf(
             view.findViewById(R.id.progressbarStepsMon),
@@ -235,8 +232,16 @@ class WeeklySummariesFragment : Fragment() {
         listSteps[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        //Start trace
+        weekTrace.start()
+    }
+
     override fun onPause(){
-        weekTrace.stop()   //Stop trace
+        //Stop trace
+        weekTrace.stop()
         super.onPause()
     }
 

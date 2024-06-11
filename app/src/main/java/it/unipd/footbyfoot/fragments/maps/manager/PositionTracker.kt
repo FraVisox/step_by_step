@@ -145,9 +145,11 @@ object PositionTracker {
     }
 
     private fun updateLocation(loc: Location) {
-        currentLocation = loc
-        for (obs in observers) {
-            obs.locationUpdated(loc)
+        if (currentLocation == null || (loc.latitude != currentLocation!!.latitude && loc.longitude != currentLocation!!.longitude)) {
+            currentLocation = loc
+            for (obs in observers) {
+                obs.locationUpdated(loc)
+            }
         }
     }
 }

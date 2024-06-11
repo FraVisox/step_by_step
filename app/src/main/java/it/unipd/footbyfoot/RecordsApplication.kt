@@ -1,9 +1,6 @@
 package it.unipd.footbyfoot
 
 import android.app.Application
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.database.RecordsRepository
 import it.unipd.footbyfoot.database.RecordsRoomDatabase
 import it.unipd.footbyfoot.database.RecordsViewModelFactory
@@ -29,8 +26,7 @@ class RecordsApplication : Application() {
         //Firebase events' names (the keys of the parameters are in every class that sends these events)
         const val addedWorkout = "added_workout"
         const val savedWorkout = "workout_saved"
-        const val openedWhileClosed = "opened_while_closed"
-        const val openedWhileBackground = "opened_while_background"
+        const val openedWithNotification = "notification_while_background"
         const val workoutDeleted = "workout_deleted"
         const val notSavedWorkout = "workout_not_saved"
         const val firstPointOfWorkout = "first_point"

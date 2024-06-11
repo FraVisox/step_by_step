@@ -11,7 +11,7 @@
         This application stores and sends data to our developers to help them improve the user experience
     </string>
     <string name="give_consent">Agree</string>
-    <string name="no_consent">Close app</string>
+    <string name="no_consent">Disagree</string>
     <string name="permission_dialog">permission_dialog</string>
 
     <!-- Firebase metrics -->

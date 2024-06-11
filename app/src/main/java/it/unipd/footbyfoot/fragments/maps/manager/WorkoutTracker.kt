@@ -10,11 +10,10 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
+import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
-import com.google.android.gms.maps.model.LatLng
-import it.unipd.footbyfoot.R
-import java.io.Serializable
+
 
 class WorkoutTracker(private val manager: MapsManager) {
 
@@ -113,8 +112,11 @@ class WorkoutTracker(private val manager: MapsManager) {
         //Take time, distance and points
         val distance = mService.distance.toInt()
         val time = SystemClock.elapsedRealtime() - mService.startTime
-        val positions : MutableList<LatLng?> = mutableListOf()
-        positions.addAll(mService.locations)
+
+        //Uses the PositionsHolder object to hold the positions
+        //(putting them in an intent could cause problems, as the size could be very big)
+        PositionsHolder.clearPositions()
+        PositionsHolder.positions.addAll(mService.locations)
 
         //Reset
         mService.clearWorkout()
@@ -125,7 +127,6 @@ class WorkoutTracker(private val manager: MapsManager) {
         val intent = Intent(manager.context, SaveWorkoutActivity::class.java)
         intent.putExtra(SaveWorkoutActivity.timeKey, time/1000)
         intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
-        intent.putExtra(SaveWorkoutActivity.positionsKey, positions as Serializable)
         manager.context.startActivity(intent)
     }
 

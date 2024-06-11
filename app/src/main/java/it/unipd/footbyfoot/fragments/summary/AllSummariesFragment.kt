@@ -25,9 +25,6 @@ class AllSummariesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_all_summaries, container, false)
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerview)
 
-        //Start trace
-        monthTrace.start()
-
         //Create adapter
         val adapter = SummariesAdapter(requireActivity())
         recyclerView.adapter = adapter
@@ -47,6 +44,12 @@ class AllSummariesFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Start trace
+        monthTrace.start()
     }
 
     override fun onPause(){

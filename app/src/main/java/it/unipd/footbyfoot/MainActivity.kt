@@ -55,6 +55,14 @@ class MainActivity : AppCompatActivity() {
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
+        //If it is the first time the user uses the app, show a dialog
+        val preferences = getPreferences(MODE_PRIVATE)
+        if (preferences.getBoolean(firstUse, true)) {
+            val dialog = PermissionDialog()
+            dialog.isCancelable = false
+            dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
+        }
+
         //Change workout counts
         recordsViewModel.countWorkout.observe(this) { record ->
             firebaseAnalytics.setUserProperty(RecordsApplication.workoutCounter, record.toString())
@@ -73,16 +81,6 @@ class MainActivity : AppCompatActivity() {
                 totT += it
             }
             setAverageSpeed()
-        }
-
-        //If it is the first time the user uses the app, show a dialog
-        val preferences = getPreferences(MODE_PRIVATE)
-        if (preferences.getBoolean(firstUse, true)) {
-            val dialog = PermissionDialog()
-            dialog.isCancelable = false
-            dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
-        } else {
-            firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         }
 
         //Set listeners
@@ -104,13 +102,6 @@ class MainActivity : AppCompatActivity() {
             attachFragment(savedInstanceState.getInt(fragment))
         } else {
             binding.bottomNavigationView.selectedItemId = R.id.BottomBarSummary
-        }
-
-        //If the service is running, the application is closed and the user re-enters in the application
-        if (TrackWorkoutService.running) {
-            val bundle = Bundle()
-            bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
-            firebaseAnalytics.logEvent(RecordsApplication.openedWhileClosed, bundle)
         }
      }
 
@@ -207,13 +198,12 @@ class MainActivity : AppCompatActivity() {
      * FIREBASE EVENTS
      */
     //Function called when the application is in background but the user clicks on notification
-    //or returns back to the one running
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (TrackWorkoutService.running) {
             val bundle = Bundle()
             bundle.putBoolean(servicePausedKey, TrackWorkoutService.paused)
-            firebaseAnalytics.logEvent(RecordsApplication.openedWhileBackground, bundle)
+            firebaseAnalytics.logEvent(RecordsApplication.openedWithNotification, bundle)
         }
     }
 

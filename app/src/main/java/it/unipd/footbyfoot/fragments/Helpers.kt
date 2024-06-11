@@ -34,7 +34,7 @@ class Helpers {
 
         //Calculate calories based on weight and distance
         fun calculateCalories(weight: Int, distance: Int): Double {
-            val result = weight.toDouble() * (distance / 1000) * 0.9
+            val result = weight * (distance.toDouble() / 1000) * 0.9
             return "%.1f".format(Locale.US, result).toDouble()
         }
 

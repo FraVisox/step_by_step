@@ -105,6 +105,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
     //Used to focus on initial position
     private fun focusPosition(loc: Location) {
         val pos = LatLng(loc.latitude, loc.longitude)
+        focusPosition(pos)
+    }
+
+    private fun focusPosition(pos: LatLng) {
         if (map.cameraPosition.zoom <= maxZoomToUpdate)
             map.moveCamera(CameraUpdateFactory.zoomTo(firstZoom))
         map.animateCamera(CameraUpdateFactory.newLatLng(pos))
@@ -161,6 +165,7 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             return
         }
         clearLine()
+        var lastLoc: LatLng? = null
         locs.forEach {
             if (it == null) {
                 if (currPolyline != null) {
@@ -171,8 +176,10 @@ class MapsManager(val context: Activity) : OnMapReadyCallback, PositionLocationO
             } else {
                 currPolyline?.remove()
                 currPolyline = map.addPolyline(options.add(it))
+                lastLoc = it
             }
         }
+        lastLoc?.let { focusPosition(it) }
     }
     //Deletes the lines drawn
     fun clearLine() {

@@ -49,6 +49,10 @@ interface WorkoutDao {
     @Query("SELECT * FROM point_table ORDER BY workoutId, trackList, pointId")
     fun getAllPoints(): Flow<List<WorkoutTrackPoint>>
 
+    //Get workout points
+    @Query("SELECT * FROM point_table WHERE workoutId = :workoutId ORDER BY workoutId, trackList, pointId")
+    fun getWorkoutPoints(workoutId: Int): Flow<List<WorkoutTrackPoint>>
+
     //Insert a point of a workout
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(track: WorkoutTrackPoint)

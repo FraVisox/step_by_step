@@ -26,7 +26,7 @@ class SettingsFragment : Fragment() {
         const val defaultHeight = 180
         const val defaultAge = 30
 
-        //Firebase keys for event
+        //Firebase const for event
         const val ageIncrementKey = "age_increment"
         const val ageDecrementKey = "age_decrement"
         const val heightIncrementKey = "height_increment"

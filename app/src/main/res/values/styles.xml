@@ -172,7 +172,7 @@
 
     <!-- add and sub Buttons -->
     <style name="MyAddSubButtonStyle" >
-        <item name="android:background">@color/colorAccent</item>
+        <item name="android:popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:radius">8dp</item>
     </style>
 
