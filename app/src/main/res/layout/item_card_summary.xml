@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            tools:context=".fragments.summary.TodaySummaryFragment">
+            tools:context=".fragments.summary.TodaySummaryFragment"
+            android:baselineAligned="false">
 
             <RelativeLayout
                 android:id="@+id/steps_layout"
