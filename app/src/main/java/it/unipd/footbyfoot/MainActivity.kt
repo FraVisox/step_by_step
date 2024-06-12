@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot
 
-import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +11,6 @@ import it.unipd.footbyfoot.fragments.maps.MapsFragment
 import it.unipd.footbyfoot.fragments.settings.SettingsFragment
 import it.unipd.footbyfoot.fragments.summary.SummaryFragment
 import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
