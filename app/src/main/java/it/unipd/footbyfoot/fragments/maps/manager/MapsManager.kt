@@ -77,7 +77,7 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         }
     }
 
-    //Start tracking of the position, when
+    //Start tracking of the position
     fun startUpdateMap() {
         //If the map has not been initialized, save the request
         if (!mapInitialized) {
@@ -180,6 +180,7 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         justArrivedOptions = defaultOptions()
         clearLine()
 
+        //Launch a coroutine
         context.lifecycleScope.launch(Dispatchers.IO) {
             var lastLoc: LatLng? = null
             val otherOptions: MutableList<PolylineOptions> = mutableListOf()

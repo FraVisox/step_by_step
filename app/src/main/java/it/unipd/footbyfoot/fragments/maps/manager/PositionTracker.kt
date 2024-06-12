@@ -1,6 +1,8 @@
 package it.unipd.footbyfoot.fragments.maps.manager
 
 import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -8,7 +10,7 @@ import android.location.Location
 import android.os.Looper
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import it.unipd.footbyfoot.MainActivity
+import androidx.core.content.ContextCompat.getString
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -87,15 +89,32 @@ object PositionTracker {
         task.addOnFailureListener { exception ->
             if (exception is ResolvableApiException){
                 try {
-                    //Show a location dialog in MainActivity
-                    if (context is MainActivity) {
-                        context.showLocationDialog(exception)
+                    //Show a location dialog
+                    if (context is Activity) {
+                        showLocationDialog(context, exception)
                     }
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }
             }
         }
+    }
+
+    //Show permissions dialog for location
+    private fun showLocationDialog(context: Activity, exception: ResolvableApiException) {
+        AlertDialog.Builder(context)
+            .setMessage(
+                R.string.enable_location
+            )
+            .setPositiveButton(
+                getString(context, R.string.show_dialog)
+            ) { _,_ ->
+                exception.startResolutionForResult(context, 1)
+            }.setNegativeButton(
+                getString(context, R.string.ignore_dialog)
+            ) { _, _ ->
+            }
+            .create().show()
     }
 
     //Start getting location updates

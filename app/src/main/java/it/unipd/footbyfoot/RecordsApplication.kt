@@ -13,6 +13,9 @@ class RecordsApplication : Application() {
     val viewModelFactory by lazy { RecordsViewModelFactory(repository) }
 
     companion object {
+        //Package name (required for the service)
+        const val packageName = "it.unipd.footbyfoot"
+
         //Shared preferences of workouts added and saved
         const val sharedWorkouts = "sharedWorkouts"
         const val addKey = "fromAdd"

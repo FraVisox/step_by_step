@@ -12,6 +12,7 @@ import android.os.IBinder
 import android.os.SystemClock
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.R
+import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.fragments.maps.manager.PositionLocationObserver
 import it.unipd.footbyfoot.fragments.maps.manager.PositionTracker
 
@@ -89,7 +90,7 @@ class TrackWorkoutService: Service(), PositionLocationObserver {
             //Make an intent if the user taps the notification using a launch intent for this package,
             //which means it will launch the root activity only if it is not running
             val pm = packageManager
-            val launchIntent = pm.getLaunchIntentForPackage("it.unipd.footbyfoot")
+            val launchIntent = pm.getLaunchIntentForPackage(RecordsApplication.packageName)
             val contentIntent = PendingIntent.getActivity(this, requestCode, launchIntent, PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(contentIntent)
 

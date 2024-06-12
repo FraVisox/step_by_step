@@ -171,9 +171,8 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                         listOptions.add(options)
                     }
                     options = defaultOptions()
-                } else {
-                    options.add(LatLng(p.lat, p.lng))
                 }
+                options.add(LatLng(p.lat, p.lng))
             }
             withContext(Dispatchers.Main) {
                 for (o in listOptions) {
