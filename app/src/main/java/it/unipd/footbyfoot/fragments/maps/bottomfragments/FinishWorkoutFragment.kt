@@ -1,6 +1,5 @@
 package it.unipd.footbyfoot.fragments.maps.bottomfragments
 
-import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.TextView
-import androidx.core.content.PermissionChecker
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import it.unipd.footbyfoot.R
@@ -31,15 +29,10 @@ class FinishWorkoutFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_maps_bottom_finish, container, false)
 
-        //If the permissions aren't given and there isn't a workout going on, go back
-        if (PermissionChecker.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PermissionChecker.PERMISSION_GRANTED && PermissionChecker.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PermissionChecker.PERMISSION_GRANTED
-            && !TrackWorkoutService.running) {
+        //If the user didn't ask to start the workout and the workout is not already going on, go back
+        //This is helpful with the permissions: if the user changes the permissions, the application is restarted:
+        //in this case, if the user had started a workout, it should be discarded and the "start" button should be shown
+        if (!StartWorkoutFragment.requestToStart && !TrackWorkoutService.running) {
             parentFragmentManager.findFragmentById(R.id.bottom_fragment)?.findNavController()
                 ?.navigate(R.id.action_finishToStart)
             return view

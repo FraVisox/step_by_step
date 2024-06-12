@@ -14,6 +14,11 @@ import it.unipd.footbyfoot.R
 
 class StartWorkoutFragment : Fragment() {
 
+    companion object {
+        //Used by the FinishWorkoutFragment
+        var requestToStart = false
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_maps_bottom_start, container, false)
 
@@ -31,6 +36,7 @@ class StartWorkoutFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            requestToStart = true
             view.findNavController()
                 .navigate(R.id.action_startToFinish)
         }
