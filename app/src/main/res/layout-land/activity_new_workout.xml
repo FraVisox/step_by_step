@@ -51,21 +51,6 @@
         android:contentDescription="@string/back_button"
         android:src="@drawable/baseline_arrow_back_24" />
 
-    <TextView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_new_workout"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        style="@style/MyTextViewSubtitle"
-        app:layout_constraintTop_toBottomOf="@id/layout_titleSaveWorkout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/instructions_to_add_new_workout"
-        android:textSize="15sp"
-        />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/saveWorkoutCard"
         style="@style/MyMaterialCardView"
@@ -75,7 +60,7 @@
         app:layout_constraintBottom_toTopOf="@+id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_new_workout">
+        app:layout_constraintTop_toBottomOf="@id/layout_titleSaveWorkout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
