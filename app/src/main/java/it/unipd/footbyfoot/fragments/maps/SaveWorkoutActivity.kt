@@ -90,7 +90,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         distance.text = getString(R.string.workout_distance, getString(R.string.distance_format, dist))
 
         //Set speed
-        val speed = if (totTime != 0L) dist!!.toFloat()/seconds else 0F
+        val speed = if (totTime != 0L) dist!!.toFloat()/totTime!! else 0F
         vel.text = getString(R.string.workout_speed, getString(R.string.speed_format, speed))
 
         //Set listener on save
