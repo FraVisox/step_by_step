@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.firebase.Firebase
@@ -37,6 +38,7 @@ class WeeklySummariesFragment : Fragment() {
     private lateinit var listProgressBar:  List<ProgressBar>
     private lateinit var listSteps:  List<TextView>
     private lateinit var listDay:  List<TextView>
+    private lateinit var listRelative:  List<RelativeLayout>
     private lateinit var dateView:  TextView
 
     private lateinit var circularProgressBarSteps : ProgressBar
@@ -92,6 +94,17 @@ class WeeklySummariesFragment : Fragment() {
             view.findViewById(R.id.Fri),
             view.findViewById(R.id.Sat),
             view.findViewById(R.id.Sun)
+        )
+
+        //List of relative layouts (to set the listeners)
+        listRelative = listOf(
+            view.findViewById(R.id.RelativelayoutMon),
+            view.findViewById(R.id.RelativelayoutTue),
+            view.findViewById(R.id.RelativelayoutWed),
+            view.findViewById(R.id.RelativelayoutThu),
+            view.findViewById(R.id.RelativelayoutFri),
+            view.findViewById(R.id.RelativelayoutSat),
+            view.findViewById(R.id.RelativelayoutSun)
         )
 
         //Date
@@ -183,7 +196,7 @@ class WeeklySummariesFragment : Fragment() {
             )
 
             //Set the listener
-            listProgressBar[i - 1].setOnClickListener {
+            listRelative[i - 1].setOnClickListener {
 
                 //Select item
                 selectItem(i-1)
@@ -212,9 +225,9 @@ class WeeklySummariesFragment : Fragment() {
 
         //Select current date or the one previously selected
         if (selectedItem != -1) {
-            listProgressBar[selectedItem].performClick()
+            listRelative[selectedItem].performClick()
         } else {
-            listProgressBar[LocalDate.now().dayOfWeek.value-1].performClick()
+            listRelative[LocalDate.now().dayOfWeek.value-1].performClick()
         }
     }
 

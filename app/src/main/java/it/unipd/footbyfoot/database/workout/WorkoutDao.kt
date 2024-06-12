@@ -46,7 +46,7 @@ interface WorkoutDao {
      * POINTS
      */
     //Get points of a workout
-    @Query("SELECT * FROM point_table WHERE workoutId = :workoutId ORDER BY workoutId, trackList, pointId")
+    @Query("SELECT * FROM point_table WHERE workoutId = :workoutId ORDER BY trackList, pointId")
     fun getWorkoutPoints(workoutId: Int): Flow<List<WorkoutTrackPoint>>
 
     //Insert a point of a workout

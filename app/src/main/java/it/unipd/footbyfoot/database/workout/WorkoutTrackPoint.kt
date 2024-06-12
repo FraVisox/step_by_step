@@ -16,7 +16,7 @@ import androidx.room.Index
             onDelete = CASCADE
         )
     ],
-    indices = [Index("workoutId")]
+    indices = [Index("workoutId")] //Index required for the foreign key and useful for the query of the points of a certain workout
 )
 data class WorkoutTrackPoint(
     @ColumnInfo(name = "pointId")

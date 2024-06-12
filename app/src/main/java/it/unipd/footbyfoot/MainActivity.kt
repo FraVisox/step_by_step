@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         //If it is the first time the user uses the app, show a dialog
         val preferences = getPreferences(MODE_PRIVATE)
-        if (preferences.getBoolean(firstUse, true)) {
+        if (preferences.getBoolean(firstUse, true) && savedInstanceState == null) {
             val dialog = PermissionDialog()
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
@@ -175,23 +175,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(fragment, thisFragment)
-    }
-
-    //Show permissions dialog for location
-    fun showLocationDialog(exception: ResolvableApiException) {
-        AlertDialog.Builder(this)
-            .setMessage(
-                R.string.enable_location
-            )
-            .setPositiveButton(
-                getString(R.string.show_dialog)
-            ) { _,_ ->
-                exception.startResolutionForResult(this, 1)
-            }.setNegativeButton(
-                getString(R.string.ignore_dialog)
-            ) { _, _ ->
-            }
-            .create().show()
     }
 
     /*
