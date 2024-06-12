@@ -43,6 +43,8 @@ class TodaySummaryFragment : Fragment() {
     //Personalized trace
     private val dayTrace = Firebase.performance.newTrace(RecordsApplication.todaySummaryTrace)
 
+    private val date = LocalDate.now()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,11 +65,6 @@ class TodaySummaryFragment : Fragment() {
         countDistance = view.findViewById(R.id.countTodayDistance)
         goalsDistance = view.findViewById(R.id.goalsTodayDistance)
 
-        //Observe the distances of today
-        (activity as MainActivity).recordsViewModel.todayDistance.observe(viewLifecycleOwner) { distance ->
-            updateDistances(distance)
-        }
-
         //Observe the goals
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) { goals ->
             updateGoals(goals)
@@ -76,6 +73,11 @@ class TodaySummaryFragment : Fragment() {
         //Observe the info
         (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
             updateInfo(info)
+        }
+
+        //Observe the distances
+        (activity as MainActivity).recordsViewModel.getTodayDistance().observe(viewLifecycleOwner) { distance ->
+            updateDistances(distance)
         }
 
         return view
@@ -118,10 +120,12 @@ class TodaySummaryFragment : Fragment() {
         val countC = Helpers.calculateCalories(weight, distance)
         countCalories.text = countC.toString()
 
+        //Set goals
         goalsCalories.text = currentGoal.calories.toString()
         goalsSteps.text = currentGoal.steps.toString()
         goalsDistance.text = currentGoal.distance.toString()
 
+        //Set progress
         progressBarDistance.progress = Helpers.calculatePercentage(
             distance.toDouble(),
             currentGoal.distance.toDouble()
@@ -136,12 +140,22 @@ class TodaySummaryFragment : Fragment() {
         )
     }
 
+    //FIREBASE TRACE
     override fun onResume() {
         super.onResume()
+
+        if (LocalDate.now() != date) {
+            //Observe the distances of today: it is done in onResume as the date could change while the user is
+            //in the app: if the date changes, when this fragment is redisplayed, it will be updated
+            (activity as MainActivity).recordsViewModel.getTodayDistance()
+                .observe(viewLifecycleOwner) { distance ->
+                    updateDistances(distance)
+                }
+        }
+
         //Start trace
         dayTrace.start()
     }
-
     override fun onPause(){
         //Stop trace
         dayTrace.stop()

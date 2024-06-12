@@ -19,19 +19,13 @@ class RecordsRepository(
     private val workoutDao: WorkoutDao,
     private val infoDao: UserInfoDao
 ) {
-    //Firebase metrics
+    //Metrics used for firebase
     val totalDistance: Flow<Int> = workoutDao.getTotalDistance()
     val totalTime: Flow<Long> = workoutDao.getTotalTime()
     val countWorkout: Flow<Int> = workoutDao.countWorkout()
 
-    //All workouts and all workouts points
+    //All workouts
     val allWorkouts: Flow<List<Workout>> = workoutDao.getAllWorkoutsOrderedByDate()
-
-    //Sum of distances of all today's workouts
-    val todayDistance: Flow<Distance> = workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
-
-    //Sum of distances of this week's workouts, grouped by date
-    val lastWeekDistances: Flow<List<Distance>> = getThisWeekDistances()
 
     //Sum of distances of all workouts, grouped by date
     val allDistances: Flow<List<Distance>> = workoutDao.getAllDistances()
@@ -42,12 +36,16 @@ class RecordsRepository(
     //All user info
     val allInfo : Flow<List<UserInfo>> = infoDao.getAllInfo()
 
-    //Utility function to get the sum of distances of this week's workouts, grouped by date
-    private fun getThisWeekDistances(): Flow<List<Distance>> {
+    //Function to get the sum of distances of this week's workouts, grouped by date
+    fun getThisWeekDistances(): Flow<List<Distance>> {
         val now = LocalDate.now().dayOfWeek.value
         val dateFrom = LocalDate.now().minusDays((now-1).toLong())
         val dateTo = dateFrom.plusDays(6L)
         return workoutDao.getDistancesFromDateToDate(dateFrom.year, dateFrom.dayOfYear, dateTo.year, dateTo.dayOfYear)
+    }
+
+    fun getTodayDistance(): Flow<Distance> {
+        return workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
     }
 
     //Insert a new workout, with the points associated

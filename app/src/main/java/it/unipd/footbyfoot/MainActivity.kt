@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
         val fragmentManager = supportFragmentManager
 
-        //The current fragment is saved in primaryNavigationFragment, if present
+        //Detach the fragment that is now displayed
         val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFragment = fragmentManager.primaryNavigationFragment
 

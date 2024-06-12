@@ -42,7 +42,7 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
     private var requestMade = false
     //Boolean to check if it has already been zoomed the area of the current position
     private var first = true
-    //Boolean to guarantee synchronism
+    //Boolean to guarantee synchronized access to positions
     private var drawingTrack = false
 
     //Tracker that manages the binding to the service
@@ -57,13 +57,14 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
     //Color of the polyline
     private val trackColor : Int = Color.parseColor(getString(context, R.color.colorPrimary))
 
-    //Returns the clear options to construct the polyline
+    //Returns the clean options to construct the polyline
     private fun defaultOptions(): PolylineOptions {
         return PolylineOptions().color(trackColor).geodesic(true)
     }
 
     //Options of current polyline (containing the points)
     private var options = defaultOptions()
+    //Options of points arrived while drawing the current track
     private var justArrivedOptions = defaultOptions()
 
     //Called when the map is ready (as this class implements OnMapReadyCallback)
@@ -118,7 +119,6 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         val pos = LatLng(loc.latitude, loc.longitude)
         focusPosition(pos)
     }
-
     private fun focusPosition(pos: LatLng) {
         if (map.cameraPosition.zoom <= maxZoomToUpdate)
             map.moveCamera(CameraUpdateFactory.zoomTo(firstZoom))
@@ -140,10 +140,6 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         }
         workoutTracker.startWorkout()
     }
-    //Stop the current workout
-    fun stopWorkout() {
-        workoutTracker.stopWorkout()
-    }
     //Pause the current workout
     fun pauseWorkout() {
         workoutTracker.pauseWorkout()
@@ -158,6 +154,10 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         addPointToLine(PositionTracker.currentLocation!!)
         workoutTracker.resumeWorkout()
     }
+    //Stop the current workout
+    fun stopWorkout() {
+        workoutTracker.stopWorkout()
+    }
 
     /*
      * Functions used to draw the track of the workout
@@ -170,17 +170,18 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         if (mapInitialized)
             currPolyline = map.addPolyline(options)
     }
-    //Draw all current lines
+    //Draw all current lines (if the service is running and the map is not updated)
     fun drawCurrentTrack(locs: List<LatLng?>) {
         if (locs.isEmpty()) {
             return
         }
 
+        //To guarantee mutual exclusion to the options, we set drawingTrack to true
         drawingTrack = true
         justArrivedOptions = defaultOptions()
         clearLine()
 
-        //Launch a coroutine
+        //Launch a coroutine to update the map
         context.lifecycleScope.launch(Dispatchers.IO) {
             var lastLoc: LatLng? = null
             val otherOptions: MutableList<PolylineOptions> = mutableListOf()
@@ -195,10 +196,12 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
                     lastLoc = it
                 }
             }
+            //In the UI context
             withContext(Dispatchers.Main) {
                 for (o in otherOptions) {
                     otherPolylines.add(map.addPolyline(o))
                 }
+                //Add points arrived while drawing the track
                 options.addAll(justArrivedOptions.points)
                 justArrivedOptions = defaultOptions()
                 currPolyline = map.addPolyline(options)

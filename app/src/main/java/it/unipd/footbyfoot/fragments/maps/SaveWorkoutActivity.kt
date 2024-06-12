@@ -20,7 +20,7 @@ import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.manager.PositionsHolder
 import java.time.LocalDateTime
 
-
+//Activity that saves the workout
 class SaveWorkoutActivity: AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -157,7 +157,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
     }
 
     private fun endActivity() {
-
         //Store the workout and name ID
         val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
         val editor = preferences.edit()

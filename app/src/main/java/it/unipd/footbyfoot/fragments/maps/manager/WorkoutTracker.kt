@@ -21,7 +21,7 @@ class WorkoutTracker(private val manager: MapsManager) {
     private lateinit var timeChronometer: Chronometer
     private var distanceView: TextView? = null
 
-    //Service that tracks the workouts: it's a service as it will survive the killing of the Activity
+    //Service that tracks the workouts: it will survive the killing of the Activity
     private lateinit var mService: TrackWorkoutService
     private var mBound = false
 
@@ -55,13 +55,35 @@ class WorkoutTracker(private val manager: MapsManager) {
         }
     }
 
+    /*
+     * UI updates
+     */
     //Set the views
     fun setViews(time: Chronometer, distanceView: TextView) {
         //Connect the views
         this.timeChronometer = time
         this.distanceView = distanceView
     }
+    //Update current polyline
+    fun updatePolyline(current : Location) {
+        if (TrackWorkoutService.running && !TrackWorkoutService.paused) {
+            manager.addPointToLine(current)
+            updateDistance()
+        }
+    }
+    //Update distance
+    private fun updateDistance() {
+        distanceView?.post {
+            distanceView?.text = manager.context.getString(
+                R.string.distance_format,
+                mService.distance.toInt()
+            )
+        }
+    }
 
+    /*
+     * WORKOUTS
+     */
     //Start the workout
     fun startWorkout() {
         //Create the service that will be used to track the workout: the chronometer will be updated when we receive the callback
@@ -118,7 +140,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         PositionsHolder.clearPositions()
         PositionsHolder.positions.addAll(mService.locations)
 
-        //Reset
+        //Reset service and map
         mService.clearWorkout()
         manager.context.applicationContext.unbindService(connection)
         manager.clearLine()
@@ -128,23 +150,5 @@ class WorkoutTracker(private val manager: MapsManager) {
         intent.putExtra(SaveWorkoutActivity.timeKey, time/1000)
         intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
         manager.context.startActivity(intent)
-    }
-
-    //Update current polyline
-    fun updatePolyline(current : Location) {
-        if (TrackWorkoutService.running && !TrackWorkoutService.paused) {
-            manager.addPointToLine(current)
-            updateDistance()
-        }
-    }
-
-    //Update distance
-    private fun updateDistance() {
-        distanceView?.post {
-            distanceView?.text = manager.context.getString(
-                R.string.distance_format,
-                mService.distance.toInt()
-            )
-        }
     }
 }

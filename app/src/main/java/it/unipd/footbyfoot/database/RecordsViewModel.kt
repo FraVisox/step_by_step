@@ -31,13 +31,20 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allWorkouts: LiveData<List<Workout>> = repository.allWorkouts.asLiveData()
 
     //Distances
-    val todayDistance: LiveData<Distance> = repository.todayDistance.asLiveData()
-    val lastWeekDistances : LiveData<List<Distance>> = repository.lastWeekDistances.asLiveData()
     val allDistances : LiveData<List<Distance>> = repository.allDistances.asLiveData()
 
     //Goals and info
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
     val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
+
+    //Utility function to get the sum of distances of this week's workouts, grouped by date
+    fun getThisWeekDistances(): LiveData<List<Distance>> {
+        return repository.getThisWeekDistances().asLiveData()
+    }
+
+    fun getTodayDistance(): LiveData<Distance> {
+        return repository.getTodayDistance().asLiveData()
+    }
 
     //Get points of a workout
     fun getWorkoutPoints(workoutId: Int): LiveData<List<WorkoutTrackPoint>>? {

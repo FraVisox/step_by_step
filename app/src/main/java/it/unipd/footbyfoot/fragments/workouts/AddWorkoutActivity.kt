@@ -126,17 +126,22 @@ class AddWorkoutActivity: AppCompatActivity() {
             }
         }
 
+        //Set listener on save
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
+            //If not all the fields are filled
             if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || durationPicker.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
                 Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            //If the workout is in the future (only if the couple date/time is not right, otherwise is checked on the DatePickerDialog)
             val now = LocalDateTime.now()
             if (datePicker.year == now.year && datePicker.dayOfYear == now.dayOfYear && (timePicker.hour!! > now.hour || (timePicker.hour == now.hour && timePicker.minute!! > now.minute))) {
                 Toast.makeText(this, getString(R.string.impossible_date), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            //Insert
             recordsViewModel.insertWorkout(
                 Workout(
                     workoutId,
@@ -166,11 +171,18 @@ class AddWorkoutActivity: AppCompatActivity() {
             bundle.putInt(RecordsApplication.saveKey, preferences.getInt(RecordsApplication.saveKey, 0))
             firebaseAnalytics.logEvent(RecordsApplication.addedWorkout, bundle)
 
+            //Update the name ID and the workout ID
             if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++
             }
             workoutId++
 
+            //Store the workout and name ID
+            val preferencesID = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
+            val editorID = preferencesID.edit()
+            editorID.putInt(SaveWorkoutActivity.currentWorkoutID, workoutId)
+            editorID.putInt(SaveWorkoutActivity.currentNameID, nameId)
+            editorID.apply()
 
             finish()
         }
@@ -179,17 +191,6 @@ class AddWorkoutActivity: AppCompatActivity() {
         back.setOnClickListener {
             finish()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        //Store the workout ID
-        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
-        val editor = preferences.edit()
-        editor.putInt(SaveWorkoutActivity.currentWorkoutID, workoutId)
-        editor.putInt(SaveWorkoutActivity.currentNameID, nameId)
-        editor.apply()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -217,6 +218,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         } else {
             outState.putBoolean(savedTime, false)
         }
+        //No need to save the name, as it is an EditText
     }
 
 }

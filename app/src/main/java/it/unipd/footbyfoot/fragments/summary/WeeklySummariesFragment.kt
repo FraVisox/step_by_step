@@ -56,6 +56,8 @@ class WeeklySummariesFragment : Fragment() {
     //Personalized trace
     private val weekTrace = Firebase.performance.newTrace(RecordsApplication.weekSummaryTrace)
 
+    private val date = LocalDate.now()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -132,17 +134,17 @@ class WeeklySummariesFragment : Fragment() {
             selectedItem = savedInstanceState.getInt(selectedItemKey)
         }
 
-        //Observe the distances of last week
-        (activity as MainActivity).recordsViewModel.lastWeekDistances.observe(viewLifecycleOwner) { distanceList ->
-            updateDistances(distanceList)
-        }
         //Observe the goals
         (activity as MainActivity).recordsViewModel.allGoals.observe(viewLifecycleOwner) { goals ->
             updateGoals(goals)
-       }
+        }
         //Observe the info
         (activity as MainActivity).recordsViewModel.allInfo.observe(viewLifecycleOwner) { info ->
             updateInfo(info)
+        }
+        //Observe distances
+        (activity as MainActivity).recordsViewModel.getThisWeekDistances().observe(viewLifecycleOwner) { distanceList ->
+            updateDistances(distanceList)
         }
 
         return view
@@ -169,8 +171,8 @@ class WeeklySummariesFragment : Fragment() {
         setViews()
     }
 
+    //Everytime there is an update in distances, goals or info, we set the views
     private fun setViews() {
-
         //For every date in the current week (1 is Monday, 7 is Sunday, as in LocalDate)
         for (i in 1..7) {
 
@@ -245,9 +247,19 @@ class WeeklySummariesFragment : Fragment() {
         listSteps[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
     }
 
-
+    //FIREBASE TRACE
     override fun onResume() {
         super.onResume()
+
+        if (LocalDate.now() != date) {
+            //Observe the distances of last week: it is done in onResume as the date could change while the user is
+            //in the app: if the date changes, when this fragment is redisplayed, it will be updated
+            (activity as MainActivity).recordsViewModel.getThisWeekDistances()
+                .observe(viewLifecycleOwner) { distanceList ->
+                    updateDistances(distanceList)
+                }
+        }
+
         //Start trace
         weekTrace.start()
     }

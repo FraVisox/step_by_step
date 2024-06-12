@@ -25,7 +25,8 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
                 return oldItem.workoutId == newItem.workoutId
             }
 
-            //Tells if two items have the same content (same name, date and time)
+            //Tells if two items have the same content (same name, date and time): the name is the
+            //most important, as the user can change it in MapsWorkoutInfoActivity
             override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
                 return (oldItem.name == newItem.name &&
                         oldItem.year == newItem.year &&
@@ -84,7 +85,6 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
             time.text = timeText
             name.text = nam
             speed.text = v
-
 
             //Set a listener on the entire view that displays the track
             itemView.setOnClickListener {

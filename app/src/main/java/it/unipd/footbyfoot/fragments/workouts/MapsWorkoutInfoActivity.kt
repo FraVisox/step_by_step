@@ -20,7 +20,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -65,12 +64,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         firebaseAnalytics = Firebase.analytics
 
+        //Check if the toast has already been shown
         if (savedInstanceState != null) {
             showedToast = savedInstanceState.getBoolean(toastShowed)
         }
 
+        //Get id
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
+        //Get the points of the workout: when they are available, we will draw the lines
         recordsViewModel.getWorkoutPoints(workoutId)?.observe(this) {
             if (first) {
                 points = it
@@ -95,6 +97,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         //Back button
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
+            //Change the name, if needed
             if (name.text.toString() != currentName) {
                 recordsViewModel.changeWorkoutName(workoutId, name.text.toString())
             }
@@ -104,6 +107,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         //Delete workout button
         val del = findViewById<ImageButton>(R.id.delete_workout)
         del.setOnClickListener {
+            //Send event to firebase
             val bundle = Bundle()
             bundle.putLong(timeKey, intent.getLongExtra(timeKey,0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
@@ -139,9 +143,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         ))
     }
 
-    //Polylines drawn
-    private var polylines : MutableList<Polyline> = mutableListOf()
-
     //Called when the map is ready (as this class implements OnMapReadyCallback)
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -162,6 +163,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             return
         }
+        //Launch a coroutine
         lifecycleScope.launch(Dispatchers.IO) {
             var options: PolylineOptions = defaultOptions()
             val listOptions: MutableList<PolylineOptions> = mutableListOf(options)
@@ -174,11 +176,12 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 options.add(LatLng(p.lat, p.lng))
             }
+            //Launch in the main thread
             withContext(Dispatchers.Main) {
                 for (o in listOptions) {
-                    polylines.add(map!!.addPolyline(o))
+                    map!!.addPolyline(o)
                 }
-                polylines.add(map!!.addPolyline(options))
+                map!!.addPolyline(options)
                 //Focus on starting point
                 focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
             }
@@ -188,6 +191,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
     //Used to focus on workout position
     private fun focusPosition(pos: LatLng) {
         map!!.moveCamera(CameraUpdateFactory.zoomTo(MapsManager.firstZoom))
-        map!!.animateCamera(CameraUpdateFactory.newLatLng(pos))
+        map!!.moveCamera(CameraUpdateFactory.newLatLng(pos))
     }
 }

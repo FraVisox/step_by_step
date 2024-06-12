@@ -46,12 +46,12 @@ class AllSummariesFragment : Fragment() {
         return view
     }
 
+    //FIREBASE TRACE
     override fun onResume() {
         super.onResume()
         //Start trace
         monthTrace.start()
     }
-
     override fun onPause(){
         //Stop trace
         monthTrace.stop()

@@ -65,7 +65,6 @@ object PositionTracker {
     //Function to start the tracking of the position, called by the object that starts using it
     fun startLocationTrack(context: Context) {
         if (currentLocation != null) {
-            updateLocation(currentLocation!!)
             return
         }
 
@@ -163,6 +162,7 @@ object PositionTracker {
         )
     }
 
+    //Update the location for all the observers, if the current location is null or it has changed from the previous one
     private fun updateLocation(loc: Location) {
         if (currentLocation == null || (loc.latitude != currentLocation!!.latitude && loc.longitude != currentLocation!!.longitude)) {
             currentLocation = loc
