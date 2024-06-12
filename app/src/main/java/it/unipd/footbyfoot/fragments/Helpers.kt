@@ -38,6 +38,9 @@ object Helpers {
 
     //Calculate steps based on height and distance
     fun calculateSteps(height: Int, distance: Int): Int {
+        if (height == 0) {
+            return 0
+        }
         // Convert height from centimeters to meters
         val heightInMeters = height.toDouble() / 100.0
 
@@ -130,7 +133,7 @@ object Helpers {
     }
 
     //Get the distance of a date in a list of weekly dates
-    fun getDistanceMetersOfDate(distances: List<Distance>, date: LocalDate): Int {
+    fun getDistanceMetersOfDateInWeek(distances: List<Distance>, date: LocalDate): Int {
         //Get the distance of this date
         for (distanceL in distances) {
             if (LocalDate.ofYearDay(

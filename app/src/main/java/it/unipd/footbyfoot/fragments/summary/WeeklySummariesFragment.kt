@@ -181,7 +181,7 @@ class WeeklySummariesFragment : Fragment() {
                 .minusDays((LocalDate.now().dayOfWeek.value - i).toLong())
 
             //Distance and goal of that day
-            val meters = Helpers.getDistanceMetersOfDate(distanceList, date)
+            val meters = Helpers.getDistanceMetersOfDateInWeek(distanceList, date)
             val goal = Helpers.getGoalOfDate(goalsList, date)
             val info = Helpers.getInfoOfDate(infoList, date)
 
