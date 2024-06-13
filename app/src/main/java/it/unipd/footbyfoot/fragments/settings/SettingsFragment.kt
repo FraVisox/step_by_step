@@ -17,8 +17,8 @@ import java.time.LocalDate
 
 class SettingsFragment : Fragment() {
 
-    // Class constants and default values
     companion object {
+        //Keys to save and default info
         internal const val WEIGHT = "weight"
         internal const val HEIGHT = "height"
         internal const val AGE = "age"
@@ -26,7 +26,7 @@ class SettingsFragment : Fragment() {
         const val defaultHeight = 180
         const val defaultAge = 30
 
-        //Firebase const for event
+        //Firebase keys for event
         const val ageIncrementKey = "age_increment"
         const val ageDecrementKey = "age_decrement"
         const val heightIncrementKey = "height_increment"
@@ -122,7 +122,7 @@ class SettingsFragment : Fragment() {
 
         insertInfo()
 
-        //Save new current user properties
+        //Set new current user properties
         (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.height, heightSettings?.text.toString())
         (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.weight, weightSettings?.text.toString())
         (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.declaredAge, ageSettings.text.toString())
@@ -149,21 +149,25 @@ class SettingsFragment : Fragment() {
 
         val preferences = requireActivity().getPreferences(MODE_PRIVATE)
         //Get last values (to know if we need to update or not)
-        val currentHeight = preferences.getInt(
-            HEIGHT,
-            defaultHeight
-        )
+        val currentHeight = preferences.getInt(HEIGHT, defaultHeight)
         val currentWeight = preferences.getInt(WEIGHT, defaultWeight)
+        val currentAge = preferences.getInt(AGE, defaultAge)
 
-        //Insert age, weight and height on shared preferences
+        //Edit preferences
         val editor = preferences.edit()
-        editor.putInt(AGE, updatedAge)
-        editor.putInt(WEIGHT, updatedWeight)
-        editor.putInt(HEIGHT, updatedHeight)
-        editor.apply()
+
+        //Insert age only if updated
+        if (updatedAge != currentAge) {
+            editor.putInt(AGE, updatedAge)
+        }
 
         //Insert a new info in the database only if it is different from the current one (as we don't want many similar data)
         if (currentHeight != updatedHeight || currentWeight != updatedWeight) {
+            //Insert in preferences
+            editor.putInt(WEIGHT, updatedWeight)
+            editor.putInt(HEIGHT, updatedHeight)
+
+            //Insert in database
             val date = LocalDate.now()
             val updatedInfo = UserInfo(
                 date.year,
@@ -173,5 +177,7 @@ class SettingsFragment : Fragment() {
             )
             (activity as MainActivity).recordsViewModel.insertInfo(updatedInfo)
         }
+
+        editor.apply()
     }
 }

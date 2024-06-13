@@ -17,8 +17,8 @@ import java.time.LocalDate
 
 class GoalsFragment : Fragment() {
 
-    //Companion object
     companion object {
+        //Keys to save and default goal
         const val stepsKey = "steps"
         const val distanceKey = "distance"
         const val caloriesKey = "calories"
@@ -120,6 +120,7 @@ class GoalsFragment : Fragment() {
         (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.stepsGoal, stepsGoal?.text.toString())
         (activity as MainActivity).firebaseAnalytics.setUserProperty(RecordsApplication.distanceGoal, distanceGoal?.text.toString())
 
+        //Log event
         if (counterIncrementCalories != 0 || counterDecrementCalories != 0 || counterIncrementSteps != 0 ||
             counterDecrementSteps != 0 || counterIncrementDistance != 0 || counterDecrementDistance != 0) {
             val bundle = Bundle()
@@ -144,15 +145,16 @@ class GoalsFragment : Fragment() {
         val currentSteps = preferences.getInt(stepsKey, defaultGoal)
         val currentCalories = preferences.getInt(caloriesKey, defaultGoal)
 
-        //Insert everything in shared preferences
-        val editor = preferences.edit()
-        editor.putInt(caloriesKey, updatedCalories)
-        editor.putInt(stepsKey, updatedSteps)
-        editor.putInt(distanceKey, updatedDistance)
-        editor.apply()
-
         //Insert a new goal only if it is different from the current one (to diminish entries of database)
         if (currentDistance != updatedDistance || currentSteps != updatedSteps || currentCalories != updatedCalories) {
+            //Insert everything in shared preferences
+            val editor = preferences.edit()
+            editor.putInt(caloriesKey, updatedCalories)
+            editor.putInt(stepsKey, updatedSteps)
+            editor.putInt(distanceKey, updatedDistance)
+            editor.apply()
+
+            //Insert in database
             val date = LocalDate.now()
             val updatedGoal = Goal(
                 date.year,

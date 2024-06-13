@@ -30,7 +30,7 @@ class AllSummariesFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        //Observe
+        //Observe distances, goals and info
         (activity as MainActivity).recordsViewModel.allDistances.observe(viewLifecycleOwner) { distances ->
             adapter.submitList(distances)
         }

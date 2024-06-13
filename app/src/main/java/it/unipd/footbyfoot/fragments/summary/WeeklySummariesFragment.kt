@@ -247,7 +247,6 @@ class WeeklySummariesFragment : Fragment() {
         listSteps[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.progressBarGreen))
     }
 
-    //FIREBASE TRACE
     override fun onResume() {
         super.onResume()
 

@@ -140,7 +140,6 @@ class TodaySummaryFragment : Fragment() {
         )
     }
 
-    //FIREBASE TRACE
     override fun onResume() {
         super.onResume()
 

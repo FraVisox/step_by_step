@@ -16,6 +16,7 @@ import it.unipd.footbyfoot.database.workout.Distance
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
+//Adapter used in AllSummariesFragment
 class SummariesAdapter(private val activity: Activity) : ListAdapter<Distance, SummariesAdapter.RecordsViewHolder>(DISTANCE_COMPARATOR) {
 
     //ListAdapters need a comparator
@@ -94,6 +95,7 @@ class SummariesAdapter(private val activity: Activity) : ListAdapter<Distance, S
 
         fun bind(date: String, countSteps: Int, countCalories: Double, countDistance: Int, currentGoal: Goal) {
 
+            //Set views
             dateOfRecords.text = date
 
             steps.text = countSteps.toString()
