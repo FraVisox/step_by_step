@@ -15,24 +15,26 @@ import it.unipd.footbyfoot.fragments.workouts.WorkoutsFragment
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.database.RecordsViewModelFactory
 import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     //Firebase
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    //Firebase used properties
+    //Firebase values for user properties
     private var totD: Int = 0
     private var totT: Long = 0
 
-    // Current fragment and data binding
+    //Current fragment and data binding
     private lateinit var binding : ActivityMainBinding
     private var thisFragment : Int = R.id.stepsFragment
 
     //View model
     val recordsViewModel : RecordsViewModel by viewModels{
-        (application as RecordsApplication).viewModelFactory
+        RecordsViewModelFactory((application as RecordsApplication).repository)
     }
 
     //Add a callback to all the startActivityForResult used
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
-        //If it is the first time the user uses the app, show a dialog
+        //If the user didn't accept to send data to Firebase, show a dialog
         val preferences = getPreferences(MODE_PRIVATE)
         if (preferences.getBoolean(firstUse, true) && savedInstanceState == null) {
             val dialog = PermissionDialog()
@@ -68,11 +70,12 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, getString(R.string.permission_dialog))
         }
 
-        //Change workout counts
+        //OBSERVE:
+        //Changes in workout counts
         recordsViewModel.countWorkout.observe(this) { record ->
             firebaseAnalytics.setUserProperty(RecordsApplication.workoutCounter, record.toString())
         }
-        //Change speed
+        //Changes in average speed
         recordsViewModel.totalDistance.observe(this) { records ->
             totD = 0
             records?.let {
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             setAverageSpeed()
         }
 
-        //Set listeners
+        //Set listeners for the bottom bar
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId){
@@ -102,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        //Restore state
+        //Restore state by selecting the correct fragment
         if (savedInstanceState != null) {
             attachFragment(savedInstanceState.getInt(fragment))
         } else {
@@ -199,7 +202,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAverageSpeed() {
         if (totT != 0L) {
             val avg: Double = totD / totT.toDouble()
-            firebaseAnalytics.setUserProperty(RecordsApplication.averageSpeed, avg.toString())
+            firebaseAnalytics.setUserProperty(RecordsApplication.averageSpeed, "%.2f".format(Locale.US, avg))
         }
     }
 

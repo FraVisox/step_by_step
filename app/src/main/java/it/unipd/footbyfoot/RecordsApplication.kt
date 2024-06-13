@@ -8,9 +8,7 @@ import it.unipd.footbyfoot.database.RecordsViewModelFactory
 class RecordsApplication : Application() {
 
     private val database by lazy { RecordsRoomDatabase.getDatabase(this) }
-    private val repository by lazy { RecordsRepository(database.goalDao(), database.workoutDao(), database.infoDao()) }
-
-    val viewModelFactory by lazy { RecordsViewModelFactory(repository) }
+    val repository by lazy { RecordsRepository(database.goalDao(), database.workoutDao(), database.infoDao()) }
 
     companion object {
         //Package name (required for the service)

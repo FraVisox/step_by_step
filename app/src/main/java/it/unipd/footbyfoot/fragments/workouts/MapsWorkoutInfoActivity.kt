@@ -25,7 +25,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.ActivityResultListener
-import it.unipd.footbyfoot.PositionsHolder
+import it.unipd.footbyfoot.WorkoutPointsHolder
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         const val distanceTextKey = "distanceText"
         const val timeTextKey = "timeText"
 
-        //If the toast was showed
+        //If the toast was showed (key)
         const val toastShowed = "toast"
     }
 
@@ -59,12 +59,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_info)
 
+        //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
-        if (!PositionsHolder.updated) {
-            PositionsHolder.setObserver(this)
+        //If the points aren't already updated, set this object as an observer
+        if (!WorkoutPointsHolder.updated) {
+            WorkoutPointsHolder.setObserver(this)
         } else {
-            updatedPoints()
+            //Otherwise, update points
+            points.addAll(WorkoutPointsHolder.workoutPoints)
         }
 
         //Check if the toast has already been shown
@@ -75,7 +78,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         //Get id
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
 
-        //Creates the map
+        //Create the map and set the callback
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
@@ -93,6 +96,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         back.setOnClickListener {
             //Change the name, if needed
             if (name.text.toString() != currentName) {
+                //Set result
                 val intent = Intent()
                 intent.putExtra(ActivityResultListener.changeWorkoutName, true)
                 intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
@@ -114,6 +118,8 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                 bundle.putDouble(SaveWorkoutActivity.pointsLng, points.first().lng)
             }
             firebaseAnalytics.logEvent(RecordsApplication.workoutDeleted, bundle)
+
+            //Set result
             val intent = Intent()
             intent.putExtra(ActivityResultListener.deleteWorkout, true)
             intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
@@ -122,9 +128,20 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    //The only thing we need to save is if we have already shown the toast: the points are saved in WorkoutPointsHolder
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(toastShowed, showedToast)
+    }
+
+    //Callback if this object becomes an observer of WorkoutPointsHolder
+    fun updatedPoints() {
+        //Get the points of the workout
+        points.addAll(WorkoutPointsHolder.workoutPoints)
+        //We don't delete points from WorkoutPointsHolder as these can be useful if the user changes configuration
+
+        //Draw lines
+        drawAllLines()
     }
 
     /*
@@ -150,18 +167,12 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         drawAllLines()
     }
 
-    fun updatedPoints() {
-        //Get the points of the workout: when they are available, we will draw the lines
-        points.addAll(PositionsHolder.workoutPoints)
-        drawAllLines()
-    }
-
     //Draw all lines
     private fun drawAllLines() {
         if (map == null) {
             return
         }
-        //Points are ordered because of the way we select them
+        //If there are no points, show the toast if not already shown
         if (points.isEmpty()) {
             if (!showedToast) {
                 Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT)
@@ -170,8 +181,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             return
         }
-        //Launch a coroutine
+
+        //Points are ordered because of the way we select them
+        //Launch a coroutine to draw the lines
         lifecycleScope.launch(Dispatchers.IO) {
+            //Get options
             var options: PolylineOptions = defaultOptions()
             val listOptions: MutableList<PolylineOptions> = mutableListOf(options)
             for (p in points) {
@@ -181,7 +195,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 options.add(LatLng(p.lat, p.lng))
             }
-            //Launch in the main thread
+            //Launch in the main thread a coroutine to draw the polylines
             withContext(Dispatchers.Main) {
                 for (o in listOptions) {
                     map!!.addPolyline(o)

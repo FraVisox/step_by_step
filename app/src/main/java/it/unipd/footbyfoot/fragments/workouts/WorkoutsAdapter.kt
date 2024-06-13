@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.PositionsHolder
+import it.unipd.footbyfoot.WorkoutPointsHolder
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
-//Adapter for a single Workout
 class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, WorkoutsAdapter.WorkoutViewHolder>(WORKOUT_COMPARATOR) {
 
     //ListAdapters need a comparator
@@ -37,7 +36,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
         }
     }
 
-    // Returns a new ViewHolder
+    //Returns a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_workout_info, parent, false)
@@ -45,7 +44,7 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
     }
 
 
-    // Displays data at a certain position
+    //Displays data at a certain position
     override fun onBindViewHolder(holder: WorkoutViewHolder, position: Int) {
         //Take the workout at that position
         val record = getItem(position)
@@ -97,15 +96,18 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
                 intent.putExtra(MapsWorkoutInfoActivity.nameKey, nam)
                 intent.putExtra(MapsWorkoutInfoActivity.idKey, id)
 
+                //Observe points of this workout from the database, and save them in WorkoutPointsHolder when updated for the first time
                 var first = true
                 (it.context as MainActivity).recordsViewModel.getWorkoutPoints(id)?.observe(it.context as MainActivity) { list ->
                     if (first) {
-                        PositionsHolder.clearWorkoutPoints()
-                        PositionsHolder.addAllWorkoutPoints(list)
+                        //This clears the previous points, and then updates them
+                        WorkoutPointsHolder.clearWorkoutPoints()
+                        WorkoutPointsHolder.addAllWorkoutPoints(list)
                         first = false
                     }
                 }
 
+                //Start activity
                 (it.context as MainActivity).startForResult.launch(intent)
             }
         }
