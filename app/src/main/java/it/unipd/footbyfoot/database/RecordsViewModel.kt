@@ -22,6 +22,10 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         const val invalidWorkoutID = -1
     }
 
+    /*
+     * GETTERS
+     */
+
     //Firebase metrics
     val totalDistance: LiveData<Int> = repository.totalDistance.asLiveData()
     val totalTime: LiveData<Long> = repository.totalTime.asLiveData()
@@ -37,11 +41,12 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
     val allGoals : LiveData<List<Goal>> = repository.allGoals.asLiveData()
     val allInfo : LiveData<List<UserInfo>> = repository.allInfo.asLiveData()
 
-    //Utility function to get the sum of distances of this week's workouts, grouped by date
+    //Get the sum of distances of this week's workouts, grouped by date
     fun getThisWeekDistances(): LiveData<List<Distance>> {
         return repository.getThisWeekDistances().asLiveData()
     }
 
+    //Get today's distance (sum of all the workouts)
     fun getTodayDistance(): LiveData<Distance> {
         return repository.getTodayDistance().asLiveData()
     }
@@ -54,6 +59,10 @@ class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() 
         }
         return null
     }
+
+    /*
+     * SETTERS
+     */
 
     //Insert a new goal for a day (if there is already one, replace it)
     fun insertGoal(goal: Goal) {

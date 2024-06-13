@@ -19,6 +19,9 @@ class RecordsRepository(
     private val workoutDao: WorkoutDao,
     private val infoDao: UserInfoDao
 ) {
+    /*
+     * GETTERS
+     */
     //Metrics used for firebase
     val totalDistance: Flow<Int> = workoutDao.getTotalDistance()
     val totalTime: Flow<Long> = workoutDao.getTotalTime()
@@ -36,7 +39,7 @@ class RecordsRepository(
     //All user info
     val allInfo : Flow<List<UserInfo>> = infoDao.getAllInfo()
 
-    //Function to get the sum of distances of this week's workouts, grouped by date
+    //Get the sum of distances of this week's workouts, grouped by date
     fun getThisWeekDistances(): Flow<List<Distance>> {
         val now = LocalDate.now().dayOfWeek.value
         val dateFrom = LocalDate.now().minusDays((now-1).toLong())
@@ -44,9 +47,19 @@ class RecordsRepository(
         return workoutDao.getDistancesFromDateToDate(dateFrom.year, dateFrom.dayOfYear, dateTo.year, dateTo.dayOfYear)
     }
 
+    //Get today's distance (sum of all the workouts)
     fun getTodayDistance(): Flow<Distance> {
         return workoutDao.getTodayDistance(LocalDate.now().year, LocalDate.now().dayOfYear)
     }
+
+    //Get points of a workout
+    fun getWorkoutPoints(workoutID: Int): Flow<List<WorkoutTrackPoint>> {
+        return workoutDao.getWorkoutPoints(workoutID)
+    }
+
+    /*
+     * SETTERS
+     */
 
     //Insert a new workout, with the points associated
     @WorkerThread
@@ -89,10 +102,5 @@ class RecordsRepository(
     @WorkerThread
     suspend fun insertInfo(info: UserInfo)  {
         infoDao.insert(info)
-    }
-
-    //Get points of a workout
-    fun getWorkoutPoints(workoutID: Int): Flow<List<WorkoutTrackPoint>> {
-        return workoutDao.getWorkoutPoints(workoutID)
     }
 }
