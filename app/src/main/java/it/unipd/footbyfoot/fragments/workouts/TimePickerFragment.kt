@@ -11,13 +11,6 @@ import java.time.LocalDateTime
 
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
-    companion object {
-        const val defaultHour = "null"
-    }
-
-    //String representing the hour
-    var hourOfDay: String = defaultHour
-
     //Hour and minute
     var hour: Int? = null
     var minute: Int? = null
@@ -30,11 +23,9 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         //Sets the value and the text of the button in the activity
-        this.hourOfDay = Helpers.formatTimeToString(requireContext(), hourOfDay, minute)
-
         this.hour = hourOfDay
         this.minute = minute
 
-        (activity as AddWorkoutActivity).timeOfDay.text = this.hourOfDay
+        (activity as AddWorkoutActivity).timeOfDay.text = Helpers.formatTimeToString(requireContext(), hourOfDay, minute)
     }
 }

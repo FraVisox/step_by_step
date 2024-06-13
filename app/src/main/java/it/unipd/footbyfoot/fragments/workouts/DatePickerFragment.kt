@@ -12,6 +12,7 @@ import java.time.LocalDate
 
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
+    //Date in year and dateOfYear
     var year: Int? = null
     var dayOfYear: Int? = null
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -3,7 +3,6 @@ package it.unipd.footbyfoot
 import android.app.Application
 import it.unipd.footbyfoot.database.RecordsRepository
 import it.unipd.footbyfoot.database.RecordsRoomDatabase
-import it.unipd.footbyfoot.database.RecordsViewModelFactory
 
 class RecordsApplication : Application() {
 

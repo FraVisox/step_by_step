@@ -19,6 +19,7 @@ class DurationPickerFragment : DialogFragment() {
         //Total duration
         var duration: Long = defaultDuration
 
+        //Saved instance keys
         const val hoursKey = "hours"
         const val minutesKey = "minutes"
         const val secondsKey = "seconds"
@@ -42,6 +43,7 @@ class DurationPickerFragment : DialogFragment() {
         // Inflate the layout to use as a dialog
         val view = inflater.inflate(R.layout.dialog_duration_picker, container, false)
 
+        //Initialize the pickers
         hoursPicker = view.findViewById(R.id.hours)
         hoursPicker?.maxValue = 23
         minutesPicker = view.findViewById(R.id.minutes)
@@ -49,13 +51,14 @@ class DurationPickerFragment : DialogFragment() {
         secondsPicker = view.findViewById(R.id.seconds)
         secondsPicker?.maxValue = 59
 
+        //If there is an instance saved
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt(secondsKey)
             minutes = savedInstanceState.getInt(minutesKey)
             hours = savedInstanceState.getInt(hoursKey)
         }
 
-        //Set previous state
+        //If there is a saved instance or the duration has already been set
         if (seconds != defaultDuration.toInt() && minutes != defaultDuration.toInt() && hours != defaultDuration.toInt()) {
             secondsPicker?.value = seconds
             minutesPicker?.value = minutes

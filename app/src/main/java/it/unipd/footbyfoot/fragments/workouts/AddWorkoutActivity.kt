@@ -26,6 +26,7 @@ class AddWorkoutActivity: AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     companion object {
+        //Keys to save state
         const val durationKey = "duration"
         const val timeOfDayHOURKey = "timeOfDayHOUR"
         const val timeOfDayMINUTEKey = "timeOfDayMINUTE"
@@ -39,6 +40,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         const val daysFromWorkoutKey = "days_from_workout"
     }
 
+    //Default IDs, if no workout was made before
     private var workoutId = 1
     private var nameId = 1
 
@@ -54,6 +56,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_workout)
 
+        //Initialize Firebase
         firebaseAnalytics = Firebase.analytics
 
         //Get workout ID and name ID
@@ -69,7 +72,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         timePicker = TimePickerFragment()
         durationPicker = DurationPickerFragment()
 
-
+        //Set listeners
         date = findViewById(R.id.add_date)
         date.setOnClickListener {
             datePicker.show(supportFragmentManager, getString(R.string.date_tag))
@@ -89,7 +92,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         val name = findViewById<EditText>(R.id.add_name)
         name.setText(getString(R.string.workout_name_default, nameId), TextView.BufferType.EDITABLE)
 
-
+        //If there is a saved instance state
         if (savedInstanceState != null) {
             //Restore date
             if (savedInstanceState.getBoolean(savedDate)) {
@@ -104,9 +107,7 @@ class AddWorkoutActivity: AppCompatActivity() {
             if (savedInstanceState.getBoolean(savedTime)) {
                 timePicker.hour = savedInstanceState.getInt(timeOfDayHOURKey)
                 timePicker.minute = savedInstanceState.getInt(timeOfDayMINUTEKey)
-                timePicker.hourOfDay =
-                    Helpers.formatTimeToString(this, timePicker.hour!!, timePicker.minute!!)
-                timeOfDay.text = timePicker.hourOfDay
+                timeOfDay.text = Helpers.formatTimeToString(this, timePicker.hour!!, timePicker.minute!!)
             }
             //Restore duration
             if (savedInstanceState.getBoolean(savedDuration)) {
@@ -127,7 +128,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //If not all the fields are filled
-            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || DurationPickerFragment.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
+            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hour == null || timePicker.minute == null || DurationPickerFragment.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
                 Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -168,7 +169,7 @@ class AddWorkoutActivity: AppCompatActivity() {
             editorID.putInt(SaveWorkoutActivity.currentNameID, nameId)
             editorID.apply()
 
-            //Finish this activity, giving the result back to MainActivity
+            //Finish this activity, giving the result back to MainActivity, which will add it to the database
             val intent = Intent()
             intent.putExtra(ActivityResultListener.addWorkoutToDatabase, true)
             intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
@@ -177,7 +178,7 @@ class AddWorkoutActivity: AppCompatActivity() {
             intent.putExtra(ActivityResultListener.distKey, distance.text.toString().toInt())
             intent.putExtra(ActivityResultListener.yearKey, datePicker.year!!)
             intent.putExtra(ActivityResultListener.dayOfYearKey, datePicker.dayOfYear!!)
-            intent.putExtra(ActivityResultListener.timeKey, timePicker.hourOfDay)
+            intent.putExtra(ActivityResultListener.timeKey, Helpers.formatTimeToString(this, timePicker.hour!!, timePicker.minute!!))
             this.setResult(RESULT_OK, intent)
 
             //Clear positions, just to be sure nothing will be put with this workout
@@ -187,7 +188,7 @@ class AddWorkoutActivity: AppCompatActivity() {
 
         val back = findViewById<ImageButton>(R.id.back_button_addWorkout)
         back.setOnClickListener {
-            //No need to set the result to canceled (is default)
+            //No need to set the result to canceled (it's the default)
             finish()
         }
     }
