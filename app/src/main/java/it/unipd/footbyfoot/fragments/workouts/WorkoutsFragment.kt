@@ -23,7 +23,7 @@ class WorkoutsFragment : Fragment() {
         //Initialize the button to add a custom workout
         val fab = view.findViewById<FloatingActionButton>(R.id.addWorkout)
         fab.setOnClickListener {
-            startActivity(Intent(activity, AddWorkoutActivity::class.java))
+            (activity as MainActivity).startForResult.launch(Intent(activity, AddWorkoutActivity::class.java))
         }
 
         // Initialize the RecyclerView

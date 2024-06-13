@@ -1,24 +1,23 @@
 package it.unipd.footbyfoot.fragments.maps
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.ActivityResultListener
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
-import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.fragments.maps.manager.PositionsHolder
+import it.unipd.footbyfoot.PositionsHolder
 import java.time.LocalDateTime
+
 
 //Activity that saves the workout
 class SaveWorkoutActivity: AppCompatActivity() {
@@ -27,10 +26,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
     private var workoutId = 1
     private var nameId = 1
-
-    private val recordsViewModel : RecordsViewModel by viewModels{
-        (application as RecordsApplication).viewModelFactory
-    }
 
     //Keys to pass to the intent or from shared preferences
     companion object {
@@ -44,8 +39,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
         const val pointsLng = "pointsLng"
     }
 
-    private var points:  MutableList<LatLng?> = mutableListOf()
-
     private var dist: Int? = null
     private var totTime: Long? = null
     private lateinit var dateTime: LocalDateTime
@@ -56,10 +49,6 @@ class SaveWorkoutActivity: AppCompatActivity() {
         setContentView(R.layout.activity_save_workout)
 
         firebaseAnalytics = Firebase.analytics
-
-        //The points should be in the PositionsHolder
-        points.addAll(PositionsHolder.positions)
-        PositionsHolder.clearPositions()
 
         //Current date
         dateTime = LocalDateTime.now()
@@ -96,18 +85,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         //Set listener on save
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
-            recordsViewModel.insertWorkout(
-                Workout(
-                    workoutId,
-                    name.text.toString(),
-                    totTime!!,
-                    dist!!,
-                    dateTime.year,
-                    dateTime.dayOfYear,
-                    Helpers.formatTimeToString(this, dateTime)
-                ),
-                points
-            )
+            //Update name and workout ID
             if (name.text.toString()
                     .contentEquals(getString(R.string.workout_name_default, nameId))
             ) {
@@ -129,6 +107,17 @@ class SaveWorkoutActivity: AppCompatActivity() {
             )
             firebaseAnalytics.logEvent(RecordsApplication.savedWorkout, bundle)
 
+            //Finish this activity, giving the result back to MainActivity
+            val intent = Intent()
+            intent.putExtra(ActivityResultListener.addWorkoutToDatabase, true)
+            intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
+            intent.putExtra(ActivityResultListener.nameKey, name.text.toString())
+            intent.putExtra(ActivityResultListener.durationKey, totTime!!)
+            intent.putExtra(ActivityResultListener.distKey, dist!!)
+            intent.putExtra(ActivityResultListener.yearKey, dateTime.year)
+            intent.putExtra(ActivityResultListener.dayOfYearKey, dateTime.dayOfYear)
+            intent.putExtra(ActivityResultListener.timeKey, Helpers.formatTimeToString(this, dateTime))
+            this.setResult(RESULT_OK, intent)
             endActivity()
         }
 
@@ -153,6 +142,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
         firebaseAnalytics.logEvent(RecordsApplication.notSavedWorkout, bundle)
 
+        //No need to set the result to canceled (is default)
         endActivity()
     }
 
@@ -165,10 +155,10 @@ class SaveWorkoutActivity: AppCompatActivity() {
         editor.apply()
 
         //First point of the workout
-        if (points.isNotEmpty() && points.first() != null) {
+        if (PositionsHolder.positions.isNotEmpty() && PositionsHolder.positions.first() != null) {
             val pointsBundle = Bundle()
-            pointsBundle.putDouble(pointsLat, points.first()!!.latitude)
-            pointsBundle.putDouble(pointsLng, points.first()!!.longitude)
+            pointsBundle.putDouble(pointsLat, PositionsHolder.positions.first()!!.latitude)
+            pointsBundle.putDouble(pointsLng, PositionsHolder.positions.first()!!.longitude)
             firebaseAnalytics.logEvent(RecordsApplication.firstPointOfWorkout, pointsBundle)
         }
 

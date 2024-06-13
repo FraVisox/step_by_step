@@ -54,6 +54,7 @@ class RecordsRepository(
         workoutDao.insert(workout)
         var list = 0
         var index = 0
+        var indicator = 0
         for (p in points) {
             if (p == null) { //Null is the value that separates two lists
                 list++
@@ -62,6 +63,7 @@ class RecordsRepository(
             }
             workoutDao.insert(WorkoutTrackPoint(index, workout.workoutId, list, p.latitude, p.longitude))
             index++
+            indicator++
         }
     }
 

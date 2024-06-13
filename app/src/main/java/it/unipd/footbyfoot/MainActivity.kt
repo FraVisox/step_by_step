@@ -3,6 +3,7 @@ package it.unipd.footbyfoot
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.databinding.ActivityMainBinding
@@ -33,6 +34,12 @@ class MainActivity : AppCompatActivity() {
     val recordsViewModel : RecordsViewModel by viewModels{
         (application as RecordsApplication).viewModelFactory
     }
+
+    //Add a callback to all the startActivityForResult used
+    val startForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultListener(this)
+    )
 
     companion object {
         //Key for the fragment of instance state

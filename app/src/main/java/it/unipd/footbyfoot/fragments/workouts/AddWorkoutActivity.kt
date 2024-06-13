@@ -1,20 +1,20 @@
 package it.unipd.footbyfoot.fragments.workouts
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.ActivityResultListener
+import it.unipd.footbyfoot.PositionsHolder
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
-import it.unipd.footbyfoot.database.RecordsViewModel
-import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.fragments.Helpers
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import java.time.LocalDate
@@ -50,10 +50,6 @@ class AddWorkoutActivity: AppCompatActivity() {
     private lateinit var timePicker: TimePickerFragment
     private lateinit var durationPicker: DurationPickerFragment
 
-    private val recordsViewModel : RecordsViewModel by viewModels{
-        (application as RecordsApplication).viewModelFactory
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_workout)
@@ -72,6 +68,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         datePicker = DatePickerFragment()
         timePicker = TimePickerFragment()
         durationPicker = DurationPickerFragment()
+
 
         date = findViewById(R.id.add_date)
         date.setOnClickListener {
@@ -113,10 +110,10 @@ class AddWorkoutActivity: AppCompatActivity() {
             }
             //Restore duration
             if (savedInstanceState.getBoolean(savedDuration)) {
-                durationPicker.duration = savedInstanceState.getLong(durationKey)
-                durationPicker.seconds = Helpers.getSeconds(durationPicker.duration)
-                durationPicker.minutes = Helpers.getMinutes(durationPicker.duration)
-                durationPicker.hours = Helpers.getHours(durationPicker.duration)
+                DurationPickerFragment.duration = savedInstanceState.getLong(durationKey)
+                durationPicker.seconds = Helpers.getSeconds(DurationPickerFragment.duration)
+                durationPicker.minutes = Helpers.getMinutes(DurationPickerFragment.duration)
+                durationPicker.hours = Helpers.getHours(DurationPickerFragment.duration)
                 time.text = Helpers.formatDurationToString(
                     this,
                     durationPicker.hours,
@@ -130,7 +127,7 @@ class AddWorkoutActivity: AppCompatActivity() {
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //If not all the fields are filled
-            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || durationPicker.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
+            if (distance.text.isEmpty() || name.text.isEmpty() || timePicker.hourOfDay == TimePickerFragment.defaultHour || DurationPickerFragment.duration == DurationPickerFragment.defaultDuration || datePicker.year == null || datePicker.dayOfYear == null) {
                 Toast.makeText(this, getString(R.string.impossible_to_add_workout), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -141,19 +138,6 @@ class AddWorkoutActivity: AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.impossible_date), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            //Insert
-            recordsViewModel.insertWorkout(
-                Workout(
-                    workoutId,
-                    name.text.toString(),
-                    durationPicker.duration,
-                    distance.text.toString().toInt(),
-                    datePicker.year!!,
-                    datePicker.dayOfYear!!,
-                    timePicker.hourOfDay
-                ),
-                mutableListOf() //No points
-            )
 
             //Register the workout creation
             val counter = preferences.getInt(RecordsApplication.addKey, 0)+1
@@ -184,11 +168,26 @@ class AddWorkoutActivity: AppCompatActivity() {
             editorID.putInt(SaveWorkoutActivity.currentNameID, nameId)
             editorID.apply()
 
+            //Finish this activity, giving the result back to MainActivity
+            val intent = Intent()
+            intent.putExtra(ActivityResultListener.addWorkoutToDatabase, true)
+            intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
+            intent.putExtra(ActivityResultListener.nameKey, name.text.toString())
+            intent.putExtra(ActivityResultListener.durationKey, DurationPickerFragment.duration)
+            intent.putExtra(ActivityResultListener.distKey, distance.text.toString().toInt())
+            intent.putExtra(ActivityResultListener.yearKey, datePicker.year!!)
+            intent.putExtra(ActivityResultListener.dayOfYearKey, datePicker.dayOfYear!!)
+            intent.putExtra(ActivityResultListener.timeKey, timePicker.hourOfDay)
+            this.setResult(RESULT_OK, intent)
+
+            //Clear positions, just to be sure nothing will be put with this workout
+            PositionsHolder.clearPositions()
             finish()
         }
 
         val back = findViewById<ImageButton>(R.id.back_button_addWorkout)
         back.setOnClickListener {
+            //No need to set the result to canceled (is default)
             finish()
         }
     }
@@ -196,8 +195,8 @@ class AddWorkoutActivity: AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         //Save duration, if set
-        if (durationPicker.duration != DurationPickerFragment.defaultDuration) {
-            outState.putLong(durationKey, durationPicker.duration)
+        if (DurationPickerFragment.duration != DurationPickerFragment.defaultDuration) {
+            outState.putLong(durationKey, DurationPickerFragment.duration)
             outState.putBoolean(savedDuration, true)
         } else {
             outState.putBoolean(savedDuration, false)

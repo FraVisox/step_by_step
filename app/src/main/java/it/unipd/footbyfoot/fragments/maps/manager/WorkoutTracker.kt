@@ -10,6 +10,8 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
+import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.PositionsHolder
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
@@ -149,6 +151,6 @@ class WorkoutTracker(private val manager: MapsManager) {
         val intent = Intent(manager.context, SaveWorkoutActivity::class.java)
         intent.putExtra(SaveWorkoutActivity.timeKey, time/1000)
         intent.putExtra(SaveWorkoutActivity.distanceKey, distance)
-        manager.context.startActivity(intent)
+        (manager.context as MainActivity).startForResult.launch(intent)
     }
 }

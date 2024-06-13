@@ -53,7 +53,7 @@
 
     <!-- Settings fragment -->
     <string name="UserSettings">User Settings</string>
-    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of your steps taken and calories burned.</string>
+    <string name="settingsDescription">Here you can set up your profile to get a more accurate calculation of the steps you take and the calories you burn.</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="age">Age</string>
@@ -102,7 +102,7 @@
     <string name="meters">Distance</string>
     <string name="speed">Speed</string>
     <string name="workout_title">Workout</string>
-    <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activities section</string>
+    <string name="instructions_workout">Here are the details and the maps of the activities you complete in the Activity section</string>
 
     <!-- Maps workout info activity -->
     <string name="activity_name">Workout</string>
@@ -111,7 +111,7 @@
     <!-- Add workouts -->
     <string name="new_workout_title">Add new Workout</string>
     <string name="instructions_to_add_new_workout">Set your personal workout.
-        If the date is precedent to the date of the setting of your first goal or your first user settings, the default values will be used</string>
+        If the date is previous to the date of the setting of your first goal or your first user settings, the default values will be used</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="duration">Duration</string>

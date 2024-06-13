@@ -1,7 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +16,13 @@ class DurationPickerFragment : DialogFragment() {
     companion object {
         const val defaultDuration = -1L
 
+        //Total duration
+        var duration: Long = defaultDuration
+
         const val hoursKey = "hours"
         const val minutesKey = "minutes"
         const val secondsKey = "seconds"
     }
-
-    //Total duration
-    var duration: Long = defaultDuration
 
     //Seconds, minutes and hours
     var seconds: Int = defaultDuration.toInt()
@@ -43,7 +42,6 @@ class DurationPickerFragment : DialogFragment() {
         // Inflate the layout to use as a dialog
         val view = inflater.inflate(R.layout.dialog_duration_picker, container, false)
 
-        Log.d("AAA", "lessgo")
         hoursPicker = view.findViewById(R.id.hours)
         hoursPicker?.maxValue = 23
         minutesPicker = view.findViewById(R.id.minutes)
@@ -52,7 +50,6 @@ class DurationPickerFragment : DialogFragment() {
         secondsPicker?.maxValue = 59
 
         if (savedInstanceState != null) {
-            Log.d("AAA", "saved")
             seconds = savedInstanceState.getInt(secondsKey)
             minutes = savedInstanceState.getInt(minutesKey)
             hours = savedInstanceState.getInt(hoursKey)
@@ -60,7 +57,6 @@ class DurationPickerFragment : DialogFragment() {
 
         //Set previous state
         if (seconds != defaultDuration.toInt() && minutes != defaultDuration.toInt() && hours != defaultDuration.toInt()) {
-            Log.d("AAA", "set previous")
             secondsPicker?.value = seconds
             minutesPicker?.value = minutes
             hoursPicker?.value = hours
@@ -75,12 +71,10 @@ class DurationPickerFragment : DialogFragment() {
             }
 
             //Sets duration and text of activity
-            Log.d("AAA", "saving $seconds")
             seconds = secondsPicker!!.value
             minutes = minutesPicker!!.value
             hours = hoursPicker!!.value
             duration = dur
-            Log.d("AAA", "duration $dur")
             (activity as AddWorkoutActivity).time.text = Helpers.formatDurationToString(requireContext(), hours, minutes, seconds)
             dismiss()
         }

@@ -1,5 +1,6 @@
 package it.unipd.footbyfoot.fragments.workouts
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
@@ -7,7 +8,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import it.unipd.footbyfoot.ActivityResultListener
+import it.unipd.footbyfoot.PositionsHolder
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 import kotlinx.coroutines.Dispatchers
@@ -47,22 +49,23 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         const val toastShowed = "toast"
     }
 
-    private val recordsViewModel : RecordsViewModel by viewModels{
-        (application as RecordsApplication).viewModelFactory
-    }
-
     //Points of the workout
-    private var points: List<WorkoutTrackPoint>? = null
+    private var points: MutableList<WorkoutTrackPoint> = mutableListOf()
 
     //Says if the toast has already been showed
     private var showedToast = false
-    private var first = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_info)
 
         firebaseAnalytics = Firebase.analytics
+
+        if (!PositionsHolder.updated) {
+            PositionsHolder.setObserver(this)
+        } else {
+            updatedPoints()
+        }
 
         //Check if the toast has already been shown
         if (savedInstanceState != null) {
@@ -71,15 +74,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Get id
         val workoutId = intent.getIntExtra(idKey, RecordsViewModel.invalidWorkoutID)
-
-        //Get the points of the workout: when they are available, we will draw the lines
-        recordsViewModel.getWorkoutPoints(workoutId)?.observe(this) {
-            if (first) {
-                points = it
-                drawAllLines()
-                first = false
-            }
-        }
 
         //Creates the map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.summary_map) as SupportMapFragment?
@@ -99,7 +93,11 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         back.setOnClickListener {
             //Change the name, if needed
             if (name.text.toString() != currentName) {
-                recordsViewModel.changeWorkoutName(workoutId, name.text.toString())
+                val intent = Intent()
+                intent.putExtra(ActivityResultListener.changeWorkoutName, true)
+                intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
+                intent.putExtra(ActivityResultListener.nameKey, name.text.toString())
+                this.setResult(RESULT_OK, intent)
             }
             finish()
         }
@@ -111,12 +109,15 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             val bundle = Bundle()
             bundle.putLong(timeKey, intent.getLongExtra(timeKey,0))
             bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
-            if (points?.isNotEmpty() == true) {
-                bundle.putDouble(SaveWorkoutActivity.pointsLat, points!!.first().lat)
-                bundle.putDouble(SaveWorkoutActivity.pointsLng, points!!.first().lng)
+            if (points.isNotEmpty()) {
+                bundle.putDouble(SaveWorkoutActivity.pointsLat, points.first().lat)
+                bundle.putDouble(SaveWorkoutActivity.pointsLng, points.first().lng)
             }
             firebaseAnalytics.logEvent(RecordsApplication.workoutDeleted, bundle)
-            recordsViewModel.deleteWorkout(workoutId)
+            val intent = Intent()
+            intent.putExtra(ActivityResultListener.deleteWorkout, true)
+            intent.putExtra(ActivityResultListener.workoutIDKey, workoutId)
+            this.setResult(RESULT_OK, intent)
             finish()
         }
     }
@@ -149,13 +150,19 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         drawAllLines()
     }
 
+    fun updatedPoints() {
+        //Get the points of the workout: when they are available, we will draw the lines
+        points.addAll(PositionsHolder.workoutPoints)
+        drawAllLines()
+    }
+
     //Draw all lines
     private fun drawAllLines() {
-        if (map == null || points == null) {
+        if (map == null) {
             return
         }
         //Points are ordered because of the way we select them
-        if (points!!.isEmpty()) {
+        if (points.isEmpty()) {
             if (!showedToast) {
                 Toast.makeText(this, getString(R.string.points_not_available), Toast.LENGTH_SHORT)
                     .show()
@@ -167,7 +174,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         lifecycleScope.launch(Dispatchers.IO) {
             var options: PolylineOptions = defaultOptions()
             val listOptions: MutableList<PolylineOptions> = mutableListOf(options)
-            for (p in points!!) {
+            for (p in points) {
                 if (p.trackList >= listOptions.size) {
                     listOptions.add(options)
                     options = defaultOptions()
@@ -180,7 +187,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                     map!!.addPolyline(o)
                 }
                 //Focus on starting point
-                focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
+                focusPosition(LatLng(points.first().lat, points.first().lng))
             }
         }
     }

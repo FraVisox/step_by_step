@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.MainActivity
+import it.unipd.footbyfoot.PositionsHolder
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 
@@ -95,7 +96,17 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
                 intent.putExtra(MapsWorkoutInfoActivity.distanceTextKey, metersText)
                 intent.putExtra(MapsWorkoutInfoActivity.nameKey, nam)
                 intent.putExtra(MapsWorkoutInfoActivity.idKey, id)
-                it.context.startActivity(intent)
+
+                var first = true
+                (it.context as MainActivity).recordsViewModel.getWorkoutPoints(id)?.observe(it.context as MainActivity) { list ->
+                    if (first) {
+                        PositionsHolder.clearWorkoutPoints()
+                        PositionsHolder.addAllWorkoutPoints(list)
+                        first = false
+                    }
+                }
+
+                (it.context as MainActivity).startForResult.launch(intent)
             }
         }
     }

@@ -28,7 +28,7 @@ import it.unipd.footbyfoot.R
 object PositionTracker {
 
     //Milliseconds from one request of the position to the other
-    private const val intervalMillis: Long = 5000
+    private const val intervalMillis: Long = 2500
 
     //Client to ask location to
     private lateinit var fusedLocationClient: FusedLocationProviderClient
