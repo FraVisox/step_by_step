@@ -25,7 +25,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import it.unipd.footbyfoot.ActivityResultListener
-import it.unipd.footbyfoot.WorkoutPointsHolder
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.manager.MapsManager
 import kotlinx.coroutines.Dispatchers

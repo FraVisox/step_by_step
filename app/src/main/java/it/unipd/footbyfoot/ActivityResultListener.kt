@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultCallback
 import com.google.android.gms.maps.model.LatLng
 import it.unipd.footbyfoot.database.RecordsViewModel
 import it.unipd.footbyfoot.database.workout.Workout
+import it.unipd.footbyfoot.fragments.maps.manager.PositionsHolder
 
 //Callback for the results of the activities started. It will update the database, if needed, so that
 //we only have one copy of a ViewModel

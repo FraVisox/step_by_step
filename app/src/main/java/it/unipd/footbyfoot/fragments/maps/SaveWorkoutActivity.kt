@@ -15,7 +15,7 @@ import it.unipd.footbyfoot.ActivityResultListener
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.RecordsApplication
 import it.unipd.footbyfoot.fragments.Helpers
-import it.unipd.footbyfoot.PositionsHolder
+import it.unipd.footbyfoot.fragments.maps.manager.PositionsHolder
 import java.time.LocalDateTime
 
 
@@ -24,11 +24,12 @@ class SaveWorkoutActivity: AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    //Default values, if not saved anywhere
     private var workoutId = 1
     private var nameId = 1
 
-    //Keys to pass to the intent or from shared preferences
     companion object {
+        //Keys to pass to the intent or from shared preferences
         const val timeKey = "time"
         const val distanceKey = "distance"
         const val currentWorkoutID = "workoutID"
@@ -48,6 +49,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_workout)
 
+        //Initialize firebase
         firebaseAnalytics = Firebase.analytics
 
         //Current date
@@ -86,12 +88,15 @@ class SaveWorkoutActivity: AppCompatActivity() {
         val button = findViewById<Button>(R.id.save_button)
         button.setOnClickListener {
             //Update name and workout ID
-            if (name.text.toString()
-                    .contentEquals(getString(R.string.workout_name_default, nameId))
-            ) {
+            if (name.text.toString().contentEquals(getString(R.string.workout_name_default, nameId))) {
                 nameId++
             }
             workoutId++
+            //Store the workout and name ID
+            val editor2 = preferences.edit()
+            editor2.putInt(currentWorkoutID, workoutId)
+            editor2.putInt(currentNameID, nameId)
+            editor2.apply()
 
             //Register the workout creation
             val counter = preferences.getInt(RecordsApplication.saveKey, 0) + 1
@@ -99,6 +104,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
             editor.putInt(RecordsApplication.saveKey, counter)
             editor.apply()
 
+            //Log event
             val bundle = Bundle()
             bundle.putInt(RecordsApplication.saveKey, counter)
             bundle.putInt(
@@ -136,7 +142,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
     }
 
     fun backPressed() {
-        //Workouts not saved
+        //Workouts not saved event
         val bundle = Bundle()
         bundle.putLong(timeKey, intent.getLongExtra(timeKey, 0))
         bundle.putInt(distanceKey, intent.getIntExtra(distanceKey, 0))
@@ -147,14 +153,7 @@ class SaveWorkoutActivity: AppCompatActivity() {
     }
 
     private fun endActivity() {
-        //Store the workout and name ID
-        val preferences = getSharedPreferences(RecordsApplication.sharedWorkouts, MODE_PRIVATE)
-        val editor = preferences.edit()
-        editor.putInt(currentWorkoutID, workoutId)
-        editor.putInt(currentNameID, nameId)
-        editor.apply()
-
-        //First point of the workout
+        //First point of the workout event
         if (PositionsHolder.positions.isNotEmpty() && PositionsHolder.positions.first() != null) {
             val pointsBundle = Bundle()
             pointsBundle.putDouble(pointsLat, PositionsHolder.positions.first()!!.latitude)

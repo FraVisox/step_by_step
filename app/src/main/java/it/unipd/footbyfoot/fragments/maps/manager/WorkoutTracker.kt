@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.Chronometer
 import android.widget.TextView
 import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.PositionsHolder
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.fragments.maps.SaveWorkoutActivity
 import it.unipd.footbyfoot.fragments.maps.TrackWorkoutService
@@ -97,7 +96,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         )
     }
 
-    //After resume
+    //After onResume
     fun takeOnWorkout() {
         if (TrackWorkoutService.running && mBound) {
             manager.drawCurrentTrack(mService.locations)

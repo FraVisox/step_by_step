@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import it.unipd.footbyfoot.R
 import it.unipd.footbyfoot.database.workout.Workout
 import it.unipd.footbyfoot.MainActivity
-import it.unipd.footbyfoot.WorkoutPointsHolder
 import it.unipd.footbyfoot.fragments.Helpers
 import java.time.LocalDate
 

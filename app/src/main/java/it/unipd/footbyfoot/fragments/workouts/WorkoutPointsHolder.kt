@@ -1,7 +1,6 @@
-package it.unipd.footbyfoot
+package it.unipd.footbyfoot.fragments.workouts
 
 import it.unipd.footbyfoot.database.workout.WorkoutTrackPoint
-import it.unipd.footbyfoot.fragments.workouts.MapsWorkoutInfoActivity
 
 //Class that simply holds positions (WorkoutTrackPoints) of workouts (instead of passing them in an Intent,
 //which could cause crashes when using many points).

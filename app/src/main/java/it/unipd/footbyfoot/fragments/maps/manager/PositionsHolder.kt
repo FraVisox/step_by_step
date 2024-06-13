@@ -1,4 +1,4 @@
-package it.unipd.footbyfoot
+package it.unipd.footbyfoot.fragments.maps.manager
 
 import com.google.android.gms.maps.model.LatLng
 
