@@ -169,9 +169,7 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
             val listOptions: MutableList<PolylineOptions> = mutableListOf(options)
             for (p in points!!) {
                 if (p.trackList >= listOptions.size) {
-                    if (options != defaultOptions()) {
-                        listOptions.add(options)
-                    }
+                    listOptions.add(options)
                     options = defaultOptions()
                 }
                 options.add(LatLng(p.lat, p.lng))
@@ -181,7 +179,6 @@ class MapsWorkoutInfoActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (o in listOptions) {
                     map!!.addPolyline(o)
                 }
-                map!!.addPolyline(options)
                 //Focus on starting point
                 focusPosition(LatLng(points!!.first().lat, points!!.first().lng))
             }
