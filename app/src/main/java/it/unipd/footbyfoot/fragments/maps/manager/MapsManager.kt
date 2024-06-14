@@ -223,7 +223,8 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
         }
         otherPolylines.clear()
 
-        //Just to be sure, remove every possible polyline
+        //Just to be sure, remove every possible polyline: this is done as
+        //if the user makes a rage tap, some lines could be drawn twice
         if (mapInitialized)
             map.clear()
     }
