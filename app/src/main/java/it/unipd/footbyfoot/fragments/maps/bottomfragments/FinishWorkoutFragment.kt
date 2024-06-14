@@ -76,18 +76,16 @@ class FinishWorkoutFragment : Fragment() {
         return view
     }
 
-    //On pause, clears the lines drawn. It is done on pause and not on stop as
-    //if the user makes a rage tap or if the system has not enough resources, this is
-    //the only method that should be called. This causes the user to see for a little
-    //amount of time the lines to be delete, but it is acceptable
-    override fun onPause() {
-        super.onPause()
+    //On stop, clears the lines drawn. It is done on stop as in this wat
+    //the user doesn't see the lines being deleted
+    override fun onStop() {
+        super.onStop()
         fragment.manager.stopView()
     }
 
-    //Every time the view is redisplayed, as we deleted the traces on onPause
-    override fun onResume() {
-        super.onResume()
+    //Every time the view is redisplayed, as we deleted the traces on onStop
+    override fun onStart() {
+        super.onStart()
         if (TrackWorkoutService.running) {
             fragment.manager.takeOnWorkout()
         }

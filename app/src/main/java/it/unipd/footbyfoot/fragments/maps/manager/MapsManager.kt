@@ -229,7 +229,7 @@ class MapsManager(val context: AppCompatActivity) : OnMapReadyCallback, Position
     }
 
     /*
-     * Functions used in onPause and onResume
+     * Functions used in onStop and onStart
      */
     fun stopView() {
         PositionTracker.removeObserver(this)

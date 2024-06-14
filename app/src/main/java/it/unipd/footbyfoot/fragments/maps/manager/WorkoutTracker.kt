@@ -96,7 +96,7 @@ class WorkoutTracker(private val manager: MapsManager) {
         )
     }
 
-    //After onResume
+    //After onStart
     fun takeOnWorkout() {
         if (TrackWorkoutService.running && mBound) {
             manager.drawCurrentTrack(mService.locations)

@@ -97,10 +97,11 @@ class WorkoutsAdapter(val activity: MainActivity) : ListAdapter<Workout, Workout
 
                 //Observe points of this workout from the database, and save them in WorkoutPointsHolder when updated for the first time
                 var first = true
+                //Clear the points previously contained
+                WorkoutPointsHolder.clearWorkoutPoints()
                 (it.context as MainActivity).recordsViewModel.getWorkoutPoints(id)?.observe(it.context as MainActivity) { list ->
                     if (first) {
-                        //This clears the previous points, and then updates them
-                        WorkoutPointsHolder.clearWorkoutPoints()
+                        //Update them
                         WorkoutPointsHolder.addAllWorkoutPoints(list)
                         first = false
                     }
