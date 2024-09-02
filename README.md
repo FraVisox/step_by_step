@@ -2,12 +2,12 @@
 La seguente applicazione è stata realizzata da Arduino Leonardo, Meneghetti Federico e Visona' Francesco per il corso di Programmazione di sistemi Embedded.
 
 ## Telemetria
-Il focus dell'applicazione è sulla telemetria, e il framework utilizzato è Firebase: eventi, proprietà utente e tracce personalizzate sono nominate in RecordsApplication.kt.
+Il focus dell'applicazione è sull'utilizzo di strumenti telemetrici per migliorare l'esperienza utente e prendere qualche dato. Il framework utilizzato è Firebase: eventi, proprietà utente e tracce personalizzate sono nominate in RecordsApplication.kt.
 Il file google-services.json contiene le chiavi per collegare l'applicazione alla console di Firebase.
-Il report è anche presente in questo repository.
+Il report sull'applicazione e sugli strumenti di telemetria è anche presente in questo repository.
 
 ## Maps API key
-Nel file maps.properties è presente l'API key per il Maps SDK utilizzata nella fase di test
+Nel file maps.properties è possibile inserire l'API key per il Maps SDK utilizzata nella fase di test.
 
 ## Test
-Sono stati implementati dei test locali per la classe Helpers.kt
+Sono stati implementati dei test locali per la classe Helpers.kt.
